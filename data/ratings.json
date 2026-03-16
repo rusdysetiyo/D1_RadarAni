@@ -1,0 +1,2656 @@
+{
+    "U001": {
+        "A006": {
+            "plot": 4,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A011": {
+            "plot": 4,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A019": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A021": {
+            "plot": 3,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A024": {
+            "plot": 4,
+            "visual": 4,
+            "audio": 6,
+            "characterization": 5,
+            "direction": 6
+        },
+        "A026": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A038": {
+            "plot": 3,
+            "visual": 3,
+            "audio": 5,
+            "characterization": 4,
+            "direction": 5
+        },
+        "A040": {
+            "plot": 3,
+            "visual": 5,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A045": {
+            "plot": 6,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 10
+        }
+    },
+    "U002": {
+        "A001": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A002": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A003": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A004": {
+            "plot": 5,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A005": {
+            "plot": 6,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A006": {
+            "plot": 4,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A007": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A008": {
+            "plot": 6,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 6
+        },
+        "A009": {
+            "plot": 4,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A013": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A014": {
+            "plot": 7,
+            "visual": 4,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A022": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A023": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A026": {
+            "plot": 5,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 6
+        },
+        "A029": {
+            "plot": 4,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A034": {
+            "plot": 7,
+            "visual": 6,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A038": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A042": {
+            "plot": 4,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A045": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A050": {
+            "plot": 2,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 5,
+            "direction": 6
+        }
+    },
+    "U003": {
+        "A002": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A003": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 5,
+            "direction": 6
+        },
+        "A005": {
+            "plot": 4,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A011": {
+            "plot": 2,
+            "visual": 9,
+            "audio": 4,
+            "characterization": 2,
+            "direction": 5
+        },
+        "A013": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A014": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A017": {
+            "plot": 8,
+            "visual": 4,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 2
+        },
+        "A029": {
+            "plot": 3,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 8
+        },
+        "A034": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A035": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 6
+        },
+        "A037": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A039": {
+            "plot": 5,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A045": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A047": {
+            "plot": 2,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 1,
+            "direction": 5
+        },
+        "A050": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 9
+        }
+    },
+    "U004": {
+        "A004": {
+            "plot": 6,
+            "visual": 5,
+            "audio": 4,
+            "characterization": 8,
+            "direction": 6
+        },
+        "A005": {
+            "plot": 3,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A006": {
+            "plot": 3,
+            "visual": 3,
+            "audio": 3,
+            "characterization": 4,
+            "direction": 3
+        },
+        "A007": {
+            "plot": 5,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 6
+        },
+        "A008": {
+            "plot": 7,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A009": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 6
+        },
+        "A011": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 3,
+            "direction": 9
+        },
+        "A012": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 5,
+            "characterization": 7,
+            "direction": 6
+        },
+        "A013": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 5,
+            "characterization": 7,
+            "direction": 6
+        },
+        "A015": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 7
+        },
+        "A019": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A021": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 5,
+            "characterization": 3,
+            "direction": 4
+        },
+        "A022": {
+            "plot": 8,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A023": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 5,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A026": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A028": {
+            "plot": 7,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A029": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A033": {
+            "plot": 7,
+            "visual": 4,
+            "audio": 3,
+            "characterization": 8,
+            "direction": 6
+        },
+        "A034": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A038": {
+            "plot": 3,
+            "visual": 4,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A047": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A050": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        }
+    },
+    "U005": {
+        "A001": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A002": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A004": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A010": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A012": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A013": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A014": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A018": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A020": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A021": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A023": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A024": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A027": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A028": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A029": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A030": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A032": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A038": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A043": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A044": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A047": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A049": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A050": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 8
+        }
+    },
+    "U006": {
+        "A001": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A002": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A003": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 10,
+            "direction": 8
+        },
+        "A004": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A005": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A006": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A007": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 8
+        },
+        "A008": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A009": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A010": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A011": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A012": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A013": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A014": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 5,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A015": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A016": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A017": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A018": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A019": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A020": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A021": {
+            "plot": 1,
+            "visual": 1,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A022": {
+            "plot": 10,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A023": {
+            "plot": 5,
+            "visual": 10,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A024": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A025": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A026": {
+            "plot": 5,
+            "visual": 4,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A027": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A028": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A029": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A030": {
+            "plot": 10,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A031": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A032": {
+            "plot": 10,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A033": {
+            "plot": 5,
+            "visual": 4,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A034": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A035": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 6,
+            "direction": 5
+        },
+        "A036": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A037": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 7,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A038": {
+            "plot": 4,
+            "visual": 4,
+            "audio": 4,
+            "characterization": 4,
+            "direction": 4
+        },
+        "A039": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A040": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A041": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A042": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A043": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A044": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A045": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A046": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 7,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A047": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A048": {
+            "plot": 5,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A049": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A050": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 8
+        }
+    },
+    "U007": {
+        "A001": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A002": {
+            "plot": 10,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A003": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A004": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A005": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A007": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A008": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A009": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A010": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A012": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A013": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 9
+        },
+        "A014": {
+            "plot": 10,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A015": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A016": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A018": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A019": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A020": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A021": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A022": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A023": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A025": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A029": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A030": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A031": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A034": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A035": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A037": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A038": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A039": {
+            "plot": 4,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 1,
+            "direction": 5
+        },
+        "A043": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A045": {
+            "plot": 4,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 4,
+            "direction": 4
+        },
+        "A047": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A048": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A050": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        }
+    },
+    "U008": {
+        "A001": {
+            "plot": 3,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 4,
+            "direction": 7
+        },
+        "A002": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A003": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A004": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 10
+        },
+        "A005": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A006": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A007": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A008": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 7
+        },
+        "A009": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A013": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 5,
+            "direction": 8
+        },
+        "A014": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A015": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 7
+        },
+        "A016": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A017": {
+            "plot": 5,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A019": {
+            "plot": 10,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A021": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A022": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A023": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A024": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A025": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A026": {
+            "plot": 6,
+            "visual": 4,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A027": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A028": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A029": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 5
+        },
+        "A031": {
+            "plot": 6,
+            "visual": 6,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 6
+        },
+        "A032": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A033": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A034": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A036": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A037": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A038": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A039": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A040": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A042": {
+            "plot": 4,
+            "visual": 5,
+            "audio": 4,
+            "characterization": 4,
+            "direction": 3
+        },
+        "A043": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 5
+        },
+        "A046": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A047": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A048": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A049": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A050": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 5,
+            "direction": 7
+        }
+    },
+    "U009": {
+        "A001": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A002": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A003": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A004": {
+            "plot": 6,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A005": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A006": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A007": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A008": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A009": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A010": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 10,
+            "characterization": 5,
+            "direction": 6
+        },
+        "A011": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 10
+        },
+        "A012": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A013": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 9
+        },
+        "A014": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A016": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A017": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A018": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A019": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A020": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A021": {
+            "plot": 6,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 1,
+            "direction": 8
+        },
+        "A022": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A023": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A025": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A026": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 2,
+            "direction": 5
+        },
+        "A027": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A028": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A029": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A030": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A031": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 6
+        },
+        "A032": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 3,
+            "direction": 3
+        },
+        "A034": {
+            "plot": 2,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 1,
+            "direction": 1
+        },
+        "A036": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A037": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A038": {
+            "plot": 6,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 10
+        },
+        "A039": {
+            "plot": 3,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 2,
+            "direction": 2
+        },
+        "A040": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A041": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A042": {
+            "plot": 5,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 5,
+            "direction": 6
+        },
+        "A043": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A044": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A045": {
+            "plot": 6,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 5
+        },
+        "A046": {
+            "plot": 4,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 3,
+            "direction": 4
+        },
+        "A048": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A049": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A050": {
+            "plot": 1,
+            "visual": 2,
+            "audio": 6,
+            "characterization": 1,
+            "direction": 1
+        }
+    },
+    "U010": {},
+    "U011": {
+        "A001": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 7
+        },
+        "A002": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 7
+        },
+        "A003": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A004": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A005": {
+            "plot": 6,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A006": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A007": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A008": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A009": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A010": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A011": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A012": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A013": {
+            "plot": 6,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A014": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A015": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A016": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A017": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A018": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A019": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A020": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A021": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A022": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A023": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A024": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A025": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A026": {
+            "plot": 7,
+            "visual": 6,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A027": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A028": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A029": {
+            "plot": 9,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A030": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A031": {
+            "plot": 5,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A032": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A033": {
+            "plot": 8,
+            "visual": 5,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A034": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A035": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A036": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A037": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A038": {
+            "plot": 7,
+            "visual": 6,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A039": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A040": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A041": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A042": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A043": {
+            "plot": 9,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A044": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A045": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A046": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A047": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A048": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A049": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A050": {
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 9
+        }
+    },
+    "U012": {
+        "A001": {
+            "plot": 2,
+            "visual": 6,
+            "audio": 5,
+            "characterization": 4,
+            "direction": 7
+        },
+        "A003": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A004": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A005": {
+            "plot": 4,
+            "visual": 7,
+            "audio": 4,
+            "characterization": 3,
+            "direction": 7
+        },
+        "A006": {
+            "plot": 5,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 2,
+            "direction": 6
+        },
+        "A011": {
+            "plot": 10,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 5,
+            "direction": 9
+        },
+        "A013": {
+            "plot": 5,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 4,
+            "direction": 7
+        },
+        "A019": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A022": {
+            "plot": 10,
+            "visual": 4,
+            "audio": 5,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A024": {
+            "plot": 10,
+            "visual": 5,
+            "audio": 6,
+            "characterization": 9,
+            "direction": 7
+        },
+        "A026": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A028": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A042": {
+            "plot": 4,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 4,
+            "direction": 7
+        },
+        "A044": {
+            "plot": 3,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 3,
+            "direction": 7
+        },
+        "A046": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 8
+        },
+        "A047": {
+            "plot": 10,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A048": {
+            "plot": 9,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 8
+        }
+    },
+    "U013": {
+        "A002": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A017": {
+            "plot": 6,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 8,
+            "direction": 3
+        },
+        "A022": {
+            "plot": 10,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A028": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A038": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A045": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 8,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A046": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A047": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A048": {
+            "plot": 10,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A050": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 9,
+            "direction": 8
+        }
+    },
+    "U014": {
+        "A001": {
+            "plot": 4,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 4,
+            "direction": 8
+        },
+        "A003": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 10,
+            "direction": 9
+        },
+        "A006": {
+            "plot": 4,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 6,
+            "direction": 8
+        },
+        "A011": {
+            "plot": 5,
+            "visual": 10,
+            "audio": 7,
+            "characterization": 4,
+            "direction": 8
+        },
+        "A019": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 10
+        },
+        "A024": {
+            "plot": 5,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 3,
+            "direction": 8
+        },
+        "A026": {
+            "plot": 5,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A027": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 5,
+            "characterization": 6,
+            "direction": 8
+        },
+        "A029": {
+            "plot": 4,
+            "visual": 6,
+            "audio": 5,
+            "characterization": 4,
+            "direction": 7
+        },
+        "A034": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 9
+        },
+        "A040": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 5,
+            "characterization": 3,
+            "direction": 8
+        },
+        "A041": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 6,
+            "characterization": 6,
+            "direction": 9
+        },
+        "A044": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A045": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 8,
+            "characterization": 10,
+            "direction": 8
+        },
+        "A046": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A047": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 8,
+            "direction": 9
+        }
+    },
+    "U015": {
+        "A001": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 5,
+            "direction": 8
+        },
+        "A003": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A004": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A007": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A008": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A011": {
+            "plot": 6,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 9
+        },
+        "A012": {
+            "plot": 6,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 5,
+            "direction": 8
+        },
+        "A014": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A016": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A018": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 9
+        },
+        "A019": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 4,
+            "direction": 9
+        },
+        "A020": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 9
+        },
+        "A023": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 9
+        },
+        "A024": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 9
+        },
+        "A025": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A026": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 10
+        },
+        "A030": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A037": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A042": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A043": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 8
+        },
+        "A045": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A046": {
+            "plot": 8,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 10
+        },
+        "A047": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 10
+        },
+        "A049": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 7,
+            "direction": 7
+        }
+    }
+}

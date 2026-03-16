@@ -1,0 +1,92 @@
+[
+    {
+        "user_id": "U001",
+        "username": "Anus",
+        "password": "Rad123Anus@#",
+        "created_at": "01/03/2026 10:14:49"
+    },
+    {
+        "user_id": "U002",
+        "username": "Sakura",
+        "password": "Rad123Sakura@#",
+        "created_at": "01/03/2026 10:37:38"
+    },
+    {
+        "user_id": "U003",
+        "username": "SSP",
+        "password": "Rad123SSP@#",
+        "created_at": "01/03/2026 10:44:46"
+    },
+    {
+        "user_id": "U004",
+        "username": "Souptik Mandal",
+        "password": "Rad123Souptik Mandal@#",
+        "created_at": "01/03/2026 11:06:07"
+    },
+    {
+        "user_id": "U005",
+        "username": "Rus",
+        "password": "Rad123Rus@#",
+        "created_at": "01/03/2026 11:53:02"
+    },
+    {
+        "user_id": "U006",
+        "username": "Azizah",
+        "password": "Rad123Azizah@#",
+        "created_at": "01/03/2026 15:37:32"
+    },
+    {
+        "user_id": "U007",
+        "username": "Soumya Ukil",
+        "password": "Rad123Soumya Ukil@#",
+        "created_at": "01/03/2026 17:13:23"
+    },
+    {
+        "user_id": "U008",
+        "username": "Andreas Krist",
+        "password": "Rad123Andreas Krist@#",
+        "created_at": "01/03/2026 17:50:26"
+    },
+    {
+        "user_id": "U009",
+        "username": "DigiCat",
+        "password": "Rad123DigiCat@#",
+        "created_at": "01/03/2026 18:18:09"
+    },
+    {
+        "user_id": "U010",
+        "username": "Vamp",
+        "password": "Rad123Vamp@#",
+        "created_at": "01/03/2026 21:02:01"
+    },
+    {
+        "user_id": "U011",
+        "username": "Tyler",
+        "password": "Rad123Tyler@#",
+        "created_at": "01/03/2026 22:03:04"
+    },
+    {
+        "user_id": "U012",
+        "username": "eksratu",
+        "password": "Rad123eksratu@#",
+        "created_at": "02/03/2026 10:55:02"
+    },
+    {
+        "user_id": "U013",
+        "username": "Juan Berto",
+        "password": "Rad123Juan Berto@#",
+        "created_at": "02/03/2026 11:17:50"
+    },
+    {
+        "user_id": "U014",
+        "username": "Kai",
+        "password": "Rad123Kai@#",
+        "created_at": "02/03/2026 12:45:44"
+    },
+    {
+        "user_id": "U015",
+        "username": "Victor Reid",
+        "password": "Rad123Victor Reid@#",
+        "created_at": "03/03/2026 8:02:31"
+    }
+]
