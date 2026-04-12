@@ -1,0 +1,139 @@
+/* Background Jendela Utama */
+QSplashScreen {
+    background-color: transparent;
+}
+
+QWidget#main_layout {
+    border-image: url(assets/covers/BG.png) no-repeat center stretch;
+    border: none;
+}
+
+#page_login { background-color: #ffffff; }
+QWidget {
+    background-color: rgba(148, 191, 226, 0);
+    color: #9B8A8D;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Label Judul (RadarAni) */
+QLabel#judul {
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Sora-SemiBold", Helvetica;    
+    color: #701A75;
+    margin-bottom: 0px;
+}
+
+/* Subtitle */
+QLabel#subtitle {
+    font-size: 14px;
+    font-family: "Sora-Regular", Helvetica;
+    color: #701A75;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+/* Label Input (Username/Password) */
+QLabel#field_label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #7D2C3E;
+    margin-top: 10px;
+}
+
+/* Kotak Input (QLineEdit) */
+QLineEdit {
+    background-color: #FCF5F7;
+    border: 1px solid #9B8A8D;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    color: #9B8A8D;
+}
+
+QLineEdit:focus {
+    border: 1px solid #ff9c9c;
+}
+
+/* Tombol Login */
+QPushButton#btn_login {
+    background-color: #EF639A;
+    color: white;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+QPushButton#btn_login:hover {
+    background-color: #D55981;
+}
+
+QPushButton#btn_login:pressed {
+    background-color: #B14B60;
+}
+
+QPushButton#btn_regist {
+    background-color: #EF639A;
+    color: white;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+QPushButton#btn_regist:hover {
+    background-color: #D55981;
+}
+
+QPushButton#btn_regist:pressed {
+    background-color: #B14B60;
+}
+/* Tombol Link Register */
+QPushButton#btn_link {
+    background-color: transparent;
+    color: #7b7b7b;
+    font-size: 13px;
+    border: none;
+}
+
+QPushButton#btn_link:hover {
+    color: #ff7676;
+    text-decoration: underline;
+}
+
+
+QWidget#main_container {
+    background-color: rgba(255, 255, 255, 0.200);
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    /* KUNCI: Memotong semua isi agar tidak keluar dari radius */
+    background-clip: padding; 
+}
+
+/* Style untuk jendela MessageBox */
+QMessageBox {
+    background-color: white;
+    border: 1px solid #EF639A;
+    border-radius: 10px;
+}
+
+/* Style untuk teks di dalam MessageBox */
+QMessageBox QLabel {
+    color: #EF639A;
+    font-weight: bold;
+}
+
+/* Style untuk tombol OK/Cancel di dalam MessageBox */
+QMessageBox QPushButton {
+    background-color: #EF639A;
+    color: white;
+    border-radius: 5px;
+    padding: 6px;
+    min-width: 70px;
+}
+
+QMessageBox QPushButton:hover {
+    background-color: #D81B60;
+}

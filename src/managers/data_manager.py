@@ -204,7 +204,7 @@ if __name__ == "__main__":
     dm = DataManager()
 
     user_tes = "U001"
-    anime_tes = "A001"
+    anime_tes = "A006"
     anime_belum_dinilai = "A999"
 
     print("--- MENGUJI hitung_skor_personal dan global---")
