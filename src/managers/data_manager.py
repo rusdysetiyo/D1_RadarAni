@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 class DataManager:
     def __init__(self):
@@ -72,12 +73,31 @@ class DataManager:
         return any(user.get("username", "").lower() == username.lower() for user in users)
 
     def cek_kredensial(self, username, password):
-        """Memvalidasi kombinasi username dan password untuk proses login."""
+        """Memvalidasi kombinasi username dan password, mengembalikan user_id jika sukses."""
         users = self._read_json(self.users_file) or []
-        return any(
-            user.get("username", "").lower() == username.lower() and user.get("password") == password
-            for user in users
-        )
+
+        # Mengubah logika any() menjadi pencarian spesifik agar bisa mengembalikan ID
+        for user in users:
+            if user.get("username", "").lower() == username.lower() and user.get("password") == password:
+                return user.get("user_id")  # <-- Mengembalikan "U001" (bukan True)
+
+        return None  # Mengembalikan None jika gagal/tidak cocok
+
+    def update_last_login(self, user_id):
+        """Memperbarui kolom last_login dengan waktu saat ini (ISO 8601)."""
+        users = self._read_json(self.users_file) or []
+        berhasil_update = False
+
+        for user in users:
+            if user.get("user_id") == user_id:
+                user["last_login"] = datetime.now().isoformat()
+                berhasil_update = True
+                break  # Berhenti mencari jika user sudah ditemukan
+
+        if berhasil_update:
+            self._write_json(self.users_file, users)
+
+        return berhasil_update
 
     def generate_user_id(self):
         """Menghasilkan ID pengguna sekuensial (contoh: U003) berdasarkan data yang ada."""
