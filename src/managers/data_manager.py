@@ -1,7 +1,5 @@
 import json
 import os
-from datetime import datetime
-from collections import Counter
 
 class DataManager:
     def __init__(self):
@@ -46,6 +44,7 @@ class DataManager:
             with open(filepath, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
         except IOError:
+            # Pengecualian dibisukan untuk produksi; integrasikan logging library jika perlu.
             pass
 
     # ==========================================
@@ -59,35 +58,8 @@ class DataManager:
     def get_detail_anime(self, anime_id):
         """Mencari spesifikasi satu anime secara efisien menggunakan generator."""
         semua_anime = self.get_semua_anime()
+        # next() mencari elemen pertama yang cocok dan langsung berhenti (lebih cepat dari for-loop)
         return next((anime for anime in semua_anime if anime.get("anime_id") == anime_id), None)
-
-    def cari_anime(self, kata_kunci):
-        """
-        Mencari anime berdasarkan kata kunci pada judul utama atau judul bahasa Inggris.
-        Pencarian bersifat case-insensitive (mengabaikan huruf besar/kecil).
-        """
-        semua_anime = self.get_semua_anime()
-
-        # Jika kata kunci kosong, kembalikan semua data agar tabel kembali seperti semula
-        if not kata_kunci or kata_kunci.strip() == "":
-            return semua_anime
-
-        kata_kunci_lower = kata_kunci.strip().lower()
-        hasil_pencarian = []
-
-        for anime in semua_anime:
-            judul_utama = anime.get("title")
-            judul_inggris = anime.get("en_title")
-
-            # Mencegah error AttributeError jika json berisi null (None di Python)
-            judul_utama_lower = judul_utama.lower() if judul_utama else ""
-            judul_inggris_lower = judul_inggris.lower() if judul_inggris else ""
-
-            # Jika kata kunci ditemukan di salah satu judul, masukkan ke hasil
-            if kata_kunci_lower in judul_utama_lower or kata_kunci_lower in judul_inggris_lower:
-                hasil_pencarian.append(anime)
-
-        return hasil_pencarian
 
     # ==========================================
     # MANAJEMEN PENGGUNA (AUTENTIKASI & AKUN)
@@ -96,40 +68,22 @@ class DataManager:
     def cek_username_ada(self, username):
         """Memeriksa eksistensi username secara case-insensitive."""
         users = self._read_json(self.users_file) or []
+        # any() mengembalikan True jika ada minimal satu kondisi yang terpenuhi
         return any(user.get("username", "").lower() == username.lower() for user in users)
 
     def cek_kredensial(self, username, password):
-        """Memvalidasi kombinasi username dan password, mengembalikan user_id jika sukses."""
+        """Memvalidasi kombinasi username dan password untuk proses login."""
         users = self._read_json(self.users_file) or []
-
-        for user in users:
-            if user.get("username", "").lower() == username.lower() and user.get("password") == password:
-                return user.get("user_id")
-
-        return None  # Return None jika kombinasi salah
-
-    def update_last_login(self, user_id):
-        """Memperbarui waktu login terakhir pengguna ke waktu saat ini."""
-        users = self._read_json(self.users_file) or []
-        user_found = False
-
-        for user in users:
-            if user.get("user_id") == user_id:
-                # Menggunakan format ISO 8601 agar seragam dengan fungsi pembuatan akun
-                user["last_login"] = datetime.now().isoformat()
-                user_found = True
-                break
-
-        if user_found:
-            self._write_json(self.users_file, users)
-            return True
-
-        return False
+        return any(
+            user.get("username", "").lower() == username.lower() and user.get("password") == password
+            for user in users
+        )
 
     def generate_user_id(self):
         """Menghasilkan ID pengguna sekuensial (contoh: U003) berdasarkan data yang ada."""
         users = self._read_json(self.users_file) or []
 
+        # Ekstraksi angka dari ID yang valid menggunakan list comprehension
         angka_id = [
             int(user["user_id"][1:]) for user in users
             if user.get("user_id", "").startswith("U") and user["user_id"][1:].isdigit()
@@ -242,87 +196,6 @@ class DataManager:
             return 0.0
 
         return round(sum(skor_semua_user) / len(skor_semua_user), 2)
-
-    # ===========================
-    # MANAJEMEN PROFIL & ANALITIK
-    # ===========================
-
-    def get_profil_user(self, user_id):
-        """Mengambil data profil pengguna (Bio, Favorit, Last Login, dll) tanpa password."""
-        users = self._read_json(self.users_file) or []
-
-        for user in users:
-            if user.get("user_id") == user_id:
-                profil = user.copy()
-                # Hapus key 'password' dari dictionary sebelum dikirim ke UI demi keamanan
-                profil.pop("password", None)
-                return profil
-
-        return None
-
-    def get_avg_dimensi_user(self, user_id):
-        """Menghitung rata-rata per dimensi dari SELURUH anime yang dinilai user untuk Bar Chart."""
-        ratings = self._read_json(self.ratings_file) or {}
-        user_ratings = ratings.get(user_id, {})
-
-        total_anime = len(user_ratings)
-
-        avg_dimensi = {
-            "visual": 0.0,
-            "plot": 0.0,
-            "audio": 0.0,
-            "characterization": 0.0,
-            "direction": 0.0
-        }
-
-        if total_anime == 0:
-            return avg_dimensi
-
-        # Akumulasi nilai untuk setiap dimensi
-        for skor_dict in user_ratings.values():
-            for dimensi, nilai in skor_dict.items():
-                if dimensi in avg_dimensi:
-                    avg_dimensi[dimensi] += nilai
-
-        for dimensi in avg_dimensi:
-            avg_dimensi[dimensi] = round(avg_dimensi[dimensi] / total_anime, 2)
-
-        return avg_dimensi
-
-    def get_top_genre_user(self, user_id):
-        """Mencari 5 genre paling banyak ditonton beserta persentasenya untuk Pie Chart."""
-        ratings = self._read_json(self.ratings_file) or {}
-        user_ratings = ratings.get(user_id, {})
-
-        if not user_ratings:
-            return []
-
-        semua_anime = self.get_semua_anime()
-        anime_genre_map = {anime.get("anime_id"): anime.get("genre", []) for anime in semua_anime}
-
-        semua_genre_user = []
-        for anime_id in user_ratings.keys():
-            genres = anime_genre_map.get(anime_id, [])
-            semua_genre_user.extend(genres)
-
-        if not semua_genre_user:
-            return []
-
-        hitung_genre = Counter(semua_genre_user)
-        top_5 = hitung_genre.most_common(5)
-
-        total_genre = sum(hitung_genre.values())
-        hasil_akhir = []
-
-        for genre, jumlah in top_5:
-            persentase = round((jumlah / total_genre) * 100, 1)
-            hasil_akhir.append({
-                "genre": genre,
-                "jumlah": jumlah,
-                "persentase": persentase
-            })
-
-        return hasil_akhir
 
 # ===============
 # BLOK PENGUJIAN
