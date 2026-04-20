@@ -4,7 +4,7 @@ import json
 import os
 from datetime import datetime
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, 
-                             QPushButton, QVBoxLayout, QMessageBox, QStackedWidget)
+                            QPushButton, QVBoxLayout, QMessageBox, QStackedWidget)
 from PyQt5.QtCore import Qt, QTimer
 from ui.ui_login import LoginRegisterApp
 from managers.data_manager import DataManager

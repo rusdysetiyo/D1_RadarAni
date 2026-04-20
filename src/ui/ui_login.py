@@ -7,7 +7,8 @@ from PyQt5.QtCore import Qt
 
 # Import class DataManager dari file Anda
 # Asumsi: file DataManager disimpan dengan nama data_manager.py
-from managers.data_manager import DataManager 
+from managers.data_manager import DataManager
+
 
 class LoginRegisterApp(QWidget):
     def __init__(self):
@@ -46,6 +47,8 @@ class LoginRegisterApp(QWidget):
     def setup_login_ui(self):
         self.page_login = QWidget()
         self.page_login.setObjectName("main_container")
+
+    
         layout = QVBoxLayout()
         layout.setContentsMargins(40, 40, 40, 40) # Memberi padding dalam jendela
 
@@ -69,7 +72,7 @@ class LoginRegisterApp(QWidget):
         btn_login = QPushButton('Login')
         btn_login.setObjectName("btn_login")
         btn_login.clicked.connect(self.proses_login)
-        
+
         btn_ke_regis = QPushButton("Don't have an account? Register")
         btn_ke_regis.setObjectName("btn_link")
         btn_ke_regis.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
@@ -134,7 +137,6 @@ class LoginRegisterApp(QWidget):
     def proses_login(self):
         username = self.user_login.text()
         password = self.pass_login.text()
-
         # 2. Menggunakan fungsi DataManager untuk cek kredensial
         if self.dm.cek_kredensial(username, password):
             # Ambil data user untuk mendapatkan ID (untuk simpan sesi)
@@ -178,4 +180,3 @@ class LoginRegisterApp(QWidget):
         if self.dm.simpan_user_baru(data_user_baru):
             QMessageBox.information(self, "Sukses", f"Akun berhasil dibuat dengan ID: {new_id}")
             self.stacked_widget.setCurrentIndex(0)
-
