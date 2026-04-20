@@ -1,1 +1,29 @@
-#screen_manager
+import flet as ft
+
+class ScreenManager:
+    def __init__(self, page: ft.Page, data_manager, auth_manager):
+        self.page         = page
+        self.data_manager = data_manager
+        self.auth_manager = auth_manager
+
+    def bersihkan_layar(self):
+        self.page.controls.clear()
+
+    def tampilkan_login(self):
+        print("Pindah ke layar: Login (belum ada UI-nya)")
+        # from src.ui.ui_login import UILogin
+        # self.bersihkan_layar()
+        # self.page.add(UILogin(self.page, self.auth_manager, self))
+        # self.page.update()
+
+    def tampilkan_dashboard(self):
+        from src.ui.ui_dashboard import UIDashboard
+        self.bersihkan_layar()
+        self.page.add(UIDashboard(self.page, self.data_manager, self.auth_manager, self))
+        self.page.update()
+
+    def tampilkan_detail(self, anime_id: str):
+        print(f"Pindah ke layar: Detail Anime -> {anime_id}")
+
+    def tampilkan_profil(self):
+        print("Pindah ke layar: Profil User")
