@@ -62,6 +62,34 @@ class DataManager:
         # next() mencari elemen pertama yang cocok dan langsung berhenti (lebih cepat dari for-loop)
         return next((anime for anime in semua_anime if anime.get("anime_id") == anime_id), None)
 
+    def cari_anime(self, kata_kunci):
+        """
+        Mencari anime berdasarkan kecocokan kata kunci pada judul utama atau bahasa Inggris.
+        Pencarian bersifat case-insensitive.
+        """
+        semua_anime = self.get_semua_anime()
+
+        # Jika kata kunci kosong atau hanya berisi spasi, kembalikan seluruh katalog
+        if not kata_kunci or not kata_kunci.strip():
+            return semua_anime
+
+        kunci_lower = kata_kunci.strip().lower()
+        hasil_pencarian = []
+
+        for anime in semua_anime:
+            # Ambil judul dan ubah ke huruf kecil
+            judul_utama = anime.get("title", "").lower()
+
+            # Tangani kemungkinan en_title bernilai None di JSON
+            en_title_raw = anime.get("en_title")
+            judul_inggris = en_title_raw.lower() if en_title_raw else ""
+
+            # Jika kata kunci ada di judul utama ATAU judul bahasa Inggris
+            if kunci_lower in judul_utama or kunci_lower in judul_inggris:
+                hasil_pencarian.append(anime)
+
+        return hasil_pencarian
+    
     # ==========================================
     # MANAJEMEN PENGGUNA (AUTENTIKASI & AKUN)
     # ==========================================
