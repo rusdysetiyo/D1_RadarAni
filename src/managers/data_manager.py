@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 class DataManager:
     def __init__(self):
@@ -61,6 +62,34 @@ class DataManager:
         # next() mencari elemen pertama yang cocok dan langsung berhenti (lebih cepat dari for-loop)
         return next((anime for anime in semua_anime if anime.get("anime_id") == anime_id), None)
 
+    def cari_anime(self, kata_kunci):
+        """
+        Mencari anime berdasarkan kecocokan kata kunci pada judul utama atau bahasa Inggris.
+        Pencarian bersifat case-insensitive.
+        """
+        semua_anime = self.get_semua_anime()
+
+        # Jika kata kunci kosong atau hanya berisi spasi, kembalikan seluruh katalog
+        if not kata_kunci or not kata_kunci.strip():
+            return semua_anime
+
+        kunci_lower = kata_kunci.strip().lower()
+        hasil_pencarian = []
+
+        for anime in semua_anime:
+            # Ambil judul dan ubah ke huruf kecil
+            judul_utama = anime.get("title", "").lower()
+
+            # Tangani kemungkinan en_title bernilai None di JSON
+            en_title_raw = anime.get("en_title")
+            judul_inggris = en_title_raw.lower() if en_title_raw else ""
+
+            # Jika kata kunci ada di judul utama ATAU judul bahasa Inggris
+            if kunci_lower in judul_utama or kunci_lower in judul_inggris:
+                hasil_pencarian.append(anime)
+
+        return hasil_pencarian
+    
     # ==========================================
     # MANAJEMEN PENGGUNA (AUTENTIKASI & AKUN)
     # ==========================================
@@ -72,12 +101,31 @@ class DataManager:
         return any(user.get("username", "").lower() == username.lower() for user in users)
 
     def cek_kredensial(self, username, password):
-        """Memvalidasi kombinasi username dan password untuk proses login."""
+        """Memvalidasi kombinasi username dan password, mengembalikan user_id jika sukses."""
         users = self._read_json(self.users_file) or []
-        return any(
-            user.get("username", "").lower() == username.lower() and user.get("password") == password
-            for user in users
-        )
+
+        # Mengubah logika any() menjadi pencarian spesifik agar bisa mengembalikan ID
+        for user in users:
+            if user.get("username", "").lower() == username.lower() and user.get("password") == password:
+                return user.get("user_id")  # <-- Mengembalikan "U001" (bukan True)
+
+        return None  # Mengembalikan None jika gagal/tidak cocok
+
+    def update_last_login(self, user_id):
+        """Memperbarui kolom last_login dengan waktu saat ini (ISO 8601)."""
+        users = self._read_json(self.users_file) or []
+        berhasil_update = False
+
+        for user in users:
+            if user.get("user_id") == user_id:
+                user["last_login"] = datetime.now().isoformat()
+                berhasil_update = True
+                break  # Berhenti mencari jika user sudah ditemukan
+
+        if berhasil_update:
+            self._write_json(self.users_file, users)
+
+        return berhasil_update
 
     def generate_user_id(self):
         """Menghasilkan ID pengguna sekuensial (contoh: U003) berdasarkan data yang ada."""
