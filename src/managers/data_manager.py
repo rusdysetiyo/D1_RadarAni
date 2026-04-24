@@ -5,7 +5,8 @@ from datetime import datetime
 class DataManager:
     def __init__(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.data_dir = os.path.join(BASE_DIR, "..", "..", "data")
+        self.root_dir = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+        self.data_dir = os.path.join(self.root_dir, "data")
 
         self.anime_file = os.path.join(self.data_dir, 'anime_list.json')
         self.users_file = os.path.join(self.data_dir, 'users.json')
@@ -54,13 +55,30 @@ class DataManager:
 
     def get_semua_anime(self):
         """Mengembalikan seluruh katalog anime atau list kosong jika tidak tersedia."""
-        return self._read_json(self.anime_file) or []
+        anime_list = self._read_json(self.anime_file) or []
+
+        # Inject key berisi path absolut agar UI langsung bisa pakai
+        for anime in anime_list:
+            if "thumbnail_path" in anime:
+                anime["thumbnail_path_abs"] = self.get_absolute_image_path(anime["thumbnail_path"])
+            if "cover_path" in anime:
+                anime["cover_path_abs"] = self.get_absolute_image_path(anime.get("cover_path"))
+
+        return anime_list
 
     def get_detail_anime(self, anime_id):
         """Mencari spesifikasi satu anime secara efisien menggunakan generator."""
         semua_anime = self.get_semua_anime()
-        # next() mencari elemen pertama yang cocok dan langsung berhenti (lebih cepat dari for-loop)
         return next((anime for anime in semua_anime if anime.get("anime_id") == anime_id), None)
+
+    def get_absolute_image_path(self, relative_path):
+        """Menerjemahkan path relatif JSON menjadi path absolut di komputer."""
+        if not relative_path or relative_path == "N/A":
+            return None  # Bisa diganti path placeholder gambar default jika ada
+
+        abs_path = os.path.join(self.root_dir, relative_path)
+        # Ganti backslash windows ke forward slash agar aman di semua OS
+        return abs_path.replace("\\", "/")
 
     def cari_anime(self, kata_kunci):
         """
@@ -89,7 +107,7 @@ class DataManager:
                 hasil_pencarian.append(anime)
 
         return hasil_pencarian
-    
+
     # ==========================================
     # MANAJEMEN PENGGUNA (AUTENTIKASI & AKUN)
     # ==========================================
@@ -97,14 +115,12 @@ class DataManager:
     def cek_username_ada(self, username):
         """Memeriksa eksistensi username secara case-insensitive."""
         users = self._read_json(self.users_file) or []
-        # any() mengembalikan True jika ada minimal satu kondisi yang terpenuhi
         return any(user.get("username", "").lower() == username.lower() for user in users)
 
     def cek_kredensial(self, username, password):
         """Memvalidasi kombinasi username dan password, mengembalikan user_id jika sukses."""
         users = self._read_json(self.users_file) or []
 
-        # Mengubah logika any() menjadi pencarian spesifik agar bisa mengembalikan ID
         for user in users:
             if user.get("username", "").lower() == username.lower() and user.get("password") == password:
                 return user.get("user_id")  # <-- Mengembalikan "U001" (bukan True)
@@ -199,7 +215,7 @@ class DataManager:
         skor_dict = self.get_rating_user(user_id, anime_id)
 
         # Jika user belum menilai anime tersebut, kembalikan None
-        # Ini akan mempermudah UI (ui_dashboard) untuk memunculkan teks "N/A"
+        # Mempermudah UI (ui_dashboard) untuk memunculkan teks "N/A"
         if not skor_dict:
             return None
 
@@ -212,7 +228,6 @@ class DataManager:
         """Menyimpan atau memperbarui data skor multidimensi."""
         ratings = self._read_json(self.ratings_file) or {}
 
-        # setdefault() secara otomatis membuat dictionary {} untuk user baru jika belum ada
         ratings.setdefault(user_id, {})[anime_id] = skor_dict
 
         self._write_json(self.ratings_file, ratings)
