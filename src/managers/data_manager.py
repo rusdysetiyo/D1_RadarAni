@@ -5,9 +5,7 @@ from datetime import datetime
 class DataManager:
     def __init__(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-        self.project_root = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
-        self.data_dir = os.path.join(self.project_root, "data")
+        self.data_dir = os.path.join(BASE_DIR, "..", "..", "data")
 
         self.anime_file = os.path.join(self.data_dir, 'anime_list.json')
         self.users_file = os.path.join(self.data_dir, 'users.json')
@@ -64,22 +62,6 @@ class DataManager:
         # next() mencari elemen pertama yang cocok dan langsung berhenti (lebih cepat dari for-loop)
         return next((anime for anime in semua_anime if anime.get("anime_id") == anime_id), None)
 
-    def get_absolute_image_path(self, relative_path):
-        """
-        Mengubah path relatif dari JSON menjadi path absolut untuk UI.
-        """
-        if not relative_path or relative_path == "N/A":
-            return None
-
-        # Menggabungkan Root Project dengan path dari JSON
-        absolute_path = os.path.join(self.project_root, relative_path)
-
-        # Validasi ganda: Pastikan file fisiknya benar-benar ada
-        if os.path.exists(absolute_path):
-            return absolute_path
-        else:
-            return None
-
     def cari_anime(self, kata_kunci):
         """
         Mencari anime berdasarkan kecocokan kata kunci pada judul utama atau bahasa Inggris.
@@ -107,7 +89,7 @@ class DataManager:
                 hasil_pencarian.append(anime)
 
         return hasil_pencarian
-
+    
     # ==========================================
     # MANAJEMEN PENGGUNA (AUTENTIKASI & AKUN)
     # ==========================================
@@ -262,7 +244,6 @@ class DataManager:
             return 0.0
 
         return round(sum(skor_semua_user) / len(skor_semua_user), 2)
-
 
 # ===============
 # BLOK PENGUJIAN
