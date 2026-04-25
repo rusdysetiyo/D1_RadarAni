@@ -3,98 +3,143 @@
         "user_id": "U001",
         "username": "Anus",
         "password": "Rad123Anus@#",
-        "created_at": "01/03/2026 10:14:49"
+        "created_at": "2026-01-03T10:14:49",
+        "last_login": "2026-01-03T10:14:49",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U002",
         "username": "Sakura",
         "password": "Rad123Sakura@#",
-        "created_at": "01/03/2026 10:37:38"
+        "created_at": "2026-01-03T10:37:38",
+        "last_login": "2026-01-03T10:37:38",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U003",
         "username": "SSP",
         "password": "Rad123SSP@#",
-        "created_at": "01/03/2026 10:44:46"
+        "created_at": "2026-01-03T10:44:46",
+        "last_login": "2026-01-03T10:44:46",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U004",
         "username": "Souptik Mandal",
         "password": "Rad123Souptik Mandal@#",
-        "created_at": "01/03/2026 11:06:07"
+        "created_at": "2026-01-03T11:06:07",
+        "last_login": "2026-01-03T11:06:07",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U005",
         "username": "Rus",
         "password": "Rad123Rus@#",
-        "created_at": "01/03/2026 11:53:02"
+        "created_at": "2026-01-03T11:53:02",
+        "last_login": "2026-01-03T11:53:02",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U006",
         "username": "Azizah",
         "password": "Rad123Azizah@#",
-        "created_at": "01/03/2026 15:37:32"
+        "created_at": "2026-01-03T15:37:32",
+        "last_login": "2026-01-03T15:37:32",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U007",
         "username": "Soumya Ukil",
         "password": "Rad123Soumya Ukil@#",
-        "created_at": "01/03/2026 17:13:23"
+        "created_at": "2026-01-03T17:13:23",
+        "last_login": "2026-01-03T17:13:23",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U008",
         "username": "Andreas Krist",
         "password": "Rad123Andreas Krist@#",
-        "created_at": "01/03/2026 17:50:26"
+        "created_at": "2026-01-03T17:50:26",
+        "last_login": "2026-01-03T17:50:26",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U009",
         "username": "DigiCat",
         "password": "Rad123DigiCat@#",
-        "created_at": "01/03/2026 18:18:09"
+        "created_at": "2026-01-03T18:18:09",
+        "last_login": "2026-01-03T18:18:09",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U010",
         "username": "Vamp",
         "password": "Rad123Vamp@#",
-        "created_at": "01/03/2026 21:02:01"
+        "created_at": "2026-01-03T21:02:01",
+        "last_login": "2026-01-03T21:02:01",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U011",
         "username": "Tyler",
         "password": "Rad123Tyler@#",
-        "created_at": "01/03/2026 22:03:04"
+        "created_at": "2026-01-03T22:03:04",
+        "last_login": "2026-01-03T22:03:04",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U012",
         "username": "eksratu",
         "password": "Rad123eksratu@#",
-        "created_at": "02/03/2026 10:55:02"
+        "created_at": "2026-02-03T10:55:02",
+        "last_login": "2026-02-03T10:55:02",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U013",
         "username": "Juan Berto",
         "password": "Rad123Juan Berto@#",
-        "created_at": "02/03/2026 11:17:50"
+        "created_at": "2026-02-03T11:17:50",
+        "last_login": "2026-02-03T11:17:50",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U014",
         "username": "Kai",
         "password": "Rad123Kai@#",
-        "created_at": "02/03/2026 12:45:44"
+        "created_at": "2026-02-03T12:45:44",
+        "last_login": "2026-02-03T12:45:44",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U015",
         "username": "Victor Reid",
         "password": "Rad123Victor Reid@#",
-        "created_at": "03/03/2026 8:02:31"
+        "created_at": "2026-03-03T08:02:31",
+        "last_login": "2026-03-03T08:02:31",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
     },
     {
         "user_id": "U016",
         "username": "Rukawa",
         "password": "Rad123Rukawa910@#",
-        "created_at": "2026-04-22T04:53:20",
-        "last_login": "2026-04-22T04:53:20",
+        "created_at": "2026-04-23T03:25:30",
+        "last_login": "2026-04-23T03:25:30",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A066",
@@ -106,8 +151,8 @@
         "user_id": "U017",
         "username": "Northen_Lights",
         "password": "Rad123Northen_Lights1055@#",
-        "created_at": "2026-05-18T10:04:31",
-        "last_login": "2026-05-18T10:04:31",
+        "created_at": "2026-05-23T14:39:29",
+        "last_login": "2026-05-23T14:39:29",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A070",
@@ -121,8 +166,8 @@
         "user_id": "U018",
         "username": "Mikura-san",
         "password": "Rad123Mikura-san1007@#",
-        "created_at": "2026-05-04T19:06:47",
-        "last_login": "2026-05-04T19:06:47",
+        "created_at": "2026-05-31T18:49:21",
+        "last_login": "2026-05-31T18:49:21",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A094",
@@ -135,8 +180,8 @@
         "user_id": "U019",
         "username": "LunarSonata",
         "password": "Rad123LunarSonata1073@#",
-        "created_at": "2026-05-28T16:16:08",
-        "last_login": "2026-05-28T16:16:08",
+        "created_at": "2026-05-04T16:09:25",
+        "last_login": "2026-05-04T16:09:25",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A038",
@@ -149,8 +194,8 @@
         "user_id": "U020",
         "username": "Sprite_Coke",
         "password": "Rad123Sprite_Coke1179@#",
-        "created_at": "2026-05-11T12:38:01",
-        "last_login": "2026-05-11T12:38:01",
+        "created_at": "2026-04-01T22:23:09",
+        "last_login": "2026-04-01T22:23:09",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A022",
@@ -162,8 +207,8 @@
         "user_id": "U021",
         "username": "Konstantin",
         "password": "Rad123Konstantin950@#",
-        "created_at": "2026-05-17T00:22:30",
-        "last_login": "2026-05-17T00:22:30",
+        "created_at": "2026-04-14T12:03:09",
+        "last_login": "2026-04-14T12:03:09",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A338",
@@ -174,8 +219,8 @@
         "user_id": "U022",
         "username": "Cursedflame",
         "password": "Rad123Cursedflame1000@#",
-        "created_at": "2026-04-12T18:38:49",
-        "last_login": "2026-04-12T18:38:49",
+        "created_at": "2026-05-08T04:01:36",
+        "last_login": "2026-05-08T04:01:36",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A022",
@@ -187,8 +232,8 @@
         "user_id": "U023",
         "username": "lubryka",
         "password": "Rad123lubryka1086@#",
-        "created_at": "2026-05-25T04:41:19",
-        "last_login": "2026-05-25T04:41:19",
+        "created_at": "2026-04-15T18:03:18",
+        "last_login": "2026-04-15T18:03:18",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A226",
@@ -201,8 +246,8 @@
         "user_id": "U024",
         "username": "J151carlos",
         "password": "Rad123J151carlos1120@#",
-        "created_at": "2026-04-27T16:25:38",
-        "last_login": "2026-04-27T16:25:38",
+        "created_at": "2026-04-10T04:20:51",
+        "last_login": "2026-04-10T04:20:51",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A117",
@@ -216,8 +261,8 @@
         "user_id": "U025",
         "username": "KuronekoSenpai",
         "password": "Rad123KuronekoSenpai1119@#",
-        "created_at": "2026-04-23T13:40:13",
-        "last_login": "2026-04-23T13:40:13",
+        "created_at": "2026-04-02T15:59:50",
+        "last_login": "2026-04-02T15:59:50",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A327",
@@ -230,8 +275,8 @@
         "user_id": "U026",
         "username": "Yuki_Kuran",
         "password": "Rad123Yuki_Kuran1040@#",
-        "created_at": "2026-05-19T08:04:07",
-        "last_login": "2026-05-19T08:04:07",
+        "created_at": "2026-04-14T10:25:28",
+        "last_login": "2026-04-14T10:25:28",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A202",
@@ -245,8 +290,8 @@
         "user_id": "U027",
         "username": "temujin",
         "password": "Rad123temujin1078@#",
-        "created_at": "2026-04-04T20:03:01",
-        "last_login": "2026-04-04T20:03:01",
+        "created_at": "2026-04-10T12:45:45",
+        "last_login": "2026-04-10T12:45:45",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A042"
@@ -256,8 +301,8 @@
         "user_id": "U028",
         "username": "Kandomaru",
         "password": "Rad123Kandomaru1006@#",
-        "created_at": "2026-04-13T02:25:42",
-        "last_login": "2026-04-13T02:25:42",
+        "created_at": "2026-04-28T07:26:51",
+        "last_login": "2026-04-28T07:26:51",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A104",
@@ -269,8 +314,8 @@
         "user_id": "U029",
         "username": "Kiyaa",
         "password": "Rad123Kiyaa1021@#",
-        "created_at": "2026-05-14T01:28:51",
-        "last_login": "2026-05-14T01:28:51",
+        "created_at": "2026-04-01T01:45:50",
+        "last_login": "2026-04-01T01:45:50",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A136",
@@ -283,8 +328,8 @@
         "user_id": "U030",
         "username": "Hime_chan",
         "password": "Rad123Hime_chan1161@#",
-        "created_at": "2026-05-23T14:56:36",
-        "last_login": "2026-05-23T14:56:36",
+        "created_at": "2026-05-09T04:54:18",
+        "last_login": "2026-05-09T04:54:18",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A008",
@@ -298,8 +343,8 @@
         "user_id": "U031",
         "username": "chivaguason",
         "password": "Rad123chivaguason951@#",
-        "created_at": "2026-05-02T01:10:16",
-        "last_login": "2026-05-02T01:10:16",
+        "created_at": "2026-04-20T19:20:36",
+        "last_login": "2026-04-20T19:20:36",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A015",
@@ -313,8 +358,8 @@
         "user_id": "U032",
         "username": "RogerSmith2004",
         "password": "Rad123RogerSmith20041074@#",
-        "created_at": "2026-05-11T04:43:35",
-        "last_login": "2026-05-11T04:43:35",
+        "created_at": "2026-05-24T11:09:54",
+        "last_login": "2026-05-24T11:09:54",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A088",
@@ -325,8 +370,8 @@
         "user_id": "U033",
         "username": "KuukoKonata",
         "password": "Rad123KuukoKonata1046@#",
-        "created_at": "2026-05-13T16:59:27",
-        "last_login": "2026-05-13T16:59:27",
+        "created_at": "2026-04-16T07:36:20",
+        "last_login": "2026-04-16T07:36:20",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A123",
@@ -340,8 +385,8 @@
         "user_id": "U034",
         "username": "Shinmaru",
         "password": "Rad123Shinmaru936@#",
-        "created_at": "2026-04-22T13:56:02",
-        "last_login": "2026-04-22T13:56:02",
+        "created_at": "2026-04-25T02:10:59",
+        "last_login": "2026-04-25T02:10:59",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A118",
@@ -353,8 +398,8 @@
         "user_id": "U035",
         "username": "chatalert",
         "password": "Rad123chatalert1172@#",
-        "created_at": "2026-05-28T03:16:20",
-        "last_login": "2026-05-28T03:16:20",
+        "created_at": "2026-05-29T14:28:20",
+        "last_login": "2026-05-29T14:28:20",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A003",
@@ -368,8 +413,8 @@
         "user_id": "U036",
         "username": "pakin",
         "password": "Rad123pakin1135@#",
-        "created_at": "2026-05-21T17:50:45",
-        "last_login": "2026-05-21T17:50:45",
+        "created_at": "2026-05-19T20:15:12",
+        "last_login": "2026-05-19T20:15:12",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A035",
@@ -383,8 +428,8 @@
         "user_id": "U037",
         "username": "AnotherWish",
         "password": "Rad123AnotherWish961@#",
-        "created_at": "2026-04-19T13:59:01",
-        "last_login": "2026-04-19T13:59:01",
+        "created_at": "2026-05-12T01:58:36",
+        "last_login": "2026-05-12T01:58:36",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A028",
@@ -398,8 +443,8 @@
         "user_id": "U038",
         "username": "sayami",
         "password": "Rad123sayami928@#",
-        "created_at": "2026-05-14T15:52:10",
-        "last_login": "2026-05-14T15:52:10",
+        "created_at": "2026-04-27T16:03:05",
+        "last_login": "2026-04-27T16:03:05",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A226",
@@ -411,8 +456,8 @@
         "user_id": "U039",
         "username": "PrincessSerenity",
         "password": "Rad123PrincessSerenity993@#",
-        "created_at": "2026-05-27T08:23:46",
-        "last_login": "2026-05-27T08:23:46",
+        "created_at": "2026-04-04T10:30:06",
+        "last_login": "2026-04-04T10:30:06",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A014",
@@ -426,8 +471,8 @@
         "user_id": "U040",
         "username": "-Yatagarasu-",
         "password": "Rad123-Yatagarasu-1003@#",
-        "created_at": "2026-04-09T01:00:19",
-        "last_login": "2026-04-09T01:00:19",
+        "created_at": "2026-05-18T03:07:05",
+        "last_login": "2026-05-18T03:07:05",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A265",
@@ -441,8 +486,8 @@
         "user_id": "U041",
         "username": "zeromcd",
         "password": "Rad123zeromcd988@#",
-        "created_at": "2026-04-20T18:04:28",
-        "last_login": "2026-04-20T18:04:28",
+        "created_at": "2026-04-14T02:23:19",
+        "last_login": "2026-04-14T02:23:19",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A074",
@@ -455,8 +500,8 @@
         "user_id": "U042",
         "username": "battleknight45",
         "password": "Rad123battleknight451077@#",
-        "created_at": "2026-04-02T00:19:14",
-        "last_login": "2026-04-02T00:19:14",
+        "created_at": "2026-05-12T07:35:57",
+        "last_login": "2026-05-12T07:35:57",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A026",
@@ -468,8 +513,8 @@
         "user_id": "U043",
         "username": "Saga_Darklight",
         "password": "Rad123Saga_Darklight1095@#",
-        "created_at": "2026-04-17T19:58:00",
-        "last_login": "2026-04-17T19:58:00",
+        "created_at": "2026-04-28T14:13:57",
+        "last_login": "2026-04-28T14:13:57",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A022",
@@ -482,8 +527,8 @@
         "user_id": "U044",
         "username": "dark-chaos",
         "password": "Rad123dark-chaos1198@#",
-        "created_at": "2026-04-19T21:30:59",
-        "last_login": "2026-04-19T21:30:59",
+        "created_at": "2026-05-25T02:26:48",
+        "last_login": "2026-05-25T02:26:48",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A021",
@@ -497,8 +542,8 @@
         "user_id": "U045",
         "username": "HidamariSeashore",
         "password": "Rad123HidamariSeashore1117@#",
-        "created_at": "2026-05-02T12:19:03",
-        "last_login": "2026-05-02T12:19:03",
+        "created_at": "2026-05-04T12:40:47",
+        "last_login": "2026-05-04T12:40:47",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A197",
@@ -510,21 +555,10 @@
     },
     {
         "user_id": "U046",
-        "username": "Durie",
-        "password": "Rad123Durie998@#",
-        "created_at": "2026-05-22T08:21:56",
-        "last_login": "2026-05-22T08:21:56",
-        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
-        "favorit": [
-            "A349"
-        ]
-    },
-    {
-        "user_id": "U047",
         "username": "Tora",
         "password": "Rad123Tora995@#",
-        "created_at": "2026-04-20T18:25:23",
-        "last_login": "2026-04-20T18:25:23",
+        "created_at": "2026-04-02T15:12:36",
+        "last_login": "2026-04-02T15:12:36",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A136",
@@ -532,11 +566,82 @@
         ]
     },
     {
+        "user_id": "U047",
+        "username": "DrProctoropolis",
+        "password": "Rad123DrProctoropolis981@#",
+        "created_at": "2026-05-26T13:59:29",
+        "last_login": "2026-05-26T13:59:29",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
+    },
+    {
         "user_id": "U048",
+        "username": "MisakiOji",
+        "password": "Rad123MisakiOji1182@#",
+        "created_at": "2026-05-29T05:20:13",
+        "last_login": "2026-05-29T05:20:13",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A328",
+            "A123",
+            "A306",
+            "A170",
+            "A019"
+        ]
+    },
+    {
+        "user_id": "U049",
+        "username": "RenataAlexandra",
+        "password": "Rad123RenataAlexandra1034@#",
+        "created_at": "2026-04-03T04:07:37",
+        "last_login": "2026-04-03T04:07:37",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A295",
+            "A271",
+            "A022",
+            "A123",
+            "A215"
+        ]
+    },
+    {
+        "user_id": "U050",
+        "username": "Tusy",
+        "password": "Rad123Tusy1181@#",
+        "created_at": "2026-04-15T05:21:47",
+        "last_login": "2026-04-15T05:21:47",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A344",
+            "A331",
+            "A007",
+            "A141"
+        ]
+    },
+    {
+        "user_id": "U051",
+        "username": "Eiposu_no_Tenshi",
+        "password": "Rad123Eiposu_no_Tenshi921@#",
+        "created_at": "2026-04-29T05:44:32",
+        "last_login": "2026-04-29T05:44:32",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
+    },
+    {
+        "user_id": "U052",
+        "username": "morizuki",
+        "password": "Rad123morizuki909@#",
+        "created_at": "2026-04-08T16:51:41",
+        "last_login": "2026-04-08T16:51:41",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
+    },
+    {
+        "user_id": "U053",
         "username": "vala911",
         "password": "Rad123vala9111155@#",
-        "created_at": "2026-04-05T18:52:25",
-        "last_login": "2026-04-05T18:52:25",
+        "created_at": "2026-04-12T19:57:10",
+        "last_login": "2026-04-12T19:57:10",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A068",
@@ -546,11 +651,11 @@
         ]
     },
     {
-        "user_id": "U049",
+        "user_id": "U054",
         "username": "neepsocks",
         "password": "Rad123neepsocks1174@#",
-        "created_at": "2026-05-09T11:14:37",
-        "last_login": "2026-05-09T11:14:37",
+        "created_at": "2026-05-25T17:30:39",
+        "last_login": "2026-05-25T17:30:39",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A197",
@@ -558,42 +663,42 @@
         ]
     },
     {
-        "user_id": "U050",
+        "user_id": "U055",
         "username": "Kasalo_ZIK",
         "password": "Rad123Kasalo_ZIK1197@#",
-        "created_at": "2026-05-14T12:42:16",
-        "last_login": "2026-05-14T12:42:16",
+        "created_at": "2026-05-16T00:25:57",
+        "last_login": "2026-05-16T00:25:57",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": []
     },
     {
-        "user_id": "U051",
+        "user_id": "U056",
         "username": "chibihien",
         "password": "Rad123chibihien990@#",
-        "created_at": "2026-05-21T14:03:33",
-        "last_login": "2026-05-21T14:03:33",
+        "created_at": "2026-05-28T04:29:28",
+        "last_login": "2026-05-28T04:29:28",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A095"
         ]
     },
     {
-        "user_id": "U052",
+        "user_id": "U057",
         "username": "tatsu_ko",
         "password": "Rad123tatsu_ko919@#",
-        "created_at": "2026-04-04T20:43:10",
-        "last_login": "2026-04-04T20:43:10",
+        "created_at": "2026-05-30T20:57:38",
+        "last_login": "2026-05-30T20:57:38",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A209"
         ]
     },
     {
-        "user_id": "U053",
+        "user_id": "U058",
         "username": "Sha-ka",
         "password": "Rad123Sha-ka904@#",
-        "created_at": "2026-04-06T01:07:28",
-        "last_login": "2026-04-06T01:07:28",
+        "created_at": "2026-05-07T11:34:51",
+        "last_login": "2026-05-07T11:34:51",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A244",
@@ -601,11 +706,11 @@
         ]
     },
     {
-        "user_id": "U054",
+        "user_id": "U059",
         "username": "Kudechik",
         "password": "Rad123Kudechik951@#",
-        "created_at": "2026-05-16T18:28:30",
-        "last_login": "2026-05-16T18:28:30",
+        "created_at": "2026-04-01T16:44:33",
+        "last_login": "2026-04-01T16:44:33",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A226",
@@ -616,11 +721,11 @@
         ]
     },
     {
-        "user_id": "U055",
+        "user_id": "U060",
         "username": "Gardevoir",
         "password": "Rad123Gardevoir965@#",
-        "created_at": "2026-05-29T05:10:26",
-        "last_login": "2026-05-29T05:10:26",
+        "created_at": "2026-04-06T23:51:11",
+        "last_login": "2026-04-06T23:51:11",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A097",
@@ -629,16 +734,264 @@
         ]
     },
     {
-        "user_id": "U056",
+        "user_id": "U061",
         "username": "Kramoule",
         "password": "Rad123Kramoule1056@#",
-        "created_at": "2026-05-02T18:24:21",
-        "last_login": "2026-05-02T18:24:21",
+        "created_at": "2026-04-28T02:05:16",
+        "last_login": "2026-04-28T02:05:16",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A066",
             "A244",
             "A246"
+        ]
+    },
+    {
+        "user_id": "U062",
+        "username": "Kuma-Kuma",
+        "password": "Rad123Kuma-Kuma979@#",
+        "created_at": "2026-04-24T20:14:54",
+        "last_login": "2026-04-24T20:14:54",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A344",
+            "A095",
+            "A204",
+            "A026",
+            "A066"
+        ]
+    },
+    {
+        "user_id": "U063",
+        "username": "BluValkyree",
+        "password": "Rad123BluValkyree918@#",
+        "created_at": "2026-05-19T00:27:21",
+        "last_login": "2026-05-19T00:27:21",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A036",
+            "A008",
+            "A019",
+            "A094",
+            "A026"
+        ]
+    },
+    {
+        "user_id": "U064",
+        "username": "Akihito_Konnichi",
+        "password": "Rad123Akihito_Konnichi1008@#",
+        "created_at": "2026-05-21T12:20:19",
+        "last_login": "2026-05-21T12:20:19",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A474"
+        ]
+    },
+    {
+        "user_id": "U065",
+        "username": "SuperManW3",
+        "password": "Rad123SuperManW3920@#",
+        "created_at": "2026-04-02T05:24:07",
+        "last_login": "2026-04-02T05:24:07",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
+    },
+    {
+        "user_id": "U066",
+        "username": "justGM",
+        "password": "Rad123justGM1082@#",
+        "created_at": "2026-05-04T22:29:22",
+        "last_login": "2026-05-04T22:29:22",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A066",
+            "A022",
+            "A328",
+            "A086",
+            "A247"
+        ]
+    },
+    {
+        "user_id": "U067",
+        "username": "Godou",
+        "password": "Rad123Godou1010@#",
+        "created_at": "2026-04-13T00:02:29",
+        "last_login": "2026-04-13T00:02:29",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A048",
+            "A454",
+            "A077",
+            "A193",
+            "A113"
+        ]
+    },
+    {
+        "user_id": "U068",
+        "username": "soccerkid",
+        "password": "Rad123soccerkid1162@#",
+        "created_at": "2026-05-14T15:30:22",
+        "last_login": "2026-05-14T15:30:22",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A061",
+            "A189",
+            "A028",
+            "A070",
+            "A042"
+        ]
+    },
+    {
+        "user_id": "U069",
+        "username": "Nerdist",
+        "password": "Rad123Nerdist1056@#",
+        "created_at": "2026-05-19T04:38:26",
+        "last_login": "2026-05-19T04:38:26",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A001",
+            "A009",
+            "A118",
+            "A017",
+            "A034"
+        ]
+    },
+    {
+        "user_id": "U070",
+        "username": "oerlemansje",
+        "password": "Rad123oerlemansje1130@#",
+        "created_at": "2026-04-03T03:27:53",
+        "last_login": "2026-04-03T03:27:53",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A060",
+            "A428",
+            "A232",
+            "A291"
+        ]
+    },
+    {
+        "user_id": "U071",
+        "username": "Zumirio",
+        "password": "Rad123Zumirio986@#",
+        "created_at": "2026-04-09T18:02:56",
+        "last_login": "2026-04-09T18:02:56",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A048",
+            "A140",
+            "A123",
+            "A035",
+            "A001"
+        ]
+    },
+    {
+        "user_id": "U072",
+        "username": "Vatelema",
+        "password": "Rad123Vatelema1036@#",
+        "created_at": "2026-05-02T22:52:21",
+        "last_login": "2026-05-02T22:52:21",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A017",
+            "A147",
+            "A003",
+            "A427",
+            "A204"
+        ]
+    },
+    {
+        "user_id": "U073",
+        "username": "PriZrak",
+        "password": "Rad123PriZrak957@#",
+        "created_at": "2026-04-24T23:21:56",
+        "last_login": "2026-04-24T23:21:56",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": []
+    },
+    {
+        "user_id": "U074",
+        "username": "ivensaugusto",
+        "password": "Rad123ivensaugusto1168@#",
+        "created_at": "2026-04-25T15:32:29",
+        "last_login": "2026-04-25T15:32:29",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A037"
+        ]
+    },
+    {
+        "user_id": "U075",
+        "username": "Djotak",
+        "password": "Rad123Djotak1068@#",
+        "created_at": "2026-05-25T07:19:19",
+        "last_login": "2026-05-25T07:19:19",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A190",
+            "A014",
+            "A472",
+            "A051",
+            "A353"
+        ]
+    },
+    {
+        "user_id": "U076",
+        "username": "Inarius",
+        "password": "Rad123Inarius936@#",
+        "created_at": "2026-05-15T23:08:57",
+        "last_login": "2026-05-15T23:08:57",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A034",
+            "A003",
+            "A392",
+            "A060"
+        ]
+    },
+    {
+        "user_id": "U077",
+        "username": "DinosA",
+        "password": "Rad123DinosA936@#",
+        "created_at": "2026-04-22T02:17:48",
+        "last_login": "2026-04-22T02:17:48",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A105",
+            "A048",
+            "A349",
+            "A406",
+            "A147"
+        ]
+    },
+    {
+        "user_id": "U078",
+        "username": "LexXxike",
+        "password": "Rad123LexXxike1190@#",
+        "created_at": "2026-04-14T15:11:06",
+        "last_login": "2026-04-14T15:11:06",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A182",
+            "A060",
+            "A070",
+            "A113",
+            "A062"
+        ]
+    },
+    {
+        "user_id": "U079",
+        "username": "USKurosaki",
+        "password": "Rad123USKurosaki974@#",
+        "created_at": "2026-05-07T11:32:49",
+        "last_login": "2026-05-07T11:32:49",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A151",
+            "A015",
+            "A307",
+            "A060",
+            "A024"
         ]
     }
 ]
