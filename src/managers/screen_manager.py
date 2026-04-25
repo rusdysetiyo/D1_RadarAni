@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-#screen_manager
-=======
 import flet as ft
 
 class ScreenManager:
@@ -48,4 +45,3 @@ class ScreenManager:
 
     def tampilkan_profil(self):
         print("Pindah ke layar: Profil User")
->>>>>>> Stashed changes

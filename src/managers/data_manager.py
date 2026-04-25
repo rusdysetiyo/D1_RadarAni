@@ -209,11 +209,7 @@ if __name__ == "__main__":
 
     user_tes = "U001"
     anime_tes = "A006"
-<<<<<<< Updated upstream
-    anime_belum_dinilai = "A999"
-=======
     anime_belum_dinilai = "A009"
->>>>>>> Stashed changes
 
     print("--- MENGUJI hitung_skor_personal dan global---")
 
