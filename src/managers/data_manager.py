@@ -145,6 +145,10 @@ class DataManager:
         """Mengambil skor multidimensi secara instan (Time Complexity O(1))."""
         ratings = self._read_json(self.ratings_file) or {}
         return ratings.get(user_id, {}).get(anime_id)
+    
+    def get_list_rating_user(self, user_id, anime_id):
+        dict_rating = self.get_rating_user(user_id, anime_id)
+        return list(dict_rating.values()) if dict_rating else []
 
     def hitung_skor_personal(self, user_id, anime_id):
         """Menghitung rata-rata dari 5 dimensi skor milik satu pengguna untuk satu anime."""
@@ -205,13 +209,21 @@ if __name__ == "__main__":
 
     user_tes = "U001"
     anime_tes = "A006"
+<<<<<<< Updated upstream
     anime_belum_dinilai = "A999"
+=======
+    anime_belum_dinilai = "A009"
+>>>>>>> Stashed changes
 
     print("--- MENGUJI hitung_skor_personal dan global---")
 
     skor_mentah = dm.get_rating_user(user_tes, anime_tes)
     print(f"\n[GET] Skor Mentah {user_tes} untuk {anime_tes}:")
     print(f"Hasil: {skor_mentah}")
+
+    list_skor = dm.get_list_rating_user(user_tes, anime_tes)
+    print(f"\n[GET] List Skor {user_tes} untuk {anime_tes}:")
+    print(f"Hasil: {list_skor}")
 
     rata_rata_personal = dm.hitung_skor_personal(user_tes, anime_tes)
     print(f"\n[CALC] Rata-rata Skor Personal {user_tes} untuk {anime_tes}:")

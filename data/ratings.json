@@ -1,11 +1,11 @@
 {
     "U001": {
         "A006": {
-            "plot": 4,
-            "visual": 6,
-            "audio": 7,
-            "characterization": 6,
-            "direction": 6
+            "plot": 1,
+            "visual": 10,
+            "audio": 1,
+            "characterization": 9,
+            "direction": 1
         },
         "A011": {
             "plot": 4,
@@ -62,6 +62,27 @@
             "audio": 9,
             "characterization": 8,
             "direction": 10
+        },
+        "A041": {
+            "plot": 1,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A007": {
+            "plot": 1,
+            "visual": 1,
+            "audio": 3,
+            "characterization": 1,
+            "direction": 1
+        },
+        "A029": {
+            "plot": 1,
+            "visual": 1,
+            "audio": 10,
+            "characterization": 1,
+            "direction": 1
         }
     },
     "U002": {
