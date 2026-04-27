@@ -210,6 +210,24 @@ class DataManager:
         ratings = self._read_json(self.ratings_file) or {}
         return ratings.get(user_id, {}).get(anime_id)
 
+    def get_rating_user_as_list(self, user_id, anime_id):
+        """
+        Mengambil skor multidimensi milik user dan mengubahnya menjadi list berurutan.
+        Sangat berguna untuk plotting Matplotlib (Radar Chart).
+        Urutan Mutlak: [Visual, Plot, Audio, Characterization, Direction]
+        """
+        skor_dict = self.get_rating_user(user_id, anime_id)
+
+        # Jika user belum menilai, kembalikan list berisi angka 0 agar radar chart kosong
+        if not skor_dict:
+            return [0, 0, 0, 0, 0]
+
+        # Kunci urutan dimensi agar grafiknya tidak tertukar sumbunya
+        urutan_dimensi = ["visual", "plot", "audio", "characterization", "direction"]
+
+        # Ekstrak nilai berdasarkan urutan mutlak
+        return [skor_dict.get(dimensi, 0) for dimensi in urutan_dimensi]
+
     def hitung_skor_personal(self, user_id, anime_id):
         """Menghitung rata-rata dari 5 dimensi skor milik satu pengguna untuk satu anime."""
         skor_dict = self.get_rating_user(user_id, anime_id)
@@ -259,6 +277,38 @@ class DataManager:
             return 0.0
 
         return round(sum(skor_semua_user) / len(skor_semua_user), 2)
+
+    def get_skor_global_dimensi_as_list(self, anime_id):
+        """
+        Menghitung rata-rata skor komunitas untuk SETIAP dimensi pada satu anime,
+        lalu mengembalikannya dalam bentuk list berurutan untuk komparasi Radar Chart.
+        Urutan Mutlak: [Visual, Plot, Audio, Characterization, Direction]
+        """
+        ratings = self._read_json(self.ratings_file) or {}
+        urutan_dimensi = ["visual", "plot", "audio", "characterization", "direction"]
+
+        # Siapkan wadah untuk menghitung total tiap dimensi
+        akumulasi = {dim: 0 for dim in urutan_dimensi}
+        jumlah_penilai = 0
+
+        for user_id, user_ratings in ratings.items():
+            if anime_id in user_ratings:
+                skor_dict = user_ratings[anime_id]
+
+                # Tambahkan skor tiap dimensi ke akumulasi
+                for dim in urutan_dimensi:
+                    akumulasi[dim] += skor_dict.get(dim, 0)
+
+                jumlah_penilai += 1
+
+        # Jika belum ada yang menilai, kembalikan list 0
+        if jumlah_penilai == 0:
+            return [0, 0, 0, 0, 0]
+
+        # Hitung rata-rata tiap dimensi dan masukkan ke dalam list
+        list_rata_rata = [round(akumulasi[dim] / jumlah_penilai, 2) for dim in urutan_dimensi]
+
+        return list_rata_rata
 
 # ===============
 # BLOK PENGUJIAN
