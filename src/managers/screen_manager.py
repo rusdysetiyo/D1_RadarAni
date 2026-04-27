@@ -26,20 +26,7 @@ class ScreenManager:
         print(f"Pindah ke layar: Detail Anime -> {anime_id}")
         from ui.ui_detail import UIDetail
         self.bersihkan_layar()
-        
-        layout_detail = ft.Column(          # ← Column TIDAK punya bgcolor
-            expand=True,
-            scroll=ft.ScrollMode.AUTO,
-            controls=[
-                ft.Container(               # ← bgcolor ada di Container, bukan Column
-                    bgcolor="#F4F3F8",
-                    padding=ft.padding.all(24),
-                    content=UIDetail(self.page, self.data_manager, self, anime_id)
-                )
-            ]
-        )
-
-        self.page.add(layout_detail)        
+        self.page.add(UIDetail(self.page, self.data_manager, self, anime_id))        
         self.page.update()
 
 

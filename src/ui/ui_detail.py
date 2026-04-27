@@ -209,7 +209,7 @@ def score_dropdown(label: str):
                 options=[ft.dropdown.Option(str(i)) for i in range(1, 11)],
                 width=110,
                 height=42,
-                bgcolor=C_SAKURA_LT,
+                bgcolor=C_TEXT,
                 border_color=C_BORDER,
                 border_radius=8,
                 text_size=13,
@@ -335,18 +335,22 @@ class RightPanel(ft.Container):
         self.data_manager = data_manager
         self.anime_id = anime_id
         self.user_id = data_manager.baca_sesi()  # Ambil ID pengguna yang aktif
-# Pastikan jika None, diubah jadi list nol
-        user_list_score = data_manager.get_list_rating_user(self.user_id, anime_id)
+        # Pastikan jika None, diubah jadi list nol
+        user_list_score = data_manager.get_rating_user_as_list(self.user_id, anime_id)
+        global_list_score = data_manager.get_skor_global_dimensi_as_list(anime_id)
 
         if not user_list_score:
             user_list_score = [0, 0, 0, 0, 0]
+
+        if not global_list_score:
+            global_list_score = [0, 0, 0, 0, 0]
 
         print(f"DEBUG: User ID: {self.user_id}, Anime ID: {anime_id}, Score: {user_list_score}")
 
         global_avg_score = data_manager.hitung_skor_global(anime_id)
         user_avg_score = data_manager.hitung_skor_personal(self.user_id, anime_id)  # Menggunakan ID pengguna yang aktif
         # Mendapatkan list skor untuk radar chart
-        self.radar_container = ft.Container(content=self._build_radar(user_list_score))
+        self.radar_container = ft.Container(content=self._build_radar(global_list_score, user_list_score))
         self.score_cards_container = ft.Container(content=self._build_score_cards(global_avg_score, user_avg_score))
         self._global_btn_ref = ft.Ref[ft.ElevatedButton]()
         self._personal_btn_ref = ft.Ref[ft.ElevatedButton]()
@@ -379,10 +383,10 @@ class RightPanel(ft.Container):
             ]
         )
 
-    def _build_radar(self, user_score):
+    def _build_radar(self, global_scores, personal_scores):
         labels = ["Plot", "Visual", "Audio", "Characterization", "Direction"]
-        global_scores = [7.5, 8.0, 7.0, 8.5, 8.0]
-        personal_scores = user_score if user_score is not None else [0, 0, 0, 0, 0] # Pastikan personal_scores selalu berupa list dengan 5 elemen
+        global_scores = global_scores if global_scores else [0, 0, 0, 0, 0]
+        personal_scores = personal_scores if personal_scores else [0, 0, 0, 0, 0]
         return ft.Row(
             alignment=ft.MainAxisAlignment.CENTER,
             controls=[build_radar_chart(global_scores, personal_scores, labels)]
@@ -445,13 +449,14 @@ class RightPanel(ft.Container):
             new_avg_global = self.data_manager.hitung_skor_global(self.anime_id)
             new_avg_personal = self.data_manager.hitung_skor_personal(user_id, self.anime_id)
             new_list_score = list(user_scores.values())
+            new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
             
             # 4. UPDATE UI TANPA REFRESH HALAMAN
             # Update bagian angka/cards
             self.score_cards_container.content = self._build_score_cards(new_avg_global, new_avg_personal)
         
             # Update bagian radar
-            self.radar_container.content = self._build_radar(new_list_score)
+            self.radar_container.content = self._build_radar(new_global_list_score, new_list_score)
         
             # 5. Eksekusi perubahan ke layar
             self.my_page.update()
@@ -470,6 +475,7 @@ class RightPanel(ft.Container):
         self.data_manager.hapus_rating(user_id, self.anime_id)
 
         new_avg_global = self.data_manager.hitung_skor_global(self.anime_id)
+        new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
         new_avg_personal = self.data_manager.hitung_skor_personal(user_id, self.anime_id)
         new_list_score = [0, 0, 0, 0, 0]  # Setelah dihapus, skor personal jadi 0 semua
         
@@ -478,7 +484,7 @@ class RightPanel(ft.Container):
         self.score_cards_container.content = self._build_score_cards(new_avg_global, new_avg_personal)
         
             # Update bagian radar
-        self.radar_container.content = self._build_radar(new_list_score)
+        self.radar_container.content = self._build_radar(new_global_list_score, new_list_score)
     
         # 5. Eksekusi perubahan ke layar
         self.my_page.update()
@@ -530,34 +536,51 @@ class RightPanel(ft.Container):
 
 class UIDetail(ft.Column):
     def __init__(self, page, data_manager, screen_manager, anime_id):
-            self.my_page = page
-            self.data_manager = data_manager
-            self.screen_manager = screen_manager
-            self.anime_id = anime_id
+        self.my_page = page
+        self.data_manager = data_manager
+        self.screen_manager = screen_manager
+        self.anime_id = anime_id
 
-            self.detail_anime= self.data_manager.get_detail_anime(anime_id)
+        self.detail_anime = self.data_manager.get_detail_anime(anime_id)
 
-            self.back_btn = ft.TextButton(
-                icon=ft.Icons.ARROW_BACK,
-                content=ft.Text("Back to Dashboard"), # Gunakan ft.Text untuk Flet terbaru
-                style=ft.ButtonStyle(color="#7C4DFF"),
-                on_click=lambda _: self.screen_manager.tampilkan_dashboard() # Sesuaikan fungsi navigasimu
-            )
+        # 1. Komponen Tombol Back
+        self.back_btn = ft.TextButton(
+            icon=ft.Icons.ARROW_BACK,
+            content=ft.Text("Back to Dashboard"),
+            on_click=lambda _: self.screen_manager.tampilkan_dashboard()
+        )
 
-            self.main_content = ft.Row(
+        # 2. Konten Utama
+        self.main_content = ft.Row(
             alignment=ft.MainAxisAlignment.START,
             vertical_alignment=ft.CrossAxisAlignment.START,
             spacing=20,
             controls=[
                 LeftPanel(self.detail_anime),
-                RightPanel(self.my_page,self.data_manager, anime_id),
-            ]
-            )
-            super().__init__(
-                spacing=10,
-                controls=[
-                self.back_btn,
-                self.main_content,   # <-- inilah yang hilang sebelumnya!
+                RightPanel(self.my_page, self.data_manager, anime_id),
             ]
         )
-    
+
+        # 3. Setting Layout dimasukkan ke dalam Container pembungkus
+        # agar UIDetail selalu punya padding dan background saat dipanggil
+        self.container_wrapper = ft.Container(
+            bgcolor="#F4F3F8",
+            padding=ft.padding.all(24),
+            border_radius=10,
+            content=ft.Column(
+                controls=[
+                    self.back_btn,
+                    self.main_content,
+                ],
+                spacing=10,
+            )
+        )
+
+        # 4. Jalankan init Column dengan pembungkus tadi
+        super().__init__(
+            expand=True,
+            scroll=ft.ScrollMode.AUTO, # Setting scroll dipasang di sini
+            controls=[self.container_wrapper]
+        )
+
+

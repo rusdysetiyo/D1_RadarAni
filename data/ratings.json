@@ -22,11 +22,11 @@
             "direction": 7
         },
         "A021": {
-            "plot": 3,
-            "visual": 8,
-            "audio": 6,
-            "characterization": 6,
-            "direction": 6
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
         },
         "A026": {
             "plot": 6,
@@ -84,19 +84,26 @@
             "characterization": 9,
             "direction": 10
         },
-        "A034": {
-            "plot": 9,
-            "visual": 8,
-            "audio": 10,
-            "characterization": 6,
-            "direction": 7
-        },
         "A031": {
             "plot": 1,
             "visual": 8,
             "audio": 1,
             "characterization": 9,
             "direction": 1
+        },
+        "A016": {
+            "plot": 7,
+            "visual": 1,
+            "audio": 1,
+            "characterization": 1,
+            "direction": 1
+        },
+        "A034": {
+            "plot": 10,
+            "visual": 1,
+            "audio": 10,
+            "characterization": 1,
+            "direction": 10
         }
     },
     "U002": {
