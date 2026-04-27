@@ -169,28 +169,8 @@ class DataManager:
         """
         Menghitung rata-rata skor komunitas untuk SETIAP dimensi pada satu anime,
         lalu mengembalikannya dalam bentuk list berurutan untuk komparasi Radar Chart.
-        Urutan Mutlak: [Visual, Plot, Audio, Characterization, Direction]
         """
         ratings = self._read_json(self.ratings_file) or {}
-        urutan_dimensi = ["visual", "plot", "audio", "characterization", "direction"]
-
-        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
-
-        # Siapkan wadah untuk menghitung total tiap dimensi
-        akumulasi = {dim: 0 for dim in urutan_dimensi}
-
-        list_rata_rata = [round(akumulasi[dim] / jumlah_penilai, 2) for dim in urutan_dimensi]
-
-        return list_rata_rata
-    
-    def get_skor_global_dimensi_as_list(self, anime_id):
-        """
-        Menghitung rata-rata skor komunitas untuk SETIAP dimensi pada satu anime,
-        lalu mengembalikannya dalam bentuk list berurutan untuk komparasi Radar Chart.
-        Urutan Mutlak: [Visual, Plot, Audio, Characterization, Direction]
-        """
-        ratings = self._read_json(self.ratings_file) or {}
-        urutan_dimensi = ["visual", "plot", "audio", "characterization", "direction"]
 
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
 

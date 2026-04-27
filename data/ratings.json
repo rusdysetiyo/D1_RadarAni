@@ -97,13 +97,6 @@
             "audio": 1,
             "characterization": 1,
             "direction": 1
-        },
-        "A034": {
-            "plot": 10,
-            "visual": 1,
-            "audio": 10,
-            "characterization": 1,
-            "direction": 10
         }
     },
     "U002": {
