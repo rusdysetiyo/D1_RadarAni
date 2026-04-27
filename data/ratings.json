@@ -28,13 +28,6 @@
             "characterization": 6,
             "direction": 6
         },
-        "A024": {
-            "plot": 4,
-            "visual": 4,
-            "audio": 6,
-            "characterization": 5,
-            "direction": 6
-        },
         "A026": {
             "plot": 6,
             "visual": 8,
@@ -82,6 +75,27 @@
             "visual": 1,
             "audio": 10,
             "characterization": 1,
+            "direction": 1
+        },
+        "A001": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 3,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A034": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A031": {
+            "plot": 1,
+            "visual": 8,
+            "audio": 1,
+            "characterization": 9,
             "direction": 1
         }
     },
@@ -2672,6 +2686,43 @@
             "audio": 9,
             "characterization": 7,
             "direction": 7
+        }
+    },
+    "U017": {
+        "A032": {
+            "plot": 1,
+            "visual": 10,
+            "audio": 1,
+            "characterization": 1,
+            "direction": 1
+        },
+        "A035": {
+            "plot": 1,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 6
+        },
+        "A006": {
+            "plot": 1,
+            "visual": 1,
+            "audio": 1,
+            "characterization": 1,
+            "direction": 1
+        },
+        "A011": {
+            "plot": 1,
+            "visual": 1,
+            "audio": 1,
+            "characterization": 8,
+            "direction": 6
+        },
+        "A031": {
+            "plot": 10,
+            "visual": 9,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 6
         }
     }
 }

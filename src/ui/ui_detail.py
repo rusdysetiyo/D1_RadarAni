@@ -15,26 +15,85 @@ C_BORDER = "#EDE0E8"
 C_GOLD = "#C08030"
 C_PURPLE = "#9060A0"
 C_WHITE = "#FFFFFF"
+C_PBORDER = "#BFFF5593"
+C_GBORDER = "#BF6958FF"
+C_PRADAR = "#40FF81EA"
+C_GRADAR = "#40709DFF"
 # ═══════════════════════════════════════════════════════════════
 #  HELPER FUNCTIONS
 # ═══════════════════════════════════════════════════════════════
 
-def build_radar_chart(global_scores, personal_scores, labels, size=260):
+def build_radar_chart(global_scores, personal_scores, labels, size=300):
     cx = cy = size / 2
-    max_r = size / 2 - 30
+    max_r = size / 2 - 40
     n = len(labels)
     grid_levels = 5
     shapes = []
 
-    def polygon_points(scores):
-        pts = []
-        for i, s in enumerate(scores):
-            angle = math.radians(-90 + i * 360 / n)
-            r = (s / 10) * max_r
-            pts.append((cx + r * math.cos(angle), cy + r * math.sin(angle)))
-        return pts
+    def petal_path(angle_deg, length, width_factor=0.46, notch_depth=0.11):
+        """
+        width_factor=0.72  ← naik dari 0.35, bikin kelopak jauh lebih lebar
+        notch_depth=0.11   ← lekukan ke dalam di ujung
+        """
+        rad = math.radians(angle_deg)
+        rad_perp = math.radians(angle_deg + 90)
 
-    # Grid rings
+        w = length * width_factor  # lebar samping kelopak
+
+        # Dua notch di ujung kelopak (kiri & kanan)
+        notch_dist = length * 0.92
+        notch_lx = cx + notch_dist * math.cos(rad) + w * 0.22 * math.cos(rad_perp)
+        notch_ly = cy + notch_dist * math.sin(rad) + w * 0.22 * math.sin(rad_perp)
+        notch_rx = cx + notch_dist * math.cos(rad) - w * 0.22 * math.cos(rad_perp)
+        notch_ry = cy + notch_dist * math.sin(rad) - w * 0.22 * math.sin(rad_perp)
+
+        # Titik lekukan ke dalam (indent tengah)
+        indent_x = cx + (length - length * notch_depth) * math.cos(rad)
+        indent_y = cy + (length - length * notch_depth) * math.sin(rad)
+
+        # Kontrol sisi kiri — menggelembung lebar
+        c1x = cx + length * 0.50 * math.cos(rad) + w * 0.95 * math.cos(rad_perp)
+        c1y = cy + length * 0.50 * math.sin(rad) + w * 0.95 * math.sin(rad_perp)
+        c2x = notch_lx - length * 0.15 * math.cos(rad) + w * 0.45 * math.cos(rad_perp)
+        c2y = notch_ly - length * 0.15 * math.sin(rad) + w * 0.45 * math.sin(rad_perp)
+
+        # Kontrol sisi kanan — simetris
+        c5x = cx + length * 0.50 * math.cos(rad) - w * 0.95 * math.cos(rad_perp)
+        c5y = cy + length * 0.50 * math.sin(rad) - w * 0.95 * math.sin(rad_perp)
+        c6x = notch_rx - length * 0.15 * math.cos(rad) - w * 0.45 * math.cos(rad_perp)
+        c6y = notch_ry - length * 0.15 * math.sin(rad) - w * 0.45 * math.sin(rad_perp)
+
+        # Kontrol lekukan indent
+        ci1x = indent_x + w * 0.20 * math.cos(rad_perp)
+        ci1y = indent_y + w * 0.20 * math.sin(rad_perp)
+        ci2x = indent_x - w * 0.20 * math.cos(rad_perp)
+        ci2y = indent_y - w * 0.20 * math.sin(rad_perp)
+
+        return [
+            cv.Path.MoveTo(cx, cy),
+            cv.Path.CubicTo(c1x, c1y, c2x, c2y, notch_lx, notch_ly),   # sisi kiri
+            cv.Path.CubicTo(ci1x, ci1y, ci2x, ci2y, notch_rx, notch_ry), # lekukan dalam
+            cv.Path.CubicTo(c6x, c6y, c5x, c5y, cx, cy),                 # sisi kanan
+            cv.Path.Close(),
+        ]
+
+    # def sub_petal_rings(angle_deg, length, color, num_rings=3):
+    #     """Tambahkan 2 cincin sub-kelopak lebih kecil untuk efek berlapis."""
+    #     ring_shapes = []
+    #     for i in range(1, num_rings):
+    #         fraction = i / num_rings
+    #         cmds = petal_path(angle_deg, length * fraction, width_factor=0.3)
+    #         ring_shapes.append(ft.canvas.Path(
+    #             elements=cmds,
+    #             paint=ft.Paint(
+    #                 color=color.replace(")", f", {0.15})").replace("rgb", "rgba") if "rgb" in color else color + "25",
+    #                 stroke_width=0.6,
+    #                 style=ft.PaintingStyle.STROKE
+    #             )
+    #         ))
+    #     return ring_shapes
+
+    #Grid rings (poligon)
     for level in range(1, grid_levels + 1):
         r = max_r * level / grid_levels
         grid_pts = []
@@ -47,8 +106,24 @@ def build_radar_chart(global_scores, personal_scores, labels, size=260):
         path_cmds.append(ft.canvas.Path.Close())
         shapes.append(ft.canvas.Path(
             elements=path_cmds,
-            paint=ft.Paint(color="#E0DDE8", stroke_width=1, style=ft.PaintingStyle.STROKE)
+            paint=ft.Paint(color="#BFC5C0DE", stroke_width=0.8, style=ft.PaintingStyle.STROKE)
         ))
+
+    #Grid Level (petal)
+    # for level in range(1, grid_levels + 1):
+    #     r = max_r * level / grid_levels
+    #     # Gambar 1 "bunga" grid per level — pakai petal_path untuk setiap kelopak
+    #     for i in range(n):
+    #         angle_deg = -90 + i * 360 / n
+    #         cmds = petal_path(angle_deg, r)
+    #         shapes.append(ft.canvas.Path(
+    #             elements=cmds,
+    #             paint=ft.Paint(
+    #                 color="#FF76504C",
+    #                 stroke_width=0.6,
+    #                 style=ft.PaintingStyle.STROKE
+    #             )
+    #         ))
 
     # Axis lines
     for i in range(n):
@@ -56,47 +131,53 @@ def build_radar_chart(global_scores, personal_scores, labels, size=260):
         shapes.append(ft.canvas.Path(
             elements=[
                 ft.canvas.Path.MoveTo(cx, cy),
-                ft.canvas.Path.LineTo(
-                    cx + max_r * math.cos(angle),
-                    cy + max_r * math.sin(angle)
-                ),
+                ft.canvas.Path.LineTo(cx + max_r * math.cos(angle), cy + max_r * math.sin(angle)),
             ],
-            paint=ft.Paint(color="#E0DDE8", stroke_width=1)
+            paint=ft.Paint(color="#C5C0DE80", stroke_width=0.8)
         ))
 
-    # Global filled polygon
-    g_pts = polygon_points(global_scores)
-    g_cmds = [cv.Path.MoveTo(g_pts[0][0], g_pts[0][1])]
-    for p in g_pts[1:]:
-        g_cmds.append(cv.Path.LineTo(p[0], p[1]))
-    g_cmds.append(cv.Path.Close())
-    shapes.append(cv.Path(
-        elements=g_cmds,
-        paint=ft.Paint(color="#4A90D940", style=ft.PaintingStyle.FILL)
-    ))
-    shapes.append(cv.Path(
-        elements=g_cmds,
-        paint=ft.Paint(color="#4A90D9", stroke_width=2, style=ft.PaintingStyle.STROKE)
-    ))
+    # Global petals (biru)
+    for i, score in enumerate(global_scores):
+        angle_deg = -90 + i * 360 / n
+        length = (score / 10) * max_r
+        cmds = petal_path(angle_deg, length)
 
-    # Personal filled polygon
+        # Fill kelopak
+        shapes.append(ft.canvas.Path(
+            elements=cmds,
+            paint=ft.Paint(color=C_GRADAR, style=ft.PaintingStyle.FILL)
+        ))
+        # Stroke luar
+        shapes.append(ft.canvas.Path(
+            elements=cmds,
+            paint=ft.Paint(color=C_GBORDER, stroke_width=1.5, style=ft.PaintingStyle.STROKE)
+        ))
+        # Sub-kelopak berlapis
+        for frac in [0.65, 0.4]:
+            sub_cmds = petal_path(angle_deg, length * frac, width_factor=0.28)
+            shapes.append(ft.canvas.Path(
+                elements=sub_cmds,
+                paint=ft.Paint(color=C_GRADAR, stroke_width=0.6, style=ft.PaintingStyle.STROKE)
+            ))
+
+    # Personal petals (pink)
     if any(s > 0 for s in personal_scores):
-        p_pts = polygon_points(personal_scores)
-        p_cmds = [cv.Path.MoveTo(p_pts[0][0], p_pts[0][1])]
-        for p in p_pts[1:]:
-            p_cmds.append(cv.Path.LineTo(p[0], p[1]))
-        p_cmds.append(cv.Path.Close())
-        shapes.append(cv.Path(
-            elements=p_cmds,
-            paint=ft.Paint(color="#FFB6C140", style=ft.PaintingStyle.FILL)
-        ))
-        shapes.append(cv.Path(
-            elements=p_cmds,
-            paint=ft.Paint(color="#FF8FA3", stroke_width=2, style=ft.PaintingStyle.STROKE)
-        ))
+        for i, score in enumerate(personal_scores):
+            angle_deg = -90 + i * 360 / n
+            length = (score / 10) * max_r
+            cmds = petal_path(angle_deg, length)
+
+            shapes.append(ft.canvas.Path(
+                elements=cmds,
+                paint=ft.Paint(color=C_PRADAR, style=ft.PaintingStyle.FILL)
+            ))
+            shapes.append(ft.canvas.Path(
+                elements=cmds,
+                paint=ft.Paint(color=C_PBORDER, stroke_width=1.5, style=ft.PaintingStyle.STROKE)
+            ))
 
     # Labels
-    label_r = max_r + 18
+    label_r = max_r + 22
     for i, label in enumerate(labels):
         angle = math.radians(-90 + i * 360 / n)
         lx = cx + label_r * math.cos(angle)
@@ -105,8 +186,11 @@ def build_radar_chart(global_scores, personal_scores, labels, size=260):
             x=lx, y=ly,
             value=label,
             alignment=ft.Alignment(0, 0),
-            style=ft.TextStyle(size=10, color="#555555", weight=ft.FontWeight.W_500),
+            style=ft.TextStyle(size=11, color="#666666", weight=ft.FontWeight.W_500),
         ))
+
+    # Center dot
+    shapes.append(ft.canvas.Circle(cx, cy, 4, ft.Paint(color="#CCCCCC80", style=ft.PaintingStyle.FILL)))
 
     return ft.Container(
         width=size,
@@ -250,9 +334,18 @@ class RightPanel(ft.Container):
         self.my_page = page
         self.data_manager = data_manager
         self.anime_id = anime_id
+        self.user_id = data_manager.baca_sesi()  # Ambil ID pengguna yang aktif
+# Pastikan jika None, diubah jadi list nol
+        user_list_score = data_manager.get_list_rating_user(self.user_id, anime_id)
+
+        if not user_list_score:
+            user_list_score = [0, 0, 0, 0, 0]
+
+        print(f"DEBUG: User ID: {self.user_id}, Anime ID: {anime_id}, Score: {user_list_score}")
+
         global_avg_score = data_manager.hitung_skor_global(anime_id)
-        user_avg_score = data_manager.hitung_skor_personal(data_manager.baca_sesi(), anime_id)  # Menggunakan ID pengguna yang aktif
-        user_list_score = data_manager.get_list_rating_user(data_manager.baca_sesi(), anime_id)  # Mendapatkan list skor untuk radar chart
+        user_avg_score = data_manager.hitung_skor_personal(self.user_id, anime_id)  # Menggunakan ID pengguna yang aktif
+        # Mendapatkan list skor untuk radar chart
         self.radar_container = ft.Container(content=self._build_radar(user_list_score))
         self.score_cards_container = ft.Container(content=self._build_score_cards(global_avg_score, user_avg_score))
         self._global_btn_ref = ft.Ref[ft.ElevatedButton]()
@@ -372,6 +465,35 @@ class RightPanel(ft.Container):
         except Exception as err:
             print(f"Error: {err}")
 
+    def delete_rating(self, e):
+        user_id = self.data_manager.baca_sesi()
+        self.data_manager.hapus_rating(user_id, self.anime_id)
+
+        new_avg_global = self.data_manager.hitung_skor_global(self.anime_id)
+        new_avg_personal = self.data_manager.hitung_skor_personal(user_id, self.anime_id)
+        new_list_score = [0, 0, 0, 0, 0]  # Setelah dihapus, skor personal jadi 0 semua
+        
+        # 4. UPDATE UI TANPA REFRESH HALAMAN
+        # Update bagian angka/cards
+        self.score_cards_container.content = self._build_score_cards(new_avg_global, new_avg_personal)
+        
+            # Update bagian radar
+        self.radar_container.content = self._build_radar(new_list_score)
+    
+        # 5. Eksekusi perubahan ke layar
+        self.my_page.update()
+
+        self.my_page.snack_bar = ft.SnackBar(ft.Text("Rating Berhasil Diperbarui!"), bgcolor="green")
+        self.my_page.snack_bar.open = True
+        self.my_page.update()            
+        print("Grafik berhasil diperbarui!")
+
+
+
+
+
+
+
     def _build_action_buttons(self):
         return ft.Row(
             spacing=10,
@@ -391,7 +513,7 @@ class RightPanel(ft.Container):
                     content="Delete Rating",
                     expand=True,
                     height=46,
-                    on_click=lambda _: print("Delete rating clicked! (fungsi penghapusan belum diimplementasikan)"),
+                    on_click=lambda _: self.delete_rating(None),
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=10),
                         side=ft.BorderSide(1, "#E0DDE8"),
@@ -412,7 +534,7 @@ class UIDetail(ft.Column):
             self.data_manager = data_manager
             self.screen_manager = screen_manager
             self.anime_id = anime_id
-            
+
             self.detail_anime= self.data_manager.get_detail_anime(anime_id)
 
             self.back_btn = ft.TextButton(
