@@ -220,7 +220,9 @@ class AnimeCardSmall(ft.Container):
             color=ft.Colors.with_opacity(0.12 if is_hovered else 0.06, ft.Colors.BLACK),
             offset=ft.Offset(0, 6 if is_hovered else 4)
         )
-        self.update()
+
+        if self.page:
+            self.update()
 
 def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
     nav_s = ft.ButtonStyle(
@@ -369,6 +371,15 @@ class UIHome(ft.Row):
         self._rec_reason = ft.Text("Based on your top dimension", size=10, color="#A07888")
         self._rec_anime_id = None
 
+        self._rec_image = ft.Image(
+            src="", width=36, height=50, fit=ft.BoxFit.COVER, visible=False
+        )
+        self._rec_image_container = ft.Container(
+            width=36, height=50, bgcolor="#D4A8C0", border_radius=6,
+            clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            content=self._rec_image
+        )
+
         rec_banner = ft.Container(
             bgcolor=C_SAKURA_LT,
             border=ft.border.all(1, "#E8D0DE"),
@@ -376,7 +387,7 @@ class UIHome(ft.Row):
             padding=ft.padding.symmetric(horizontal=14, vertical=10),
             content=ft.Row(
                 controls=[
-                    ft.Container(width=36, height=50, bgcolor="#D4A8C0", border_radius=6),
+                    self._rec_image_container,
                     ft.Column(
                         controls=[
                             ft.Text("✦  RECOMMENDED FOR YOU", size=9, color="#9B6080", weight=ft.FontWeight.BOLD),
@@ -567,34 +578,75 @@ class UIHome(ft.Row):
         if hasattr(self.data_manager, "get_avg_dimensi_user"):
             avg_dim = self.data_manager.get_avg_dimensi_user(user_id) or {}
 
+        # Skenario 1: User belum pernah rating sama sekali
         if not avg_dim:
             self._rec_title.value = "Rate more anime to get recommendations!"
             self._rec_reason.value = "Not enough data to calculate top dimension."
             return
 
+        # Cari dimensi terfavorit user
         top_dim = max(avg_dim, key=avg_dim.get)
-        semua = self.data_manager.get_semua_anime()
-        kandidat = []
-        count = 0
-        for anime in semua:
-            if count >= 50: break
-            aid = anime.get("anime_id", "")
-            if self.data_manager.hitung_skor_personal(user_id, aid) is not None:
-                continue
 
-            sg = anime.get("global_score", 0) or 0
-            if sg:
-                kandidat.append((anime, sg))
-                count += 1
+        # Collect semua anime yg sudah ditonton
+        semua_anime = self.data_manager.get_semua_anime()
+        sudah_ditonton = []
+        for anime in semua_anime:
+            if self.data_manager.hitung_skor_personal(user_id, anime.get("anime_id", "")) is not None:
+                sudah_ditonton.append(anime.get("anime_id", ""))
 
-        if not kandidat: return
+        # cek DataManager nyari anime menonjol di dimensi favorit
+        best_anime_id = None
+        if hasattr(self.data_manager, "get_rekomendasi_by_dimensi"):
+            best_anime_id = self.data_manager.get_rekomendasi_by_dimensi(top_dim, sudah_ditonton)
 
-        kandidat.sort(key=lambda x: x[1], reverse=True)
-        best, _ = kandidat[0]
+        best_anime = None
+        alasan = ""
 
-        self._rec_anime_id = best.get("anime_id")
-        self._rec_title.value = best.get("title", "—")
-        self._rec_reason.value = f"Matches your top dimension: {top_dim.capitalize()}"
+        # Skenario 2: Ketemu anime yang menonjol di dimensi tersebut
+        if best_anime_id:
+            best_anime = self.data_manager.get_detail_anime(best_anime_id)
+            alasan = f"Highest rated in your favorite aspect: {top_dim.capitalize()}"
+        else:
+            # Skenario 3 : Anime lain belum ada rating dimensi dari komunitas.
+            # Jadi kita ambil anime belum ditonton dengan global_score tertinggi.
+            kandidat = []
+            for anime in semua_anime:
+                aid = anime.get("anime_id", "")
+                if aid not in sudah_ditonton:
+                    sg = anime.get("global_score", 0) or 0
+                    if sg:
+                        kandidat.append((anime, sg))
+
+            if kandidat:
+                kandidat.sort(key=lambda x: x[1], reverse=True)
+                best_anime = kandidat[0][0]
+                alasan = "Highly rated by the community"
+
+        # Skenario 4: semua anime di database sudah ditonton
+        if not best_anime:
+            self._rec_title.value = "You've conquered our catalog!"
+            self._rec_reason.value = "No more anime left to recommend."
+            return
+
+        self._rec_anime_id = best_anime.get("anime_id")
+        self._rec_title.value = best_anime.get("title", "—")
+        self._rec_reason.value = alasan
+
+        thumb_path = best_anime.get("thumbnail_path", "")
+        if thumb_path:
+            full_path = os.path.join(BASE_DIR, thumb_path)
+            if os.path.exists(full_path):
+                self._rec_image.src = full_path
+                self._rec_image.visible = True
+            else:
+                self._rec_image.visible = False
+        else:
+            self._rec_image.visible = False
+
+        try:
+            self.update()
+        except RuntimeError:
+            pass
 
     def _muat_recent(self, user_id):
         self._recent_row.controls.clear()

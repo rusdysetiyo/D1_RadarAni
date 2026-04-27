@@ -250,6 +250,64 @@ class DataManager:
         users = self._read_json(self.users_file) or []
         return next((u for u in users if u.get("user_id") == user_id), None)
 
+    def get_avg_dimensi_user(self, user_id):
+        """Menghitung rata-rata skor per dimensi dari seluruh anime yang dinilai user."""
+        ratings = self._read_json(self.ratings_file) or {}
+
+        # Ambil semua rating milik user_id ini
+        user_ratings = ratings.get(user_id, {})
+
+        if not user_ratings:
+            return None
+
+        total_dimensi = {}
+        count_dimensi = {}
+
+        # Looping ke semua anime yang udah dia rate
+        for anime_id, skor_dict in user_ratings.items():
+            for dimensi, skor in skor_dict.items():
+                # Akumulasi nilai dan jumlah kemunculan
+                total_dimensi[dimensi] = total_dimensi.get(dimensi, 0) + skor
+                count_dimensi[dimensi] = count_dimensi.get(dimensi, 0) + 1
+
+        # Hitung rata-ratanya
+        avg_dimensi = {}
+        for dimensi in total_dimensi:
+            avg_dimensi[dimensi] = round(total_dimensi[dimensi] / count_dimensi[dimensi], 2)
+
+        return avg_dimensi
+
+    def get_rekomendasi_by_dimensi(self, target_dimensi, exclude_anime_ids):
+        """Mencari anime dengan rata-rata skor tertinggi pada dimensi tertentu, mengabaikan yang sudah ditonton."""
+        ratings = self._read_json(self.ratings_file) or {}
+
+        total_skor = {}
+        count_skor = {}
+
+        # 1. cek ke semua user buat ngumpulin nilai dimensi tersebut (yg paling menonjol)
+        for user_id, user_ratings in ratings.items():
+            for anime_id, skor_dict in user_ratings.items():
+                if anime_id in exclude_anime_ids:
+                    continue  # Skip anime yang udah ditonton si target user
+
+                if target_dimensi in skor_dict:
+                    skor = skor_dict[target_dimensi]
+                    total_skor[anime_id] = total_skor.get(anime_id, 0) + skor
+                    count_skor[anime_id] = count_skor.get(anime_id, 0) + 1
+
+        # Kalau ternyata anime sisa belum ada yang dinilai oleh komunitas, kembalikan None
+        if not total_skor:
+            return None
+
+        # 2. Hitung rata-ratanya
+        avg_skor = {}
+        for anime_id in total_skor:
+            avg_skor[anime_id] = total_skor[anime_id] / count_skor[anime_id]
+
+        # 3. Cari anime dengan rata-rata dimensi tertinggi
+        best_anime_id = max(avg_skor, key=avg_skor.get)
+        return best_anime_id
+
 # ===============
 # BLOK PENGUJIAN
 # ===============
