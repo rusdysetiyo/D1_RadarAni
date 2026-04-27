@@ -245,6 +245,11 @@ class DataManager:
 
         return round(sum(skor_semua_user) / len(skor_semua_user), 2)
 
+    def get_user_by_id(self, user_id):
+        """Mencari data lengkap user berdasarkan user_id."""
+        users = self._read_json(self.users_file) or []
+        return next((u for u in users if u.get("user_id") == user_id), None)
+
 # ===============
 # BLOK PENGUJIAN
 # ===============
