@@ -62,7 +62,6 @@ class AuthManager:
     def hapus_akun_aktif(self):
         """Menghapus akun yang sedang login beserta semua ratingnya."""
         if self.current_user is not None:
-            # Suruh DataManager hapus data di JSON
+            # Hapus data di JSON
             self.data_manager.hapus_user_dan_rating(self.current_user)
-            # Bersihkan sesi di memori
             self.logout()
