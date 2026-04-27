@@ -213,8 +213,6 @@ class DataManager:
     def get_rating_user_as_list(self, user_id, anime_id):
         """
         Mengambil skor multidimensi milik user dan mengubahnya menjadi list berurutan.
-        Sangat berguna untuk plotting Matplotlib (Radar Chart).
-        Urutan Mutlak: [Visual, Plot, Audio, Characterization, Direction]
         """
         skor_dict = self.get_rating_user(user_id, anime_id)
 
@@ -222,8 +220,7 @@ class DataManager:
         if not skor_dict:
             return [0, 0, 0, 0, 0]
 
-        # Kunci urutan dimensi agar grafiknya tidak tertukar sumbunya
-        urutan_dimensi = ["visual", "plot", "audio", "characterization", "direction"]
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
 
         # Ekstrak nilai berdasarkan urutan mutlak
         return [skor_dict.get(dimensi, 0) for dimensi in urutan_dimensi]
@@ -282,10 +279,10 @@ class DataManager:
         """
         Menghitung rata-rata skor komunitas untuk SETIAP dimensi pada satu anime,
         lalu mengembalikannya dalam bentuk list berurutan untuk komparasi Radar Chart.
-        Urutan Mutlak: [Visual, Plot, Audio, Characterization, Direction]
         """
         ratings = self._read_json(self.ratings_file) or {}
-        urutan_dimensi = ["visual", "plot", "audio", "characterization", "direction"]
+
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
 
         # Siapkan wadah untuk menghitung total tiap dimensi
         akumulasi = {dim: 0 for dim in urutan_dimensi}
@@ -309,7 +306,6 @@ class DataManager:
         list_rata_rata = [round(akumulasi[dim] / jumlah_penilai, 2) for dim in urutan_dimensi]
 
         return list_rata_rata
-
 # ===============
 # BLOK PENGUJIAN
 # ===============
