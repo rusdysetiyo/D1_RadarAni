@@ -388,117 +388,69 @@ class DataManager:
         return next((u for u in users if u.get("user_id") == user_id), None)
 
     # ==========================================
-    # Skrip setup kolom data baru
+    # MANAJEMEN FAVORIT
     # ==========================================
-    def _kalkulasi_ulang_semua_statistik_anime(self):
-        """Skrip utilitas untuk menghitung ulang dan menyimpan global_score, rating_count, dan global_score_dimensions ke anime_list.json"""
-        print("Mengkalkulasi ulang seluruh statistik anime...")
-        ratings = self._read_json(self.ratings_file) or {}
-        anime_list = self._read_json(self.anime_file) or []
-        
-        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
-        
-        stats = {}
-        for anime in anime_list:
-            stats[anime["anime_id"]] = {
-                "count": 0,
-                "total_score": 0.0,
-                "dim_totals": [0.0] * 5
-            }
-            
-        for user_id, user_ratings in ratings.items():
-            for anime_id, skor_dict in user_ratings.items():
-                if anime_id not in stats:
-                    continue
-                
-                stats[anime_id]["count"] += 1
-                avg_score = sum(skor_dict.values()) / len(skor_dict)
-                stats[anime_id]["total_score"] += avg_score
-                
-                for i, dim in enumerate(urutan_dimensi):
-                    stats[anime_id]["dim_totals"][i] += skor_dict.get(dim, 0)
-                    
-        for anime in anime_list:
-            anime_id = anime["anime_id"]
-            count = stats[anime_id]["count"]
-            anime["rating_count"] = count
-            if count > 0:
-                anime["global_score"] = round(stats[anime_id]["total_score"] / count, 2)
-                anime["global_score_dimensions"] = [round(dim_tot / count, 2) for dim_tot in stats[anime_id]["dim_totals"]]
-            else:
-                anime["global_score"] = 0.0
-                anime["global_score_dimensions"] = [0.0, 0.0, 0.0, 0.0, 0.0]
-                
-        self._write_json(self.anime_file, anime_list)
-        print("Kalkulasi selesai dan berhasil disimpan ke anime_list.json!")
 
-    def _kalkulasi_ulang_semua_statistik_user(self):
-        """Skrip utilitas untuk menghitung ulang dan menyimpan rata-rata skor personal ke users.json"""
-        print("Mengkalkulasi ulang seluruh statistik pengguna...")
-        ratings = self._read_json(self.ratings_file) or {}
+    def toggle_favorit(self, user_id, anime_id):
+        """
+        Menambahkan anime ke daftar favorit jika belum ada,
+        atau menghapusnya jika sudah ada.
+        Mengembalikan True jika sekarang menjadi favorit, False jika dihapus.
+        """
         users = self._read_json(self.users_file) or []
-        
-        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
-        
+        status_favorit_sekarang = False
+        berhasil_update = False
+
         for user in users:
-            user_id = user["user_id"]
-            user_ratings = ratings.get(user_id, {})
-            
-            count = len(user_ratings)
-            user["rating_count"] = count
-            
-            if count > 0:
-                total_score = 0.0
-                dim_totals = [0.0] * 5
-                
-                for skor_dict in user_ratings.values():
-                    total_score += sum(skor_dict.values()) / len(skor_dict)
-                    for i, dim in enumerate(urutan_dimensi):
-                        dim_totals[i] += skor_dict.get(dim, 0)
-                        
-                user["average_score"] = round(total_score / count, 2)
-                user["average_dimensions"] = [round(dim_tot / count, 2) for dim_tot in dim_totals]
-            else:
-                user["average_score"] = 0.0
-                user["average_dimensions"] = [0.0, 0.0, 0.0, 0.0, 0.0]
-                
-        self._write_json(self.users_file, users)
-        print("Kalkulasi selesai dan berhasil disimpan ke users.json!")
+            if user.get("user_id") == user_id:
+                # Pastikan key favorit berupa list
+                list_favorit = user.setdefault("favorit", [])
+
+                if anime_id in list_favorit:
+                    list_favorit.remove(anime_id)
+                    status_favorit_sekarang = False
+                else:
+                    list_favorit.append(anime_id)
+                    status_favorit_sekarang = True
+
+                berhasil_update = True
+                break
+
+        if berhasil_update:
+            self._write_json(self.users_file, users)
+
+        return status_favorit_sekarang
+
+    def cek_is_favorit(self, user_id, anime_id):
+        """Memeriksa apakah sebuah anime ada di dalam daftar favorit user."""
+        user = self.get_user_by_id(user_id)
+        if user:
+            return anime_id in user.get("favorit", [])
+        return False
+
+    def get_anime_favorit_user(self, user_id):
+        """
+        Mengambil detail lengkap dari semua anime yang difavoritkan user.
+        Digunakan untuk merender Halaman Profil.
+        """
+        user = self.get_user_by_id(user_id)
+        if not user:
+            return []
+
+        list_id_favorit = user.get("favorit", [])
+
+        # Ambil detail lengkap dari setiap ID di list favorit
+        anime_favorit_lengkap = []
+        for anime_id in list_id_favorit:
+            detail = self.get_detail_anime(anime_id)
+            if detail:
+                anime_favorit_lengkap.append(detail)
+
+        return anime_favorit_lengkap
 
 # ===============
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
-    dm = DataManager()
-    
-    print("Menjalankan skrip penambahan data rating massal...")
-    dm._kalkulasi_ulang_semua_statistik_anime()
-    dm._kalkulasi_ulang_semua_statistik_user()
+    print("Pengujian")
 
-    user_tes = "U001"
-    anime_tes = "A001"
-    anime_belum_dinilai = "A999"
-
-    print("--- MENGUJI hitung_skor_personal dan global---")
-
-    skor_mentah = dm.get_rating_user(user_tes, anime_tes)
-    print(f"\n[GET] Skor Mentah {user_tes} untuk {anime_tes}:")
-    print(f"Hasil: {skor_mentah}")
-
-    rata_rata_personal = dm.hitung_skor_personal(user_tes, anime_tes)
-    print(f"\n[CALC] Rata-rata Skor Personal {user_tes} untuk {anime_tes}:")
-    if rata_rata_personal is not None:
-        print(f"Hasil: {rata_rata_personal} / 10")
-    else:
-        print("Hasil: N/A (Belum dinilai)")
-
-    rata_rata_kosong = dm.hitung_skor_personal(user_tes, anime_belum_dinilai)
-    print(f"\n[CALC] Rata-rata Skor Personal {user_tes} untuk {anime_belum_dinilai}:")
-    if rata_rata_kosong is not None:
-        print(f"Hasil: {rata_rata_kosong} / 10")
-    else:
-        print("Hasil: N/A (Belum dinilai)")
-
-    skor_global = dm.hitung_skor_global(anime_tes)
-    print(f"\n[CALC] Skor Global (Komunitas) untuk {anime_tes}:")
-    print(f"Hasil: {skor_global} / 10")
