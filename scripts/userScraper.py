@@ -75,8 +75,8 @@ def generate_5d_scores(mal_score, global_score, anime_genres):
         base_score = 7
 
     scores = {
-        "visual": min(10, max(1, round(random.gauss(base_score, 1.2)))),
         "plot": min(10, max(1, round(random.gauss(base_score, 1.2)))),
+        "visual": min(10, max(1, round(random.gauss(base_score, 1.2)))),
         "audio": min(10, max(1, round(random.gauss(base_score, 1.2)))),
         "characterization": min(10, max(1, round(random.gauss(base_score, 1.2)))),
         "direction": min(10, max(1, round(random.gauss(base_score, 1.2))))

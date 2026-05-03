@@ -5,7 +5,8 @@ from datetime import datetime
 class DataManager:
     def __init__(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.data_dir = os.path.join(BASE_DIR, "..", "..", "data")
+        self.root_dir = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+        self.data_dir = os.path.join(self.root_dir, "data")
 
         self.anime_file = os.path.join(self.data_dir, 'anime_list.json')
         self.users_file = os.path.join(self.data_dir, 'users.json')
@@ -54,13 +55,30 @@ class DataManager:
 
     def get_semua_anime(self):
         """Mengembalikan seluruh katalog anime atau list kosong jika tidak tersedia."""
-        return self._read_json(self.anime_file) or []
+        anime_list = self._read_json(self.anime_file) or []
+
+        # Inject key berisi path absolut agar UI langsung bisa pakai
+        for anime in anime_list:
+            if "thumbnail_path" in anime:
+                anime["thumbnail_path_abs"] = self.get_absolute_image_path(anime["thumbnail_path"])
+            if "cover_path" in anime:
+                anime["cover_path_abs"] = self.get_absolute_image_path(anime.get("cover_path"))
+
+        return anime_list
 
     def get_detail_anime(self, anime_id):
         """Mencari spesifikasi satu anime secara efisien menggunakan generator."""
         semua_anime = self.get_semua_anime()
-        # next() mencari elemen pertama yang cocok dan langsung berhenti (lebih cepat dari for-loop)
         return next((anime for anime in semua_anime if anime.get("anime_id") == anime_id), None)
+
+    def get_absolute_image_path(self, relative_path):
+        """Menerjemahkan path relatif JSON menjadi path absolut di komputer."""
+        if not relative_path or relative_path == "N/A":
+            return None  # Bisa diganti path placeholder gambar default jika ada
+
+        abs_path = os.path.join(self.root_dir, relative_path)
+        # Ganti backslash windows ke forward slash agar aman di semua OS
+        return abs_path.replace("\\", "/")
 
     def cari_anime(self, kata_kunci):
         """
@@ -89,7 +107,7 @@ class DataManager:
                 hasil_pencarian.append(anime)
 
         return hasil_pencarian
-    
+
     # ==========================================
     # MANAJEMEN PENGGUNA (AUTENTIKASI & AKUN)
     # ==========================================
@@ -97,14 +115,12 @@ class DataManager:
     def cek_username_ada(self, username):
         """Memeriksa eksistensi username secara case-insensitive."""
         users = self._read_json(self.users_file) or []
-        # any() mengembalikan True jika ada minimal satu kondisi yang terpenuhi
         return any(user.get("username", "").lower() == username.lower() for user in users)
 
     def cek_kredensial(self, username, password):
         """Memvalidasi kombinasi username dan password, mengembalikan user_id jika sukses."""
         users = self._read_json(self.users_file) or []
 
-        # Mengubah logika any() menjadi pencarian spesifik agar bisa mengembalikan ID
         for user in users:
             if user.get("username", "").lower() == username.lower() and user.get("password") == password:
                 return user.get("user_id")  # <-- Mengembalikan "U001" (bukan True)
@@ -143,6 +159,9 @@ class DataManager:
     def simpan_user_baru(self, data_user_baru):
         """Mendaftarkan pengguna baru ke database."""
         users = self._read_json(self.users_file) or []
+        data_user_baru.setdefault("rating_count", 0)
+        data_user_baru.setdefault("average_score", 0.0)
+        data_user_baru.setdefault("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
         users.append(data_user_baru)
         self._write_json(self.users_file, users)
         return True
@@ -161,8 +180,12 @@ class DataManager:
         # 2. Membersihkan laci data di ratings.json
         ratings = self._read_json(self.ratings_file) or {}
         if user_id in ratings:
-            del ratings[user_id]
+            user_ratings = ratings.pop(user_id)
             self._write_json(self.ratings_file, ratings)
+            
+            # 3. Memperbarui statistik anime
+            for anime_id, old_skor_dict in user_ratings.items():
+                self._update_anime_stats(anime_id, new_skor_dict=None, old_skor_dict=old_skor_dict, is_delete=True)
 
         return True
 
@@ -194,12 +217,27 @@ class DataManager:
         ratings = self._read_json(self.ratings_file) or {}
         return ratings.get(user_id, {}).get(anime_id)
 
+    def get_rating_user_as_list(self, user_id, anime_id):
+        """
+        Mengambil skor multidimensi milik user dan mengubahnya menjadi list berurutan.
+        """
+        skor_dict = self.get_rating_user(user_id, anime_id)
+
+        # Jika user belum menilai, kembalikan list berisi angka 0 agar radar chart kosong
+        if not skor_dict:
+            return [0, 0, 0, 0, 0]
+
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+
+        # Ekstrak nilai berdasarkan urutan mutlak
+        return [skor_dict.get(dimensi, 0) for dimensi in urutan_dimensi]
+
     def hitung_skor_personal(self, user_id, anime_id):
         """Menghitung rata-rata dari 5 dimensi skor milik satu pengguna untuk satu anime."""
         skor_dict = self.get_rating_user(user_id, anime_id)
 
         # Jika user belum menilai anime tersebut, kembalikan None
-        # Ini akan mempermudah UI (ui_dashboard) untuk memunculkan teks "N/A"
+        # Mempermudah UI (ui_dashboard) untuk memunculkan teks "N/A"
         if not skor_dict:
             return None
 
@@ -212,10 +250,17 @@ class DataManager:
         """Menyimpan atau memperbarui data skor multidimensi."""
         ratings = self._read_json(self.ratings_file) or {}
 
-        # setdefault() secara otomatis membuat dictionary {} untuk user baru jika belum ada
-        ratings.setdefault(user_id, {})[anime_id] = skor_dict
+        user_ratings = ratings.setdefault(user_id, {})
+        is_new_rating = anime_id not in user_ratings
+        old_skor_dict = user_ratings.get(anime_id, None)
+
+        user_ratings[anime_id] = skor_dict
 
         self._write_json(self.ratings_file, ratings)
+        
+        self._update_anime_stats(anime_id, new_skor_dict=skor_dict, old_skor_dict=old_skor_dict, is_new=is_new_rating)
+        self._update_user_stats(user_id, new_skor_dict=skor_dict, old_skor_dict=old_skor_dict, is_new=is_new_rating)
+        
         return True
 
     def hapus_rating(self, user_id, anime_id):
@@ -223,38 +268,212 @@ class DataManager:
         ratings = self._read_json(self.ratings_file) or {}
 
         if user_id in ratings and anime_id in ratings[user_id]:
-            del ratings[user_id][anime_id]
+            old_skor_dict = ratings[user_id].pop(anime_id)
             self._write_json(self.ratings_file, ratings)
+            
+            self._update_anime_stats(anime_id, new_skor_dict=None, old_skor_dict=old_skor_dict, is_delete=True)
+            self._update_user_stats(user_id, new_skor_dict=None, old_skor_dict=old_skor_dict, is_delete=True)
+            
             return True
 
         return False
 
+    def _update_anime_stats(self, anime_id, new_skor_dict=None, old_skor_dict=None, is_new=False, is_delete=False):
+        """Memperbarui statistik rating secara matematis O(1) di anime_list.json."""
+        anime_list = self._read_json(self.anime_file) or []
+        anime = next((a for a in anime_list if a.get("anime_id") == anime_id), None)
+        if not anime:
+            return
+
+        count = anime.get("rating_count", 0)
+        global_score = anime.get("global_score", 0.0)
+        dim_scores = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+
+        if is_delete and old_skor_dict:
+            if count <= 1:
+                anime["rating_count"] = 0
+                anime["global_score"] = 0.0
+                anime["global_score_dimensions"] = [0.0, 0.0, 0.0, 0.0, 0.0]
+            else:
+                old_avg = sum(old_skor_dict.values()) / len(old_skor_dict)
+                anime["global_score"] = round((global_score * count - old_avg) / (count - 1), 2)
+                for i, dim in enumerate(urutan_dimensi):
+                    dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0)) / (count - 1), 2)
+                anime["global_score_dimensions"] = dim_scores
+                anime["rating_count"] = count - 1
+                
+        elif is_new and new_skor_dict:
+            new_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
+            anime["global_score"] = round((global_score * count + new_avg) / (count + 1), 2)
+            for i, dim in enumerate(urutan_dimensi):
+                dim_scores[i] = round((dim_scores[i] * count + new_skor_dict.get(dim, 0)) / (count + 1), 2)
+            anime["global_score_dimensions"] = dim_scores
+            anime["rating_count"] = count + 1
+            
+        elif new_skor_dict and old_skor_dict: # Update rating
+            old_avg = sum(old_skor_dict.values()) / len(old_skor_dict)
+            new_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
+            if count == 0: count = 1 # Fallback menghindari pembagian dengan nol
+            anime["global_score"] = round((global_score * count - old_avg + new_avg) / count, 2)
+            for i, dim in enumerate(urutan_dimensi):
+                dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0) + new_skor_dict.get(dim, 0)) / count, 2)
+            anime["global_score_dimensions"] = dim_scores
+
+        self._write_json(self.anime_file, anime_list)
+
+    def _update_user_stats(self, user_id, new_skor_dict=None, old_skor_dict=None, is_new=False, is_delete=False):
+        """Memperbarui statistik rata-rata rating milik user secara matematis O(1) di users.json."""
+        users = self._read_json(self.users_file) or []
+        user = next((u for u in users if u.get("user_id") == user_id), None)
+        if not user:
+            return
+
+        count = user.get("rating_count", 0)
+        avg_score = user.get("average_score", 0.0)
+        dim_scores = user.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+
+        if is_delete and old_skor_dict:
+            if count <= 1:
+                user["rating_count"] = 0
+                user["average_score"] = 0.0
+                user["average_dimensions"] = [0.0, 0.0, 0.0, 0.0, 0.0]
+            else:
+                old_rating_avg = sum(old_skor_dict.values()) / len(old_skor_dict)
+                user["average_score"] = round((avg_score * count - old_rating_avg) / (count - 1), 2)
+                for i, dim in enumerate(urutan_dimensi):
+                    dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0)) / (count - 1), 2)
+                user["average_dimensions"] = dim_scores
+                user["rating_count"] = count - 1
+                
+        elif is_new and new_skor_dict:
+            new_rating_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
+            user["average_score"] = round((avg_score * count + new_rating_avg) / (count + 1), 2)
+            for i, dim in enumerate(urutan_dimensi):
+                dim_scores[i] = round((dim_scores[i] * count + new_skor_dict.get(dim, 0)) / (count + 1), 2)
+            user["average_dimensions"] = dim_scores
+            user["rating_count"] = count + 1
+            
+        elif new_skor_dict and old_skor_dict: # Update rating
+            old_rating_avg = sum(old_skor_dict.values()) / len(old_skor_dict)
+            new_rating_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
+            if count == 0: count = 1 # Fallback menghindari pembagian dengan nol
+            user["average_score"] = round((avg_score * count - old_rating_avg + new_rating_avg) / count, 2)
+            for i, dim in enumerate(urutan_dimensi):
+                dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0) + new_skor_dict.get(dim, 0)) / count, 2)
+            user["average_dimensions"] = dim_scores
+
+        self._write_json(self.users_file, users)
+
     def hitung_skor_global(self, anime_id):
-        """Mengakumulasi dan mengalkulasi rata-rata skor keseluruhan untuk satu anime."""
-        ratings = self._read_json(self.ratings_file) or {}
+        """Mengambil nilai rata-rata keseluruhan (O(1)) langsung dari anime_list."""
+        anime = self.get_detail_anime(anime_id)
+        return anime.get("global_score", 0.0) if anime else 0.0
 
-        # Mengumpulkan rata-rata skor dari setiap user yang menilai anime ini
-        skor_semua_user = [
-            sum(anime_dict[anime_id].values()) / len(anime_dict[anime_id])
-            for anime_dict in ratings.values()
-            if anime_id in anime_dict and anime_dict[anime_id]
-        ]
-
-        if not skor_semua_user:
-            return 0.0
-
-        return round(sum(skor_semua_user) / len(skor_semua_user), 2)
-
+    def get_skor_global_dimensi_as_list(self, anime_id):
+        """Mengambil rata-rata skor komunitas untuk SETIAP dimensi secara O(1) dari anime_list."""
+        anime = self.get_detail_anime(anime_id)
+        return anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0]) if anime else [0.0, 0.0, 0.0, 0.0, 0.0]
+        
+    def get_rating_count(self, anime_id):
+        """Mengambil jumlah user yang telah menilai anime tertentu."""
+        anime = self.get_detail_anime(anime_id)
+        return anime.get("rating_count", 0) if anime else 0
     def get_user_by_id(self, user_id):
         """Mencari data lengkap user berdasarkan user_id."""
         users = self._read_json(self.users_file) or []
         return next((u for u in users if u.get("user_id") == user_id), None)
+
+    # ==========================================
+    # Skrip setup kolom data baru
+    # ==========================================
+    def _kalkulasi_ulang_semua_statistik_anime(self):
+        """Skrip utilitas untuk menghitung ulang dan menyimpan global_score, rating_count, dan global_score_dimensions ke anime_list.json"""
+        print("Mengkalkulasi ulang seluruh statistik anime...")
+        ratings = self._read_json(self.ratings_file) or {}
+        anime_list = self._read_json(self.anime_file) or []
+        
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+        
+        stats = {}
+        for anime in anime_list:
+            stats[anime["anime_id"]] = {
+                "count": 0,
+                "total_score": 0.0,
+                "dim_totals": [0.0] * 5
+            }
+            
+        for user_id, user_ratings in ratings.items():
+            for anime_id, skor_dict in user_ratings.items():
+                if anime_id not in stats:
+                    continue
+                
+                stats[anime_id]["count"] += 1
+                avg_score = sum(skor_dict.values()) / len(skor_dict)
+                stats[anime_id]["total_score"] += avg_score
+                
+                for i, dim in enumerate(urutan_dimensi):
+                    stats[anime_id]["dim_totals"][i] += skor_dict.get(dim, 0)
+                    
+        for anime in anime_list:
+            anime_id = anime["anime_id"]
+            count = stats[anime_id]["count"]
+            anime["rating_count"] = count
+            if count > 0:
+                anime["global_score"] = round(stats[anime_id]["total_score"] / count, 2)
+                anime["global_score_dimensions"] = [round(dim_tot / count, 2) for dim_tot in stats[anime_id]["dim_totals"]]
+            else:
+                anime["global_score"] = 0.0
+                anime["global_score_dimensions"] = [0.0, 0.0, 0.0, 0.0, 0.0]
+                
+        self._write_json(self.anime_file, anime_list)
+        print("Kalkulasi selesai dan berhasil disimpan ke anime_list.json!")
+
+    def _kalkulasi_ulang_semua_statistik_user(self):
+        """Skrip utilitas untuk menghitung ulang dan menyimpan rata-rata skor personal ke users.json"""
+        print("Mengkalkulasi ulang seluruh statistik pengguna...")
+        ratings = self._read_json(self.ratings_file) or {}
+        users = self._read_json(self.users_file) or []
+        
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+        
+        for user in users:
+            user_id = user["user_id"]
+            user_ratings = ratings.get(user_id, {})
+            
+            count = len(user_ratings)
+            user["rating_count"] = count
+            
+            if count > 0:
+                total_score = 0.0
+                dim_totals = [0.0] * 5
+                
+                for skor_dict in user_ratings.values():
+                    total_score += sum(skor_dict.values()) / len(skor_dict)
+                    for i, dim in enumerate(urutan_dimensi):
+                        dim_totals[i] += skor_dict.get(dim, 0)
+                        
+                user["average_score"] = round(total_score / count, 2)
+                user["average_dimensions"] = [round(dim_tot / count, 2) for dim_tot in dim_totals]
+            else:
+                user["average_score"] = 0.0
+                user["average_dimensions"] = [0.0, 0.0, 0.0, 0.0, 0.0]
+                
+        self._write_json(self.users_file, users)
+        print("Kalkulasi selesai dan berhasil disimpan ke users.json!")
 
 # ===============
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
     dm = DataManager()
+    
+    print("Menjalankan skrip penambahan data rating massal...")
+    dm._kalkulasi_ulang_semua_statistik_anime()
+    dm._kalkulasi_ulang_semua_statistik_user()
 
     user_tes = "U001"
     anime_tes = "A001"
