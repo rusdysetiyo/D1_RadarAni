@@ -1,23 +1,22 @@
 from datetime import datetime
 
-
 class AuthManager:
     # Constructor
     def __init__(self, data_manager):
         self.data_manager = data_manager
-        self.current_user = None
+        self.current_user = None 
 
-        # Manajemen State ----------------------------------------------
-
+    # Manajemen State ----------------------------------------------
+    
     def set_user_aktif(self, user_id):
         """Menyimpan ID user ke memori saat berhasil login."""
         self.current_user = user_id
         self.data_manager.simpan_sesi(user_id)
-
+        
     def get_user_aktif(self):
         """Mengembalikan ID user yang sedang login saat ini."""
         return self.current_user
-
+        
     def logout(self):
         """Menghapus sesi dari memori."""
         self.current_user = None
@@ -29,7 +28,7 @@ class AuthManager:
         """Memvalidasi kredensial. Mengembalikan True jika sukses, False jika gagal."""
         # Mengecek kecocokan data
         user_id = self.data_manager.cek_kredensial(username, password)
-
+        
         if user_id is not None:
             # Jika cocok, simpan ID ke memori dan update waktu login
             self.set_user_aktif(user_id)
@@ -43,11 +42,11 @@ class AuthManager:
         # Cek username sudah ada atau belum
         if self.data_manager.cek_username_ada(username):
             return "Username sudah terpakai!"
-
+            
         # Jika belum, buat ID unik dan simpan datanya
         user_id_baru = self.data_manager.generate_user_id()
         waktu_sekarang = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+        
         data_user_baru = {
             "user_id": user_id_baru,
             "username": username,
@@ -55,7 +54,7 @@ class AuthManager:
             "created_at": waktu_sekarang,
             "last_login": "",
         }
-
+        
         # Simpan ke JSON lewat DataManager
         self.data_manager.simpan_user_baru(data_user_baru)
         return "Registrasi berhasil! Silakan login."
