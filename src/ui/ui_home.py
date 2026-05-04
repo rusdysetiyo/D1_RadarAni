@@ -291,6 +291,12 @@ def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
                         on_click=lambda _: screen_manager.tampilkan_katalog(),
                     ),
                     ft.TextButton(
+                        "   Add Anime",
+                        style=active_nav_s if halaman_aktif == "scraping" else nav_s,
+                        width=216,
+                        on_click=lambda _: screen_manager.tampilkan_scraping(),
+                    ),
+                    ft.TextButton(
                         "   Profile",
                         style=active_nav_s if halaman_aktif == "profil" else nav_s,
                         width=216,
