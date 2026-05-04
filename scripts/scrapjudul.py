@@ -107,6 +107,25 @@ class DynamicAnimeScraper(RadarAniScraper):
                 
         return kandidat_list
 
+    @staticmethod
+    def normalize_mal_url(url):
+        """
+        Memotong sub-tab MAL dari URL anime.
+        """
+        SUB_TABS = {
+            "moreinfo", "pics", "clubs", "forum", "news",
+            "stacks", "userrecs", "reviews", "stats",
+            "video", "episode", "characters",
+        }
+        # Buang query string dan fragment terlebih dahulu
+        clean = url.split('?')[0].split('#')[0].rstrip('/')
+        parts = clean.split('/')
+        # Struktur: ['https:', '', 'myanimelist.net', 'anime', '<id>', '<judul>', '<sub_tab?>']
+        # Index 6 (jika ada) adalah kandidat sub-tab
+        if len(parts) >= 7 and parts[6].lower() in SUB_TABS:
+            parts = parts[:6]  # buang sub-tab
+        return '/'.join(parts)
+
     def dapatkan_info_dari_url(self, url):
         soup = self.get_soup(url)
         if not soup:
@@ -275,7 +294,9 @@ def run_terminal_interface():
 
         if "http" in user_input:
             if "myanimelist.net/anime/" in user_input:
-                target_url = user_input
+                target_url = DynamicAnimeScraper.normalize_mal_url(user_input)
+                if target_url != user_input:
+                    print(f"[~] URL dinormalisasi ke: {target_url}")
                 # Karena input URL langsung, kita biarkan thumb_url None (nanti fallback ke cover)
             else:
                 print("[!] URL tidak valid. Harap masukkan URL detail anime dari MyAnimeList.")
