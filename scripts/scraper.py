@@ -4,6 +4,9 @@ import random
 import logging
 from pathlib import Path
 from typing import List, Dict, Optional, Any
+import urllib.parse
+# Tambahkan ini di bagian atas jika belum ada
+import difflib
 
 import requests
 from bs4 import BeautifulSoup
@@ -251,7 +254,3 @@ class RadarAniScraper:
 
         logger.info(f"=== Selesai! Total {len(anime_list)} anime berhasil disimpan ===")
 
-
-if __name__ == "__main__":
-    scraper = RadarAniScraper(target_pages=10)
-    scraper.run()
