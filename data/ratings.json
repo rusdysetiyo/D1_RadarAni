@@ -62,6 +62,55 @@
             "audio": 9,
             "characterization": 8,
             "direction": 10
+        },
+        "A251": {
+            "plot": 9,
+            "visual": 6,
+            "audio": 4,
+            "characterization": 1,
+            "direction": 1
+        },
+        "A443": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A351": {
+            "plot": 8,
+            "visual": 1,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 4
+        },
+        "A349": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A104": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A020": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 5,
+            "characterization": 4,
+            "direction": 5
+        },
+        "A361": {
+            "plot": 4,
+            "visual": 9,
+            "audio": 5,
+            "characterization": 6,
+            "direction": 9
         }
     },
     "U002": {
@@ -71011,6 +71060,36 @@
             "audio": 7,
             "characterization": 6,
             "direction": 9
+        }
+    },
+    "U081": {
+        "A317": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A443": {
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A024": {
+            "plot": 1,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        },
+        "A349": {
+            "plot": 1,
+            "visual": 1,
+            "audio": 1,
+            "characterization": 1,
+            "direction": 1
         }
     }
 }
