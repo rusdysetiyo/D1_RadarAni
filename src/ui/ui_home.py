@@ -4,8 +4,10 @@ import asyncio
 import os
 from src.ui.icons import _sakura_icon_svg
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
+# Konstanta Warna
 C_BG = "#FCF8FA"
 C_BG2 = "#F5EEF2"
 C_SAKURA = "#C07090"
@@ -16,6 +18,7 @@ C_TEXT3 = "#B0909A"
 C_BORDER = "#EDE0E8"
 C_GOLD = "#C08030"
 C_WHITE = "#FFFFFF"
+
 
 class HujanSakura:
     def __init__(self, target_container):
@@ -70,6 +73,7 @@ class HujanSakura:
                 print(f"Error Hujan Sakura: {e}")
                 await asyncio.sleep(2)
 
+
 def _pill(text: str) -> ft.Container:
     return ft.Container(
         content=ft.Text(text, size=11, color=C_TEXT2),
@@ -78,6 +82,7 @@ def _pill(text: str) -> ft.Container:
         border_radius=20,
         padding=ft.padding.symmetric(horizontal=12, vertical=4),
     )
+
 
 def _section_header(title: str, on_lihat_semua=None) -> ft.Container:
     return ft.Container(
@@ -99,6 +104,7 @@ def _section_header(title: str, on_lihat_semua=None) -> ft.Container:
         ),
     )
 
+
 class AnimeCardSmall(ft.Container):
     def __init__(self, anime: dict, skor_global, skor_personal, on_click_callback):
         super().__init__()
@@ -118,7 +124,7 @@ class AnimeCardSmall(ft.Container):
 
         self.shadow = ft.BoxShadow(
             blur_radius=12,
-            color=ft.Colors.with_opacity(0.06, ft.Colors.BLACK),
+            color=ft.Colors.with_opacity(0.15, "#C07090"),
             offset=ft.Offset(0, 4)
         )
 
@@ -126,9 +132,9 @@ class AnimeCardSmall(ft.Container):
         self.on_hover = self._on_hover
         self.animate = ft.Animation(duration=150, curve=ft.AnimationCurve.EASE_IN_OUT)
 
-        thumb = anime.get("thumbnail_path", "")
+        thumb = anime.get("cover_path", "")
         if thumb:
-            thumb = os.path.join(BASE_DIR, thumb)
+            thumb = os.path.join(ROOT_DIR, thumb)
 
         if thumb and os.path.exists(thumb):
             poster = ft.Image(
@@ -142,11 +148,11 @@ class AnimeCardSmall(ft.Container):
                 bgcolor=C_BG2,
                 border_radius=ft.border_radius.only(top_left=9, top_right=9),
                 content=ft.Icon(
-                    name=ft.icons.IMAGE_OUTLINED,
+                    "photo",
                     color=C_TEXT3,
                     size=32
                 ),
-                alignment=ft.alignment.center,
+                alignment=ft.Alignment.CENTER,
             )
 
         genres = anime.get("genre", [])[:3]
@@ -217,10 +223,14 @@ class AnimeCardSmall(ft.Container):
 
         self.shadow = ft.BoxShadow(
             blur_radius=16 if is_hovered else 12,
-            color=ft.Colors.with_opacity(0.12 if is_hovered else 0.06, ft.Colors.BLACK),
+
+            color=ft.Colors.with_opacity(0.3 if is_hovered else 0.15, "#C07090"),
             offset=ft.Offset(0, 6 if is_hovered else 4)
         )
-        self.update()
+
+        if self.page:
+            self.update()
+
 
 def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
     nav_s = ft.ButtonStyle(
@@ -281,6 +291,12 @@ def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
                         on_click=lambda _: screen_manager.tampilkan_katalog(),
                     ),
                     ft.TextButton(
+                        "   Add Anime",
+                        style=active_nav_s if halaman_aktif == "scraping" else nav_s,
+                        width=216,
+                        on_click=lambda _: screen_manager.tampilkan_scraping(),
+                    ),
+                    ft.TextButton(
                         "   Profile",
                         style=active_nav_s if halaman_aktif == "profil" else nav_s,
                         width=216,
@@ -300,6 +316,7 @@ def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
         animate_size=ft.Animation(duration=280, curve=ft.AnimationCurve.EASE_OUT),
         clip_behavior=ft.ClipBehavior.HARD_EDGE,
     )
+
 
 class UIHome(ft.Row):
     def __init__(self, page, data_manager, auth_manager, screen_manager):
@@ -354,7 +371,6 @@ class UIHome(ft.Row):
             ),
         )
 
-        # ── Data Fetching ──
         user_id = self.auth_manager.get_user_aktif()
         user_data = self.data_manager.get_user_by_id(user_id)
         username = user_data.get("username", "User") if user_data else "User"
@@ -369,6 +385,15 @@ class UIHome(ft.Row):
         self._rec_reason = ft.Text("Based on your top dimension", size=10, color="#A07888")
         self._rec_anime_id = None
 
+        self._rec_image = ft.Image(
+            src="", width=36, height=50, fit=ft.BoxFit.COVER, visible=False
+        )
+        self._rec_image_container = ft.Container(
+            width=36, height=50, bgcolor="#D4A8C0", border_radius=6,
+            clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            content=self._rec_image
+        )
+
         rec_banner = ft.Container(
             bgcolor=C_SAKURA_LT,
             border=ft.border.all(1, "#E8D0DE"),
@@ -376,7 +401,7 @@ class UIHome(ft.Row):
             padding=ft.padding.symmetric(horizontal=14, vertical=10),
             content=ft.Row(
                 controls=[
-                    ft.Container(width=36, height=50, bgcolor="#D4A8C0", border_radius=6),
+                    self._rec_image_container,
                     ft.Column(
                         controls=[
                             ft.Text("✦  RECOMMENDED FOR YOU", size=9, color="#9B6080", weight=ft.FontWeight.BOLD),
@@ -547,55 +572,154 @@ class UIHome(ft.Row):
 
         self.controls = [self._sidebar_widget, area_utama]
 
-        self._muat_sections()
 
         self.efek_sakura = HujanSakura(_hujan_stack)
         self.my_page.run_task(self.efek_sakura.turun)
 
-    def _muat_sections(self):
-        user_id = self.auth_manager.get_user_aktif()
+    # ── Muat Sections ──
+    async def _muat_sections(self):
+        user_id = self.data_manager.baca_sesi()
+        if not user_id: return
+
+        self._cached_semua_anime = self.data_manager.get_semua_anime()
+        semua_rating = self.data_manager._read_json(self.data_manager.ratings_file) or {}
+        rating_user_ini = semua_rating.get(user_id, {})
+
+        self._cached_anime_rated = []
+        self._cached_anime_unrated = []
+        self._cached_skor_user = {}
+
+        for i, anime in enumerate(self._cached_semua_anime):
+            aid = anime.get("anime_id", "")
+
+            if aid in rating_user_ini:
+                skor_dict = rating_user_ini[aid]
+                sp = round(sum(skor_dict.values()) / len(skor_dict), 2) if skor_dict else 0
+                self._cached_anime_rated.append((anime, sp))
+                self._cached_skor_user[aid] = sp
+            else:
+                self._cached_anime_unrated.append(anime)
+
+            if i % 50 == 0:
+                await asyncio.sleep(0)
+
+        await asyncio.sleep(0.01)
         self._perbarui_stats(user_id)
+
+        await asyncio.sleep(0.01)
         self._muat_rekomendasi(user_id)
+
+        await asyncio.sleep(0.01)
         self._muat_trending(user_id)
+
+        await asyncio.sleep(0.01)
         self._muat_recent(user_id)
+
+        await asyncio.sleep(0.01)
         self._muat_top_unrated(user_id)
 
+        try:
+            if hasattr(self, '_trending_row'): self._trending_row.update()
+            if hasattr(self, '_recent_row'): self._recent_row.update()
+            if hasattr(self, '_unrated_row'): self._unrated_row.update()
+            self.update()
+        except Exception as err:
+            print(f"Error pas update Home: {err}")
+
+    # ── Perbarui Stats ──
+    def _perbarui_stats(self, user_id):
+        if not user_id: return
+
+        rated = len(self._cached_anime_rated)
+        unrated = len(self._cached_anime_unrated)
+
+        user_data = self.data_manager.get_user_by_id(user_id) or {}
+        avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+
+        avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
+        top_dim = max(avg_dim, key=avg_dim.get).capitalize() if avg_dim else "—"
+
+        scores = [sp for _, sp in self._cached_anime_rated]
+        avg_val = f"{sum(scores) / len(scores):.1f}" if scores else "—"
+
+        self._stat_rated.content = ft.Text(f"  {rated} rated", size=11, color=C_TEXT2)
+        self._stat_unrated.content = ft.Text(f"  {unrated} unrated", size=11, color=C_TEXT2)
+        self._stat_avg.content = ft.Text(f"  avg {avg_val}", size=11, color=C_TEXT2)
+        self._stat_dim.content = ft.Text(f"  top: {top_dim}", size=11, color=C_TEXT2)
+        self.update()
+
+    # ── Muat Rekomendasi ──
     def _muat_rekomendasi(self, user_id):
         if not user_id: return
 
-        avg_dim = {}
-        if hasattr(self.data_manager, "get_avg_dimensi_user"):
-            avg_dim = self.data_manager.get_avg_dimensi_user(user_id) or {}
+        user_data = self.data_manager.get_user_by_id(user_id) or {}
+        avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+
+        avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
 
         if not avg_dim:
             self._rec_title.value = "Rate more anime to get recommendations!"
-            self._rec_reason.value = "Not enough data to calculate top dimension."
+            self._rec_reason.value = "Not enough data to calculate preferences."
+            self._rec_image.visible = False
+            self.update()
             return
 
-        top_dim = max(avg_dim, key=avg_dim.get)
-        semua = self.data_manager.get_semua_anime()
-        kandidat = []
-        count = 0
-        for anime in semua:
-            if count >= 50: break
-            aid = anime.get("anime_id", "")
-            if self.data_manager.hitung_skor_personal(user_id, aid) is not None:
-                continue
+        skor_tertinggi = max(avg_dim.values())
+        dimensi_seri = [dim for dim, skor in avg_dim.items() if skor == skor_tertinggi]
+        sudah_ditonton = [a.get("anime_id") for a, _ in self._cached_anime_rated]
 
-            sg = anime.get("global_score", 0) or 0
-            if sg:
-                kandidat.append((anime, sg))
-                count += 1
+        best_anime_id = None
+        alasan = ""
 
-        if not kandidat: return
+        if hasattr(self.data_manager, "get_rekomendasi_multidimensi"):
+            best_anime_id = self.data_manager.get_rekomendasi_multidimensi(dimensi_seri, sudah_ditonton)
+        elif hasattr(self.data_manager, "get_rekomendasi_by_dimensi"):
+            best_anime_id = self.data_manager.get_rekomendasi_by_dimensi(dimensi_seri[0], sudah_ditonton)
 
-        kandidat.sort(key=lambda x: x[1], reverse=True)
-        best, _ = kandidat[0]
+        best_anime = None
 
-        self._rec_anime_id = best.get("anime_id")
-        self._rec_title.value = best.get("title", "—")
-        self._rec_reason.value = f"Matches your top dimension: {top_dim.capitalize()}"
+        if best_anime_id:
+            best_anime = self.data_manager.get_detail_anime(best_anime_id)
+            nama_dimensi = " & ".join([d.capitalize() for d in dimensi_seri])
+            alasan = f"Highest rated in your favorite aspects: {nama_dimensi}"
+        else:
+            kandidat = [a for a in self._cached_semua_anime if
+                        a.get("anime_id") not in sudah_ditonton and a.get("global_score")]
+            if kandidat:
+                kandidat.sort(key=lambda x: x.get("global_score", 0), reverse=True)
+                best_anime = kandidat[0]
+                alasan = "Highly rated by the community"
 
+        if not best_anime:
+            self._rec_title.value = "You've conquered our catalog!"
+            self._rec_reason.value = "No more anime left to recommend."
+            self._rec_image.visible = False
+            self.update()
+            return
+
+        self._rec_anime_id = best_anime.get("anime_id")
+        self._rec_title.value = best_anime.get("title", "—")
+        self._rec_reason.value = alasan
+
+        thumb_path = best_anime.get("thumbnail_path", "")
+        if thumb_path:
+            full_path = os.path.join(ROOT_DIR, thumb_path)
+            if os.path.exists(full_path):
+                self._rec_image.src = full_path
+                self._rec_image.visible = True
+            else:
+                self._rec_image.visible = False
+        else:
+            self._rec_image.visible = False
+
+        try:
+            self.update()
+        except RuntimeError:
+            pass
+
+    # ── Muat Recent ──
     def _muat_recent(self, user_id):
         self._recent_row.controls.clear()
 
@@ -603,23 +727,13 @@ class UIHome(ft.Row):
             self._recent_row.controls.append(ft.Text("No ratings yet.", color=C_TEXT3, size=12))
             return
 
-        semua = self.data_manager.get_semua_anime()
-
-        dinilai = []
-        for a in semua:
-            sp = self.data_manager.hitung_skor_personal(user_id, a["anime_id"])
-            if sp is not None:
-                dinilai.append((a, sp))
-                if len(dinilai) >= 10:
-                    break
-
-        for anime, sp in dinilai:
+        for anime, sp in self._cached_anime_rated[:10]:
             sg = anime.get("global_score", 0) or 0
             self._recent_row.controls.append(
                 AnimeCardSmall(anime, sg, sp, on_click_callback=self.screen_manager.tampilkan_detail)
             )
 
-        if not dinilai:
+        if not self._cached_anime_rated:
             self._recent_row.controls.append(
                 ft.Container(
                     width=320,
@@ -661,40 +775,36 @@ class UIHome(ft.Row):
                 )
             )
 
+    # ── Muat Trending ──
     def _muat_trending(self, user_id):
         self._trending_row.controls.clear()
-        semua = self.data_manager.get_semua_anime()
-        semua_sorted = sorted(semua, key=lambda a: a.get("global_score", 0) or 0, reverse=True)
+        semua_sorted = sorted(self._cached_semua_anime, key=lambda a: a.get("global_score", 0) or 0, reverse=True)
 
         for anime in semua_sorted[:7]:
             aid = anime.get("anime_id", "")
             sg = anime.get("global_score", 0) or 0
-            sp = self.data_manager.hitung_skor_personal(user_id, aid) if user_id else None
+            sp = self._cached_skor_user.get(aid, None) if user_id else None
             self._trending_row.controls.append(
                 AnimeCardSmall(anime, sg, sp, on_click_callback=self.screen_manager.tampilkan_detail)
             )
 
+    # ── Muat Top Unrated ──
     def _muat_top_unrated(self, user_id):
         self._unrated_row.controls.clear()
-        semua = self.data_manager.get_semua_anime()
+        unrated_sorted = sorted(self._cached_anime_unrated, key=lambda a: a.get("global_score", 0) or 0,
+                                reverse=True)
 
-        unrated = []
-        for a in semua:
-            if self.data_manager.hitung_skor_personal(user_id, a["anime_id"]) is None:
-                unrated.append(a)
-
-        unrated.sort(key=lambda a: a.get("global_score", 0) or 0, reverse=True)
-
-        for anime in unrated[:10]:
-            aid = anime.get("anime_id", "")
+        for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
             self._unrated_row.controls.append(
                 AnimeCardSmall(anime, sg, None, on_click_callback=self.screen_manager.tampilkan_detail)
             )
 
-        if not unrated:
-            self._unrated_row.controls.append(ft.Text("You've rated all available anime! 🎉", color=C_TEXT3, size=12))
+        if not self._cached_anime_unrated:
+            self._unrated_row.controls.append(
+                ft.Text("You've rated all available anime!", color=C_TEXT3, size=12))
 
+    # ── Sidebar & Klik Actions ──
     def _toggle_sidebar(self, e=None):
         self._sidebar_open = not self._sidebar_open
         self._sidebar_widget.width = 240 if self._sidebar_open else 0
@@ -703,29 +813,3 @@ class UIHome(ft.Row):
     def _klik_rekomendasi(self):
         if self._rec_anime_id:
             self.screen_manager.tampilkan_detail(self._rec_anime_id)
-
-    def _perbarui_stats(self, user_id):
-        if not user_id: return
-        semua = self.data_manager.get_semua_anime()
-
-        rated = 0
-        scores = []
-        for a in semua:
-            sp = self.data_manager.hitung_skor_personal(user_id, a["anime_id"])
-            if sp is not None:
-                rated += 1
-                scores.append(sp)
-
-        unrated = len(semua) - rated
-
-        avg_dim = {}
-        if hasattr(self.data_manager, "get_avg_dimensi_user"):
-            avg_dim = self.data_manager.get_avg_dimensi_user(user_id) or {}
-        top_dim = max(avg_dim, key=avg_dim.get).capitalize() if avg_dim else "—"
-
-        avg_val = f"{sum(scores) / len(scores):.1f}" if scores else "—"
-
-        self._stat_rated.content = ft.Text(f"  {rated} rated", size=11, color=C_TEXT2)
-        self._stat_unrated.content = ft.Text(f"  {unrated} unrated", size=11, color=C_TEXT2)
-        self._stat_avg.content = ft.Text(f"  avg {avg_val}", size=11, color=C_TEXT2)
-        self._stat_dim.content = ft.Text(f"  top: {top_dim}", size=11, color=C_TEXT2)

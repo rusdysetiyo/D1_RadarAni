@@ -2,42 +2,45 @@ import flet as ft
 import math
 import os
 
+# ── Section: Konfigurasi Dasar & Tema ────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-C_BG        = "#FCF8FA"
-C_BG2       = "#F5EEF2"
-C_SAKURA    = "#C07090"
+C_BG = "#FCF8FA"
+C_BG2 = "#F5EEF2"
+C_SAKURA = "#C07090"
 C_SAKURA_LT = "#F9F0F5"
-C_TEXT      = "#3D2535"
-C_TEXT2     = "#8B6A7A"
-C_TEXT3     = "#B0909A"
-C_BORDER    = "#EDE0E8"
-C_GOLD      = "#C08030"
-C_PURPLE    = "#9060A0"
-C_WHITE     = "#FFFFFF"
+C_TEXT = "#3D2535"
+C_TEXT2 = "#8B6A7A"
+C_TEXT3 = "#B0909A"
+C_BORDER = "#EDE0E8"
+C_GOLD = "#C08030"
+C_PURPLE = "#9060A0"
+C_WHITE = "#FFFFFF"
 
 CARDS_PER_PAGE = 24
 
+
+# ── Section: Komponen AnimeCard ──────────────────────────────────────────────
 class AnimeCard(ft.Container):
     def __init__(self, anime: dict, skor_global, skor_personal, on_click_callback):
         super().__init__()
-        self.anime        = anime
+        self.anime = anime
         self._on_click_cb = on_click_callback
 
-        self.width         = 140
+        self.width = 140
         self.gradient = ft.LinearGradient(
             begin=ft.Alignment(0, -1),
             end=ft.Alignment(0, 1),
             colors=["#FFFFFF", "#FDF5F8"]
         )
-        self.border        = ft.border.all(1, C_BORDER)
+        self.border = ft.border.all(1, C_BORDER)
         self.border_radius = 10
         self.clip_behavior = ft.ClipBehavior.HARD_EDGE
-        self.on_click      = lambda _: self._on_click_cb(anime.get("anime_id", ""))
-        self.on_hover      = self._on_hover
-        self.scale         = 1.0
-        self.shadow        = None
-        self.animate       = ft.Animation(duration=150, curve=ft.AnimationCurve.EASE_IN_OUT)
+        self.on_click = lambda _: self._on_click_cb(anime.get("anime_id", ""))
+        self.on_hover = self._on_hover
+        self.scale = 1.0
+        self.shadow = None
+        self.animate = ft.Animation(duration=150, curve=ft.AnimationCurve.EASE_IN_OUT)
 
         is_rated = skor_personal is not None
 
@@ -53,7 +56,7 @@ class AnimeCard(ft.Container):
             padding=ft.padding.symmetric(horizontal=6, vertical=2),
         )
 
-        thumb = anime.get("thumbnail_path", "")
+        thumb = anime.get("cover_path", "")
         if thumb:
             thumb = os.path.join(BASE_DIR, thumb)
 
@@ -73,8 +76,8 @@ class AnimeCard(ft.Container):
             )
 
         genres = anime.get("genre", [])[:3]
-        sg_str = (f"★ {skor_global:.1f}  ·  {anime.get('episodes','?')} eps"
-                  if skor_global else f"{anime.get('episodes','?')} eps")
+        sg_str = (f"★ {skor_global:.1f}  ·  {anime.get('episodes', '?')} eps"
+                  if skor_global else f"{anime.get('episodes', '?')} eps")
 
         self._overlay = ft.Container(
             width=140, height=162,
@@ -143,17 +146,19 @@ class AnimeCard(ft.Container):
         )
 
     def _on_hover(self, e):
-        is_hovered        = str(e.data).lower() == "true"
+        is_hovered = str(e.data).lower() == "true"
         self._overlay.visible = is_hovered
-        self.border       = ft.border.all(1.5 if is_hovered else 1,
-                                          C_SAKURA if is_hovered else C_BORDER)
-        self.scale        = 1.03 if is_hovered else 1.0
-        self.shadow       = ft.BoxShadow(
+        self.border = ft.border.all(1.5 if is_hovered else 1,
+                                    C_SAKURA if is_hovered else C_BORDER)
+        self.scale = 1.03 if is_hovered else 1.0
+        self.shadow = ft.BoxShadow(
             spread_radius=1, blur_radius=10,
             color=ft.Colors.BLACK12, offset=ft.Offset(0, 4),
         ) if is_hovered else None
         self.update()
 
+
+# ── Section: Komponen AnimeListItem ──────────────────────────────────────────
 class AnimeListItem(ft.Container):
     def __init__(self, anime: dict, skor_global, skor_personal, on_click_callback):
         super().__init__()
@@ -164,20 +169,20 @@ class AnimeListItem(ft.Container):
             end=ft.Alignment(1, 0),
             colors=["#FFFFFF", "#FDF5F8"]
         )
-        self.border        = ft.border.all(1, C_BORDER)
+        self.border = ft.border.all(1, C_BORDER)
         self.border_radius = 10
-        self.padding       = ft.padding.symmetric(horizontal=14, vertical=10)
-        self.on_click      = lambda _: on_click_callback(anime.get("anime_id", ""))
-        self.on_hover      = self._on_hover
-        self.animate       = ft.Animation(duration=120, curve=ft.AnimationCurve.EASE_IN_OUT)
+        self.padding = ft.padding.symmetric(horizontal=14, vertical=10)
+        self.on_click = lambda _: on_click_callback(anime.get("anime_id", ""))
+        self.on_hover = self._on_hover
+        self.animate = ft.Animation(duration=120, curve=ft.AnimationCurve.EASE_IN_OUT)
 
-        is_rated  = skor_personal is not None
+        is_rated = skor_personal is not None
 
-        thumb = anime.get("thumbnail_path", "")
+        thumb = anime.get("cover_path", "")
         if thumb:
             thumb = os.path.join(BASE_DIR, thumb)
 
-        genres    = anime.get("genre", [])[:3]
+        genres = anime.get("genre", [])[:3]
 
         if thumb and os.path.exists(thumb):
             poster = ft.Image(
@@ -239,7 +244,7 @@ class AnimeListItem(ft.Container):
                             ft.Text(sp_txt, size=11, color=sp_col,
                                     weight=ft.FontWeight.BOLD),
                             ft.Text("·", size=11, color=C_TEXT3),
-                            ft.Text(f"{anime.get('episodes','?')} eps",
+                            ft.Text(f"{anime.get('episodes', '?')} eps",
                                     size=11, color=C_TEXT3),
                         ], spacing=5),
                     ],
@@ -252,33 +257,35 @@ class AnimeListItem(ft.Container):
         )
 
     def _on_hover(self, e):
-        is_hovered  = str(e.data).lower() == "true"
+        is_hovered = str(e.data).lower() == "true"
         self.gradient = ft.LinearGradient(
             begin=ft.Alignment(-1, 0),
             end=ft.Alignment(1, 0),
             colors=["#FDF5F8", "#F5EEF2"] if is_hovered else ["#FFFFFF", "#FDF5F8"]
         )
-        self.border  = ft.border.all(1 if not is_hovered else 1.5,
-                                     C_BORDER if not is_hovered else C_SAKURA)
+        self.border = ft.border.all(1 if not is_hovered else 1.5,
+                                    C_BORDER if not is_hovered else C_SAKURA)
         self.update()
 
+
+# ── Section: Halaman Utama Katalog ───────────────────────────────────────────
 class UIKatalog(ft.Row):
     def __init__(self, page, data_manager, auth_manager, screen_manager, filter_kategori=None):
         super().__init__()
-        self.my_page        = page
-        self.data_manager   = data_manager
-        self.auth_manager   = auth_manager
+        self.my_page = page
+        self.data_manager = data_manager
+        self.auth_manager = auth_manager
         self.screen_manager = screen_manager
 
-        self._filter       = filter_kategori if filter_kategori else "all"
-        self._sort         = "title"
-        self._keyword      = ""
-        self._halaman      = 1
-        self._total_pg     = 1
-        self._view_mode    = "grid"
+        self._filter = filter_kategori if filter_kategori else "all"
+        self._sort = "title"
+        self._keyword = ""
+        self._halaman = 1
+        self._total_pg = 1
+        self._view_mode = "grid"
         self._sidebar_open = False
 
-        self.expand  = True
+        self.expand = True
         self.spacing = 0
 
         from src.ui.ui_home import _sidebar
@@ -307,7 +314,6 @@ class UIKatalog(ft.Row):
         topbar = ft.Container(
             padding=ft.padding.symmetric(horizontal=16),
             height=55,
-
             gradient=ft.LinearGradient(
                 begin=ft.Alignment(0.0, -1.0),
                 end=ft.Alignment(0.0, 1.0),
@@ -318,7 +324,6 @@ class UIKatalog(ft.Row):
                 color="#15000000",
                 offset=ft.Offset(0, 4)
             ),
-
             content=ft.Row(
                 controls=[
                     ft.IconButton(
@@ -329,8 +334,7 @@ class UIKatalog(ft.Row):
                             e: self.screen_manager.tampilkan_home() if is_sub_page else self._toggle_sidebar(e),
                     ),
                     ft.Column([
-                        ft.Text("RadarAni", size=13, color=C_SAKURA,
-                                weight=ft.FontWeight.BOLD),
+                        ft.Text("RadarAni", size=13, color=C_SAKURA, weight=ft.FontWeight.BOLD),
                         ft.Text("レーダアニ", size=8, color=C_TEXT3),
                     ], spacing=0, tight=True),
                     ft.Container(expand=True),
@@ -379,13 +383,11 @@ class UIKatalog(ft.Row):
         )
 
         if filter_kategori == "rated":
-            kiri_toolbar = [
-                ft.Text("   Your Recent Ratings", size=12, color=C_SAKURA, weight=ft.FontWeight.BOLD)]
+            kiri_toolbar = [ft.Text("   Your Recent Ratings", size=12, color=C_SAKURA, weight=ft.FontWeight.BOLD)]
         elif filter_kategori == "unrated":
             kiri_toolbar = [ft.Text("   Top Unrated", size=12, color=C_SAKURA, weight=ft.FontWeight.BOLD)]
         elif filter_kategori == "trending":
-            kiri_toolbar = [
-                ft.Text("   Global Trending", size=12, color=C_SAKURA, weight=ft.FontWeight.BOLD)]
+            kiri_toolbar = [ft.Text("   Global Trending", size=12, color=C_SAKURA, weight=ft.FontWeight.BOLD)]
         else:
             kiri_toolbar = [self._btn_all, self._btn_rated, self._btn_unrated]
 
@@ -457,35 +459,49 @@ class UIKatalog(ft.Row):
         self.controls = [self._sidebar_widget, self._main_col]
         self.muat_tabel_anime()
 
+    # ── Section: Logika Data & Rendering ─────────────────────────────────────────
+
     def muat_tabel_anime(self):
         self._content_area.controls.clear()
 
-        data    = self.data_manager.cari_anime(self._keyword) \
-                  if self._keyword else self.data_manager.get_semua_anime()
+        semua_anime = self.data_manager.cari_anime(
+            self._keyword) if self._keyword else self.data_manager.get_semua_anime()
         user_id = self.auth_manager.get_user_aktif()
 
+        rating_user_ini = {}
+        if user_id:
+            semua_rating = self.data_manager._read_json(self.data_manager.ratings_file) or {}
+            rating_user_ini = semua_rating.get(user_id, {})
+
+        data_dengan_skor = []
+        for anime in semua_anime:
+            aid = anime.get("anime_id", "")
+            sp = None
+            if aid in rating_user_ini:
+                skor_dict = rating_user_ini[aid]
+                sp = round(sum(skor_dict.values()) / len(skor_dict), 2) if skor_dict else 0
+
+            data_dengan_skor.append((anime, sp))
+
         if self._filter == "rated":
-            data = [a for a in data
-                    if self.data_manager.hitung_skor_personal(user_id, a["anime_id"]) is not None]
+            data_dengan_skor = [item for item in data_dengan_skor if item[1] is not None]
         elif self._filter == "unrated":
-            data = [a for a in data
-                    if self.data_manager.hitung_skor_personal(user_id, a["anime_id"]) is None]
+            data_dengan_skor = [item for item in data_dengan_skor if item[1] is None]
         elif self._filter == "trending":
-            data.sort(key=lambda a: a.get("global_score", 0) or 0, reverse=True)
+            data_dengan_skor.sort(key=lambda item: item[0].get("global_score", 0) or 0, reverse=True)
 
         if self._sort == "title":
-            data.sort(key=lambda a: a.get("title", "").lower())
+            data_dengan_skor.sort(key=lambda item: item[0].get("title", "").lower())
         elif self._sort == "global":
-            data.sort(key=lambda a: a.get("global_score", 0) or 0, reverse=True)
+            data_dengan_skor.sort(key=lambda item: item[0].get("global_score", 0) or 0, reverse=True)
         elif self._sort == "personal":
-            data.sort(key=lambda a: self.data_manager.hitung_skor_personal(
-                user_id, a["anime_id"]) or 0, reverse=True)
+            data_dengan_skor.sort(key=lambda item: item[1] or -1, reverse=True)
 
-        self._total_pg = max(1, math.ceil(len(data) / CARDS_PER_PAGE))
-        self._halaman  = min(self._halaman, self._total_pg)
+        self._total_pg = max(1, math.ceil(len(data_dengan_skor) / CARDS_PER_PAGE))
+        self._halaman = min(self._halaman, self._total_pg)
 
-        start        = (self._halaman - 1) * CARDS_PER_PAGE
-        halaman_data = data[start: start + CARDS_PER_PAGE]
+        start = (self._halaman - 1) * CARDS_PER_PAGE
+        halaman_data = data_dengan_skor[start: start + CARDS_PER_PAGE]
 
         if not halaman_data:
             self._content_area.controls.append(
@@ -505,9 +521,9 @@ class UIKatalog(ft.Row):
             )
         else:
             if self._view_mode == "grid":
-                self._render_grid(halaman_data, user_id)
+                self._render_grid(halaman_data)
             else:
-                self._render_list(halaman_data, user_id)
+                self._render_list(halaman_data)
 
         self._render_pagination()
 
@@ -516,15 +532,16 @@ class UIKatalog(ft.Row):
         except Exception:
             pass
 
-    def _render_grid(self, data, user_id):
+    def _render_grid(self, data):
         grid = ft.Row(
             wrap=True,
             spacing=16, run_spacing=16,
             alignment=ft.MainAxisAlignment.START,
         )
-        for anime in data:
-            sg   = anime.get("global_score", 0)
-            sp   = self.data_manager.hitung_skor_personal(user_id, anime["anime_id"])
+        for item in data:
+            anime = item[0]
+            sp = item[1]
+            sg = anime.get("global_score", 0)
             grid.controls.append(
                 AnimeCard(anime, sg, sp,
                           on_click_callback=self.screen_manager.tampilkan_detail)
@@ -534,11 +551,12 @@ class UIKatalog(ft.Row):
             ft.Container(content=grid, padding=ft.padding.only(left=26, right=26, top=16, bottom=16), expand=True)
         )
 
-    def _render_list(self, data, user_id):
+    def _render_list(self, data):
         list_col = ft.Column(spacing=8)
-        for anime in data:
-            sg   = anime.get("global_score", 0)
-            sp   = self.data_manager.hitung_skor_personal(user_id, anime["anime_id"])
+        for item in data:
+            anime = item[0]
+            sp = item[1]
+            sg = anime.get("global_score", 0)
             list_col.controls.append(
                 AnimeListItem(anime, sg, sp,
                               on_click_callback=self.screen_manager.tampilkan_detail)
@@ -551,10 +569,10 @@ class UIKatalog(ft.Row):
     def _render_pagination(self):
         self._prev_btn.disabled = self._halaman <= 1
         self._next_btn.disabled = self._halaman >= self._total_pg
-        self._pg_label.value    = f"Page {self._halaman} of {self._total_pg}"
+        self._pg_label.value = f"Page {self._halaman} of {self._total_pg}"
 
         self._next_btn.bgcolor = C_SAKURA if not self._next_btn.disabled else C_BG2
-        self._next_btn.color   = C_WHITE  if not self._next_btn.disabled else C_TEXT3
+        self._next_btn.color = C_WHITE if not self._next_btn.disabled else C_TEXT3
 
     def _on_search(self, e):
         self._keyword = e.control.value.strip()
@@ -562,12 +580,12 @@ class UIKatalog(ft.Row):
         self.muat_tabel_anime()
 
     def _on_sort(self, e):
-        self._sort    = e.control.value
+        self._sort = e.control.value
         self._halaman = 1
         self.muat_tabel_anime()
 
     def _set_filter(self, val: str):
-        self._filter  = val
+        self._filter = val
         self._halaman = 1
 
         active_s = ft.ButtonStyle(
@@ -585,8 +603,8 @@ class UIKatalog(ft.Row):
             side=ft.BorderSide(1, C_BORDER),
             padding=ft.padding.symmetric(horizontal=16, vertical=4),
         )
-        self._btn_all.style     = active_s if val == "all"     else normal_s
-        self._btn_rated.style   = active_s if val == "rated"   else normal_s
+        self._btn_all.style = active_s if val == "all" else normal_s
+        self._btn_rated.style = active_s if val == "rated" else normal_s
         self._btn_unrated.style = active_s if val == "unrated" else normal_s
         self._btn_all.update()
         self._btn_rated.update()
@@ -613,8 +631,8 @@ class UIKatalog(ft.Row):
             self.muat_tabel_anime()
 
     def _toggle_sidebar(self, e=None):
-        self._sidebar_open            = not self._sidebar_open
-        self._sidebar_widget.width    = 240 if self._sidebar_open else 0
+        self._sidebar_open = not self._sidebar_open
+        self._sidebar_widget.width = 240 if self._sidebar_open else 0
         self._sidebar_widget.update()
 
     def _filter_btn(self, label: str, val: str, active=False) -> ft.TextButton:

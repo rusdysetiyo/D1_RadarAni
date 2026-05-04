@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime
 
+
 class DataManager:
     def __init__(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -182,7 +183,7 @@ class DataManager:
         if user_id in ratings:
             user_ratings = ratings.pop(user_id)
             self._write_json(self.ratings_file, ratings)
-            
+
             # 3. Memperbarui statistik anime
             for anime_id, old_skor_dict in user_ratings.items():
                 self._update_anime_stats(anime_id, new_skor_dict=None, old_skor_dict=old_skor_dict, is_delete=True)
@@ -257,10 +258,10 @@ class DataManager:
         user_ratings[anime_id] = skor_dict
 
         self._write_json(self.ratings_file, ratings)
-        
+
         self._update_anime_stats(anime_id, new_skor_dict=skor_dict, old_skor_dict=old_skor_dict, is_new=is_new_rating)
         self._update_user_stats(user_id, new_skor_dict=skor_dict, old_skor_dict=old_skor_dict, is_new=is_new_rating)
-        
+
         return True
 
     def hapus_rating(self, user_id, anime_id):
@@ -270,10 +271,10 @@ class DataManager:
         if user_id in ratings and anime_id in ratings[user_id]:
             old_skor_dict = ratings[user_id].pop(anime_id)
             self._write_json(self.ratings_file, ratings)
-            
+
             self._update_anime_stats(anime_id, new_skor_dict=None, old_skor_dict=old_skor_dict, is_delete=True)
             self._update_user_stats(user_id, new_skor_dict=None, old_skor_dict=old_skor_dict, is_delete=True)
-            
+
             return True
 
         return False
@@ -288,7 +289,7 @@ class DataManager:
         count = anime.get("rating_count", 0)
         global_score = anime.get("global_score", 0.0)
         dim_scores = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
-        
+
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
 
         if is_delete and old_skor_dict:
@@ -303,7 +304,7 @@ class DataManager:
                     dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0)) / (count - 1), 2)
                 anime["global_score_dimensions"] = dim_scores
                 anime["rating_count"] = count - 1
-                
+
         elif is_new and new_skor_dict:
             new_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
             anime["global_score"] = round((global_score * count + new_avg) / (count + 1), 2)
@@ -311,14 +312,15 @@ class DataManager:
                 dim_scores[i] = round((dim_scores[i] * count + new_skor_dict.get(dim, 0)) / (count + 1), 2)
             anime["global_score_dimensions"] = dim_scores
             anime["rating_count"] = count + 1
-            
-        elif new_skor_dict and old_skor_dict: # Update rating
+
+        elif new_skor_dict and old_skor_dict:  # Update rating
             old_avg = sum(old_skor_dict.values()) / len(old_skor_dict)
             new_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
-            if count == 0: count = 1 # Fallback menghindari pembagian dengan nol
+            if count == 0: count = 1  # Fallback menghindari pembagian dengan nol
             anime["global_score"] = round((global_score * count - old_avg + new_avg) / count, 2)
             for i, dim in enumerate(urutan_dimensi):
-                dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0) + new_skor_dict.get(dim, 0)) / count, 2)
+                dim_scores[i] = round(
+                    (dim_scores[i] * count - old_skor_dict.get(dim, 0) + new_skor_dict.get(dim, 0)) / count, 2)
             anime["global_score_dimensions"] = dim_scores
 
         self._write_json(self.anime_file, anime_list)
@@ -333,7 +335,7 @@ class DataManager:
         count = user.get("rating_count", 0)
         avg_score = user.get("average_score", 0.0)
         dim_scores = user.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
-        
+
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
 
         if is_delete and old_skor_dict:
@@ -348,7 +350,7 @@ class DataManager:
                     dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0)) / (count - 1), 2)
                 user["average_dimensions"] = dim_scores
                 user["rating_count"] = count - 1
-                
+
         elif is_new and new_skor_dict:
             new_rating_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
             user["average_score"] = round((avg_score * count + new_rating_avg) / (count + 1), 2)
@@ -356,14 +358,15 @@ class DataManager:
                 dim_scores[i] = round((dim_scores[i] * count + new_skor_dict.get(dim, 0)) / (count + 1), 2)
             user["average_dimensions"] = dim_scores
             user["rating_count"] = count + 1
-            
-        elif new_skor_dict and old_skor_dict: # Update rating
+
+        elif new_skor_dict and old_skor_dict:  # Update rating
             old_rating_avg = sum(old_skor_dict.values()) / len(old_skor_dict)
             new_rating_avg = sum(new_skor_dict.values()) / len(new_skor_dict)
-            if count == 0: count = 1 # Fallback menghindari pembagian dengan nol
+            if count == 0: count = 1  # Fallback menghindari pembagian dengan nol
             user["average_score"] = round((avg_score * count - old_rating_avg + new_rating_avg) / count, 2)
             for i, dim in enumerate(urutan_dimensi):
-                dim_scores[i] = round((dim_scores[i] * count - old_skor_dict.get(dim, 0) + new_skor_dict.get(dim, 0)) / count, 2)
+                dim_scores[i] = round(
+                    (dim_scores[i] * count - old_skor_dict.get(dim, 0) + new_skor_dict.get(dim, 0)) / count, 2)
             user["average_dimensions"] = dim_scores
 
         self._write_json(self.users_file, users)
@@ -377,11 +380,12 @@ class DataManager:
         """Mengambil rata-rata skor komunitas untuk SETIAP dimensi secara O(1) dari anime_list."""
         anime = self.get_detail_anime(anime_id)
         return anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0]) if anime else [0.0, 0.0, 0.0, 0.0, 0.0]
-        
+
     def get_rating_count(self, anime_id):
         """Mengambil jumlah user yang telah menilai anime tertentu."""
         anime = self.get_detail_anime(anime_id)
         return anime.get("rating_count", 0) if anime else 0
+
     def get_user_by_id(self, user_id):
         """Mencari data lengkap user berdasarkan user_id."""
         users = self._read_json(self.users_file) or []
@@ -448,9 +452,111 @@ class DataManager:
 
         return anime_favorit_lengkap
 
+    def get_rekomendasi_multidimensi(self, dimensi_favorit, id_anime_ditonton):
+        """
+        [ALGORITMA REKOMENDASI FINAL - MENGATASI SEMUA EDGE CASES]
+        Versi Super Cepat (O(N)) - Menggunakan Denormalisasi Data anime_list.json
+        """
+        # Langsung ambil data matang dari cache anime tanpa nyentuh ratings.json
+        semua_anime = self.get_semua_anime()
+        if not semua_anime:
+            return None
+
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+
+        # Cari index urutan dimensi favorit user (Misal: Plot = 0, Visual = 1)
+        index_favorit = [urutan_dimensi.index(d) for d in dimensi_favorit if d in urutan_dimensi]
+
+        rata_rata_kandidat = {}
+        jumlah_reviewer = {}
+        MINIMUM_REVIEW = 3
+
+        # =========================================================
+        # FASE 1 & 2: PENGUMPULAN DATA & FILTER AMBANG BATAS
+        # =========================================================
+        for anime in semua_anime:
+            id_anime = anime.get("anime_id")
+            if id_anime in id_anime_ditonton:
+                continue  # Lewati yang udah ditonton
+
+            count = anime.get("rating_count", 0)
+
+            if count >= MINIMUM_REVIEW:
+                # Ambil list skor 5 dimensi
+                dimensi_global = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+
+                # Ekstrak nilai HANYA pada index dimensi yang disukai user
+                skor_relevan = [dimensi_global[i] for i in index_favorit]
+
+                if skor_relevan:
+                    rata_rata_kandidat[id_anime] = sum(skor_relevan) / len(skor_relevan)
+                    jumlah_reviewer[id_anime] = count
+
+        # Jika tidak ada anime yang mencapai target review (Turunkan standar)
+        if not rata_rata_kandidat:
+            for anime in semua_anime:
+                id_anime = anime.get("anime_id")
+                if id_anime in id_anime_ditonton:
+                    continue
+
+                count = anime.get("rating_count", 0)
+                if count >= 1:  # Minimal 1 penilai deh
+                    dimensi_global = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+                    skor_relevan = [dimensi_global[i] for i in index_favorit]
+
+                    if skor_relevan:
+                        rata_rata_kandidat[id_anime] = sum(skor_relevan) / len(skor_relevan)
+                        jumlah_reviewer[id_anime] = count
+
+        if not rata_rata_kandidat:
+            return None
+
+        # =========================================================
+        # FASE 3: PENCARIAN SKOR TERTINGGI
+        # =========================================================
+        skor_tertinggi = max(rata_rata_kandidat.values())
+        kandidat_teratas = [id_anime for id_anime, skor in rata_rata_kandidat.items() if skor == skor_tertinggi]
+
+        if len(kandidat_teratas) == 1:
+            return kandidat_teratas[0]
+
+        # =========================================================
+        # FASE 4: TIE-BREAKER TAHAP 1 (ADU JUMLAH REVIEWER)
+        # =========================================================
+        kandidat_tahap_dua = []
+        reviewer_terbanyak = -1
+
+        for id_anime in kandidat_teratas:
+            total_review = jumlah_reviewer[id_anime]
+
+            if total_review > reviewer_terbanyak:
+                reviewer_terbanyak = total_review
+                kandidat_tahap_dua = [id_anime]
+            elif total_review == reviewer_terbanyak:
+                kandidat_tahap_dua.append(id_anime)
+
+        if len(kandidat_tahap_dua) == 1:
+            return kandidat_tahap_dua[0]
+
+        # =========================================================
+        # FASE 5: TIE-BREAKER TAHAP 2 (ADU SKOR GLOBAL)
+        # =========================================================
+        rekomendasi_final = kandidat_tahap_dua[0]
+        skor_global_maksimal = -1
+
+        for id_anime in kandidat_tahap_dua:
+            # Fungsi temen lu yang ngebut banget kepake di sini
+            skor_global_anime = self.hitung_skor_global(id_anime)
+
+            if skor_global_anime > skor_global_maksimal:
+                skor_global_maksimal = skor_global_anime
+                rekomendasi_final = id_anime
+
+        return rekomendasi_final
+
+
 # ===============
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
     print("Pengujian")
-
