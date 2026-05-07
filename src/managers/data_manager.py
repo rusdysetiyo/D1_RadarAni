@@ -568,36 +568,25 @@ class DataManager:
         labels = ["plot", "visual", "audio", "characterization", "direction"]
         return {label: round(val, 2) for label, val in zip(labels, dims)}
 
-    def get_anime_favorit(self, user_id) -> list:
+    def get_anime_favorit(self, user_id):
         """
-        Mengembalikan top-3 anime yang sudah dirating user berdasarkan skor personal tertinggi.
-        Format: list of dict {rank, emoji, judul, genre}
+        Mengambil detail lengkap dari semua anime yang difavoritkan user.
+        Digunakan untuk merender Halaman Profil.
         """
-        ratings = self._read_json(self.ratings_file) or {}
-        user_ratings = ratings.get(user_id, {})
-
-        if not user_ratings:
+        user = self.get_user_by_id(user_id)
+        if not user:
             return []
 
-        emojis = ["🥇", "🥈", "🥉"]
-        entries = []
-        for anime_id, skor_dict in user_ratings.items():
-            avg = sum(skor_dict.values()) / len(skor_dict) if skor_dict else 0
+        list_id_favorit = user.get("favorit", [])
+
+        # Ambil detail lengkap dari setiap ID di list favorit
+        anime_favorit_lengkap = []
+        for anime_id in list_id_favorit:
             detail = self.get_detail_anime(anime_id)
             if detail:
-                entries.append((avg, detail))
+                anime_favorit_lengkap.append(detail)
 
-        entries.sort(key=lambda x: x[0], reverse=True)
-        result = []
-        for i, (_, detail) in enumerate(entries[:3]):
-            genres = detail.get("genre", [])
-            result.append({
-                "rank": i + 1,
-                "emoji": emojis[i],
-                "judul": detail.get("title", "—"),
-                "genre": genres[0] if genres else "—",
-            })
-        return result
+        return anime_favorit_lengkap
 
     def get_top_genre_user(self, user_id) -> dict:
         """

@@ -14,13 +14,9 @@ def main(page: ft.Page):
     auth_manager = AuthManager(data_manager)
     screen_manager = ScreenManager(page, data_manager, auth_manager)
 
-    # Cek apakah ada sesi aktif yang tersimpan, langsung masuk jika ada
-    sesi_user_id = data_manager.baca_sesi()
-    if sesi_user_id and data_manager.get_user_by_id(sesi_user_id):
-        auth_manager.set_user_aktif(sesi_user_id)
-        screen_manager.tampilkan_home()
-    else:
-        screen_manager.tampilkan_login()
+    test_user_id = "U001"
+    auth_manager.set_user_aktif(test_user_id)
+    screen_manager.tampilkan_home()
 
 if __name__ == '__main__':
     ft.run(main)
