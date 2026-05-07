@@ -554,9 +554,78 @@ class DataManager:
 
         return rekomendasi_final
 
+    # ==========================================
+    # STATISTIK USER (untuk UIProfile)
+    # ==========================================
+
+    def get_avg_dimensi_user(self, user_id) -> dict:
+        """Mengembalikan rata-rata skor per dimensi milik user sebagai dict."""
+        user = self.get_user_by_id(user_id)
+        if not user:
+            return {}
+
+        dims = user.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        labels = ["plot", "visual", "audio", "characterization", "direction"]
+        return {label: round(val, 2) for label, val in zip(labels, dims)}
+
+    def get_anime_favorit(self, user_id) -> list:
+        """
+        Mengembalikan top-3 anime yang sudah dirating user berdasarkan skor personal tertinggi.
+        Format: list of dict {rank, emoji, judul, genre}
+        """
+        ratings = self._read_json(self.ratings_file) or {}
+        user_ratings = ratings.get(user_id, {})
+
+        if not user_ratings:
+            return []
+
+        emojis = ["🥇", "🥈", "🥉"]
+        entries = []
+        for anime_id, skor_dict in user_ratings.items():
+            avg = sum(skor_dict.values()) / len(skor_dict) if skor_dict else 0
+            detail = self.get_detail_anime(anime_id)
+            if detail:
+                entries.append((avg, detail))
+
+        entries.sort(key=lambda x: x[0], reverse=True)
+        result = []
+        for i, (_, detail) in enumerate(entries[:3]):
+            genres = detail.get("genre", [])
+            result.append({
+                "rank": i + 1,
+                "emoji": emojis[i],
+                "judul": detail.get("title", "—"),
+                "genre": genres[0] if genres else "—",
+            })
+        return result
+
+    def get_top_genre_user(self, user_id) -> dict:
+        """
+        Menghitung proporsi genre dari anime yang telah dirating user.
+        Mengembalikan dict {genre: persentase} dari top 5 genre.
+        """
+        ratings = self._read_json(self.ratings_file) or {}
+        user_ratings = ratings.get(user_id, {})
+
+        genre_count: dict = {}
+        total = 0
+        for anime_id in user_ratings:
+            detail = self.get_detail_anime(anime_id)
+            if not detail:
+                continue
+            for g in detail.get("genre", []):
+                genre_count[g] = genre_count.get(g, 0) + 1
+                total += 1
+
+        if not genre_count or total == 0:
+            return {}
+
+        sorted_genre = sorted(genre_count.items(), key=lambda x: x[1], reverse=True)[:5]
+        return {g: round(cnt / total * 100) for g, cnt in sorted_genre}
 
 # ===============
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
     print("Pengujian")
+

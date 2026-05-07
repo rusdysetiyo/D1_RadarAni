@@ -148,7 +148,7 @@
         "mal_id": 31964,
         "title": "Boku no Hero Academia",
         "en_title": "My Hero Academia",
-        "global_score": 7.69,
+        "global_score": 7.7,
         "genre": [
             "Action",
             "School",
@@ -163,10 +163,10 @@
         "thumbnail_path": "assets/thumbnails/TIMG006.jpg",
         "rating_count": 55,
         "global_score_dimensions": [
-            7.42,
-            8.27,
+            7.44,
+            8.31,
             7.64,
-            7.05,
+            7.07,
             8.07
         ]
     },
@@ -13920,6 +13920,141 @@
             7.75,
             8.4,
             8.7
+        ]
+    },
+    {
+        "anime_id": "A501",
+        "mal_id": 10863,
+        "title": "Steins;Gate: Oukoubakko no Poriomania",
+        "en_title": "Steins;Gate: Egoistic Poriomania",
+        "global_score": 8.1,
+        "genre": [
+            "Comedy",
+            "Sci-Fi",
+            "Time Travel"
+        ],
+        "synopsis": "A few months after the events ofSteins;Gate, Rintarou Okabe and his group of friends are invited to tag along with their acquaintance Faris NyanNyan, who is participating in a Rai-Net battle event in the United States. There, they meet up with an old colleague: Kurisu Makise, who has been recalling fragmented memories of events that happened in the other world lines in the form of dreams. She confronts Okabe, questioning him as to whether these events—particularly the incidents between the two of them—did indeed happen.[Written by MAL Rewrite]",
+        "studio": "White Fox",
+        "type": "Special",
+        "episodes": "1",
+        "cover_path": "assets/covers/CIMG501.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG501.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            8.4,
+            8.21,
+            7.8,
+            7.99,
+            8.1
+        ]
+    },
+    {
+        "anime_id": "A502",
+        "mal_id": 37492,
+        "title": "Steins;Gate 0: Kesshou Takei no Valentine - Bittersweet Intermedio",
+        "en_title": "Steins;Gate 0: Valentine's of Crystal Polymorphism -Bittersweet Intermedio-",
+        "global_score": 7.14,
+        "genre": [
+            "Comedy"
+        ],
+        "synopsis": "With Valentine's Day just around the corner, the girls of the Future Gadget Lab discover that Kagari has never celebrated the occasion before! Determined to make this year's holiday the best one yet, they all set out to make delicious homemade chocolates together.However, with many of their quirks causing kitchen disasters, this may prove to be too hard a task. Will their feelings ever reach those of their heart's desire?[Written by MAL Rewrite]",
+        "studio": "White Fox",
+        "type": "Special",
+        "episodes": "1",
+        "cover_path": "assets/covers/CIMG502.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG502.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            7.1,
+            7.3,
+            7.3,
+            6.8,
+            7.2
+        ]
+    },
+    {
+        "anime_id": "A503",
+        "mal_id": 61316,
+        "title": "Re:Zero kara Hajimeru Isekai Seikatsu 4th Season",
+        "en_title": "Re:ZERO -Starting Life in Another World- Season 4",
+        "global_score": 9.18,
+        "genre": [
+            "Drama",
+            "Fantasy",
+            "Suspense",
+            "Isekai",
+            "Psychological",
+            "Time Travel"
+        ],
+        "synopsis": "In the deadly battle at the Watergate City of Priestella, Subaru and his allies barely emerged victorious—but their triumph came at a great cost. Through the \"Authority of Gluttony,\" Rem was put into suspended animation, while Crusch's memories and even Julius’s name were devoured. As he searches for a way to save them, Subaru learns of the \"Sage\" Shaula—an all-seeing being said to possess every form of knowledge. His next destination is the Pleiades Watchtower, home to the Sage, the farthest tower standing in the vast, uncharted desert known as the Auguria Dunes—a place so perilous that even the mightiest \"Sword Saint,\" Reinhard, failed to conquer it. The fury of nature, unknown magical beasts, and unimaginable dangers lie ahead. Together with his friends, Subaru embarks on a life-risking journey to reclaim what was lost.(Source: Kadokawa, edited)",
+        "studio": "White Fox",
+        "type": "TV",
+        "episodes": "19",
+        "cover_path": "assets/covers/CIMG503.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG503.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            9.69,
+            9.3,
+            8.9,
+            8.69,
+            9.31
+        ]
+    },
+    {
+        "anime_id": "A504",
+        "mal_id": 8246,
+        "title": "Naruto: Shippuuden Movie 4 - The Lost Tower",
+        "en_title": "Naruto Shippuden the Movie 4: The Lost Tower",
+        "global_score": 7.15,
+        "genre": [
+            "Action",
+            "Adventure",
+            "Fantasy",
+            "Time Travel",
+            "Shounen"
+        ],
+        "synopsis": "Led by Yamato, Naruto Uzumaki, Sakura Haruno, and Sai are assigned to capture Mukade, a rogue ninja who is pursuing the ancient chakra Ryuumyaku located underneath the Rouran ruins. While the Ryuumyaku has been sealed by the Fourth Hokage, the group fails to prevent Mukade from releasing its power. Consequently, a strong energy burst engulfs both Naruto and Yamato before they can escape.As he awakens in a magnificent yet hostile kingdom, Naruto meets its young queen Saara and three Konohagakure ninjas on a top-secret mission. They reveal to him that he has time-traveled to Rouran 20 years into the past! To make matters worse, Mukade has already infiltrated the royal court, becoming the naive queen's most trusted minister under the alias Anrokuzan.Joining forces with the three ninjas, Naruto must protect Saara's life without fail to stop the villain's plans and return to the present.[Written by MAL Rewrite]",
+        "studio": "Studio Pierrot",
+        "type": "Movie",
+        "episodes": "1",
+        "cover_path": "assets/covers/CIMG504.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG504.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            6.69,
+            7.69,
+            7.6,
+            6.8,
+            6.99
+        ]
+    },
+    {
+        "anime_id": "A505",
+        "mal_id": 41488,
+        "title": "Tensura Nikki: Tensei shitara Slime Datta Ken",
+        "en_title": "The Slime Diaries",
+        "global_score": 8.08,
+        "genre": [
+            "Comedy",
+            "Fantasy",
+            "Isekai",
+            "Reincarnation",
+            "Shounen"
+        ],
+        "synopsis": "In between slaying monsters and negotiating with neighboring countries, Rimuru Tempest has his hands full attending to his kingdom alongside day-to-day matters. But whether it's expanding the farms in the summer heat or shoveling snow in the chilly winter, no task is too big for Rimuru and his friends![Written by MAL Rewrite]",
+        "studio": "8bit",
+        "type": "TV",
+        "episodes": "12",
+        "cover_path": "assets/covers/CIMG505.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG505.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            7.69,
+            8.59,
+            8.41,
+            7.2,
+            8.5
         ]
     }
 ]

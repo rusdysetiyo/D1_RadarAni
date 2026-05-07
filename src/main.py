@@ -1,16 +1,26 @@
-# This is a sample Python script.
+import flet as ft
+from src.managers.data_manager import DataManager
+from src.managers.auth_manager import AuthManager
+from src.managers.screen_manager import ScreenManager
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main(page: ft.Page):
+    page.title = "RadarAni"
+    page.window.width = 1280
+    page.window.height = 720
+    page.padding = 0
+    page.bgcolor = "#F5EEF2"
 
+    data_manager = DataManager()
+    auth_manager = AuthManager(data_manager)
+    screen_manager = ScreenManager(page, data_manager, auth_manager)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    # Cek apakah ada sesi aktif yang tersimpan, langsung masuk jika ada
+    sesi_user_id = data_manager.baca_sesi()
+    if sesi_user_id and data_manager.get_user_by_id(sesi_user_id):
+        auth_manager.set_user_aktif(sesi_user_id)
+        screen_manager.tampilkan_home()
+    else:
+        screen_manager.tampilkan_login()
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    ft.run(main)

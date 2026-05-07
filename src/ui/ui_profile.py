@@ -8,7 +8,7 @@ import base64
 class UIProfile(ft.Container):
     def __init__(self, page: ft.Page, data_manager, auth_manager, screen_manager):
         super().__init__(expand=True)
-        self.page = page
+        self.my_page = page
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.screen_manager = screen_manager
@@ -83,7 +83,7 @@ class UIProfile(ft.Container):
 
     # Tombol Aksi
     def aksi_tombol_kembali(self, e):
-        self.screen_manager.tampilkan_dashboard()
+        self.screen_manager.tampilkan_home()
 
     def aksi_tombol_hapus_akun(self, e):
         if self.auth_manager.hapus_akun_aktif():

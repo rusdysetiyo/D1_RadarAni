@@ -547,7 +547,7 @@ class UIDetail(ft.Column):
         self.back_btn = ft.TextButton(
             icon=ft.Icons.ARROW_BACK,
             content=ft.Text("Back to Dashboard"),
-            on_click=lambda _: self.screen_manager.tampilkan_dashboard()
+            on_click=lambda _: self.screen_manager.tampilkan_home()
         )
 
         # 2. Konten Utama

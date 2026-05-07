@@ -64,3 +64,7 @@ class ScreenManager:
     def tampilkan_scraping(self):
         from src.ui.ui_scraping import UIScraping
         self.page.run_task(self._jalankan_transisi, "Loading Scraper...", UIScraping)
+
+    def tampilkan_analytics(self):
+        from src.ui.ui_analytics import UIAnalytics
+        self.page.run_task(self._jalankan_transisi, "Loading Analytics...", UIAnalytics)
