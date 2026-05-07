@@ -454,7 +454,7 @@
         "username": "J151carlos",
         "password": "Rad123J151carlos1120@#",
         "created_at": "2026-04-10T04:20:51",
-        "last_login": "2026-04-10T04:20:51",
+        "last_login": "2026-05-06T12:49:37.958212",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A117",
@@ -478,7 +478,7 @@
         "username": "KuronekoSenpai",
         "password": "Rad123KuronekoSenpai1119@#",
         "created_at": "2026-04-02T15:59:50",
-        "last_login": "2026-04-02T15:59:50",
+        "last_login": "2026-05-06T12:54:09.294244",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A327",
@@ -501,7 +501,7 @@
         "username": "Yuki_Kuran",
         "password": "Rad123Yuki_Kuran1040@#",
         "created_at": "2026-04-14T10:25:28",
-        "last_login": "2026-04-14T10:25:28",
+        "last_login": "2026-05-06T13:08:29.519346",
         "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
         "favorit": [
             "A202",
@@ -1710,7 +1710,39 @@
         "username": "a",
         "password": "a",
         "created_at": "2026-05-04 15:12:43",
-        "last_login": "2026-05-04T15:13:49.152035",
+        "last_login": "2026-05-07T18:49:13.571124",
+        "rating_count": 1,
+        "average_score": 9.4,
+        "average_dimensions": [
+            10.0,
+            7.0,
+            10.0,
+            10.0,
+            10.0
+        ]
+    },
+    {
+        "user_id": "U081",
+        "username": "c",
+        "password": "c",
+        "created_at": "2026-05-04 16:43:19",
+        "last_login": "2026-05-04T16:43:22.215262",
+        "rating_count": 0,
+        "average_score": 0.0,
+        "average_dimensions": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "user_id": "U082",
+        "username": "d",
+        "password": "d",
+        "created_at": "2026-05-05 17:09:06",
+        "last_login": "2026-05-05T17:09:08.837277",
         "rating_count": 0,
         "average_score": 0.0,
         "average_dimensions": [

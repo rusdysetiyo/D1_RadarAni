@@ -16,6 +16,11 @@ def main(page: ft.Page):
     page.padding = 0
     page.spacing = 0
 
+    page.fonts = {
+        "Yomogi": "/fonts/Yomogi-Regular.ttf",
+        "KaiseiDecol": "/fonts/KaiseiDecol-Regular.ttf",
+        "DotGothic16": "/fonts/DotGothic16-Regular.ttf",
+    }
 
     page.bgcolor = "transparent"
 
@@ -27,11 +32,7 @@ def main(page: ft.Page):
         )
     )
 
-    page.fonts = {
-        "Zen Maru": "/fonts/ZenMaruGothic-Regular.ttf",
-        "M Plus": "/fonts/MPLUSRounded1c-Regular.ttf"
-    }
-    page.theme = ft.Theme(font_family="Zen Maru")
+    page.theme = ft.Theme(font_family="IBMPlexSansJP")
 
     try:
         page.window.width = 1100
@@ -52,5 +53,4 @@ def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    assets_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
     ft.run(main, assets_dir="assets")

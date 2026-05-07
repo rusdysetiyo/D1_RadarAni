@@ -541,8 +541,8 @@ class UIDetail(ft.Column):
         # 1. Komponen Tombol Back
         self.back_btn = ft.TextButton(
             icon=ft.Icons.ARROW_BACK,
-            content=ft.Text("Back to Home"),
-            on_click=lambda _: self.screen_manager.tampilkan_home()
+            content=ft.Text("Back"),
+            on_click=lambda _: self.screen_manager.kembali_ke_asal()
         )
 
         # 2. Konten Utama

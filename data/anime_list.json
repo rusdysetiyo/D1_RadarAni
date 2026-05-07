@@ -9703,7 +9703,7 @@
         "mal_id": 28977,
         "title": "Gintama°",
         "en_title": "Gintama Season 4",
-        "global_score": 9.11,
+        "global_score": 9.13,
         "genre": [
             "Action",
             "Comedy",
@@ -9720,13 +9720,13 @@
         "episodes": "51",
         "cover_path": "assets/covers/CIMG349.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG349.jpg",
-        "rating_count": 17,
+        "rating_count": 18,
         "global_score_dimensions": [
-            9.18,
-            9.12,
-            8.71,
+            9.23,
             9.0,
-            9.53
+            8.78,
+            9.06,
+            9.56
         ]
     },
     {

@@ -108983,5 +108983,14 @@
             "characterization": 8,
             "direction": 6
         }
+    },
+    "U080": {
+        "A349": {
+            "plot": 10,
+            "visual": 7,
+            "audio": 10,
+            "characterization": 10,
+            "direction": 10
+        }
     }
 }
