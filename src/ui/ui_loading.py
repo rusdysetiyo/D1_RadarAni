@@ -12,10 +12,10 @@ def buat_bloom_screen(pesan: str):
         fit=ft.BoxFit.CONTAIN,
         opacity=0,
         scale=0.3,
-        rotate=ft.Rotate(angle=-0.2, alignment=ft.Alignment(0, 0)),
-        animate_opacity=ft.Animation(duration=600, curve=ft.AnimationCurve.EASE_OUT),
-        animate_scale=ft.Animation(duration=700, curve=ft.AnimationCurve.EASE_OUT),
-        animate_rotation=ft.Animation(duration=700, curve=ft.AnimationCurve.EASE_OUT),
+        rotate=ft.Rotate(angle=-12.56, alignment=ft.Alignment(0, 0)),
+        animate_opacity=ft.Animation(duration=2000, curve=ft.AnimationCurve.DECELERATE),
+        animate_scale=ft.Animation(duration=2500, curve=ft.AnimationCurve.DECELERATE),
+        animate_rotation=ft.Animation(duration=2500, curve=ft.AnimationCurve.DECELERATE),
     )
 
     label = ft.Text(

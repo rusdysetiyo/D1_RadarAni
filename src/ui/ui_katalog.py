@@ -1,6 +1,7 @@
 import flet as ft
 import math
 import os
+from src.ui.icons import _sakura_icon_svg  # Pastikan ini diimport
 
 # ── Section: Konfigurasi Dasar & Tema ────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -22,9 +23,10 @@ CARDS_PER_PAGE = 24
 
 # ── Section: Komponen AnimeCard ──────────────────────────────────────────────
 class AnimeCard(ft.Container):
-    def __init__(self, anime: dict, skor_global, skor_personal, on_click_callback):
+    def __init__(self, anime: dict, skor_global, skor_personal, is_favorite=False, on_click_callback=None):
         super().__init__()
         self.anime = anime
+        self.is_favorite = is_favorite
         self._on_click_cb = on_click_callback
 
         self.width = 140
@@ -36,7 +38,7 @@ class AnimeCard(ft.Container):
         self.border = ft.border.all(1, C_BORDER)
         self.border_radius = 10
         self.clip_behavior = ft.ClipBehavior.HARD_EDGE
-        self.on_click = lambda _: self._on_click_cb(anime.get("anime_id", ""))
+        self.on_click = lambda _: self._on_click_cb(anime.get("anime_id", "")) if on_click_callback else None
         self.on_hover = self._on_hover
         self.scale = 1.0
         self.shadow = None
@@ -44,16 +46,35 @@ class AnimeCard(ft.Container):
 
         is_rated = skor_personal is not None
 
-        badge = ft.Container(
-            content=ft.Text(
-                "★ rated" if is_rated else "not rated",
-                size=8, color=C_WHITE if is_rated else C_TEXT2,
-                weight=ft.FontWeight.BOLD,
-            ),
-            bgcolor=C_SAKURA if is_rated else C_BG2,
-            border=None if is_rated else ft.border.all(1, C_BORDER),
-            border_radius=8,
-            padding=ft.padding.symmetric(horizontal=6, vertical=2),
+        # ── 1. PILL STATUS RATED / UNRATED (Muncul Default) ──
+        if is_rated:
+            pill_bg = "#EC407A"  # Pink terang
+            pill_txt = "★ rated"
+            pill_color = ft.Colors.WHITE
+        else:
+            pill_bg = ft.Colors.with_opacity(0.9, C_BG2)
+            pill_txt = "not rated"
+            pill_color = C_TEXT2
+
+        self._status_pill = ft.Container(
+            content=ft.Text(pill_txt, size=8, color=pill_color, weight=ft.FontWeight.BOLD),
+            bgcolor=pill_bg,
+            border_radius=12,
+            padding=ft.padding.symmetric(horizontal=6, vertical=3),
+            top=8, right=8,
+            opacity=1.0,
+            animate_opacity=ft.Animation(200, ft.AnimationCurve.EASE_OUT)
+        )
+
+        # ── 2. ELEMEN SAKURA FAVORIT (Sembunyi, Muncul pas Hover) ──
+        self._fav_icon = ft.Container(
+            content=ft.Image(src=_sakura_icon_svg(), width=24, height=24),
+            top=-30, right=8,  # Sembunyi di atas
+            opacity=0,
+            animate_position=ft.Animation(300, ft.AnimationCurve.BOUNCE_OUT),
+            animate_opacity=ft.Animation(200, ft.AnimationCurve.EASE_IN_OUT),
+            animate_rotation=ft.Animation(300, ft.AnimationCurve.EASE_OUT),
+            rotate=ft.Rotate(angle=-1)
         )
 
         thumb = anime.get("cover_path", "")
@@ -135,8 +156,7 @@ class AnimeCard(ft.Container):
             controls=[
                 ft.Stack(
                     controls=[
-                        ft.Stack(controls=[poster, self._overlay], width=140, height=162),
-                        ft.Container(content=badge, top=6, right=6),
+                        poster, self._overlay, self._status_pill, self._fav_icon
                     ],
                     width=140, height=162,
                 ),
@@ -148,19 +168,31 @@ class AnimeCard(ft.Container):
     def _on_hover(self, e):
         is_hovered = str(e.data).lower() == "true"
         self._overlay.visible = is_hovered
-        self.border = ft.border.all(1.5 if is_hovered else 1,
-                                    C_SAKURA if is_hovered else C_BORDER)
+
+        if is_hovered:
+            self._status_pill.opacity = 0
+            self._fav_icon.top = 8
+            self._fav_icon.opacity = 1.0 if self.is_favorite else 0.4
+            self._fav_icon.rotate.angle = 0
+        else:
+            self._status_pill.opacity = 1.0
+            self._fav_icon.top = -30
+            self._fav_icon.opacity = 0
+            self._fav_icon.rotate.angle = -1
+
+        self.border = ft.border.all(1.5 if is_hovered else 1, "#EC407A" if is_hovered else C_BORDER)
         self.scale = 1.03 if is_hovered else 1.0
         self.shadow = ft.BoxShadow(
-            spread_radius=1, blur_radius=10,
-            color=ft.Colors.BLACK12, offset=ft.Offset(0, 4),
+            spread_radius=1, blur_radius=12,
+            color=ft.Colors.with_opacity(0.3 if is_hovered else 0.15, "#EC407A") if is_hovered else ft.Colors.BLACK12,
+            offset=ft.Offset(0, 4),
         ) if is_hovered else None
         self.update()
 
 
 # ── Section: Komponen AnimeListItem ──────────────────────────────────────────
 class AnimeListItem(ft.Container):
-    def __init__(self, anime: dict, skor_global, skor_personal, on_click_callback):
+    def __init__(self, anime: dict, skor_global, skor_personal, is_favorite=False, on_click_callback=None):
         super().__init__()
         self._on_click_cb = on_click_callback
 
@@ -172,7 +204,7 @@ class AnimeListItem(ft.Container):
         self.border = ft.border.all(1, C_BORDER)
         self.border_radius = 10
         self.padding = ft.padding.symmetric(horizontal=14, vertical=10)
-        self.on_click = lambda _: on_click_callback(anime.get("anime_id", ""))
+        self.on_click = lambda _: on_click_callback(anime.get("anime_id", "")) if on_click_callback else None
         self.on_hover = self._on_hover
         self.animate = ft.Animation(duration=120, curve=ft.AnimationCurve.EASE_IN_OUT)
 
@@ -215,15 +247,27 @@ class AnimeListItem(ft.Container):
         sp_txt = f"you: {skor_personal:.1f}" if is_rated else "you: N/A"
         sp_col = C_PURPLE if is_rated else C_TEXT3
 
-        rated_badge = ft.Container(
-            content=ft.Text("★ rated" if is_rated else "not rated",
-                            size=8, color=C_WHITE if is_rated else C_TEXT2,
-                            weight=ft.FontWeight.BOLD),
-            bgcolor=C_SAKURA if is_rated else C_BG2,
-            border=None if is_rated else ft.border.all(1, C_BORDER),
-            border_radius=8,
-            padding=ft.padding.symmetric(horizontal=6, vertical=2),
-        )
+        # Badge Logic for List Item
+        if is_favorite:
+            rated_badge = ft.Container(
+                content=ft.Row([
+                    ft.Image(src=_sakura_icon_svg(), width=10, height=10, color=C_WHITE),
+                    ft.Text("FAVORITE", size=8, color=C_WHITE, weight=ft.FontWeight.BOLD)
+                ], spacing=4),
+                bgcolor="#EC407A",
+                border_radius=8,
+                padding=ft.padding.symmetric(horizontal=6, vertical=2),
+            )
+        else:
+            rated_badge = ft.Container(
+                content=ft.Text("★ rated" if is_rated else "not rated",
+                                size=8, color=C_WHITE if is_rated else C_TEXT2,
+                                weight=ft.FontWeight.BOLD),
+                bgcolor="#EC407A" if is_rated else C_BG2,
+                border=None if is_rated else ft.border.all(1, C_BORDER),
+                border_radius=8,
+                padding=ft.padding.symmetric(horizontal=6, vertical=2),
+            )
 
         self.content = ft.Row(
             controls=[
@@ -263,8 +307,7 @@ class AnimeListItem(ft.Container):
             end=ft.Alignment(1, 0),
             colors=["#FDF5F8", "#F5EEF2"] if is_hovered else ["#FFFFFF", "#FDF5F8"]
         )
-        self.border = ft.border.all(1 if not is_hovered else 1.5,
-                                    C_BORDER if not is_hovered else C_SAKURA)
+        self.border = ft.border.all(1.5 if is_hovered else 1, "#EC407A" if is_hovered else C_BORDER)
         self.update()
 
 
@@ -278,7 +321,7 @@ class UIKatalog(ft.Row):
         self.screen_manager = screen_manager
 
         self._filter = filter_kategori if filter_kategori else "all"
-        self._sort = "title"
+        self._sort = "global" if filter_kategori == "trending" else "title"
         self._keyword = ""
         self._halaman = 1
         self._total_pg = 1
@@ -354,7 +397,7 @@ class UIKatalog(ft.Row):
                 ft.DropdownOption(key="global", text="Global Score"),
                 ft.DropdownOption(key="personal", text="Your Score"),
             ],
-            value="title",
+            value=self._sort,
             width=130,
             text_style=ft.TextStyle(size=11, color=C_TEXT),
             dense=True,
@@ -457,6 +500,14 @@ class UIKatalog(ft.Row):
         )
 
         self.controls = [self._sidebar_widget, self._main_col]
+
+        # Tarik data favorit user buat di-cache
+        self._list_favorit_user = []
+        user_id = self.auth_manager.get_user_aktif()
+        if user_id:
+            user_data = self.data_manager.get_user_by_id(user_id) or {}
+            self._list_favorit_user = user_data.get("favorit", [])
+
         self.muat_tabel_anime()
 
     # ── Section: Logika Data & Rendering ─────────────────────────────────────────
@@ -542,9 +593,17 @@ class UIKatalog(ft.Row):
             anime = item[0]
             sp = item[1]
             sg = anime.get("global_score", 0)
+            aid = anime.get("anime_id", "")
+            is_fav = aid in self._list_favorit_user
+
             grid.controls.append(
-                AnimeCard(anime, sg, sp,
-                          on_click_callback=self.screen_manager.tampilkan_detail)
+                AnimeCard(
+                    anime=anime,
+                    skor_global=sg,
+                    skor_personal=sp,
+                    is_favorite=is_fav,  # Kirim param is_favorite
+                    on_click_callback=self.screen_manager.tampilkan_detail
+                )
             )
 
         self._content_area.controls.append(
@@ -557,9 +616,17 @@ class UIKatalog(ft.Row):
             anime = item[0]
             sp = item[1]
             sg = anime.get("global_score", 0)
+            aid = anime.get("anime_id", "")
+            is_fav = aid in self._list_favorit_user
+
             list_col.controls.append(
-                AnimeListItem(anime, sg, sp,
-                              on_click_callback=self.screen_manager.tampilkan_detail)
+                AnimeListItem(
+                    anime=anime,
+                    skor_global=sg,
+                    skor_personal=sp,
+                    is_favorite=is_fav,  # Kirim param is_favorite
+                    on_click_callback=self.screen_manager.tampilkan_detail
+                )
             )
 
         self._content_area.controls.append(
