@@ -14056,5 +14056,33 @@
             7.2,
             8.5
         ]
+    },
+    {
+        "anime_id": "A506",
+        "mal_id": 62001,
+        "title": "Yomi no Tsugai",
+        "en_title": "Daemons of the Shadow Realm",
+        "global_score": 7.91,
+        "trailer_url": "https://www.youtube.com/watch?v=ufD2IvYem0k",
+        "genre": [
+            "Action",
+            "Adventure",
+            "Fantasy",
+            "Shounen"
+        ],
+        "synopsis": "In an isolated village, two twins were born, separated by day and night. It is years later, and while the older brother Yuru has become a hunter of animals, his sister Asa has been locked away in a cage, ordered to perform a special duty that prohibits her from meeting more than a few select individuals.On an otherwise inconspicuous day, a group of armed men riding in helicopters, referred to as \"dragons\" by the citizens, assaults the village in search of Yuru, killing every adult on sight. When Yuru attempts to meet up with Asa and flee, he finds a dead body instead—on top of that, the person who killed her claims to be Yuru's true twin sister.Before the woman can capture him, Yuru is rescued by a man named Ryuu \"Dera\" Tadera, an outsider who frequently visits the village. However, it is not long before the two are cornered. In a last-ditch effort, Dera makes Yuru give a gift to the deity of the village, summoning a pair of daemons whose existence is bound to reveal the truth behind these chaotic events.[Written by MAL Rewrite]",
+        "studio": "Bones Film",
+        "type": "TV",
+        "episodes": "24",
+        "cover_path": "assets/covers/CIMG506.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG506.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            7.1,
+            8.91,
+            6.9,
+            7.9,
+            8.69
+        ]
     }
 ]
