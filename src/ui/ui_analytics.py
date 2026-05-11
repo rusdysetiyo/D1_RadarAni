@@ -191,7 +191,6 @@ class VerticalBarChart(ft.Stack):
         area_h  = h - self.PAD_T - self.PAD_B
         shapes  = []
 
-        # grid + y-labels (right-aligned ke sumbu Y)
         grid_p = ft.Paint(style=ft.PaintingStyle.STROKE,
                           stroke_width=0.7, color="#22000000")
         for frac in [0.25, 0.5, 0.75, 1.0]:
@@ -202,11 +201,9 @@ class VerticalBarChart(ft.Stack):
                  cv.Path.LineTo(w - self.PAD_R, gy)],
                 grid_p,
             ))
-            # right-align: x = PAD_L - 4 (right edge), y = center of grid line
             shapes.append(_cv_text_right(
                 self.PAD_L - 4, gy, label, 9, C_TEXT3))
 
-        # bars
         for i, d in enumerate(self._data):
             bx, by, bw, bh = self._bar_rect(i, w, h)
             is_hov = (i == hovered)
@@ -233,7 +230,6 @@ class VerticalBarChart(ft.Stack):
                 ),
             ))
 
-        # axes
         axis_p = ft.Paint(style=ft.PaintingStyle.STROKE,
                           stroke_width=1, color=C_BORDER)
         shapes.append(cv.Path(
@@ -243,7 +239,6 @@ class VerticalBarChart(ft.Stack):
             axis_p,
         ))
 
-        # title — center atas
         shapes.append(_cv_text_top_center(w / 2, 6, self._title, 12, C_TEXT, bold=True))
 
         self._canvas.shapes = shapes
@@ -264,9 +259,7 @@ class VerticalBarChart(ft.Stack):
             self._redraw(hit)
         if hit >= 0:
             d = self._data[hit]
-            rows = [("Nilai", str(d["value"]))]
-            if d.get("extra"):
-                rows.append(("Info", d["extra"]))
+            rows = [("Jumlah Anime", str(d["value"]))]
             self._tooltip.show_at(mx, my, d["label"], rows)
         else:
             self._tooltip.hide()
@@ -276,10 +269,10 @@ class VerticalBarChart(ft.Stack):
 # HorizontalBarChart
 # ─────────────────────────────────────────────────────────────────────────────
 class HorizontalBarChart(ft.Stack):
-    PAD_L = 130   # ruang lebih untuk nama studio panjang
-    PAD_R = 16    # tidak perlu ruang nilai karena dihapus
+    PAD_L = 130
+    PAD_R = 16
     PAD_T = 30
-    PAD_B = 28    # ruang untuk label sumbu X
+    PAD_B = 28
 
     def __init__(self, bar_data: list, title: str):
         super().__init__(expand=True)
@@ -335,8 +328,6 @@ class HorizontalBarChart(ft.Stack):
                                color=_rgba(color, alpha)),
             ))
 
-            # Label nama studio: rata kiri di x=6, vertikal center bar
-            # Semua label mulai dari x yang sama → otomatis sejajar
             shapes.append(_cv_text_left(
                 6, by + bh / 2,
                 d["label"], 9,
@@ -360,7 +351,6 @@ class HorizontalBarChart(ft.Stack):
                 f"{gval:.1f}", 8, C_TEXT3,
             ))
 
-        # Axes
         axis_p = ft.Paint(style=ft.PaintingStyle.STROKE,
                           stroke_width=1, color=C_BORDER)
         shapes.append(cv.Path(
@@ -392,16 +382,14 @@ class HorizontalBarChart(ft.Stack):
             d = self._data[hit]
             rows = [("Score", f"{d['value']:.2f}")]
             if d.get("extra"):
-                rows.append(("Info", d["extra"]))
+                rows.append(("Jumlah Anime", d["extra"]))
             self._tooltip.show_at(mx, my, d["label"], rows)
         else:
             self._tooltip.hide()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DonutChart — slice digambar sebagai chain of LineTo dari titik-titik arc
-# (cv.Path.Arc tidak melanjut dari posisi pen terakhir, maka kita approx arc
-#  dengan segmen garis yang rapat — 32 segmen per arc cukup smooth)
+# DonutChart
 # ─────────────────────────────────────────────────────────────────────────────
 class DonutChart(ft.Stack):
     def __init__(self, data: list, title: str):
@@ -459,13 +447,12 @@ class DonutChart(ft.Stack):
             ocx    = cx + expand * math.cos(mid_a)
             ocy    = cy + expand * math.sin(mid_a)
 
-            # Outer arc points (clockwise)
+
             outer_pts = _arc_points(ocx, ocy, outer_r, sa, sw)
-            # Inner arc points (counter-clockwise = reverse)
+
             inner_pts = _arc_points(ocx, ocy, inner_r, sa, sw)
             inner_pts_rev = list(reversed(inner_pts))
 
-            # Build path: outer arc → line to inner end → inner arc reversed → close
             elements = [cv.Path.MoveTo(*outer_pts[0])]
             for pt in outer_pts[1:]:
                 elements.append(cv.Path.LineTo(*pt))
@@ -480,7 +467,6 @@ class DonutChart(ft.Stack):
                                color=_rgba(color, alpha)),
             ))
 
-            # White border stroke along outer arc only
             border_els = [cv.Path.MoveTo(*outer_pts[0])]
             for pt in outer_pts[1:]:
                 border_els.append(cv.Path.LineTo(*pt))
@@ -494,7 +480,7 @@ class DonutChart(ft.Stack):
         leg_x  = self._w * 0.52 + 8
         row_h  = 20
         n      = len(self._data)
-        # vertikal center legend
+
         total_leg_h = n * row_h
         leg_start_y = (self._h - total_leg_h) / 2 + 10
 
@@ -502,9 +488,8 @@ class DonutChart(ft.Stack):
             is_hov   = (i == hovered)
             color    = CHART_COLORS[i % len(CHART_COLORS)]
             leg_alph = 1.0 if (is_hov or hovered == -1) else 0.38
-            ly       = leg_start_y + i * row_h + row_h / 2  # vertikal center baris
+            ly       = leg_start_y + i * row_h + row_h / 2
 
-            # color box — top-left: (leg_x, ly - box/2)
             box = 9
             shapes.append(cv.Rect(
                 x=leg_x, y=ly - box / 2,
@@ -513,7 +498,6 @@ class DonutChart(ft.Stack):
                 paint=ft.Paint(style=ft.PaintingStyle.FILL,
                                color=_rgba(color, leg_alph)),
             ))
-            # text left-aligned setelah box
             txt = f"{d['label']}  {d['value']} ({d['pct']:.1f}%)"
             shapes.append(_cv_text_left(
                 leg_x + box + 5, ly, txt, 10,
@@ -682,7 +666,7 @@ class UIAnalytics(ft.Row):
                 genres_counter[g] += 1
         genre_data = [{"label": g, "value": cnt, "extra": None}
                       for g, cnt in genres_counter.most_common(10)]
-        chart1 = VerticalBarChart(genre_data, "Top 10 Genres", y_label="Jumlah Anime")
+        chart1 = VerticalBarChart(genre_data, "Most Common Genres", y_label="Jumlah Anime")
 
         # Chart 2 — Episodes
         bin_labels = ["1–12", "13–24", "25–36", "37–48", "49–100", "100+"]
@@ -724,10 +708,10 @@ class UIAnalytics(ft.Row):
         studio_data = [
             {"label": kv[0],
              "value": round(sum(kv[1]) / len(kv[1]), 2),
-             "extra": f"n={len(kv[1])}"}
+             "extra": f"{len(kv[1])}"}
             for kv in top10
         ]
-        chart4 = HorizontalBarChart(studio_data, "Top 10 Studios – Avg Score")
+        chart4 = HorizontalBarChart(studio_data, "Average Scores of the Top 10 Most Active Studios")
 
         row1 = ft.Row(
             controls=[_chart_card(chart1), _chart_card(chart2)],
