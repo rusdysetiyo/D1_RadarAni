@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import flet as ft
 import matplotlib
 matplotlib.use("Agg")
@@ -8,48 +9,64 @@ import base64
 class UIProfile(ft.Container):
     def __init__(self, page: ft.Page, data_manager, auth_manager, screen_manager):
         super().__init__(expand=True)
-        self.page = page
+        self._page = page
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.screen_manager = screen_manager
         
         self.content = self.bangun_ui()
 
+    # Warna tema
+    _PINK_DARK = "#b5476e"
+    _PINK_MID = "#e07aaa"
+    _PINK_LIGHT = "#fce8f0"
+    _PINK_BORDER = "#f3d8e8"
+    _TEXT_DARK = "#3D2535"
+    _TEXT_MUTED = "#b08090"
+    _BG = "#fdf6f9"
+    _WHITE = "#ffffff"
+
     # Chart
     def gambar_bar_chart(self, rata_rata: dict) -> str:
         dimensi = list(rata_rata.keys())
         nilai = list(rata_rata.values())
 
-        fig, ax = plt.subplots(figsize=(5.2, 2.6))
+        fig, ax = plt.subplots(figsize=(8.0, 3.0))
         fig.patch.set_facecolor(self._BG)
         ax.set_facecolor(self._BG)
 
-        bar_color = "#d84b8a"
+        bar_color  = "#d84b8a"
         track_color = "#f3d8e8"
-        max_nilai = 10
+        line_color  = "#ffffff"
+        max_nilai  = 10
+        bar_height = 0.22   # tipis
+        line_width = 1.4    # garis tengah pada batang
 
         for i, (dim, val) in enumerate(zip(dimensi, nilai)):
-            # Background
-            ax.barh(i, max_nilai, color=track_color, height=0.5, zorder=1)
+            # Track (background bar)
+            ax.barh(i, max_nilai, color=track_color, height=bar_height, zorder=1)
             # Bar isi
-            ax.barh(i, val, color=bar_color, height=0.5, zorder=2)
-            # Label Nilai
-            ax.text(max_nilai + 0.1, i, str(val),
-                    va="center", ha="left", fontsize=9,
+            ax.barh(i, val, color=bar_color, height=bar_height, zorder=2)
+            # Garis tengah horizontal di atas batang (seperti outline/stroke)
+            ax.plot([0, val], [i, i], color=line_color,
+                    linewidth=line_width, zorder=3, solid_capstyle="round")
+            # Label nilai
+            ax.text(max_nilai + 0.15, i, str(val),
+                    va="center", ha="left", fontsize=10,
                     fontweight="bold", color="#2d1a2e")
 
         ax.set_yticks(range(len(dimensi)))
-        ax.set_yticklabels(dimensi, fontsize=9, color="#6b4460", fontweight="600")
-        ax.set_xlim(0, max_nilai + 0.8)
+        ax.set_yticklabels(dimensi, fontsize=10, color="#6b4460", fontweight="600")
+        ax.set_xlim(0, max_nilai + 0.9)
         ax.set_ylim(-0.6, len(dimensi) - 0.4)
         ax.invert_yaxis()
         ax.xaxis.set_visible(False)
         ax.spines[:].set_visible(False)
         ax.tick_params(left=False)
-        plt.tight_layout(pad=0.4)
+        plt.tight_layout(pad=0.6)
 
         buf = io.BytesIO()
-        plt.savefig(buf, format="png", dpi=120, facecolor=fig.get_facecolor())
+        plt.savefig(buf, format="png", dpi=150, facecolor=fig.get_facecolor())
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode("utf-8")
@@ -83,11 +100,11 @@ class UIProfile(ft.Container):
 
     # Tombol Aksi
     def aksi_tombol_kembali(self, e):
-        self.screen_manager.tampilkan_dashboard()
+        self.screen_manager.tampilkan_home()
 
     def aksi_tombol_hapus_akun(self, e):
-        if self.auth_manager.hapus_akun_aktif():
-            self.screen_manager.tampilkan_login()
+        self.auth_manager.hapus_akun_aktif()
+        self.screen_manager.tampilkan_login()
 
 
     # Muat Data
@@ -108,17 +125,6 @@ class UIProfile(ft.Container):
 
     # Widget
 
-    # Warna tema
-    _PINK_DARK = "#b5476e"
-    _PINK_MID = "#e07aaa"
-    _PINK_LIGHT = "#fce8f0"
-    _PINK_BORDER = "#f3d8e8"
-    _TEXT_DARK = "#3D2535"
-    _TEXT_MUTED = "#b08090"
-    _BG = "#fdf6f9"
-    _WHITE = "#ffffff"
-
-
     def _info_row(self, label: str, value: str, is_last: bool = False) -> ft.Container:
         # Baris Tabel Info Akun
         return ft.Container(
@@ -136,14 +142,13 @@ class UIProfile(ft.Container):
         )
 
 
-    def _anime_item(self, rank: int, emoji: str, judul: str, genre: str) -> ft.Container:
+    def _anime_item(self, rank: int, judul: str, genre: str) -> ft.Container:
         # Satu Baris Item Anime Favorit
         return ft.Container(
             content=ft.Row(
                 controls=[
                     ft.Text(f"#{rank}", size=11, color=self._PINK_MID,
                             weight=ft.FontWeight.W_800, width=22),
-                    ft.Text(emoji, size=16),
                     ft.Text(judul, size=12, color=self._TEXT_DARK,
                             weight=ft.FontWeight.BOLD, expand=True),
                     ft.Container(
@@ -163,6 +168,26 @@ class UIProfile(ft.Container):
             padding=ft.padding.symmetric(horizontal=10, vertical=8),
         )
 
+    # Ketika data tidak tersedia
+    def _empty_state(self, pesan: str) -> ft.Container:
+            return ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Icon(ft.Icons.INBOX_OUTLINED, color=self._PINK_BORDER, size=28),
+                        ft.Text(pesan, size=11, color=self._TEXT_MUTED,
+                                text_align=ft.TextAlign.CENTER),
+                    ],
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=4,
+                ),
+                bgcolor="#fdf0f5",
+                border=ft.border.all(1, self._PINK_BORDER),
+                border_radius=10,
+                padding=ft.padding.symmetric(horizontal=10, vertical=14),
+                alignment=ft.Alignment(0, 0),
+                width=float("inf"),
+            )
+
 
     def _section_title(self, teks: str) -> ft.Text:
         return ft.Text(
@@ -170,53 +195,51 @@ class UIProfile(ft.Container):
             size=10,
             color=self._TEXT_MUTED,
             weight=ft.FontWeight.W_800,
-            letter_spacing=1.2,
+            style=ft.TextStyle(letter_spacing=1.2),
         )
 
 
     def _chart_card(
         self,
         judul_label: str,
-        fn_label: str,
         chart_widget: ft.Control,
-        footer_text: str,
+        footer_label: str,
+        body_height: int = None,
     ) -> ft.Container:
         # Card Pembungkus Chart (bar / pie)
+        body = ft.Container(
+            content=chart_widget,
+            padding=14,
+            height=body_height,
+        )
         return ft.Container(
             content=ft.Column(
                 controls=[
                     # Header
                     ft.Container(
-                        content=ft.Row(
-                            controls=[
-                                ft.Text(judul_label.upper(), size=10,
-                                        color=self._TEXT_MUTED, weight=ft.FontWeight.W_800,
-                                        letter_spacing=1.1),
-                                ft.Container(
-                                    content=ft.Text(fn_label, size=10,
-                                                    color=self._PINK_DARK,
-                                                    font_family="monospace",
-                                                    weight=ft.FontWeight.BOLD),
-                                    bgcolor=self._PINK_BORDER,
-                                    border_radius=6,
-                                    padding=ft.padding.symmetric(horizontal=8, vertical=3),
-                                ),
-                            ],
-                            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                        content=ft.Text(
+                            judul_label.upper(), size=10,
+                            color=self._TEXT_MUTED, weight=ft.FontWeight.W_800,
+                            style=ft.TextStyle(letter_spacing=1.1),
                         ),
                         bgcolor=self._BG,
                         padding=ft.padding.symmetric(horizontal=14, vertical=10),
                         border=ft.border.only(bottom=ft.BorderSide(1, self._PINK_BORDER)),
+                        expand=True,
                     ),
                     # Body
-                    ft.Container(chart_widget, padding=14),
+                    body,
                     # Footer
                     ft.Container(
-                        content=ft.Text(footer_text, size=10, color=self._TEXT_MUTED,
-                                        italic=True),
+                        content=ft.Text(
+                            footer_label.upper(), size=10,
+                            color=self._TEXT_MUTED, weight=ft.FontWeight.W_800,
+                            style=ft.TextStyle(letter_spacing=1.1),
+                        ),
                         bgcolor=self._BG,
-                        padding=ft.padding.symmetric(horizontal=14, vertical=8),
+                        padding=ft.padding.symmetric(horizontal=14, vertical=10),
                         border=ft.border.only(top=ft.BorderSide(1, self._PINK_BORDER)),
+                        expand=True,
                     ),
                 ],
                 spacing=0,
@@ -224,6 +247,7 @@ class UIProfile(ft.Container):
             border=ft.border.all(1, self._PINK_BORDER),
             border_radius=12,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            expand=True,
         )
 
 
@@ -242,6 +266,117 @@ class UIProfile(ft.Container):
         )
 
 
+    def _no_rating_placeholder(self) -> ft.Container:
+        """Panel kanan ketika user belum pernah memberi rating sama sekali."""
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Icon(ft.Icons.STAR_BORDER_ROUNDED, color=self._PINK_BORDER, size=52),
+                    ft.Text("Belum Ada Rating", size=16, weight=ft.FontWeight.W_800,
+                            color=self._TEXT_DARK, text_align=ft.TextAlign.CENTER),
+                    ft.Text(
+                        "Kamu belum pernah memberi rating anime apapun.\n"
+                        "Mulai eksplorasi katalog dan beri penilaianmu!",
+                        size=12, color=self._TEXT_MUTED,
+                        text_align=ft.TextAlign.CENTER,
+                    ),
+                    ft.Container(
+                        content=ft.Text(">> Buka Katalog", size=12, color=self._PINK_DARK,
+                                        weight=ft.FontWeight.W_700),
+                        bgcolor=self._PINK_LIGHT,
+                        border=ft.border.all(1.5, "#e8b4cb"),
+                        border_radius=20,
+                        padding=ft.padding.symmetric(horizontal=18, vertical=8),
+                    ),
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=12,
+            ),
+            expand=True,
+            alignment=ft.Alignment(0, 0),
+        )
+
+    def _partial_rating_placeholder(self, statistik: dict, genre_proporsi: dict) -> ft.Container:
+        """
+        Panel kanan ketika user sudah rating tapi data tidak lengkap:
+        - ada statistik tapi tidak ada genre, atau sebaliknya.
+        Tetap tampilkan chart yang ada + pesan untuk bagian yang kosong.
+        """
+        ada_statistik = bool(statistik)
+        ada_genre     = bool(genre_proporsi)
+
+        # Bar chart (jika ada)
+        if ada_statistik:
+            bar_b64   = self.gambar_bar_chart(statistik)
+            bar_image = ft.Image(
+                src=f"data:image/png;base64,{bar_b64}",
+                fit="contain",
+                expand=True,
+            )
+            bar_card  = self._chart_card(
+                judul_label="Bar Chart - Rata-Rata Dimensi",
+                chart_widget=bar_image,
+                footer_label="Rata-rata dari semua rating yang diberikan",
+                body_height=180,
+            )
+        else:
+            bar_card = self._empty_state("Data statistik belum tersedia.\nBeri rating pada beberapa anime.")
+
+        # Pie chart (jika ada)
+        if ada_genre:
+            pie_b64   = self.gambar_pie_chart(genre_proporsi)
+            genre_colors = ["#c06080", "#e07aaa", "#f5b8d0", "#f8d0e4", "#b08090"]
+            legend_items = [
+                self._legend_item(genre_colors[i % len(genre_colors)], label, f"{pct}%")
+                for i, (label, pct) in enumerate(genre_proporsi.items())
+            ]
+            pie_body = ft.Row(
+                controls=[
+                    ft.Container(
+                        content=ft.Image(
+                            src=f"data:image/png;base64,{pie_b64}",
+                            fit="contain",
+                        ),
+                        expand=1,
+                        alignment=ft.Alignment(0, 0),
+                    ),
+                    ft.Container(
+                        content=ft.Column(legend_items, spacing=8),
+                        expand=1,
+                        alignment=ft.Alignment(-1, 0),
+                    ),
+                ],
+                spacing=0,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            )
+            pie_card = self._chart_card(
+                judul_label="Pie Chart - Proporsi Genre Favorit",
+                chart_widget=pie_body,
+                footer_label="Top 5 genre dari semua anime yang dirating",
+                body_height=160,
+            )
+        else:
+            pie_card = self._empty_state("Data genre belum tersedia.\nBeri rating pada lebih banyak anime.")
+
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Text("Statistik Penilaian", size=17,
+                            weight=ft.FontWeight.W_800, color=self._TEXT_DARK),
+                    ft.Text("Berdasarkan semua rating yang telah kamu berikan",
+                            size=11, color=self._TEXT_MUTED),
+                    bar_card,
+                    pie_card,
+                    ft.Container(height=8),
+                ],
+                spacing=18,
+                scroll=ft.ScrollMode.AUTO,
+            ),
+            expand=True,
+            padding=ft.padding.symmetric(horizontal=20, vertical=22),
+        )
+
     # Bangun UI
     def bangun_ui(self) -> ft.Control:
 
@@ -249,25 +384,25 @@ class UIProfile(ft.Container):
         data = self.muat_data_profil()
         user = data["user"]
         statistik = data["statistik"]          # dict dimensi → nilai
-        anime_list = data["anime"]             # list of dict {rank, emoji, judul, genre}
+        anime_list = data["anime"]             # list of dict {rank, judul, genre}
         genre_proporsi = data["genre"]         # dict genre → persen
 
+        ada_statistik = bool(statistik)
+        ada_genre     = bool(genre_proporsi)
+        ada_anime     = bool(anime_list)
 
-        # 2. Render chart ke base64
-        bar_b64 = self.gambar_bar_chart(statistik)
-        pie_b64 = self.gambar_pie_chart(genre_proporsi)
 
-
-        # 3. Panel Kiri
+        # 2. Panel Kiri
         # Avatar
         avatar = ft.Container(
             content=ft.Text("桜", size=36, color=self._PINK_DARK,
-                            font_family="serif", text_align=ft.TextAlign.CENTER),
+                            text_align=ft.TextAlign.CENTER,
+                            style=ft.TextStyle(font_family="serif")),
             width=88, height=88,
             border_radius=44,
             border=ft.border.all(2.5, "#e8b4cb"),
             bgcolor=self._PINK_LIGHT,
-            alignment=ft.alignment.center,
+            alignment=ft.Alignment(0, 0),
         )
 
         # Tabel Info Akun
@@ -284,27 +419,40 @@ class UIProfile(ft.Container):
         )
 
         # list Anime Favorit
-        anime_items = [
-            self._anime_item(a["rank"], a["emoji"], a["judul"], a["genre"])
-            for a in anime_list
-        ]
+        if anime_list:
+            anime_section_content = ft.Column(
+                controls=[
+                    self._anime_item(
+                        rank=i + 1,
+                        judul=a.get("title", "Unknown"),
+                        genre=", ".join(a.get("genre", [])[:1]) or "-",
+                    )
+                    for i, a in enumerate(anime_list)
+                ],
+                spacing=7,
+            )
+        else:
+            anime_section_content = self._empty_state("Belum ada anime favorit.\nBeri rating untuk anime agar muncul di sini.")
+
 
         # Tombol Hapus Akun
         tombol_hapus = ft.ElevatedButton(
-            text="Hapus Akun",
-            icon=ft.Icons.DELETE_OUTLINE_ROUNDED,
+            content=ft.Row(
+                controls=[
+                    ft.Icon(ft.Icons.DELETE_OUTLINE_ROUNDED, color=self._WHITE, size=16),
+                    ft.Text("Hapus Akun", color=self._WHITE, size=13,
+                            weight=ft.FontWeight.W_800,
+                            style=ft.TextStyle(letter_spacing=0.3)),
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=6,
+            ),
             on_click=lambda e: self.aksi_tombol_hapus_akun(e),
             style=ft.ButtonStyle(
-                color=self._WHITE,
                 bgcolor=self._PINK_DARK,
                 overlay_color=ft.Colors.with_opacity(0.12, self._WHITE),
                 shape=ft.RoundedRectangleBorder(radius=10),
                 padding=ft.padding.symmetric(horizontal=0, vertical=11),
-                text_style=ft.TextStyle(
-                    size=13,
-                    weight=ft.FontWeight.W_800,
-                    letter_spacing=0.3,
-                ),
             ),
             width=float("inf"),
         )
@@ -324,91 +472,114 @@ class UIProfile(ft.Container):
                     account_info_card,
                     ft.Container(height=2),
                     self._section_title("Anime Favorit"),
-                    ft.Column(anime_items, spacing=7),
+                    anime_section_content,
                     ft.Container(height=2),
                     tombol_hapus,
                 ],
                 spacing=10,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                scroll=ft.ScrollMode.AUTO,
             ),
             width=265,
             padding=ft.padding.symmetric(horizontal=20, vertical=24),
             border=ft.border.only(right=ft.BorderSide(1, self._PINK_BORDER)),
+            expand_loose=True,
         )
 
 
-        # 4. Panel Kanan
-        # Bar Chart
-        bar_image = ft.Image(
-            src_base64=bar_b64,
-            width=440,
-            fit=ft.ImageFit.CONTAIN,
-        )
-        bar_card = self._chart_card(
-            judul_label="Bar Chart — Rata-Rata Dimensi",
-            fn_label="gambar_bar_chart()",
-            chart_widget=bar_image,
-            footer_text="Di Flet: ft.Container berisi MatplotlibChart ...",
-        )
+        # 3. Panel Kanan
+        # Skenario 1: belum rating sama sekali
+        if not ada_statistik and not ada_genre:
+            panel_kanan = self._no_rating_placeholder()
 
-        # Pie Chart + Legend
-        pie_image = ft.Image(
-            src_base64=pie_b64,
-            width=110,
-            height=110,
-            fit=ft.ImageFit.CONTAIN,
-        )
-        genre_colors = ["#c06080", "#e07aaa", "#f5b8d0", "#f8d0e4", "#b08090"]
-        legend_items = [
-            self._legend_item(genre_colors[i], label, f"{pct}%")
-            for i, (label, pct) in enumerate(genre_proporsi.items())
-        ]
-        pie_body = ft.Row(
-            controls=[
-                pie_image,
-                ft.Column(legend_items, spacing=6, expand=True),
-            ],
-            spacing=16,
-            vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        )
-        pie_card = self._chart_card(
-            judul_label="Pie Chart — Proporsi Genre Favorit",
-            fn_label="gambar_pie_chart()",
-            chart_widget=pie_body,
-            footer_text="Di Flet: ft.Container berisi MatplotlibChart ...",
-        )
+        # Skenario 2: sudah rating sebagian (salah satu chart ada, yang lain kosong)
+        elif not (ada_statistik and ada_genre):
+            panel_kanan = self._partial_rating_placeholder(statistik, genre_proporsi)
 
-        panel_kanan = ft.Container(
-            content=ft.Column(
+        # Skenario 3: data lengkap - tampilkan kedua chart penuh
+        else:
+            bar_b64   = self.gambar_bar_chart(statistik)
+            bar_image = ft.Image(
+                src=f"data:image/png;base64,{bar_b64}",
+                fit="contain",
+                expand=True,
+            )
+            bar_card  = self._chart_card(
+                judul_label="Bar Chart - Rata-Rata Dimensi",
+                chart_widget=bar_image,
+                footer_label="Rata-rata dari semua rating yang diberikan",
+                body_height=180,
+            )
+
+            pie_b64   = self.gambar_pie_chart(genre_proporsi)
+            genre_colors = ["#c06080", "#e07aaa", "#f5b8d0", "#f8d0e4", "#b08090"]
+            legend_items = [
+                self._legend_item(genre_colors[i % len(genre_colors)], label, f"{pct}%")
+                for i, (label, pct) in enumerate(genre_proporsi.items())
+            ]
+            pie_body = ft.Row(
                 controls=[
-                    ft.Column(
-                        controls=[
-                            ft.Text("Statistik Penilaian", size=17,
-                                    weight=ft.FontWeight.W_800, color=self._TEXT_DARK),
-                        ],
-                        spacing=2,
+                    # Pie: 50% dari lebar card
+                    ft.Container(
+                        content=ft.Image(
+                            src=f"data:image/png;base64,{pie_b64}",
+                            fit="contain",
+                        ),
+                        expand=1,
+                        alignment=ft.Alignment(0, 0),
                     ),
-                    bar_card,
-                    pie_card,
+                    # Legend: 50% dari lebar card
+                    ft.Container(
+                        content=ft.Column(legend_items, spacing=8),
+                        expand=1,
+                        alignment=ft.Alignment(-1, 0),
+                    ),
                 ],
-                spacing=18,
-            ),
-            expand=True,
-            padding=ft.padding.symmetric(horizontal=20, vertical=22),
-        )
+                spacing=0,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            )
+            pie_card = self._chart_card(
+                judul_label="Pie Chart - Proporsi Genre Favorit",
+                chart_widget=pie_body,
+                footer_label="Top 5 genre dari semua anime yang dirating",
+                body_height=160,
+            )
+
+            panel_kanan = ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text("Statistik Penilaian", size=17,
+                                weight=ft.FontWeight.W_800, color=self._TEXT_DARK),
+                        ft.Text("Berdasarkan semua rating yang telah kamu berikan",
+                                size=11, color=self._TEXT_MUTED),
+                        bar_card,
+                        pie_card,
+                        ft.Container(height=8),
+                    ],
+                    spacing=18,
+                    scroll=ft.ScrollMode.AUTO,
+                ),
+                expand=True,
+                padding=ft.padding.symmetric(horizontal=20, vertical=22),
+            )
 
 
-        # 5. Tombol Back
+        # 4. Tombol Back
         tombol_kembali = ft.OutlinedButton(
-            text="Back to Dashboard",
-            icon=ft.Icons.CHEVRON_LEFT,
+            content=ft.Row(
+                controls=[
+                    ft.Icon(ft.Icons.CHEVRON_LEFT, color=self._PINK_DARK, size=16),
+                    ft.Text("Back to Dashboard", color=self._PINK_DARK, size=12,
+                            weight=ft.FontWeight.W_600),
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=4,
+            ),
             on_click=lambda e: self.aksi_tombol_kembali(e),
             style=ft.ButtonStyle(
-                color=self._PINK_DARK,
                 side=ft.BorderSide(1.5, "#e8b4cb"),
                 shape=ft.RoundedRectangleBorder(radius=20),
                 padding=ft.padding.symmetric(horizontal=14, vertical=5),
-                text_style=ft.TextStyle(size=12, weight=ft.FontWeight.W_600),
             ),
         )
 
@@ -419,7 +590,7 @@ class UIProfile(ft.Container):
         )
 
         
-        # 6. Layout utama
+        # 5. Layout utama
         layout = ft.Container(
             content=ft.Column(
                 controls=[
@@ -442,6 +613,7 @@ class UIProfile(ft.Container):
                 color=ft.Colors.with_opacity(0.10, "#dc6496"),
             ),
             expand=True,
+            clip_behavior=ft.ClipBehavior.HARD_EDGE,
         )
 
         return layout

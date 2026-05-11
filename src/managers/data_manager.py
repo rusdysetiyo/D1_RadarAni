@@ -525,9 +525,125 @@ class DataManager:
 
         return rekomendasi_final
 
+    def get_avg_dimensi_user(self, user_id: str) -> dict:
+        """
+        Ambil rata-rata tiap dimensi milik user dari users.json (O(1) — sudah dihitung
+        oleh _update_user_stats setiap kali user save/hapus rating).
+ 
+        Return:
+            {
+                "Story / Plot":      8.4,
+                "Visual":            8.1,
+                "Audio":             7.9,
+                "Characterization":  8.6,
+                "Direction":         8.0,
+            }
+            atau {} jika user belum pernah rating (rating_count == 0).
+        """
+        user = self.get_user_by_id(user_id)
+        if not user or user.get("rating_count", 0) == 0:
+            return {}
+ 
+        dim_list = user.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        label_urutan = ["Story / Plot", "Visual", "Audio", "Characterization", "Direction"]
+ 
+        return {label: round(val, 1) for label, val in zip(label_urutan, dim_list)}
+ 
+    def get_anime_favorit(self, user_id: str) -> list:
+        """
+        Kembalikan top-4 anime favorit user berdasarkan:
+          1. List 'favorit' yang di-toggle user (prioritas utama)
+          2. Fallback: anime dengan skor personal tertinggi dari ratings.json
+ 
+        Return:
+            [
+                {"rank": 1, "judul": "Demon Slayer", "genre": "Action"},
+                ...
+            ]
+            atau [] jika belum ada data.
+        """
+        # Prioritas 1: anime yang di-toggle favorit
+        favorit_details = self.get_anime_favorit_user(user_id)  # sudah ada di DataManager
+        if favorit_details:
+            hasil = []
+            for rank, anime in enumerate(favorit_details[:4], start=1):
+                genre_list = anime.get("genre", [])
+                hasil.append({
+                    "rank":  rank,
+                    "judul": anime.get("title", "-"),
+                    "genre": genre_list[0] if genre_list else "-",
+                })
+            return hasil
+ 
+        # Fallback: ambil dari ratings, urutkan berdasarkan skor personal
+        ratings = self._read_json(self.ratings_file) or {}
+        user_ratings = ratings.get(user_id, {})
+        if not user_ratings:
+            return []
+ 
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+        skor_per_anime = {}
+        for anime_id, skor_dict in user_ratings.items():
+            vals = [skor_dict.get(d, 0) for d in urutan_dimensi]
+            skor_per_anime[anime_id] = sum(vals) / len(vals) if vals else 0
+ 
+        top4 = sorted(skor_per_anime.items(), key=lambda x: x[1], reverse=True)[:4]
+ 
+        hasil = []
+        for rank, (anime_id, _) in enumerate(top4, start=1):
+            detail = self.get_detail_anime(anime_id)
+            if not detail:
+                continue
+            genre_list = detail.get("genre", [])
+            hasil.append({
+                "rank":  rank,
+                "judul": detail.get("title", "-"),
+                "genre": genre_list[0] if genre_list else "-",
+            })
+        return hasil
+ 
+    def get_top_genre_user(self, user_id: str) -> dict:
+        """
+        Hitung proporsi genre dari semua anime yang pernah dirating user.
+ 
+        Return:
+            {"Action": 32, "Fantasy": 25, "Thriller": 18, "Sci-Fi": 14, "Slice of Life": 11}
+            atau {} jika belum ada rating.
+        """
+        ratings = self._read_json(self.ratings_file) or {}
+        user_ratings = ratings.get(user_id, {})
+        if not user_ratings:
+            return {}
+ 
+        genre_count = {}
+        for anime_id in user_ratings:
+            detail = self.get_detail_anime(anime_id)
+            if not detail:
+                continue
+            for g in detail.get("genre", []):
+                genre_count[g] = genre_count.get(g, 0) + 1
+ 
+        if not genre_count:
+            return {}
+ 
+        total = sum(genre_count.values())
+        top5  = sorted(genre_count.items(), key=lambda x: x[1], reverse=True)[:5]
+ 
+        hasil = {}
+        sisa  = 100
+        for i, (genre, count) in enumerate(top5):
+            if i == len(top5) - 1:
+                pct = sisa
+            else:
+                pct = round(count / total * 100)
+            hasil[genre] = pct
+            sisa -= pct
+ 
+        return hasil
+
 
 # ===============
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
-    print("Pengujian")
+   print("Pengujian")
