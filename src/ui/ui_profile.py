@@ -422,8 +422,12 @@ class UIProfile(ft.Container):
         if anime_list:
             anime_section_content = ft.Column(
                 controls=[
-                    self._anime_item(a["rank"], a["judul"], a["genre"])
-                    for a in anime_list
+                    self._anime_item(
+                        rank=i + 1,
+                        judul=a.get("title", "Unknown"),
+                        genre=", ".join(a.get("genre", [])[:1]) or "-",
+                    )
+                    for i, a in enumerate(anime_list)
                 ],
                 spacing=7,
             )
