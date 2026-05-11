@@ -454,26 +454,20 @@ class DataManager:
 
     def get_rekomendasi_multidimensi(self, dimensi_favorit, id_anime_ditonton):
         """
-        [ALGORITMA REKOMENDASI FINAL - MENGATASI SEMUA EDGE CASES]
-        Versi Super Cepat (O(N)) - Menggunakan Denormalisasi Data anime_list.json
+        [ALGORITMA REKOMENDASI]
         """
-        # Langsung ambil data matang dari cache anime tanpa nyentuh ratings.json
         semua_anime = self.get_semua_anime()
         if not semua_anime:
             return None
 
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
 
-        # Cari index urutan dimensi favorit user (Misal: Plot = 0, Visual = 1)
         index_favorit = [urutan_dimensi.index(d) for d in dimensi_favorit if d in urutan_dimensi]
 
         rata_rata_kandidat = {}
         jumlah_reviewer = {}
         MINIMUM_REVIEW = 3
 
-        # =========================================================
-        # FASE 1 & 2: PENGUMPULAN DATA & FILTER AMBANG BATAS
-        # =========================================================
         for anime in semua_anime:
             id_anime = anime.get("anime_id")
             if id_anime in id_anime_ditonton:
@@ -485,44 +479,24 @@ class DataManager:
                 # Ambil list skor 5 dimensi
                 dimensi_global = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
 
-                # Ekstrak nilai HANYA pada index dimensi yang disukai user
+                # Ekstrak nilai pada index dimensi yang disukai user
                 skor_relevan = [dimensi_global[i] for i in index_favorit]
 
                 if skor_relevan:
                     rata_rata_kandidat[id_anime] = sum(skor_relevan) / len(skor_relevan)
                     jumlah_reviewer[id_anime] = count
 
-        # Jika tidak ada anime yang mencapai target review (Turunkan standar)
-        if not rata_rata_kandidat:
-            for anime in semua_anime:
-                id_anime = anime.get("anime_id")
-                if id_anime in id_anime_ditonton:
-                    continue
-
-                count = anime.get("rating_count", 0)
-                if count >= 1:  # Minimal 1 penilai deh
-                    dimensi_global = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
-                    skor_relevan = [dimensi_global[i] for i in index_favorit]
-
-                    if skor_relevan:
-                        rata_rata_kandidat[id_anime] = sum(skor_relevan) / len(skor_relevan)
-                        jumlah_reviewer[id_anime] = count
-
         if not rata_rata_kandidat:
             return None
 
-        # =========================================================
-        # FASE 3: PENCARIAN SKOR TERTINGGI
-        # =========================================================
+        # mencari skor tertinggi
         skor_tertinggi = max(rata_rata_kandidat.values())
         kandidat_teratas = [id_anime for id_anime, skor in rata_rata_kandidat.items() if skor == skor_tertinggi]
 
         if len(kandidat_teratas) == 1:
             return kandidat_teratas[0]
 
-        # =========================================================
-        # FASE 4: TIE-BREAKER TAHAP 1 (ADU JUMLAH REVIEWER)
-        # =========================================================
+        # kalau nilai rata rata global skor sama, dilihat dari jumlah reviewer
         kandidat_tahap_dua = []
         reviewer_terbanyak = -1
 
@@ -538,14 +512,11 @@ class DataManager:
         if len(kandidat_tahap_dua) == 1:
             return kandidat_tahap_dua[0]
 
-        # =========================================================
-        # FASE 5: TIE-BREAKER TAHAP 2 (ADU SKOR GLOBAL)
-        # =========================================================
+        # worst case, baru dicompare sama global score
         rekomendasi_final = kandidat_tahap_dua[0]
         skor_global_maksimal = -1
 
         for id_anime in kandidat_tahap_dua:
-            # Fungsi temen lu yang ngebut banget kepake di sini
             skor_global_anime = self.hitung_skor_global(id_anime)
 
             if skor_global_anime > skor_global_maksimal:
@@ -616,5 +587,4 @@ class DataManager:
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
-    print("Pengujian")
-
+   print("Pengujian")

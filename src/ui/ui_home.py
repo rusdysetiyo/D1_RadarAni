@@ -7,7 +7,6 @@ from src.ui.icons import _sakura_icon_svg
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
-# Konstanta Warna
 C_BG = "#FCF8FA"
 C_BG2 = "#F5EEF2"
 C_SAKURA = "#C07090"
@@ -80,13 +79,24 @@ class HujanSakura:
                 await asyncio.sleep(2)
 
 
-def _pill(text: str) -> ft.Container:
+def _stat_pill(kanji, label, warna) -> ft.Container:
     return ft.Container(
-        content=ft.Text(text, size=11, color=C_TEXT2),
-        bgcolor=C_BG2,
-        border=ft.border.all(1, C_BORDER),
-        border_radius=20,
-        padding=ft.padding.symmetric(horizontal=12, vertical=4),
+        content=ft.Row([
+            ft.Text(kanji, size=14, font_family="Mofuji04", color=warna),
+            ft.Text(label, size=8, font_family="Hitchcut", color=warna, weight="bold"),
+            ft.Text("—", size=10, font_family="Hitchcut", color=warna, weight="bold"),
+        ], spacing=8, alignment=ft.MainAxisAlignment.CENTER),
+        gradient=ft.LinearGradient(
+            begin=ft.Alignment.TOP_LEFT,
+            end=ft.Alignment.BOTTOM_RIGHT,
+            colors=[
+                ft.Colors.with_opacity(0.2, warna),
+                ft.Colors.with_opacity(0.05, warna)
+            ],
+        ),
+        border=ft.border.all(1, ft.Colors.with_opacity(0.4, warna)),
+        border_radius=ft.border_radius.only(top_left=12, bottom_right=12, top_right=3, bottom_left=3),
+        padding=ft.padding.symmetric(horizontal=12, vertical=5),
     )
 
 
@@ -133,22 +143,25 @@ class AnimeCardSmall(ft.Container):
         # --- UKURAN BALIK KE ORI (Lebih jenjang/panjang) ---
         self.width = 120
         self.gradient = ft.LinearGradient(
-            begin=ft.Alignment(0, -1),
-            end=ft.Alignment(0, 1),
+            begin=ft.Alignment.TOP_CENTER,
+            end=ft.Alignment.BOTTOM_CENTER,
             colors=["#FFFFFF", "#FDF5F8"]
         )
         self.border = ft.border.all(1, "#EDE0E8")
-        self.border_radius = 10
-        self.clip_behavior = ft.ClipBehavior.HARD_EDGE
+        self.border_radius = ft.border_radius.only(
+            top_left=15, bottom_right=15, top_right=4, bottom_left=4
+        )
+
+        self.clip_behavior = ft.ClipBehavior.ANTI_ALIAS
         self.margin = ft.padding.only(left=6, right=6, top=10, bottom=20)
 
         self.on_click = lambda _: self._on_click_cb(anime.get("anime_id", "")) if on_click_callback else None
         self.on_hover = self._on_hover
         self.animate = ft.Animation(duration=150, curve=ft.AnimationCurve.EASE_IN_OUT)
+        self.rotate = ft.Rotate(angle=random.uniform(-0.015, 0.015))
 
         is_rated = skor_personal is not None
 
-        # ── 1. PILL STATUS ──
         if is_rated:
             pill_bg = "#EC407A"
             pill_txt = "★ rated"
@@ -161,14 +174,13 @@ class AnimeCardSmall(ft.Container):
         self._status_pill = ft.Container(
             content=ft.Text(pill_txt, size=8, color=pill_color, weight=ft.FontWeight.BOLD),
             bgcolor=pill_bg,
-            border_radius=12,
-            padding=ft.padding.symmetric(horizontal=6, vertical=2),
+            border_radius=ft.border_radius.only(top_left=10, bottom_right=10),
+            padding=ft.padding.symmetric(horizontal=8, vertical=2),
             top=6, right=6,
             opacity=1.0,
             animate_opacity=ft.Animation(200, ft.AnimationCurve.EASE_OUT)
         )
 
-        # ── 2. ELEMEN SAKURA ──
         self._fav_icon = ft.Container(
             content=ft.Image(src=_sakura_icon_svg(), width=22, height=22),
             top=-30, right=6,
@@ -188,7 +200,7 @@ class AnimeCardSmall(ft.Container):
         self._overlay = ft.Container(
             width=120, height=162,
             bgcolor=ft.Colors.with_opacity(0.85, "#000000"),
-            border_radius=ft.border_radius.only(top_left=10, top_right=10),
+            border_radius=ft.border_radius.only(top_left=15, top_right=4),
             padding=8,
             content=ft.Column(
                 controls=[
@@ -200,15 +212,14 @@ class AnimeCardSmall(ft.Container):
                         controls=[
                             ft.Container(
                                 content=ft.Text(g, size=7, color="#F5D0E0"),
-                                bgcolor="#C07090", border_radius=8,
+                                bgcolor="#C07090",
+                                border_radius=ft.border_radius.only(top_left=6, bottom_right=6),
                                 padding=ft.padding.symmetric(horizontal=4, vertical=1),
                                 opacity=0.75,
                             )
                             for g in genres
                         ],
-                        spacing=3,
-                        run_spacing=2,
-                        wrap=True,
+                        spacing=3, run_spacing=2, wrap=True,
                     ),
                 ],
                 spacing=3,
@@ -216,28 +227,23 @@ class AnimeCardSmall(ft.Container):
             visible=False,
         )
 
-        # ── 5. POSTER
         thumb = anime.get("cover_path", "")
         if thumb:
             poster_path = os.path.abspath(os.path.join(ROOT_DIR, thumb))
         else:
             poster_path = ""
 
-        if poster_path and os.path.exists(poster_path):
-            poster = ft.Image(
-                src=poster_path, width=120, height=162,
+        poster = ft.Container(
+            width=120, height=162,
+            clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            border_radius=ft.border_radius.only(top_left=15, top_right=4),
+            content=ft.Image(
+                src=poster_path if (poster_path and os.path.exists(poster_path)) else "",
+                width=120, height=162,
                 fit=ft.BoxFit.COVER,
-                border_radius=ft.border_radius.only(top_left=10, top_right=10),
-            )
-        else:
-            poster = ft.Container(
-                width=120, height=162, bgcolor="#F5EEF2",
-                border_radius=ft.border_radius.only(top_left=10, top_right=10),
-                content=ft.Text(anime.get("title", "")[:14], size=9, color="#B0909A", text_align=ft.TextAlign.CENTER),
-                alignment=ft.Alignment(0, 0),
-            )
+            ) if poster_path else ft.Icon("photo", color="#B0909A")
+        )
 
-        # ── 6. INFO SECTION ──
         sp_txt = f"you: {skor_personal:.1f}" if is_rated else "you: N/A"
         sp_col = "#9060A0" if is_rated else "#B0909A"
 
@@ -245,18 +251,39 @@ class AnimeCardSmall(ft.Container):
             padding=ft.padding.only(left=7, right=7, top=4, bottom=5),
             content=ft.Column(
                 controls=[
-                    ft.Text(anime.get("title", "—"), size=9, color="#3D2535",
-                            weight=ft.FontWeight.BOLD, max_lines=1,
-                            overflow=ft.TextOverflow.ELLIPSIS),
-                    ft.Row(controls=[
-                        ft.Text(f"★ {skor_global:.1f}" if skor_global else "★ —",
-                                size=8, color="#C08030", weight=ft.FontWeight.BOLD),
-                        ft.Text("·", size=8, color="#EDE0E8"),
-                        ft.Text(sp_txt, size=8, color=sp_col, weight=ft.FontWeight.BOLD),
-                    ], spacing=3),
+                    ft.Text(
+                        anime.get("title", "—"),
+                        size=9,
+                        color="#3D2535",
+                        weight=ft.FontWeight.BOLD,
+                        max_lines=1,
+                        overflow=ft.TextOverflow.ELLIPSIS,
+                        text_align=ft.TextAlign.CENTER
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Text(
+                                f"★ {skor_global:.1f}" if skor_global else "★ —",
+                                size=8,
+                                color="#C08030",
+                                weight=ft.FontWeight.BOLD
+                            ),
+                            ft.Text("·", size=8, color="#EDE0E8"),
+                            ft.Text(
+                                sp_txt,
+                                size=8,
+                                color=sp_col,
+                                weight=ft.FontWeight.BOLD
+                            ),
+                        ],
+                        spacing=3,
+                        alignment=ft.MainAxisAlignment.CENTER
+                    ),
                 ],
-                spacing=2, tight=True,
-            ),
+                spacing=2,
+                tight=True,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
         )
 
         # ── 7. GABUNGAN ──
@@ -280,16 +307,17 @@ class AnimeCardSmall(ft.Container):
             self._fav_icon.top = 6
             self._fav_icon.opacity = 1.0 if self.is_favorite else 0.4
             self._fav_icon.rotate.angle = 0
+            self.rotate = ft.Rotate(angle=0.02)
         else:
             self._status_pill.opacity = 1.0
             self._fav_icon.top = -30
             self._fav_icon.opacity = 0
             self._fav_icon.rotate.angle = -1
+            self.rotate = ft.Rotate(angle=0)
 
         self.border = ft.border.all(1.5 if is_hovered else 1, "#EC407A" if is_hovered else "#EDE0E8")
         self.scale = 1.03 if is_hovered else 1.0
         self.update()
-
 
 def _nav_item(kanji, label, style, on_click):
     return ft.TextButton(
@@ -486,10 +514,10 @@ class UIHome(ft.Row):
         user_data = self.data_manager.get_user_by_id(user_id)
         username = user_data.get("username", "User") if user_data else "User"
 
-        self._stat_rated = _pill("— rated")
-        self._stat_unrated = _pill("— unrated")
-        self._stat_avg = _pill("avg —")
-        self._stat_dim = _pill("top: —")
+        self._stat_rated = _stat_pill("評", "RATED", "#DE7C88")
+        self._stat_unrated = _stat_pill("未", "UNRATED", "#52B7FF")
+        self._stat_avg = _stat_pill("均", "AVG", "#7AB9E6")
+        self._stat_dim = _stat_pill("極", "TOP", "#C0616D")
 
         self._rec_title = ft.Text("—", size=14, color=C_TEXT, weight=ft.FontWeight.BOLD, max_lines=1,
                                   overflow=ft.TextOverflow.ELLIPSIS, expand=True)
@@ -789,27 +817,55 @@ class UIHome(ft.Row):
         scores = [sp for _, sp in self._cached_anime_rated]
         avg_val = f"{sum(scores) / len(scores):.1f}" if scores else "—"
 
-        self._stat_rated.content = ft.Text(f"  {rated} rated", size=11, color=C_TEXT2)
-        self._stat_unrated.content = ft.Text(f"  {unrated} unrated", size=11, color=C_TEXT2)
-        self._stat_avg.content = ft.Text(f"  avg {avg_val}", size=11, color=C_TEXT2)
-        self._stat_dim.content = ft.Text(f"  top: {top_dim}", size=11, color=C_TEXT2)
+        self._stat_rated.content.controls[2].value = str(rated)
+        self._stat_unrated.content.controls[2].value = str(unrated)
+        self._stat_avg.content.controls[2].value = str(avg_val)
+        self._stat_dim.content.controls[2].value = str(top_dim)
         self.update()
 
     # ── Muat Rekomendasi ──
     def _muat_rekomendasi(self, user_id):
-        if not user_id: return
+        if not user_id:
+            return
+
+        MIN_RATING = 3
+        jumlah_rated = len(self._cached_anime_rated) if hasattr(self, '_cached_anime_rated') else 0
+
+        if jumlah_rated == 0:
+            self._rec_title.value = "Start rating to unlock recommendations."
+            self._rec_reason.value = "Rate your first anime to begin."
+            self._rec_image.visible = False
+            try:
+                self.update()
+            except RuntimeError:
+                pass
+            return
+
+        if jumlah_rated < MIN_RATING:
+            sisa = MIN_RATING - jumlah_rated
+            progress = "●" * jumlah_rated + "○" * sisa
+            self._rec_title.value = f"Rate {sisa} more anime to unlock recommendations."
+            self._rec_reason.value = f"{progress}  {jumlah_rated} / {MIN_RATING}"
+            self._rec_image.visible = False
+            try:
+                self.update()
+            except RuntimeError:
+                pass
+            return
 
         user_data = self.data_manager.get_user_by_id(user_id) or {}
         avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
-
         avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
 
         if not avg_dim:
-            self._rec_title.value = "Rate more anime to get recommendations!"
-            self._rec_reason.value = "Not enough data to calculate preferences."
+            self._rec_title.value = "Keep rating to improve your recommendations."
+            self._rec_reason.value = "Not enough dimension data yet."
             self._rec_image.visible = False
-            self.update()
+            try:
+                self.update()
+            except RuntimeError:
+                pass
             return
 
         skor_tertinggi = max(avg_dim.values())
@@ -842,7 +898,10 @@ class UIHome(ft.Row):
             self._rec_title.value = "You've conquered our catalog!"
             self._rec_reason.value = "No more anime left to recommend."
             self._rec_image.visible = False
-            self.update()
+            try:
+                self.update()
+            except RuntimeError:
+                pass
             return
 
         self._rec_anime_id = best_anime.get("anime_id")
