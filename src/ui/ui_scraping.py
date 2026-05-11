@@ -1,5 +1,6 @@
 import flet as ft
-import requests
+import threading
+import urllib.parse
 from scripts.scrapjudul import DynamicAnimeScraper
 
 C_SAKURA = "#C07090"
@@ -49,12 +50,14 @@ class UIScraping(ft.Row):
             icon=ft.Icons.SEARCH,
             bgcolor=C_SAKURA,
             color=C_WHITE,
-            on_click=self._on_search_click
+            on_click=self._on_search_click,
         )
 
         self._loading_indicator = ft.ProgressRing(visible=False, color=C_SAKURA)
         self._status_text = ft.Text("", color=C_TEXT2, size=14)
-        self._results_container = ft.Column(spacing=10, scroll=ft.ScrollMode.AUTO, expand=True)
+        self._results_container = ft.Column(
+            spacing=10, scroll=ft.ScrollMode.AUTO, expand=True
+        )
 
         # Top Bar
         topbar = ft.Container(
@@ -68,18 +71,29 @@ class UIScraping(ft.Row):
             shadow=ft.BoxShadow(
                 blur_radius=15,
                 color="#15000000",
-                offset=ft.Offset(0, 4)
+                offset=ft.Offset(0, 4),
             ),
             content=ft.Row(
                 controls=[
                     ft.IconButton(
-                        ft.Icons.MENU, icon_color=C_SAKURA,
-                        on_click=self._toggle_sidebar, tooltip="Menu",
+                        ft.Icons.MENU,
+                        icon_color=C_SAKURA,
+                        on_click=self._toggle_sidebar,
+                        tooltip="Menu",
                     ),
-                    ft.Column([
-                        ft.Text("RadarAni", size=13, color=C_SAKURA, weight=ft.FontWeight.BOLD),
-                        ft.Text("レーダアニ", size=8, color=C_TEXT3),
-                    ], spacing=0, tight=True),
+                    ft.Column(
+                        [
+                            ft.Text(
+                                "RadarAni",
+                                size=13,
+                                color=C_SAKURA,
+                                weight=ft.FontWeight.BOLD,
+                            ),
+                            ft.Text("レーダアニ", size=8, color=C_TEXT3),
+                        ],
+                        spacing=0,
+                        tight=True,
+                    ),
                     ft.Container(expand=True),
                 ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -91,256 +105,264 @@ class UIScraping(ft.Row):
             expand=True,
             content=ft.Column(
                 controls=[
-                    ft.Text("Live Anime Scraper", size=24, weight=ft.FontWeight.BOLD, color=C_TEXT),
-                    ft.Text("Add anime directly from MyAnimeList by title or URL.", size=14, color=C_TEXT2),
+                    ft.Text(
+                        "Live Anime Scraper",
+                        size=24,
+                        weight=ft.FontWeight.BOLD,
+                        color=C_TEXT,
+                    ),
+                    ft.Text(
+                        "Add anime directly from MyAnimeList by title or URL.",
+                        size=14,
+                        color=C_TEXT2,
+                    ),
                     ft.Container(height=10),
-                    ft.Row([self._tf_query, self._btn_search], alignment=ft.MainAxisAlignment.START),
-                    ft.Row([self._loading_indicator, self._status_text], alignment=ft.MainAxisAlignment.START),
+                    ft.Row(
+                        [self._tf_query, self._btn_search],
+                        alignment=ft.MainAxisAlignment.START,
+                    ),
+                    ft.Row(
+                        [self._loading_indicator, self._status_text],
+                        alignment=ft.MainAxisAlignment.START,
+                    ),
                     ft.Divider(color=C_BORDER),
-                    ft.Text("Results:", size=16, weight=ft.FontWeight.BOLD, color=C_TEXT),
+                    ft.Text(
+                        "Results:",
+                        size=16,
+                        weight=ft.FontWeight.BOLD,
+                        color=C_TEXT,
+                    ),
                     self._results_container,
                 ],
-                expand=True
-            )
+                expand=True,
+            ),
         )
 
         self._main_col = ft.Column(
             controls=[topbar, main_content],
-            spacing=0, expand=True,
+            spacing=0,
+            expand=True,
         )
 
         self.controls = [self._sidebar_widget, self._main_col]
+
+    # ------------------------------------------------------------------ #
+    #  Helpers                                                             #
+    # ------------------------------------------------------------------ #
 
     def _toggle_sidebar(self, e=None):
         self._sidebar_open = not self._sidebar_open
         self._sidebar_widget.width = 240 if self._sidebar_open else 0
         self._sidebar_widget.update()
 
-    def _set_error(self, message):
-        """Tampilkan pesan error di status bar."""
-        self._status_text.value = message
-        self._status_text.color = ft.Colors.RED_400
-        self._loading_indicator.visible = False
-        self.update()
+    def _set_searching(self, is_searching: bool):
+        """Lock/unlock the search button and show/hide the spinner."""
+        self._btn_search.disabled = is_searching
+        self._btn_search.text = "Searching…" if is_searching else "Search"
+        self._btn_search.icon = (
+            ft.Icons.HOURGLASS_EMPTY if is_searching else ft.Icons.SEARCH
+        )
+        self._loading_indicator.visible = is_searching
+        self._btn_search.update()
+        self._loading_indicator.update()
 
-    def _set_status(self, message):
-        """Tampilkan pesan status biasa di status bar."""
-        self._status_text.value = message
-        self._status_text.color = C_TEXT2
-        self.update()
+    # ------------------------------------------------------------------ #
+    #  Search                                                              #
+    # ------------------------------------------------------------------ #
 
     def _on_search_click(self, e):
         query = self._tf_query.value.strip()
         if not query:
             return
 
-        is_url = "http" in query
-
-        # --- Validasi: URL tapi bukan MAL anime ---
-        if is_url and "myanimelist.net/anime/" not in query:
-            self._set_error(
-                "URL tidak valid. Pastikan URL berasal dari halaman anime MyAnimeList.\n"
-                "Contoh: https://myanimelist.net/anime/20/Naruto"
-            )
-            self._results_container.controls.clear()
-            self.update()
-            return
-
-        # --- Validasi: judul terlalu pendek ---
-        if not is_url and len(query) < 3:
-            self._set_error(
+        if "myanimelist.net/anime/" not in query and len(query) < 3:
+            self._status_text.value = (
                 "Input minimal 3 karakter. "
-                "Jika judul sangat pendek, gunakan URL MyAnimeList."
+                "Jika judul memang sangat pendek, harap gunakan URL MyAnimeList."
             )
-            self._results_container.controls.clear()
-            self.update()
+            self._status_text.color = ft.Colors.RED_400
+            self._status_text.update()
             return
 
         self._status_text.color = C_TEXT2
-        self._status_text.value = "Searching..."
-        self._loading_indicator.visible = True
+        self._status_text.value = "Searching…"
         self._results_container.controls.clear()
-        self.update()
+        self._set_searching(True)
+        self._status_text.update()
+        self._results_container.update()
+
+        # Run the blocking scrape on a background thread so the UI stays live
+        threading.Thread(
+            target=self._do_search, args=(query,), daemon=True
+        ).start()
+
+    def _do_search(self, query: str):
+        """Runs on a background thread — never call .update() on page here,
+        only mutate controls then call self.update() at the end."""
+        new_rows: list[ft.Control] = []
+        status_msg = ""
+        status_color = C_TEXT2
 
         try:
-            if is_url:
-                # --- Normalisasi URL: buang sub-tab MAL ---
-                normalized = DynamicAnimeScraper.normalize_mal_url(query)
-
-                # Ekstrak MAL ID dari URL
-                parts = normalized.split('/')
+            if "myanimelist.net/anime/" in query:
                 try:
-                    mal_id = int(parts[4])
+                    mal_id = int(query.split("/")[4])
+                    is_duplicate, _ = self.scraper._cek_duplikasi(mal_id)
+                    judul, thumb_url = self.scraper.dapatkan_info_dari_url(query)
+
+                    label_text = (
+                        f"{judul} (Already in database)" if is_duplicate else judul
+                    )
+                    row = self._build_result_row(
+                        judul=judul,
+                        url=query,
+                        thumb=thumb_url,
+                        label_text=label_text,
+                        is_duplicate=is_duplicate,
+                        data=(judul, query, thumb_url),
+                    )
+                    new_rows.append(row)
+                    status_msg = (
+                        "Anime already in database." if is_duplicate else "1 result found."
+                    )
+
                 except (IndexError, ValueError):
-                    self._set_error(
-                        "Format URL tidak dikenali. Tidak dapat membaca MAL ID.\n"
-                        "Contoh URL yang benar: https://myanimelist.net/anime/20/Naruto"
+                    new_rows.append(
+                        ft.Text("Invalid MyAnimeList URL format.", color=ft.Colors.RED_400)
                     )
-                    return
-
-                is_duplicate, judul_terdaftar = self.scraper._cek_duplikasi(mal_id)
-
-                # Fetch judul dan thumbnail dari halaman MAL
-                judul, thumb_url = self.scraper.dapatkan_info_dari_url(normalized)
-
-                if judul == "N/A":
-                    self._set_error(
-                        "Gagal mengambil data dari MyAnimeList. "
-                        "Halaman tidak ditemukan atau koneksi bermasalah."
-                    )
-                    return
-
-                label_text = f"{judul} (Already in database)" if is_duplicate else judul
-
-                teks_judul = ft.Text(
-                    value=label_text,
-                    color=ft.Colors.RED_400 if is_duplicate else C_TEXT,
-                    size=14,
-                    expand=True,
-                )
-
-                btn_add = ft.ElevatedButton(
-                    "Added" if is_duplicate else "Add Anime",
-                    icon=ft.Icons.CHECK if is_duplicate else ft.Icons.ADD,
-                    bgcolor=C_BG2 if is_duplicate else C_SAKURA,
-                    color=C_TEXT3 if is_duplicate else C_WHITE,
-                    disabled=is_duplicate,
-                    data=(judul, normalized, thumb_url),
-                    on_click=self._on_add_click,
-                )
-
-                row = ft.Row(
-                    controls=[
-                        ft.Image(src=thumb_url, width=40, height=55, fit=ft.BoxFit.COVER)
-                        if thumb_url else ft.Container(width=40, height=55, bgcolor=C_BG2),
-                        teks_judul,
-                        btn_add,
-                    ],
-                    alignment=ft.MainAxisAlignment.START,
-                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                )
-                self._results_container.controls.append(row)
-                self._set_status(
-                    "Anime sudah ada di database." if is_duplicate else "1 hasil ditemukan."
-                )
+                    status_msg = "Invalid URL."
+                    status_color = ft.Colors.RED_400
 
             else:
-                # --- Jalur pencarian judul ---
                 kandidat_list = self.scraper.dapatkan_kandidat_judul(query)
                 if not kandidat_list:
-                    self._set_status("Tidak ada hasil yang ditemukan.")
+                    status_msg = "No results found."
                 else:
-                    self._set_status(f"Ditemukan {len(kandidat_list)} hasil.")
+                    status_msg = f"Found {len(kandidat_list)} results."
                     for kandidat in kandidat_list:
                         judul, url, thumb = kandidat
-
                         try:
-                            mal_id = int(url.split('/')[4])
+                            mal_id = int(url.split("/")[4])
                             is_duplicate, _ = self.scraper._cek_duplikasi(mal_id)
-                        except (IndexError, ValueError):
+                        except Exception:
                             is_duplicate = False
 
-                        label_text = f"{judul} (Already in database)" if is_duplicate else judul
-
-                        teks_judul = ft.Text(
-                            value=label_text,
-                            color=ft.Colors.RED_400 if is_duplicate else C_TEXT,
-                            size=14,
-                            expand=True,
+                        label_text = (
+                            f"{judul} (Already in database)" if is_duplicate else judul
                         )
-
-                        btn_add = ft.ElevatedButton(
-                            "Added" if is_duplicate else "Add Anime",
-                            icon=ft.Icons.CHECK if is_duplicate else ft.Icons.ADD,
-                            bgcolor=C_BG2 if is_duplicate else C_SAKURA,
-                            color=C_TEXT3 if is_duplicate else C_WHITE,
-                            disabled=is_duplicate,
+                        row = self._build_result_row(
+                            judul=judul,
+                            url=url,
+                            thumb=thumb,
+                            label_text=label_text,
+                            is_duplicate=is_duplicate,
                             data=kandidat,
-                            on_click=self._on_add_click,
                         )
+                        new_rows.append(row)
 
-                        row = ft.Row(
-                            controls=[
-                                ft.Image(src=thumb, width=40, height=55, fit=ft.BoxFit.COVER)
-                                if thumb else ft.Container(width=40, height=55, bgcolor=C_BG2),
-                                teks_judul,
-                                btn_add,
-                            ],
-                            alignment=ft.MainAxisAlignment.START,
-                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                        )
-                        self._results_container.controls.append(row)
-
-        except requests.exceptions.ConnectionError:
-            self._set_error(
-                "Gagal terhubung ke MyAnimeList. Periksa koneksi internet Anda."
-            )
-        except requests.exceptions.Timeout:
-            self._set_error(
-                "Koneksi ke MyAnimeList habis waktu (timeout). Coba lagi beberapa saat."
-            )
-        except requests.exceptions.TooManyRedirects:
-            self._set_error(
-                "Terlalu banyak redirect — URL mungkin tidak valid."
-            )
-        except requests.exceptions.RequestException as ex:
-            self._set_error(f"Kesalahan jaringan: {ex}")
         except Exception as ex:
-            self._set_error(f"Terjadi kesalahan tak terduga: {ex}")
+            status_msg = f"Error: {ex}"
+            status_color = ft.Colors.RED_400
 
-        self._loading_indicator.visible = False
-        self.update()
+        self._results_container.controls.clear()
+        self._results_container.controls.extend(new_rows)
+        self._status_text.value = status_msg
+        self._status_text.color = status_color
+        self._set_searching(False)
+        self._status_text.update()
+        self._results_container.update()
+
+    def _build_result_row(
+        self,
+        judul: str,
+        url: str,
+        thumb: str | None,
+        label_text: str,
+        is_duplicate: bool,
+        data: tuple,
+    ) -> ft.Row:
+        teks_judul = ft.Text(
+            value=label_text,
+            color=ft.Colors.RED_400 if is_duplicate else C_TEXT,
+            size=14,
+            expand=True,
+        )
+        btn_add = ft.ElevatedButton(
+            "Added" if is_duplicate else "Add Anime",
+            icon=ft.Icons.CHECK if is_duplicate else ft.Icons.ADD,
+            bgcolor=C_BG2 if is_duplicate else C_SAKURA,
+            color=C_TEXT3 if is_duplicate else C_WHITE,
+            disabled=is_duplicate,
+            data=data,
+            on_click=self._on_add_click,
+        )
+        return ft.Row(
+            controls=[
+                ft.Image(src=thumb, width=40, height=55, fit=ft.BoxFit.COVER)
+                if thumb
+                else ft.Container(width=40, height=55, bgcolor=C_BG2),
+                teks_judul,
+                btn_add,
+            ],
+            alignment=ft.MainAxisAlignment.START,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        )
+
+    # ------------------------------------------------------------------ #
+    #  Add Anime                                                           #
+    # ------------------------------------------------------------------ #
 
     def _on_add_click(self, e):
         judul, url, thumb = e.control.data
+        btn: ft.ElevatedButton = e.control
 
-        e.control.disabled = True
-        e.control.text = "Adding..."
-        e.control.icon = ft.Icons.HOURGLASS_EMPTY
-        self._status_text.value = f"Adding '{judul}'... Please wait."
+        # --- Immediate visual feedback on the button itself ---
+        btn.disabled = True
+        btn.text = "Adding…"
+        btn.icon = ft.Icons.HOURGLASS_EMPTY
+        btn.bgcolor = C_BG2
+        btn.color = C_TEXT3
+        self._status_text.value = f"Adding '{judul}'… Please wait."
         self._loading_indicator.visible = True
-        e.control.update()  # pastikan tombol ter-refresh sebelum proses berat
-        self.update()
+        btn.update()
+        self._status_text.update()
+        self._loading_indicator.update()
 
+        # Heavy work on background thread
+        threading.Thread(
+            target=self._do_add,
+            args=(btn, judul, url, thumb),
+            daemon=True,
+        ).start()
+
+    def _do_add(
+        self,
+        btn: ft.ElevatedButton,
+        judul: str,
+        url: str,
+        thumb: str | None,
+    ):
         try:
             self.scraper.eksekusi_tambah_anime(url, thumb)
-            e.control.text = "Added"
-            e.control.icon = ft.Icons.CHECK
-            e.control.bgcolor = C_BG2
-            e.control.color = C_TEXT3
-            self._status_text.value = f"'{judul}' berhasil ditambahkan!"
-            self._status_text.color = ft.Colors.GREEN_600
 
-        except requests.exceptions.ConnectionError:
-            e.control.disabled = False
-            e.control.text = "Add Anime"
-            e.control.icon = ft.Icons.ADD
-            self._set_error("Gagal terhubung ke MyAnimeList saat mengunduh data. Periksa koneksi internet Anda.")
-
-        except requests.exceptions.Timeout:
-            e.control.disabled = False
-            e.control.text = "Add Anime"
-            e.control.icon = ft.Icons.ADD
-            self._set_error("Koneksi timeout saat mengunduh data anime. Coba lagi beberapa saat.")
-
-        except requests.exceptions.RequestException as ex:
-            e.control.disabled = False
-            e.control.text = "Add Anime"
-            e.control.icon = ft.Icons.ADD
-            self._set_error(f"Kesalahan jaringan saat menambahkan anime: {ex}")
-
-        except ValueError as ex:
-            e.control.disabled = False
-            e.control.text = "Add Anime"
-            e.control.icon = ft.Icons.ADD
-            self._set_error(f"Data dari MAL tidak valid atau tidak dapat diproses: {ex}")
+            btn.text = "Added"
+            btn.icon = ft.Icons.CHECK
+            btn.bgcolor = C_BG2
+            btn.color = C_TEXT3
+            btn.disabled = True
+            self._status_text.value = f"'{judul}' added successfully!"
+            self._status_text.color = C_TEXT2
 
         except Exception as ex:
-            e.control.disabled = False
-            e.control.text = "Add Anime"
-            e.control.icon = ft.Icons.ADD
-            self._set_error(f"Terjadi kesalahan tak terduga: {ex}")
+            btn.disabled = False
+            btn.text = "Add Anime"
+            btn.icon = ft.Icons.ADD
+            btn.bgcolor = C_SAKURA
+            btn.color = C_WHITE
+            self._status_text.value = f"Error adding anime: {ex}"
+            self._status_text.color = ft.Colors.RED_400
 
         self._loading_indicator.visible = False
-        e.control.update()  # pastikan perubahan akhir tombol ter-render
-        self.update()
+        btn.update()
+        self._status_text.update()
+        self._loading_indicator.update()

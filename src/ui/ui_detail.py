@@ -19,6 +19,8 @@ C_PBORDER = "#BFFF5593"
 C_GBORDER = "#BF6958FF"
 C_PRADAR = "#40FF81EA"
 C_GRADAR = "#40709DFF"
+
+
 # ═══════════════════════════════════════════════════════════════
 #  HELPER FUNCTIONS
 # ═══════════════════════════════════════════════════════════════
@@ -71,9 +73,9 @@ def build_radar_chart(global_scores, personal_scores, labels, size=300):
 
         return [
             cv.Path.MoveTo(cx, cy),
-            cv.Path.CubicTo(c1x, c1y, c2x, c2y, notch_lx, notch_ly),   # sisi kiri
-            cv.Path.CubicTo(ci1x, ci1y, ci2x, ci2y, notch_rx, notch_ry), # lekukan dalam
-            cv.Path.CubicTo(c6x, c6y, c5x, c5y, cx, cy),                 # sisi kanan
+            cv.Path.CubicTo(c1x, c1y, c2x, c2y, notch_lx, notch_ly),  # sisi kiri
+            cv.Path.CubicTo(ci1x, ci1y, ci2x, ci2y, notch_rx, notch_ry),  # lekukan dalam
+            cv.Path.CubicTo(c6x, c6y, c5x, c5y, cx, cy),  # sisi kanan
             cv.Path.Close(),
         ]
 
@@ -93,7 +95,7 @@ def build_radar_chart(global_scores, personal_scores, labels, size=300):
     #         ))
     #     return ring_shapes
 
-    #Grid rings (poligon)
+    # Grid rings (poligon)
     for level in range(1, grid_levels + 1):
         r = max_r * level / grid_levels
         grid_pts = []
@@ -109,7 +111,7 @@ def build_radar_chart(global_scores, personal_scores, labels, size=300):
             paint=ft.Paint(color="#BFC5C0DE", stroke_width=0.8, style=ft.PaintingStyle.STROKE)
         ))
 
-    #Grid Level (petal)
+    # Grid Level (petal)
     # for level in range(1, grid_levels + 1):
     #     r = max_r * level / grid_levels
     #     # Gambar 1 "bunga" grid per level — pakai petal_path untuk setiap kelopak
@@ -229,7 +231,8 @@ def score_card(value, global_score=False):
         content=ft.Column(
             spacing=2,
             controls=[
-                ft.Text("USER SCORE" if not global_score else "GLOBAL SCORE", size=10, color=C_TEXT2, weight=ft.FontWeight.W_600),
+                ft.Text("USER SCORE" if not global_score else "GLOBAL SCORE", size=10, color=C_TEXT2,
+                        weight=ft.FontWeight.W_600),
                 ft.Text(value, size=26, color=C_PURPLE if not global_score else C_GOLD, weight=ft.FontWeight.W_700),
                 ft.Text("Your Rating" if not global_score else "Community Average Score", size=10, color=C_TEXT2)
             ]
@@ -240,11 +243,11 @@ def score_card(value, global_score=False):
 def tag(text, meta=False):
     return ft.Container(
         padding=ft.padding.symmetric(horizontal=10, vertical=4),
-        bgcolor= C_WHITE if not meta else C_SAKURA,
+        bgcolor=C_WHITE if not meta else C_SAKURA,
         border_radius=20,
         content=ft.Text(
             text, size=11,
-            color= C_SAKURA if not meta else C_WHITE,
+            color=C_SAKURA if not meta else C_WHITE,
             weight=ft.FontWeight.W_600
         )
     )
@@ -266,7 +269,7 @@ class LeftPanel(ft.Container):
         studio = detail_anime.get("studio", "N/A")
         type = detail_anime.get("type", "N/A")
         episode = detail_anime.get("episodes", "N/A")
-        metaTags=[studio, type, episode]
+        metaTags = [studio, type, episode]
 
         super().__init__(
             width=300,
@@ -290,7 +293,7 @@ class LeftPanel(ft.Container):
             border_radius=16,
             clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
             content=ft.Image(src=cover_path, fit="cover"),
-            
+
         )
 
     def _build_meta_tags(self, metaTags):
@@ -408,8 +411,6 @@ class RightPanel(ft.Container):
             ]
         )
 
-    
-
     def _build_dropdowns(self):
         self.dropdown_controls = {}
         categories = ["Plot", "Visual", "Audio", "Characterization", "Direction"]
@@ -417,8 +418,8 @@ class RightPanel(ft.Container):
 
         for cat in categories:
             # Panggil fungsi UI kamu
-            ui_component = score_dropdown(cat) 
-            
+            ui_component = score_dropdown(cat)
+
             # ASUMSI: score_dropdown mengembalikan Column([Text, Dropdown])
             # Kita ambil Dropdown-nya (biasanya elemen terakhir/kedua)
             if isinstance(ui_component, ft.Column):
@@ -439,7 +440,7 @@ class RightPanel(ft.Container):
             for category, dd in self.dropdown_controls.items():
                 val = dd.value if dd.value is not None else 0
                 user_scores[category.lower()] = int(val)
-            
+
             # 1. Simpan ke JSON
             user_id = self.data_manager.baca_sesi()
             self.data_manager.simpan_rating(user_id, self.anime_id, user_scores)
@@ -450,21 +451,21 @@ class RightPanel(ft.Container):
             new_avg_personal = self.data_manager.hitung_skor_personal(user_id, self.anime_id)
             new_list_score = list(user_scores.values())
             new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
-            
+
             # 4. UPDATE UI TANPA REFRESH HALAMAN
             # Update bagian angka/cards
             self.score_cards_container.content = self._build_score_cards(new_avg_global, new_avg_personal)
-        
+
             # Update bagian radar
             self.radar_container.content = self._build_radar(new_global_list_score, new_list_score)
-        
+
             # 5. Eksekusi perubahan ke layar
             self.my_page.update()
 
             self.my_page.snack_bar = ft.SnackBar(ft.Text("Rating Berhasil Diperbarui!"), bgcolor="green")
             self.my_page.snack_bar.open = True
             self.my_page.update()
-            
+
             print("Grafik berhasil diperbarui!")
 
         except Exception as err:
@@ -478,27 +479,21 @@ class RightPanel(ft.Container):
         new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
         new_avg_personal = self.data_manager.hitung_skor_personal(user_id, self.anime_id)
         new_list_score = [0, 0, 0, 0, 0]  # Setelah dihapus, skor personal jadi 0 semua
-        
+
         # 4. UPDATE UI TANPA REFRESH HALAMAN
         # Update bagian angka/cards
         self.score_cards_container.content = self._build_score_cards(new_avg_global, new_avg_personal)
-        
-            # Update bagian radar
+
+        # Update bagian radar
         self.radar_container.content = self._build_radar(new_global_list_score, new_list_score)
-    
+
         # 5. Eksekusi perubahan ke layar
         self.my_page.update()
 
         self.my_page.snack_bar = ft.SnackBar(ft.Text("Rating Berhasil Diperbarui!"), bgcolor="green")
         self.my_page.snack_bar.open = True
-        self.my_page.update()            
+        self.my_page.update()
         print("Grafik berhasil diperbarui!")
-
-
-
-
-
-
 
     def _build_action_buttons(self):
         return ft.Row(
@@ -535,7 +530,7 @@ class RightPanel(ft.Container):
 # ═══════════════════════════════════════════════════════════════
 
 class UIDetail(ft.Column):
-    def __init__(self, page, data_manager, screen_manager, anime_id):
+    def __init__(self, page, data_manager, auth_manager, screen_manager, anime_id):
         self.my_page = page
         self.data_manager = data_manager
         self.screen_manager = screen_manager
@@ -546,8 +541,8 @@ class UIDetail(ft.Column):
         # 1. Komponen Tombol Back
         self.back_btn = ft.TextButton(
             icon=ft.Icons.ARROW_BACK,
-            content=ft.Text("Back to Dashboard"),
-            on_click=lambda _: self.screen_manager.tampilkan_dashboard()
+            content=ft.Text("Back"),
+            on_click=lambda _: self.screen_manager.kembali_ke_asal()
         )
 
         # 2. Konten Utama
@@ -579,8 +574,6 @@ class UIDetail(ft.Column):
         # 4. Jalankan init Column dengan pembungkus tadi
         super().__init__(
             expand=True,
-            scroll=ft.ScrollMode.AUTO, # Setting scroll dipasang di sini
+            scroll=ft.ScrollMode.AUTO,  # Setting scroll dipasang di sini
             controls=[self.container_wrapper]
         )
-
-

@@ -140,6 +140,7 @@ class AnimeCardSmall(ft.Container):
         self.is_favorite = is_favorite
         self._on_click_cb = on_click_callback
 
+        # --- UKURAN BALIK KE ORI (Lebih jenjang/panjang) ---
         self.width = 120
         self.gradient = ft.LinearGradient(
             begin=ft.Alignment.TOP_CENTER,
@@ -190,10 +191,12 @@ class AnimeCardSmall(ft.Container):
             rotate=ft.Rotate(angle=-1)
         )
 
+        # ── 3. DATA OVERLAY ──
         genres = anime.get("genre", [])[:3]
         sg_str = (f"★ {skor_global:.1f}  ·  {anime.get('episodes', '?')} eps"
                   if skor_global else f"{anime.get('episodes', '?')} eps")
 
+        # ── 4. OVERLAY
         self._overlay = ft.Container(
             width=120, height=162,
             bgcolor=ft.Colors.with_opacity(0.85, "#000000"),
@@ -283,6 +286,7 @@ class AnimeCardSmall(ft.Container):
             )
         )
 
+        # ── 7. GABUNGAN ──
         self.content = ft.Column(
             controls=[
                 ft.Stack(
