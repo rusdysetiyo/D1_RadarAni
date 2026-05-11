@@ -17,9 +17,13 @@ def main(page: ft.Page):
     page.spacing = 0
 
     page.fonts = {
-        "Yomogi": "/fonts/Yomogi-Regular.ttf",
-        "KaiseiDecol": "/fonts/KaiseiDecol-Regular.ttf",
-        "DotGothic16": "/fonts/DotGothic16-Regular.ttf",
+        "Yomogi": "fonts/Yomogi/Yomogi-Regular.ttf",
+        "Soopafresh": "fonts/soopafresh/soopafre.ttf",
+        "DotGothic16": "fonts/DotGothic16/DotGothic16-Regular.ttf",
+        "Mofuji04": "fonts/Mofuji/mofuji04.ttf",
+        "Hitchcut": "fonts/Hitchcut/Hitchcut-Regular.ttf",
+        "KiwiSoda": "fonts/KiwiSoda/KiwiSoda.ttf",
+        "Clayful": "fonts/Clayful.ttf",
     }
 
     page.bgcolor = "transparent"

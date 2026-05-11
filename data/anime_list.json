@@ -35,7 +35,7 @@
         "mal_id": 1535,
         "title": "Death Note",
         "en_title": null,
-        "global_score": 8.76,
+        "global_score": 8.68,
         "genre": [
             "Supernatural",
             "Suspense",
@@ -48,13 +48,13 @@
         "episodes": "37",
         "cover_path": "assets/covers/CIMG002.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG002.jpg",
-        "rating_count": 63,
+        "rating_count": 64,
         "global_score_dimensions": [
-            8.68,
-            8.75,
-            8.7,
-            8.84,
-            8.84
+            8.56,
+            8.63,
+            8.63,
+            8.72,
+            8.86
         ]
     },
     {
@@ -958,7 +958,7 @@
         "mal_id": 6547,
         "title": "Angel Beats!",
         "en_title": null,
-        "global_score": 7.99,
+        "global_score": 7.89,
         "genre": [
             "Drama",
             "Fantasy",
@@ -970,13 +970,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG035.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG035.jpg",
-        "rating_count": 70,
+        "rating_count": 71,
         "global_score_dimensions": [
+            7.79,
+            7.9,
             7.89,
-            8.0,
-            7.99,
-            8.04,
-            8.04
+            7.94,
+            7.94
         ]
     },
     {
@@ -1239,7 +1239,7 @@
         "mal_id": 30,
         "title": "Shinseiki Evangelion",
         "en_title": "Neon Genesis Evangelion",
-        "global_score": 8.22,
+        "global_score": 8.14,
         "genre": [
             "Avant Garde",
             "Award Winning",
@@ -1255,13 +1255,13 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG045.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG045.jpg",
-        "rating_count": 65,
+        "rating_count": 66,
         "global_score_dimensions": [
-            8.18,
-            8.23,
-            8.11,
-            8.18,
-            8.37
+            8.12,
+            8.12,
+            8.03,
+            8.13,
+            8.26
         ]
     },
     {
@@ -9703,7 +9703,7 @@
         "mal_id": 28977,
         "title": "Gintama°",
         "en_title": "Gintama Season 4",
-        "global_score": 9.13,
+        "global_score": 9.11,
         "genre": [
             "Action",
             "Comedy",
@@ -9720,13 +9720,13 @@
         "episodes": "51",
         "cover_path": "assets/covers/CIMG349.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG349.jpg",
-        "rating_count": 18,
+        "rating_count": 17,
         "global_score_dimensions": [
-            9.23,
+            9.18,
+            9.12,
+            8.71,
             9.0,
-            8.78,
-            9.06,
-            9.56
+            9.53
         ]
     },
     {
