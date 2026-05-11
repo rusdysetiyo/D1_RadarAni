@@ -7,7 +7,6 @@ from src.ui.icons import _sakura_icon_svg
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
-# Konstanta Warna
 C_BG = "#FCF8FA"
 C_BG2 = "#F5EEF2"
 C_SAKURA = "#C07090"
@@ -45,8 +44,8 @@ class HujanSakura:
         while self.is_running:
             try:
                 if not self.target.page:
-                    await asyncio.sleep(0.5)
-                    continue
+                    self.is_running = False
+                    break
 
                 for petal in self.petals:
                     petal.animate_position = ft.Animation(0)
@@ -57,6 +56,10 @@ class HujanSakura:
 
                 self.target.update()
                 await asyncio.sleep(0.1)
+
+                if not self.target.page:
+                    self.is_running = False
+                    break
 
                 for petal in self.petals:
                     durasi = random.randint(6000, 9000)
@@ -70,17 +73,30 @@ class HujanSakura:
                 await asyncio.sleep(7)
 
             except Exception as e:
-                print(f"Error Hujan Sakura: {e}")
+                if "Control must be added" in str(e):
+                    self.is_running = False
+                    break
                 await asyncio.sleep(2)
 
 
-def _pill(text: str) -> ft.Container:
+def _stat_pill(kanji, label, warna) -> ft.Container:
     return ft.Container(
-        content=ft.Text(text, size=11, color=C_TEXT2),
-        bgcolor=C_BG2,
-        border=ft.border.all(1, C_BORDER),
-        border_radius=20,
-        padding=ft.padding.symmetric(horizontal=12, vertical=4),
+        content=ft.Row([
+            ft.Text(kanji, size=14, font_family="Mofuji04", color=warna),
+            ft.Text(label, size=8, font_family="Hitchcut", color=warna, weight="bold"),
+            ft.Text("—", size=10, font_family="Hitchcut", color=warna, weight="bold"),
+        ], spacing=8, alignment=ft.MainAxisAlignment.CENTER),
+        gradient=ft.LinearGradient(
+            begin=ft.Alignment.TOP_LEFT,
+            end=ft.Alignment.BOTTOM_RIGHT,
+            colors=[
+                ft.Colors.with_opacity(0.2, warna),
+                ft.Colors.with_opacity(0.05, warna)
+            ],
+        ),
+        border=ft.border.all(1, ft.Colors.with_opacity(0.4, warna)),
+        border_radius=ft.border_radius.only(top_left=12, bottom_right=12, top_right=3, bottom_left=3),
+        padding=ft.padding.symmetric(horizontal=12, vertical=5),
     )
 
 
@@ -89,7 +105,18 @@ def _section_header(title: str, on_lihat_semua=None) -> ft.Container:
         padding=ft.padding.only(left=20, right=20, top=20, bottom=8),
         content=ft.Row(
             controls=[
-                ft.Text(title, size=14, color=C_TEXT, weight=ft.FontWeight.BOLD),
+                ft.Container(
+                    width=4,
+                    height=16,
+                    bgcolor=C_SAKURA,
+                    border_radius=4
+                ),
+                ft.Text(
+                    title,
+                    font_family="Soopafresh",
+                    size=18,
+                    color="#6A4A5A",
+                ),
                 ft.Container(expand=True),
                 ft.TextButton(
                     "View All →",
@@ -100,89 +127,96 @@ def _section_header(title: str, on_lihat_semua=None) -> ft.Container:
                     on_click=on_lihat_semua,
                 ) if on_lihat_semua else ft.Container(),
             ],
+            spacing=10,
             vertical_alignment=ft.CrossAxisAlignment.CENTER,
         ),
     )
 
 
 class AnimeCardSmall(ft.Container):
-    def __init__(self, anime: dict, skor_global, skor_personal, on_click_callback):
+    def __init__(self, anime: dict, skor_global, skor_personal, is_favorite=False, on_click_callback=None):
         super().__init__()
         self.anime = anime
+        self.is_favorite = is_favorite
         self._on_click_cb = on_click_callback
 
         self.width = 120
         self.gradient = ft.LinearGradient(
-            begin=ft.Alignment(0, -1),
-            end=ft.Alignment(0, 1),
+            begin=ft.Alignment.TOP_CENTER,
+            end=ft.Alignment.BOTTOM_CENTER,
             colors=["#FFFFFF", "#FDF5F8"]
         )
-        self.border = ft.border.all(1, C_BORDER)
-        self.border_radius = 10
-        self.clip_behavior = ft.ClipBehavior.HARD_EDGE
-        self.margin = ft.padding.only(left=6, right=6, top=10, bottom=20)
-
-        self.shadow = ft.BoxShadow(
-            blur_radius=12,
-            color=ft.Colors.with_opacity(0.15, "#C07090"),
-            offset=ft.Offset(0, 4)
+        self.border = ft.border.all(1, "#EDE0E8")
+        self.border_radius = ft.border_radius.only(
+            top_left=15, bottom_right=15, top_right=4, bottom_left=4
         )
 
-        self.on_click = lambda _: self._on_click_cb(anime.get("anime_id", ""))
+        self.clip_behavior = ft.ClipBehavior.ANTI_ALIAS
+        self.margin = ft.padding.only(left=6, right=6, top=10, bottom=20)
+
+        self.on_click = lambda _: self._on_click_cb(anime.get("anime_id", "")) if on_click_callback else None
         self.on_hover = self._on_hover
         self.animate = ft.Animation(duration=150, curve=ft.AnimationCurve.EASE_IN_OUT)
+        self.rotate = ft.Rotate(angle=random.uniform(-0.015, 0.015))
 
-        thumb = anime.get("cover_path", "")
-        if thumb:
-            thumb = os.path.join(ROOT_DIR, thumb)
+        is_rated = skor_personal is not None
 
-        if thumb and os.path.exists(thumb):
-            poster = ft.Image(
-                src=thumb, width=120, height=140,
-                fit=ft.BoxFit.COVER,
-                border_radius=ft.border_radius.only(top_left=9, top_right=9),
-            )
+        if is_rated:
+            pill_bg = "#EC407A"
+            pill_txt = "★ rated"
+            pill_color = "#FFFFFF"
         else:
-            poster = ft.Container(
-                width=120, height=140,
-                bgcolor=C_BG2,
-                border_radius=ft.border_radius.only(top_left=9, top_right=9),
-                content=ft.Icon(
-                    "photo",
-                    color=C_TEXT3,
-                    size=32
-                ),
-                alignment=ft.Alignment.CENTER,
-            )
+            pill_bg = ft.Colors.with_opacity(0.9, "#F5EEF2")
+            pill_txt = "not rated"
+            pill_color = "#8B6A7A"
+
+        self._status_pill = ft.Container(
+            content=ft.Text(pill_txt, size=8, color=pill_color, weight=ft.FontWeight.BOLD),
+            bgcolor=pill_bg,
+            border_radius=ft.border_radius.only(top_left=10, bottom_right=10),
+            padding=ft.padding.symmetric(horizontal=8, vertical=2),
+            top=6, right=6,
+            opacity=1.0,
+            animate_opacity=ft.Animation(200, ft.AnimationCurve.EASE_OUT)
+        )
+
+        self._fav_icon = ft.Container(
+            content=ft.Image(src=_sakura_icon_svg(), width=22, height=22),
+            top=-30, right=6,
+            opacity=0,
+            animate_position=ft.Animation(300, ft.AnimationCurve.BOUNCE_OUT),
+            animate_opacity=ft.Animation(200, ft.AnimationCurve.EASE_IN_OUT),
+            animate_rotation=ft.Animation(300, ft.AnimationCurve.EASE_OUT),
+            rotate=ft.Rotate(angle=-1)
+        )
 
         genres = anime.get("genre", [])[:3]
         sg_str = (f"★ {skor_global:.1f}  ·  {anime.get('episodes', '?')} eps"
                   if skor_global else f"{anime.get('episodes', '?')} eps")
 
         self._overlay = ft.Container(
-            width=120, height=140,
+            width=120, height=162,
             bgcolor=ft.Colors.with_opacity(0.85, "#000000"),
-            border_radius=ft.border_radius.only(top_left=9, top_right=9),
-            padding=6,
+            border_radius=ft.border_radius.only(top_left=15, top_right=4),
+            padding=8,
             content=ft.Column(
                 controls=[
                     ft.Container(expand=True),
-                    ft.Text(anime.get("title", ""), size=9, color=C_WHITE,
+                    ft.Text(anime.get("title", ""), size=9, color="#FFFFFF",
                             weight=ft.FontWeight.BOLD, max_lines=2),
                     ft.Text(sg_str, size=8, color="#D4A8BC"),
                     ft.Row(
                         controls=[
                             ft.Container(
                                 content=ft.Text(g, size=7, color="#F5D0E0"),
-                                bgcolor="#C07090", border_radius=8,
+                                bgcolor="#C07090",
+                                border_radius=ft.border_radius.only(top_left=6, bottom_right=6),
                                 padding=ft.padding.symmetric(horizontal=4, vertical=1),
                                 opacity=0.75,
                             )
                             for g in genres
                         ],
-                        spacing=2,
-                        run_spacing=2,
-                        wrap=True,
+                        spacing=3, run_spacing=2, wrap=True,
                     ),
                 ],
                 spacing=3,
@@ -190,52 +224,125 @@ class AnimeCardSmall(ft.Container):
             visible=False,
         )
 
-        is_rated = skor_personal is not None
-        score_txt = f"★ {skor_global:.1f}" if skor_global else "★ —"
-        you_txt = f"you: {skor_personal:.1f}" if is_rated else "you: N/A"
+        thumb = anime.get("cover_path", "")
+        if thumb:
+            poster_path = os.path.abspath(os.path.join(ROOT_DIR, thumb))
+        else:
+            poster_path = ""
+
+        poster = ft.Container(
+            width=120, height=162,
+            clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            border_radius=ft.border_radius.only(top_left=15, top_right=4),
+            content=ft.Image(
+                src=poster_path if (poster_path and os.path.exists(poster_path)) else "",
+                width=120, height=162,
+                fit=ft.BoxFit.COVER,
+            ) if poster_path else ft.Icon("photo", color="#B0909A")
+        )
+
+        sp_txt = f"you: {skor_personal:.1f}" if is_rated else "you: N/A"
+        sp_col = "#9060A0" if is_rated else "#B0909A"
 
         info = ft.Container(
-            padding=ft.padding.only(left=6, right=6, top=4, bottom=5),
+            padding=ft.padding.only(left=7, right=7, top=4, bottom=5),
             content=ft.Column(
                 controls=[
-                    ft.Text(anime.get("title", "—"), size=9, color=C_TEXT,
-                            weight=ft.FontWeight.BOLD, max_lines=1,
-                            overflow=ft.TextOverflow.ELLIPSIS),
-                    ft.Text(f"{score_txt}  {you_txt}", size=8, color=C_TEXT3),
+                    ft.Text(
+                        anime.get("title", "—"),
+                        size=9,
+                        color="#3D2535",
+                        weight=ft.FontWeight.BOLD,
+                        max_lines=1,
+                        overflow=ft.TextOverflow.ELLIPSIS,
+                        text_align=ft.TextAlign.CENTER
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Text(
+                                f"★ {skor_global:.1f}" if skor_global else "★ —",
+                                size=8,
+                                color="#C08030",
+                                weight=ft.FontWeight.BOLD
+                            ),
+                            ft.Text("·", size=8, color="#EDE0E8"),
+                            ft.Text(
+                                sp_txt,
+                                size=8,
+                                color=sp_col,
+                                weight=ft.FontWeight.BOLD
+                            ),
+                        ],
+                        spacing=3,
+                        alignment=ft.MainAxisAlignment.CENTER
+                    ),
                 ],
-                spacing=2, tight=True,
-            ),
+                spacing=2,
+                tight=True,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
         )
 
         self.content = ft.Column(
             controls=[
-                ft.Stack(controls=[poster, self._overlay], width=120, height=140),
-                info
+                ft.Stack(
+                    controls=[poster, self._overlay, self._status_pill, self._fav_icon],
+                    width=120, height=162,
+                ),
+                info,
             ],
-            spacing=0, tight=True,
+            spacing=0,
         )
 
     def _on_hover(self, e):
         is_hovered = str(e.data).lower() == "true"
         self._overlay.visible = is_hovered
-        self.border = ft.border.all(1.5 if is_hovered else 1, C_SAKURA if is_hovered else C_BORDER)
+
+        if is_hovered:
+            self._status_pill.opacity = 0
+            self._fav_icon.top = 6
+            self._fav_icon.opacity = 1.0 if self.is_favorite else 0.4
+            self._fav_icon.rotate.angle = 0
+            self.rotate = ft.Rotate(angle=0.02)
+        else:
+            self._status_pill.opacity = 1.0
+            self._fav_icon.top = -30
+            self._fav_icon.opacity = 0
+            self._fav_icon.rotate.angle = -1
+            self.rotate = ft.Rotate(angle=0)
+
+        self.border = ft.border.all(1.5 if is_hovered else 1, "#EC407A" if is_hovered else "#EDE0E8")
         self.scale = 1.03 if is_hovered else 1.0
+        self.update()
 
-        self.shadow = ft.BoxShadow(
-            blur_radius=16 if is_hovered else 12,
-
-            color=ft.Colors.with_opacity(0.3 if is_hovered else 0.15, "#C07090"),
-            offset=ft.Offset(0, 6 if is_hovered else 4)
-        )
-
-        if self.page:
-            self.update()
+def _nav_item(kanji, label, style, on_click):
+    return ft.TextButton(
+        content=ft.Row(
+            controls=[
+                ft.Text(
+                    kanji,
+                    font_family="DotGothic16",
+                    size=16,
+                    weight=ft.FontWeight.BOLD,
+                    width=28,
+                    text_align=ft.TextAlign.CENTER,
+                ),
+                ft.Text(label, size=13, weight=ft.FontWeight.W_500),
+            ],
+            spacing=10,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        ),
+        style=style,
+        width=216,
+        on_click=on_click,
+    )
 
 
 def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
     nav_s = ft.ButtonStyle(
         color={ft.ControlState.DEFAULT: C_TEXT},
-        bgcolor={ft.ControlState.HOVERED: C_BG2, ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT},
+        bgcolor={ft.ControlState.HOVERED: C_BG2,
+                 ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT},
         shape=ft.RoundedRectangleBorder(radius=10),
         padding=ft.padding.symmetric(horizontal=16, vertical=10),
         alignment=ft.Alignment(-1, 0),
@@ -249,7 +356,8 @@ def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
     )
     danger_s = ft.ButtonStyle(
         color={ft.ControlState.DEFAULT: C_TEXT2},
-        bgcolor={ft.ControlState.HOVERED: C_BG2, ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT},
+        bgcolor={ft.ControlState.HOVERED: C_BG2,
+                 ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT},
         shape=ft.RoundedRectangleBorder(radius=8),
         padding=ft.padding.symmetric(horizontal=14, vertical=8),
         alignment=ft.Alignment(-1, 0),
@@ -278,36 +386,42 @@ def _sidebar(screen_manager, auth_manager, toggle_fn, halaman_aktif="home"):
                         alignment=ft.MainAxisAlignment.END,
                     ),
                     ft.Container(height=8),
-                    ft.TextButton(
-                        "   Home",
-                        style=active_nav_s if halaman_aktif == "home" else nav_s,
-                        width=216,
-                        on_click=lambda _: screen_manager.tampilkan_home(),
-                    ),
-                    ft.TextButton(
-                        "   Anime List",
-                        style=active_nav_s if halaman_aktif == "katalog" else nav_s,
-                        width=216,
-                        on_click=lambda _: screen_manager.tampilkan_katalog(),
-                    ),
-                    ft.TextButton(
-                        "   Add Anime",
-                        style=active_nav_s if halaman_aktif == "scraping" else nav_s,
-                        width=216,
-                        on_click=lambda _: screen_manager.tampilkan_scraping(),
-                    ),
-                    ft.TextButton(
-                        "   Profile",
-                        style=active_nav_s if halaman_aktif == "profil" else nav_s,
-                        width=216,
-                        on_click=lambda _: screen_manager.tampilkan_profil(),
-                    ),
+                    _nav_item("ホ", "Home",
+                              active_nav_s if halaman_aktif == "home" else nav_s,
+                              lambda _: screen_manager.tampilkan_home()),
+
+                    _nav_item("覧", "Anime List",
+                              active_nav_s if halaman_aktif == "katalog" else nav_s,
+                              lambda _: screen_manager.tampilkan_katalog()),
+
+                    _nav_item("追", "Add Anime",
+                              active_nav_s if halaman_aktif == "scraping" else nav_s,
+                              lambda _: screen_manager.tampilkan_scraping()),
+
+                    _nav_item("析", "Analytics",
+                              active_nav_s if halaman_aktif == "analytics" else nav_s,
+                              lambda _: screen_manager.tampilkan_analytics()),
+
+                    _nav_item("人", "Profile",
+                              active_nav_s if halaman_aktif == "profil" else nav_s,
+                              lambda _: screen_manager.tampilkan_profil()),
                     ft.Container(expand=True),
                     ft.Divider(color=C_BORDER, height=1, thickness=1),
                     ft.Container(height=4),
                     ft.TextButton(
-                        "↪   Log Out", style=danger_s, width=216,
-                        on_click=lambda _: (auth_manager.logout(), screen_manager.tampilkan_login()),
+                        content=ft.Row(
+                            controls=[
+                                ft.Text("出", font_family="DotGothic16",
+                                        size=16, weight=ft.FontWeight.BOLD,
+                                        width=28, text_align=ft.TextAlign.CENTER),
+                                ft.Text("Log Out", size=13),
+                            ],
+                            spacing=10,
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                        ),
+                        style=danger_s, width=216,
+                        on_click=lambda _: (auth_manager.logout(),
+                                            screen_manager.tampilkan_login()),
                     ),
                 ],
                 spacing=2, expand=True,
@@ -355,10 +469,31 @@ class UIHome(ft.Row):
                         ft.Icons.MENU, icon_color=C_SAKURA,
                         on_click=self._toggle_sidebar, tooltip="Menu",
                     ),
-                    ft.Column([
-                        ft.Text("RadarAni", size=13, color=C_SAKURA, weight=ft.FontWeight.BOLD),
-                        ft.Text("レーダアニ", size=8, color=C_TEXT3),
-                    ], spacing=0, tight=True),
+                    ft.Column(
+                        [
+                            ft.Row(
+                                spacing=0,
+                                controls=[
+                                    ft.Text("R", font_family="Hitchcut", size=24, color="#C07090"),
+                                    ft.Text("a", font_family="Hitchcut", size=24, color="#D48CA8"),
+                                    ft.Text("d", font_family="Hitchcut", size=24, color="#C07090"),
+                                    ft.Text("a", font_family="Hitchcut", size=24, color="#D48CA8"),
+                                    ft.Text("r", font_family="Hitchcut", size=24, color="#C07090"),
+                                    ft.Text("A", font_family="Hitchcut", size=24, color="#D48CA8"),
+                                    ft.Text("n", font_family="Hitchcut", size=24, color="#C07090"),
+                                    ft.Text("i", font_family="Hitchcut", size=24, color="#D48CA8"),
+                                ]
+                            ),
+                            ft.Text(
+                                "レーダアニ",
+                                font_family="Mofuji04",
+                                size=10,
+                                color=C_TEXT3,
+                            ),
+                        ],
+                        spacing=0,
+                        tight=True,
+                    ),
                     ft.Container(expand=True),
                     ft.IconButton(
                         ft.Icons.ACCOUNT_CIRCLE,
@@ -375,10 +510,10 @@ class UIHome(ft.Row):
         user_data = self.data_manager.get_user_by_id(user_id)
         username = user_data.get("username", "User") if user_data else "User"
 
-        self._stat_rated = _pill("— rated")
-        self._stat_unrated = _pill("— unrated")
-        self._stat_avg = _pill("avg —")
-        self._stat_dim = _pill("top: —")
+        self._stat_rated = _stat_pill("評", "RATED", "#DE7C88")
+        self._stat_unrated = _stat_pill("未", "UNRATED", "#52B7FF")
+        self._stat_avg = _stat_pill("均", "AVG", "#7AB9E6")
+        self._stat_dim = _stat_pill("極", "TOP", "#C0616D")
 
         self._rec_title = ft.Text("—", size=14, color=C_TEXT, weight=ft.FontWeight.BOLD, max_lines=1,
                                   overflow=ft.TextOverflow.ELLIPSIS, expand=True)
@@ -394,27 +529,62 @@ class UIHome(ft.Row):
             content=self._rec_image
         )
 
+        def banner_hover(e):
+            is_hover = str(e.data).lower() == "true"
+            if is_hover:
+                e.control.shadow = ft.BoxShadow(spread_radius=0, blur_radius=20, color="#66C07090",
+                                                offset=ft.Offset(0, 6))
+            else:
+                e.control.shadow = ft.BoxShadow(spread_radius=0, blur_radius=15, color="#1A000000",
+                                                offset=ft.Offset(0, 4))
+            e.control.update()
+
         rec_banner = ft.Container(
-            bgcolor=C_SAKURA_LT,
-            border=ft.border.all(1, "#E8D0DE"),
-            border_radius=10,
-            padding=ft.padding.symmetric(horizontal=14, vertical=10),
+            gradient=ft.LinearGradient(
+                begin=ft.Alignment(-1, 0),
+                end=ft.Alignment(1, 0),
+                colors=["#F2E3EB", C_WHITE, C_WHITE, "#F2E3EB"],
+                stops=[0.0, 0.15, 0.85, 1.0]
+            ),
+            shadow=ft.BoxShadow(
+                spread_radius=0,
+                blur_radius=15,
+                color="#1A000000",
+                offset=ft.Offset(0, 4)
+            ),
+            border_radius=12,
+            padding=ft.padding.symmetric(horizontal=16, vertical=12),
+            on_hover=banner_hover,
+            animate=ft.Animation(duration=250, curve=ft.AnimationCurve.EASE_OUT),
             content=ft.Row(
                 controls=[
                     self._rec_image_container,
                     ft.Column(
                         controls=[
-                            ft.Text("✦  RECOMMENDED FOR YOU", size=9, color="#9B6080", weight=ft.FontWeight.BOLD),
+                            ft.Text("✦  RECOMMENDED FOR YOU", size=9, color=C_TEXT3, weight=ft.FontWeight.W_900),
                             self._rec_title,
                             self._rec_reason,
                         ],
                         spacing=2, tight=True, expand=True,
                     ),
                     ft.ElevatedButton(
-                        "View", bgcolor=C_SAKURA, color=C_WHITE,
+                        "View",
                         style=ft.ButtonStyle(
                             shape=ft.RoundedRectangleBorder(radius=8),
                             padding=ft.padding.symmetric(horizontal=14, vertical=6),
+                            elevation=0,
+                            color={
+                                ft.ControlState.HOVERED: C_SAKURA,
+                                ft.ControlState.DEFAULT: C_WHITE
+                            },
+                            bgcolor={
+                                ft.ControlState.HOVERED: C_WHITE,
+                                ft.ControlState.DEFAULT: C_SAKURA
+                            },
+                            side={
+                                ft.ControlState.HOVERED: ft.BorderSide(1, C_SAKURA),
+                                ft.ControlState.DEFAULT: ft.BorderSide(0, ft.Colors.TRANSPARENT)
+                            }
                         ),
                         on_click=lambda _: self._klik_rekomendasi(),
                     ),
@@ -643,27 +813,55 @@ class UIHome(ft.Row):
         scores = [sp for _, sp in self._cached_anime_rated]
         avg_val = f"{sum(scores) / len(scores):.1f}" if scores else "—"
 
-        self._stat_rated.content = ft.Text(f"  {rated} rated", size=11, color=C_TEXT2)
-        self._stat_unrated.content = ft.Text(f"  {unrated} unrated", size=11, color=C_TEXT2)
-        self._stat_avg.content = ft.Text(f"  avg {avg_val}", size=11, color=C_TEXT2)
-        self._stat_dim.content = ft.Text(f"  top: {top_dim}", size=11, color=C_TEXT2)
+        self._stat_rated.content.controls[2].value = str(rated)
+        self._stat_unrated.content.controls[2].value = str(unrated)
+        self._stat_avg.content.controls[2].value = str(avg_val)
+        self._stat_dim.content.controls[2].value = str(top_dim)
         self.update()
 
     # ── Muat Rekomendasi ──
     def _muat_rekomendasi(self, user_id):
-        if not user_id: return
+        if not user_id:
+            return
+
+        MIN_RATING = 3
+        jumlah_rated = len(self._cached_anime_rated) if hasattr(self, '_cached_anime_rated') else 0
+
+        if jumlah_rated == 0:
+            self._rec_title.value = "Start rating to unlock recommendations."
+            self._rec_reason.value = "Rate your first anime to begin."
+            self._rec_image.visible = False
+            try:
+                self.update()
+            except RuntimeError:
+                pass
+            return
+
+        if jumlah_rated < MIN_RATING:
+            sisa = MIN_RATING - jumlah_rated
+            progress = "●" * jumlah_rated + "○" * sisa
+            self._rec_title.value = f"Rate {sisa} more anime to unlock recommendations."
+            self._rec_reason.value = f"{progress}  {jumlah_rated} / {MIN_RATING}"
+            self._rec_image.visible = False
+            try:
+                self.update()
+            except RuntimeError:
+                pass
+            return
 
         user_data = self.data_manager.get_user_by_id(user_id) or {}
         avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
-
         avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
 
         if not avg_dim:
-            self._rec_title.value = "Rate more anime to get recommendations!"
-            self._rec_reason.value = "Not enough data to calculate preferences."
+            self._rec_title.value = "Keep rating to improve your recommendations."
+            self._rec_reason.value = "Not enough dimension data yet."
             self._rec_image.visible = False
-            self.update()
+            try:
+                self.update()
+            except RuntimeError:
+                pass
             return
 
         skor_tertinggi = max(avg_dim.values())
@@ -696,7 +894,10 @@ class UIHome(ft.Row):
             self._rec_title.value = "You've conquered our catalog!"
             self._rec_reason.value = "No more anime left to recommend."
             self._rec_image.visible = False
-            self.update()
+            try:
+                self.update()
+            except RuntimeError:
+                pass
             return
 
         self._rec_anime_id = best_anime.get("anime_id")
@@ -775,18 +976,23 @@ class UIHome(ft.Row):
                 )
             )
 
-    # ── Muat Trending ──
+     # ── Muat Trending ──
     def _muat_trending(self, user_id):
-        self._trending_row.controls.clear()
-        semua_sorted = sorted(self._cached_semua_anime, key=lambda a: a.get("global_score", 0) or 0, reverse=True)
+         self._trending_row.controls.clear()
 
-        for anime in semua_sorted[:7]:
+         semua_sorted = sorted(
+             self._cached_semua_anime,
+            key=lambda a: (a.get("rating_count", 0) or 0, a.get("global_score", 0) or 0),
+            reverse=True
+         )
+
+         for anime in semua_sorted[:7]:
             aid = anime.get("anime_id", "")
             sg = anime.get("global_score", 0) or 0
             sp = self._cached_skor_user.get(aid, None) if user_id else None
             self._trending_row.controls.append(
                 AnimeCardSmall(anime, sg, sp, on_click_callback=self.screen_manager.tampilkan_detail)
-            )
+             )
 
     # ── Muat Top Unrated ──
     def _muat_top_unrated(self, user_id):
