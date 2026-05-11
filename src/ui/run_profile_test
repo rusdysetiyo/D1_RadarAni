@@ -1,0 +1,108 @@
+# -*- coding: utf-8 -*-
+"""
+run_profile_test.py
+Jalankan: python run_profile_test.py
+
+Ganti nilai SKENARIO untuk menguji kondisi yang berbeda:
+  1 = Tidak pernah rating sama sekali
+  2 = Sudah rating sebagian (statistik ada, genre belum)
+  3 = Data lengkap (semua ada)
+"""
+
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src", "ui"))
+
+import flet as ft
+from unittest.mock import MagicMock
+
+# Ganti angka ini untuk switch skenario
+SKENARIO = 3
+
+DATA_USER = {
+    "username": "sakura_test",
+    "user_id":  "U001",
+    "created_at": "2024-01-15 09:30:00",
+}
+
+DATA_STATISTIK_LENGKAP = {
+    "Plot":     7.5,
+    "Visual":           8.0,
+    "Audio":            6.5,
+    "Characterization": 9.0,
+    "Direction":        7.8,
+}
+
+DATA_ANIME_LENGKAP = [
+    {"rank": 1, "judul": "Fullmetal Alchemist: Brotherhood", "genre": "Action"},
+    {"rank": 2, "judul": "Violet Evergarden",                "genre": "Drama"},
+    {"rank": 3, "judul": "Steins;Gate",                      "genre": "Sci-Fi"},
+    {"rank": 4, "judul": "Mushishi",                         "genre": "Mystery"},
+]
+
+DATA_GENRE_LENGKAP = {
+    "Action":        35,
+    "Drama":         25,
+    "Fantasy":       20,
+    "Sci-Fi":        12,
+    "Slice of Life":  8,
+}
+
+
+def buat_mock(skenario):
+    dm = MagicMock()
+    am = MagicMock()
+    sm = MagicMock()
+
+    dm.get_user_by_id.return_value   = DATA_USER
+    am.get_user_aktif.return_value   = "U001"
+    am.hapus_akun_aktif.return_value = None
+
+    if skenario == 1:
+        # Skenario 1: Belum pernah rating sama sekali
+        dm.get_avg_dimensi_user.return_value = {}
+        dm.get_anime_favorit.return_value    = []
+        dm.get_top_genre_user.return_value   = {}
+
+    elif skenario == 2:
+        # Skenario 2: Rating sebagian - statistik ada, genre belum
+        dm.get_avg_dimensi_user.return_value = DATA_STATISTIK_LENGKAP
+        dm.get_anime_favorit.return_value    = DATA_ANIME_LENGKAP[:1]
+        dm.get_top_genre_user.return_value   = {}
+
+    else:
+        # Skenario 3: Data lengkap
+        dm.get_avg_dimensi_user.return_value = DATA_STATISTIK_LENGKAP
+        dm.get_anime_favorit.return_value    = DATA_ANIME_LENGKAP
+        dm.get_top_genre_user.return_value   = DATA_GENRE_LENGKAP
+
+    return dm, am, sm
+
+
+def main(page: ft.Page):
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.title = "RadarAni - Profile Test (Skenario {})".format(SKENARIO)
+    page.padding = 20
+    page.bgcolor = "#E0F2FE"
+
+    page.window.width  = 1100
+    page.window.height = 750
+
+    dm, am, sm = buat_mock(SKENARIO)
+
+    label_skenario = {
+        1: "Skenario 1 - Belum pernah rating",
+        2: "Skenario 2 - Rating sebagian",
+        3: "Skenario 3 - Data lengkap",
+    }
+    print("[TEST] Menjalankan: {}".format(label_skenario.get(SKENARIO, "?")))
+
+    from ui_profile import UIProfile
+
+    profile = UIProfile(page, dm, am, sm)
+    page.add(profile)
+
+
+if __name__ == "__main__":
+    ft.app(target=main)
