@@ -1,63 +1,187 @@
 [
     {
         "user_id": "U001",
-        "username": "Anus",
-        "password": "Rad123Anus@#",
-        "created_at": "01/03/2026 10:14:49"
+        "username": "Anu",
+        "password": "Rad123Anu@#",
+        "created_at": "2026-01-03T10:14:49",
+        "last_login": "2026-01-03T10:14:49",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A001",
+            "A002",
+            "A003"
+        ],
+        "rating_count": 20,
+        "average_score": 6.75,
+        "average_dimensions": [
+            5.59,
+            7.15,
+            7.25,
+            6.75,
+            7.05
+        ]
     },
     {
         "user_id": "U002",
         "username": "Sakura",
         "password": "Rad123Sakura@#",
-        "created_at": "01/03/2026 10:37:38"
+        "created_at": "2026-01-03T10:37:38",
+        "last_login": "2026-01-03T10:37:38",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 31,
+        "average_score": 6.83,
+        "average_dimensions": [
+            6.09,
+            7.0,
+            7.0,
+            7.03,
+            7.07
+        ]
     },
     {
         "user_id": "U003",
         "username": "SSP",
         "password": "Rad123SSP@#",
-        "created_at": "01/03/2026 10:44:46"
+        "created_at": "2026-01-03T10:44:46",
+        "last_login": "2026-01-03T10:44:46",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 25,
+        "average_score": 7.05,
+        "average_dimensions": [
+            6.32,
+            7.84,
+            6.96,
+            6.9,
+            7.19
+        ]
     },
     {
         "user_id": "U004",
         "username": "Souptik Mandal",
         "password": "Rad123Souptik Mandal@#",
-        "created_at": "01/03/2026 11:06:07"
+        "created_at": "2026-01-03T11:06:07",
+        "last_login": "2026-01-03T11:06:07",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 32,
+        "average_score": 6.96,
+        "average_dimensions": [
+            7.07,
+            6.7,
+            6.3,
+            7.4,
+            7.28
+        ]
     },
     {
         "user_id": "U005",
         "username": "Rus",
         "password": "Rad123Rus@#",
-        "created_at": "01/03/2026 11:53:02"
+        "created_at": "2026-01-03T11:53:02",
+        "last_login": "2026-01-03T11:53:02",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 32,
+        "average_score": 8.25,
+        "average_dimensions": [
+            8.22,
+            8.64,
+            7.98,
+            8.1,
+            8.25
+        ]
     },
     {
         "user_id": "U006",
         "username": "Azizah",
         "password": "Rad123Azizah@#",
-        "created_at": "01/03/2026 15:37:32"
+        "created_at": "2026-01-03T15:37:32",
+        "last_login": "2026-01-03T15:37:32",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 59,
+        "average_score": 7.61,
+        "average_dimensions": [
+            7.57,
+            7.43,
+            7.47,
+            7.79,
+            7.74
+        ]
     },
     {
         "user_id": "U007",
         "username": "Soumya Ukil",
         "password": "Rad123Soumya Ukil@#",
-        "created_at": "01/03/2026 17:13:23"
+        "created_at": "2026-01-03T17:13:23",
+        "last_login": "2026-01-03T17:13:23",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 44,
+        "average_score": 8.78,
+        "average_dimensions": [
+            8.58,
+            8.92,
+            9.09,
+            8.47,
+            8.87
+        ]
     },
     {
         "user_id": "U008",
         "username": "Andreas Krist",
         "password": "Rad123Andreas Krist@#",
-        "created_at": "01/03/2026 17:50:26"
+        "created_at": "2026-01-03T17:50:26",
+        "last_login": "2026-01-03T17:50:26",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 51,
+        "average_score": 7.94,
+        "average_dimensions": [
+            7.75,
+            8.24,
+            8.49,
+            7.58,
+            7.65
+        ]
     },
     {
         "user_id": "U009",
         "username": "DigiCat",
         "password": "Rad123DigiCat@#",
-        "created_at": "01/03/2026 18:18:09"
+        "created_at": "2026-01-03T18:18:09",
+        "last_login": "2026-01-03T18:18:09",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 55,
+        "average_score": 8.33,
+        "average_dimensions": [
+            8.01,
+            9.11,
+            9.33,
+            7.36,
+            7.86
+        ]
     },
     {
         "user_id": "U010",
         "username": "Vamp",
         "password": "Rad123Vamp@#",
-        "created_at": "01/03/2026 21:02:01"
+        "created_at": "2026-01-03T21:02:01",
+        "last_login": "2026-01-03T21:02:01",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 9,
+        "average_score": 7.82,
+        "average_dimensions": [
+            7.67,
+            7.66,
+            7.78,
+            7.67,
+            8.33
+        ]
     },
     {
         "user_id": "U011",
@@ -97,8 +221,1392 @@
     },
     {
         "user_id": "U017",
-        "username": "sdfh",
-        "password": "45",
-        "created_at": "30/03/2026 21:27:29"
+        "username": "Northen_Lights",
+        "password": "Rad123Northen_Lights1055@#",
+        "created_at": "2026-05-23T14:39:29",
+        "last_login": "2026-05-23T14:39:29",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A070",
+            "A052",
+            "A140",
+            "A242",
+            "A345"
+        ],
+        "rating_count": 162,
+        "average_score": 8.03,
+        "average_dimensions": [
+            8.04,
+            8.11,
+            7.86,
+            7.94,
+            8.2
+        ]
+    },
+    {
+        "user_id": "U018",
+        "username": "Mikura-san",
+        "password": "Rad123Mikura-san1007@#",
+        "created_at": "2026-05-31T18:49:21",
+        "last_login": "2026-05-31T18:49:21",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A094",
+            "A353",
+            "A413",
+            "A313"
+        ],
+        "rating_count": 249,
+        "average_score": 9.67,
+        "average_dimensions": [
+            9.65,
+            9.68,
+            9.64,
+            9.66,
+            9.72
+        ]
+    },
+    {
+        "user_id": "U019",
+        "username": "LunarSonata",
+        "password": "Rad123LunarSonata1073@#",
+        "created_at": "2026-05-04T16:09:25",
+        "last_login": "2026-05-04T16:09:25",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A038",
+            "A378",
+            "A035",
+            "A245"
+        ],
+        "rating_count": 205,
+        "average_score": 7.8,
+        "average_dimensions": [
+            7.86,
+            7.91,
+            7.57,
+            7.87,
+            7.79
+        ]
+    },
+    {
+        "user_id": "U020",
+        "username": "Sprite_Coke",
+        "password": "Rad123Sprite_Coke1179@#",
+        "created_at": "2026-04-01T22:23:09",
+        "last_login": "2026-04-01T22:23:09",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A022",
+            "A422",
+            "A118"
+        ],
+        "rating_count": 207,
+        "average_score": 8.06,
+        "average_dimensions": [
+            8.03,
+            8.06,
+            7.87,
+            8.2,
+            8.12
+        ]
+    },
+    {
+        "user_id": "U021",
+        "username": "Konstantin",
+        "password": "Rad123Konstantin950@#",
+        "created_at": "2026-04-14T12:03:09",
+        "last_login": "2026-04-14T12:03:09",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A338",
+            "A045"
+        ],
+        "rating_count": 299,
+        "average_score": 8.23,
+        "average_dimensions": [
+            8.14,
+            8.22,
+            8.07,
+            8.24,
+            8.48
+        ]
+    },
+    {
+        "user_id": "U022",
+        "username": "Cursedflame",
+        "password": "Rad123Cursedflame1000@#",
+        "created_at": "2026-05-08T04:01:36",
+        "last_login": "2026-05-08T04:01:36",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A022",
+            "A026",
+            "A307"
+        ],
+        "rating_count": 105,
+        "average_score": 8.67,
+        "average_dimensions": [
+            8.67,
+            8.85,
+            8.56,
+            8.6,
+            8.66
+        ]
+    },
+    {
+        "user_id": "U023",
+        "username": "lubryka",
+        "password": "Rad123lubryka1086@#",
+        "created_at": "2026-04-15T18:03:18",
+        "last_login": "2026-04-15T18:03:18",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A226",
+            "A209",
+            "A015",
+            "A233"
+        ],
+        "rating_count": 218,
+        "average_score": 6.89,
+        "average_dimensions": [
+            6.86,
+            6.96,
+            6.84,
+            6.85,
+            6.96
+        ]
+    },
+    {
+        "user_id": "U024",
+        "username": "J151carlos",
+        "password": "Rad123J151carlos1120@#",
+        "created_at": "2026-04-10T04:20:51",
+        "last_login": "2026-04-10T04:20:51",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A117",
+            "A148",
+            "A247",
+            "A180",
+            "A237"
+        ],
+        "rating_count": 257,
+        "average_score": 8.44,
+        "average_dimensions": [
+            8.35,
+            8.52,
+            8.28,
+            8.44,
+            8.61
+        ]
+    },
+    {
+        "user_id": "U025",
+        "username": "KuronekoSenpai",
+        "password": "Rad123KuronekoSenpai1119@#",
+        "created_at": "2026-04-02T15:59:50",
+        "last_login": "2026-04-02T15:59:50",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A327",
+            "A155",
+            "A328",
+            "A254"
+        ],
+        "rating_count": 268,
+        "average_score": 7.4,
+        "average_dimensions": [
+            7.38,
+            7.48,
+            7.13,
+            7.49,
+            7.5
+        ]
+    },
+    {
+        "user_id": "U026",
+        "username": "Yuki_Kuran",
+        "password": "Rad123Yuki_Kuran1040@#",
+        "created_at": "2026-04-14T10:25:28",
+        "last_login": "2026-04-14T10:25:28",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A202",
+            "A070",
+            "A034",
+            "A005",
+            "A091"
+        ],
+        "rating_count": 221,
+        "average_score": 7.82,
+        "average_dimensions": [
+            7.9,
+            7.91,
+            7.55,
+            7.71,
+            8.01
+        ]
+    },
+    {
+        "user_id": "U027",
+        "username": "temujin",
+        "password": "Rad123temujin1078@#",
+        "created_at": "2026-04-10T12:45:45",
+        "last_login": "2026-04-10T12:45:45",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A042"
+        ],
+        "rating_count": 307,
+        "average_score": 7.35,
+        "average_dimensions": [
+            7.36,
+            7.45,
+            7.17,
+            7.28,
+            7.5
+        ]
+    },
+    {
+        "user_id": "U028",
+        "username": "Kandomaru",
+        "password": "Rad123Kandomaru1006@#",
+        "created_at": "2026-04-28T07:26:51",
+        "last_login": "2026-04-28T07:26:51",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A104",
+            "A196",
+            "A155"
+        ],
+        "rating_count": 278,
+        "average_score": 8.09,
+        "average_dimensions": [
+            8.04,
+            8.1,
+            7.94,
+            8.12,
+            8.27
+        ]
+    },
+    {
+        "user_id": "U029",
+        "username": "Kiyaa",
+        "password": "Rad123Kiyaa1021@#",
+        "created_at": "2026-04-01T01:45:50",
+        "last_login": "2026-04-01T01:45:50",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A136",
+            "A221",
+            "A380",
+            "A232"
+        ],
+        "rating_count": 172,
+        "average_score": 7.53,
+        "average_dimensions": [
+            7.65,
+            7.4,
+            7.51,
+            7.52,
+            7.56
+        ]
+    },
+    {
+        "user_id": "U030",
+        "username": "Hime_chan",
+        "password": "Rad123Hime_chan1161@#",
+        "created_at": "2026-05-09T04:54:18",
+        "last_login": "2026-05-09T04:54:18",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A008",
+            "A017",
+            "A147",
+            "A321",
+            "A045"
+        ],
+        "rating_count": 375,
+        "average_score": 8.27,
+        "average_dimensions": [
+            8.2,
+            8.33,
+            8.1,
+            8.31,
+            8.4
+        ]
+    },
+    {
+        "user_id": "U031",
+        "username": "chivaguason",
+        "password": "Rad123chivaguason951@#",
+        "created_at": "2026-04-20T19:20:36",
+        "last_login": "2026-04-20T19:20:36",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A015",
+            "A014",
+            "A017",
+            "A070",
+            "A059"
+        ],
+        "rating_count": 326,
+        "average_score": 7.55,
+        "average_dimensions": [
+            7.64,
+            7.72,
+            7.33,
+            7.49,
+            7.55
+        ]
+    },
+    {
+        "user_id": "U032",
+        "username": "RogerSmith2004",
+        "password": "Rad123RogerSmith20041074@#",
+        "created_at": "2026-05-24T11:09:54",
+        "last_login": "2026-05-24T11:09:54",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A088",
+            "A212"
+        ],
+        "rating_count": 311,
+        "average_score": 8.03,
+        "average_dimensions": [
+            8.15,
+            8.02,
+            7.81,
+            7.97,
+            8.18
+        ]
+    },
+    {
+        "user_id": "U033",
+        "username": "KuukoKonata",
+        "password": "Rad123KuukoKonata1046@#",
+        "created_at": "2026-04-16T07:36:20",
+        "last_login": "2026-04-16T07:36:20",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A123",
+            "A226",
+            "A427",
+            "A008",
+            "A100"
+        ],
+        "rating_count": 239,
+        "average_score": 7.38,
+        "average_dimensions": [
+            7.24,
+            7.53,
+            7.29,
+            7.37,
+            7.49
+        ]
+    },
+    {
+        "user_id": "U034",
+        "username": "Shinmaru",
+        "password": "Rad123Shinmaru936@#",
+        "created_at": "2026-04-25T02:10:59",
+        "last_login": "2026-04-25T02:10:59",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A118",
+            "A042",
+            "A017"
+        ],
+        "rating_count": 137,
+        "average_score": 7.37,
+        "average_dimensions": [
+            7.24,
+            7.39,
+            7.11,
+            7.51,
+            7.61
+        ]
+    },
+    {
+        "user_id": "U035",
+        "username": "chatalert",
+        "password": "Rad123chatalert1172@#",
+        "created_at": "2026-05-29T14:28:20",
+        "last_login": "2026-05-29T14:28:20",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A003",
+            "A045",
+            "A066",
+            "A264",
+            "A204"
+        ],
+        "rating_count": 216,
+        "average_score": 5.41,
+        "average_dimensions": [
+            5.37,
+            5.47,
+            5.34,
+            5.35,
+            5.5
+        ]
+    },
+    {
+        "user_id": "U036",
+        "username": "pakin",
+        "password": "Rad123pakin1135@#",
+        "created_at": "2026-05-19T20:15:12",
+        "last_login": "2026-05-19T20:15:12",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A035",
+            "A147",
+            "A211",
+            "A077",
+            "A494"
+        ],
+        "rating_count": 354,
+        "average_score": 8.64,
+        "average_dimensions": [
+            8.6,
+            8.71,
+            8.45,
+            8.66,
+            8.79
+        ]
+    },
+    {
+        "user_id": "U037",
+        "username": "AnotherWish",
+        "password": "Rad123AnotherWish961@#",
+        "created_at": "2026-05-12T01:58:36",
+        "last_login": "2026-05-12T01:58:36",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A028",
+            "A314",
+            "A091",
+            "A097",
+            "A092"
+        ],
+        "rating_count": 337,
+        "average_score": 7.9,
+        "average_dimensions": [
+            7.93,
+            7.99,
+            7.73,
+            7.96,
+            7.88
+        ]
+    },
+    {
+        "user_id": "U038",
+        "username": "sayami",
+        "password": "Rad123sayami928@#",
+        "created_at": "2026-04-27T16:03:05",
+        "last_login": "2026-04-27T16:03:05",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A226",
+            "A036",
+            "A132"
+        ],
+        "rating_count": 156,
+        "average_score": 7.57,
+        "average_dimensions": [
+            7.53,
+            7.6,
+            7.33,
+            7.55,
+            7.85
+        ]
+    },
+    {
+        "user_id": "U039",
+        "username": "PrincessSerenity",
+        "password": "Rad123PrincessSerenity993@#",
+        "created_at": "2026-04-04T10:30:06",
+        "last_login": "2026-04-04T10:30:06",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A014",
+            "A147",
+            "A252",
+            "A066",
+            "A058"
+        ],
+        "rating_count": 223,
+        "average_score": 8.24,
+        "average_dimensions": [
+            8.28,
+            8.4,
+            8.0,
+            8.16,
+            8.34
+        ]
+    },
+    {
+        "user_id": "U040",
+        "username": "-Yatagarasu-",
+        "password": "Rad123-Yatagarasu-1003@#",
+        "created_at": "2026-05-18T03:07:05",
+        "last_login": "2026-05-18T03:07:05",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A265",
+            "A239",
+            "A004",
+            "A038",
+            "A462"
+        ],
+        "rating_count": 367,
+        "average_score": 8.01,
+        "average_dimensions": [
+            8.06,
+            8.14,
+            7.81,
+            7.91,
+            8.14
+        ]
+    },
+    {
+        "user_id": "U041",
+        "username": "zeromcd",
+        "password": "Rad123zeromcd988@#",
+        "created_at": "2026-04-14T02:23:19",
+        "last_login": "2026-04-14T02:23:19",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A074",
+            "A327",
+            "A097",
+            "A008"
+        ],
+        "rating_count": 113,
+        "average_score": 7.96,
+        "average_dimensions": [
+            7.92,
+            7.96,
+            7.86,
+            8.01,
+            8.06
+        ]
+    },
+    {
+        "user_id": "U042",
+        "username": "battleknight45",
+        "password": "Rad123battleknight451077@#",
+        "created_at": "2026-05-12T07:35:57",
+        "last_login": "2026-05-12T07:35:57",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A026",
+            "A306",
+            "A233"
+        ],
+        "rating_count": 142,
+        "average_score": 8.65,
+        "average_dimensions": [
+            8.69,
+            8.68,
+            8.46,
+            8.6,
+            8.84
+        ]
+    },
+    {
+        "user_id": "U043",
+        "username": "Saga_Darklight",
+        "password": "Rad123Saga_Darklight1095@#",
+        "created_at": "2026-04-28T14:13:57",
+        "last_login": "2026-04-28T14:13:57",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A022",
+            "A474",
+            "A184",
+            "A017"
+        ],
+        "rating_count": 211,
+        "average_score": 8.4,
+        "average_dimensions": [
+            8.49,
+            8.45,
+            8.3,
+            8.34,
+            8.45
+        ]
+    },
+    {
+        "user_id": "U044",
+        "username": "dark-chaos",
+        "password": "Rad123dark-chaos1198@#",
+        "created_at": "2026-05-25T02:26:48",
+        "last_login": "2026-05-25T02:26:48",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A021",
+            "A471",
+            "A092",
+            "A043",
+            "A206"
+        ],
+        "rating_count": 173,
+        "average_score": 7.9,
+        "average_dimensions": [
+            7.97,
+            7.98,
+            7.58,
+            7.9,
+            8.08
+        ]
+    },
+    {
+        "user_id": "U045",
+        "username": "HidamariSeashore",
+        "password": "Rad123HidamariSeashore1117@#",
+        "created_at": "2026-05-04T12:40:47",
+        "last_login": "2026-05-04T12:40:47",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A197",
+            "A320",
+            "A344",
+            "A037",
+            "A048"
+        ],
+        "rating_count": 232,
+        "average_score": 8.28,
+        "average_dimensions": [
+            8.22,
+            8.31,
+            8.35,
+            8.13,
+            8.38
+        ]
+    },
+    {
+        "user_id": "U046",
+        "username": "Tora",
+        "password": "Rad123Tora995@#",
+        "created_at": "2026-04-02T15:12:36",
+        "last_login": "2026-04-02T15:12:36",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A136",
+            "A042"
+        ],
+        "rating_count": 197,
+        "average_score": 7.7,
+        "average_dimensions": [
+            7.7,
+            7.66,
+            7.57,
+            7.76,
+            7.83
+        ]
+    },
+    {
+        "user_id": "U047",
+        "username": "DrProctoropolis",
+        "password": "Rad123DrProctoropolis981@#",
+        "created_at": "2026-05-26T13:59:29",
+        "last_login": "2026-05-26T13:59:29",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 112,
+        "average_score": 8.06,
+        "average_dimensions": [
+            8.07,
+            8.1,
+            8.02,
+            8.15,
+            7.97
+        ]
+    },
+    {
+        "user_id": "U048",
+        "username": "MisakiOji",
+        "password": "Rad123MisakiOji1182@#",
+        "created_at": "2026-05-29T05:20:13",
+        "last_login": "2026-05-29T05:20:13",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A328",
+            "A123",
+            "A306",
+            "A170",
+            "A019"
+        ],
+        "rating_count": 322,
+        "average_score": 7.78,
+        "average_dimensions": [
+            7.84,
+            7.83,
+            7.64,
+            7.7,
+            7.89
+        ]
+    },
+    {
+        "user_id": "U049",
+        "username": "RenataAlexandra",
+        "password": "Rad123RenataAlexandra1034@#",
+        "created_at": "2026-04-03T04:07:37",
+        "last_login": "2026-04-03T04:07:37",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A295",
+            "A271",
+            "A022",
+            "A123",
+            "A215"
+        ],
+        "rating_count": 237,
+        "average_score": 8.14,
+        "average_dimensions": [
+            8.22,
+            8.11,
+            7.98,
+            8.21,
+            8.2
+        ]
+    },
+    {
+        "user_id": "U050",
+        "username": "Tusy",
+        "password": "Rad123Tusy1181@#",
+        "created_at": "2026-04-15T05:21:47",
+        "last_login": "2026-04-15T05:21:47",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A344",
+            "A331",
+            "A007",
+            "A141"
+        ],
+        "rating_count": 323,
+        "average_score": 7.08,
+        "average_dimensions": [
+            7.03,
+            7.2,
+            6.84,
+            7.08,
+            7.28
+        ]
+    },
+    {
+        "user_id": "U051",
+        "username": "Eiposu_no_Tenshi",
+        "password": "Rad123Eiposu_no_Tenshi921@#",
+        "created_at": "2026-04-29T05:44:32",
+        "last_login": "2026-04-29T05:44:32",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 144,
+        "average_score": 7.26,
+        "average_dimensions": [
+            7.2,
+            7.54,
+            7.06,
+            7.06,
+            7.42
+        ]
+    },
+    {
+        "user_id": "U052",
+        "username": "morizuki",
+        "password": "Rad123morizuki909@#",
+        "created_at": "2026-04-08T16:51:41",
+        "last_login": "2026-04-08T16:51:41",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 131,
+        "average_score": 8.15,
+        "average_dimensions": [
+            8.09,
+            8.34,
+            8.05,
+            8.21,
+            8.09
+        ]
+    },
+    {
+        "user_id": "U053",
+        "username": "vala911",
+        "password": "Rad123vala9111155@#",
+        "created_at": "2026-04-12T19:57:10",
+        "last_login": "2026-04-12T19:57:10",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A068",
+            "A060",
+            "A295",
+            "A022"
+        ],
+        "rating_count": 202,
+        "average_score": 8.1,
+        "average_dimensions": [
+            8.17,
+            8.26,
+            7.89,
+            8.05,
+            8.13
+        ]
+    },
+    {
+        "user_id": "U054",
+        "username": "neepsocks",
+        "password": "Rad123neepsocks1174@#",
+        "created_at": "2026-05-25T17:30:39",
+        "last_login": "2026-05-25T17:30:39",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A197",
+            "A474"
+        ],
+        "rating_count": 327,
+        "average_score": 7.86,
+        "average_dimensions": [
+            7.87,
+            7.93,
+            7.74,
+            7.76,
+            7.98
+        ]
+    },
+    {
+        "user_id": "U055",
+        "username": "Kasalo_ZIK",
+        "password": "Rad123Kasalo_ZIK1197@#",
+        "created_at": "2026-05-16T00:25:57",
+        "last_login": "2026-05-16T00:25:57",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 209,
+        "average_score": 7.04,
+        "average_dimensions": [
+            6.98,
+            7.12,
+            6.98,
+            6.91,
+            7.23
+        ]
+    },
+    {
+        "user_id": "U056",
+        "username": "chibihien",
+        "password": "Rad123chibihien990@#",
+        "created_at": "2026-05-28T04:29:28",
+        "last_login": "2026-05-28T04:29:28",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A095"
+        ],
+        "rating_count": 359,
+        "average_score": 8.27,
+        "average_dimensions": [
+            8.25,
+            8.41,
+            8.13,
+            8.17,
+            8.38
+        ]
+    },
+    {
+        "user_id": "U057",
+        "username": "tatsu_ko",
+        "password": "Rad123tatsu_ko919@#",
+        "created_at": "2026-05-30T20:57:38",
+        "last_login": "2026-05-30T20:57:38",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A209"
+        ],
+        "rating_count": 253,
+        "average_score": 7.71,
+        "average_dimensions": [
+            7.66,
+            7.88,
+            7.42,
+            7.75,
+            7.84
+        ]
+    },
+    {
+        "user_id": "U058",
+        "username": "Sha-ka",
+        "password": "Rad123Sha-ka904@#",
+        "created_at": "2026-05-07T11:34:51",
+        "last_login": "2026-05-07T11:34:51",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A244",
+            "A108"
+        ],
+        "rating_count": 175,
+        "average_score": 7.25,
+        "average_dimensions": [
+            7.15,
+            7.27,
+            7.01,
+            7.26,
+            7.55
+        ]
+    },
+    {
+        "user_id": "U059",
+        "username": "Kudechik",
+        "password": "Rad123Kudechik951@#",
+        "created_at": "2026-04-01T16:44:33",
+        "last_login": "2026-04-01T16:44:33",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A226",
+            "A123",
+            "A218",
+            "A015",
+            "A002"
+        ],
+        "rating_count": 314,
+        "average_score": 8.16,
+        "average_dimensions": [
+            8.29,
+            8.22,
+            7.96,
+            8.13,
+            8.2
+        ]
+    },
+    {
+        "user_id": "U060",
+        "username": "Gardevoir",
+        "password": "Rad123Gardevoir965@#",
+        "created_at": "2026-04-06T23:51:11",
+        "last_login": "2026-04-06T23:51:11",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A097",
+            "A027",
+            "A008"
+        ],
+        "rating_count": 222,
+        "average_score": 8.86,
+        "average_dimensions": [
+            8.76,
+            8.99,
+            8.63,
+            8.9,
+            9.02
+        ]
+    },
+    {
+        "user_id": "U061",
+        "username": "Kramoule",
+        "password": "Rad123Kramoule1056@#",
+        "created_at": "2026-04-28T02:05:16",
+        "last_login": "2026-04-28T02:05:16",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A066",
+            "A244",
+            "A246"
+        ],
+        "rating_count": 239,
+        "average_score": 7.95,
+        "average_dimensions": [
+            7.86,
+            8.02,
+            7.9,
+            7.9,
+            8.09
+        ]
+    },
+    {
+        "user_id": "U062",
+        "username": "Kuma-Kuma",
+        "password": "Rad123Kuma-Kuma979@#",
+        "created_at": "2026-04-24T20:14:54",
+        "last_login": "2026-04-24T20:14:54",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A344",
+            "A095",
+            "A204",
+            "A026",
+            "A066"
+        ],
+        "rating_count": 311,
+        "average_score": 8.19,
+        "average_dimensions": [
+            8.08,
+            8.36,
+            7.95,
+            8.31,
+            8.24
+        ]
+    },
+    {
+        "user_id": "U063",
+        "username": "BluValkyree",
+        "password": "Rad123BluValkyree918@#",
+        "created_at": "2026-05-19T00:27:21",
+        "last_login": "2026-05-19T00:27:21",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A036",
+            "A008",
+            "A019",
+            "A094",
+            "A026"
+        ],
+        "rating_count": 439,
+        "average_score": 7.78,
+        "average_dimensions": [
+            7.69,
+            7.93,
+            7.72,
+            7.61,
+            7.93
+        ]
+    },
+    {
+        "user_id": "U064",
+        "username": "Akihito_Konnichi",
+        "password": "Rad123Akihito_Konnichi1008@#",
+        "created_at": "2026-05-21T12:20:19",
+        "last_login": "2026-05-21T12:20:19",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A474"
+        ],
+        "rating_count": 154,
+        "average_score": 8.08,
+        "average_dimensions": [
+            7.99,
+            8.16,
+            7.96,
+            8.15,
+            8.12
+        ]
+    },
+    {
+        "user_id": "U065",
+        "username": "SuperManW3",
+        "password": "Rad123SuperManW3920@#",
+        "created_at": "2026-04-02T05:24:07",
+        "last_login": "2026-04-02T05:24:07",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 99,
+        "average_score": 7.82,
+        "average_dimensions": [
+            7.58,
+            8.07,
+            7.72,
+            7.98,
+            7.76
+        ]
+    },
+    {
+        "user_id": "U066",
+        "username": "justGM",
+        "password": "Rad123justGM1082@#",
+        "created_at": "2026-05-04T22:29:22",
+        "last_login": "2026-05-04T22:29:22",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A066",
+            "A022",
+            "A328",
+            "A086",
+            "A247"
+        ],
+        "rating_count": 369,
+        "average_score": 8.2,
+        "average_dimensions": [
+            8.19,
+            8.23,
+            8.13,
+            8.18,
+            8.29
+        ]
+    },
+    {
+        "user_id": "U067",
+        "username": "Godou",
+        "password": "Rad123Godou1010@#",
+        "created_at": "2026-04-13T00:02:29",
+        "last_login": "2026-04-13T00:02:29",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A048",
+            "A454",
+            "A077",
+            "A193",
+            "A113"
+        ],
+        "rating_count": 296,
+        "average_score": 8.24,
+        "average_dimensions": [
+            8.21,
+            8.32,
+            8.02,
+            8.25,
+            8.37
+        ]
+    },
+    {
+        "user_id": "U068",
+        "username": "soccerkid",
+        "password": "Rad123soccerkid1162@#",
+        "created_at": "2026-05-14T15:30:22",
+        "last_login": "2026-05-14T15:30:22",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A061",
+            "A189",
+            "A028",
+            "A070",
+            "A042"
+        ],
+        "rating_count": 84,
+        "average_score": 6.8,
+        "average_dimensions": [
+            6.58,
+            6.99,
+            6.69,
+            6.75,
+            6.98
+        ]
+    },
+    {
+        "user_id": "U069",
+        "username": "Nerdist",
+        "password": "Rad123Nerdist1056@#",
+        "created_at": "2026-05-19T04:38:26",
+        "last_login": "2026-05-19T04:38:26",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A001",
+            "A009",
+            "A118",
+            "A017",
+            "A034"
+        ],
+        "rating_count": 331,
+        "average_score": 8.03,
+        "average_dimensions": [
+            8.06,
+            8.14,
+            7.91,
+            8.0,
+            8.06
+        ]
+    },
+    {
+        "user_id": "U070",
+        "username": "oerlemansje",
+        "password": "Rad123oerlemansje1130@#",
+        "created_at": "2026-04-03T03:27:53",
+        "last_login": "2026-04-03T03:27:53",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A060",
+            "A428",
+            "A232",
+            "A291"
+        ],
+        "rating_count": 268,
+        "average_score": 8.52,
+        "average_dimensions": [
+            8.54,
+            8.54,
+            8.34,
+            8.47,
+            8.69
+        ]
+    },
+    {
+        "user_id": "U071",
+        "username": "Zumirio",
+        "password": "Rad123Zumirio986@#",
+        "created_at": "2026-04-09T18:02:56",
+        "last_login": "2026-04-09T18:02:56",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A048",
+            "A140",
+            "A123",
+            "A035",
+            "A001"
+        ],
+        "rating_count": 253,
+        "average_score": 8.08,
+        "average_dimensions": [
+            8.08,
+            8.13,
+            7.87,
+            8.06,
+            8.24
+        ]
+    },
+    {
+        "user_id": "U072",
+        "username": "Vatelema",
+        "password": "Rad123Vatelema1036@#",
+        "created_at": "2026-05-02T22:52:21",
+        "last_login": "2026-05-02T22:52:21",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A017",
+            "A147",
+            "A003",
+            "A427",
+            "A204"
+        ],
+        "rating_count": 362,
+        "average_score": 7.62,
+        "average_dimensions": [
+            7.57,
+            7.69,
+            7.37,
+            7.71,
+            7.77
+        ]
+    },
+    {
+        "user_id": "U073",
+        "username": "PriZrak",
+        "password": "Rad123PriZrak957@#",
+        "created_at": "2026-04-24T23:21:56",
+        "last_login": "2026-04-24T23:21:56",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [],
+        "rating_count": 0,
+        "average_score": 0.0,
+        "average_dimensions": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "user_id": "U074",
+        "username": "ivensaugusto",
+        "password": "Rad123ivensaugusto1168@#",
+        "created_at": "2026-04-25T15:32:29",
+        "last_login": "2026-04-25T15:32:29",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A037"
+        ],
+        "rating_count": 354,
+        "average_score": 8.0,
+        "average_dimensions": [
+            7.98,
+            8.14,
+            7.88,
+            7.89,
+            8.08
+        ]
+    },
+    {
+        "user_id": "U075",
+        "username": "Djotak",
+        "password": "Rad123Djotak1068@#",
+        "created_at": "2026-05-25T07:19:19",
+        "last_login": "2026-05-25T07:19:19",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A190",
+            "A014",
+            "A472",
+            "A051",
+            "A353"
+        ],
+        "rating_count": 225,
+        "average_score": 7.34,
+        "average_dimensions": [
+            7.33,
+            7.46,
+            7.19,
+            7.24,
+            7.5
+        ]
+    },
+    {
+        "user_id": "U076",
+        "username": "Inarius",
+        "password": "Rad123Inarius936@#",
+        "created_at": "2026-05-15T23:08:57",
+        "last_login": "2026-05-15T23:08:57",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A034",
+            "A003",
+            "A392",
+            "A060"
+        ],
+        "rating_count": 86,
+        "average_score": 8.57,
+        "average_dimensions": [
+            8.36,
+            8.74,
+            8.36,
+            8.72,
+            8.66
+        ]
+    },
+    {
+        "user_id": "U077",
+        "username": "DinosA",
+        "password": "Rad123DinosA936@#",
+        "created_at": "2026-04-22T02:17:48",
+        "last_login": "2026-04-22T02:17:48",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A105",
+            "A048",
+            "A349",
+            "A406",
+            "A147"
+        ],
+        "rating_count": 250,
+        "average_score": 7.49,
+        "average_dimensions": [
+            7.52,
+            7.57,
+            7.32,
+            7.55,
+            7.48
+        ]
+    },
+    {
+        "user_id": "U078",
+        "username": "LexXxike",
+        "password": "Rad123LexXxike1190@#",
+        "created_at": "2026-04-14T15:11:06",
+        "last_login": "2026-04-14T15:11:06",
+        "bio": "Halo! Saya penikmat anime dan pengguna baru RadarAni.",
+        "favorit": [
+            "A182",
+            "A060",
+            "A070",
+            "A113",
+            "A062"
+        ],
+        "rating_count": 408,
+        "average_score": 8.08,
+        "average_dimensions": [
+            8.05,
+            8.19,
+            7.95,
+            8.0,
+            8.19
+        ]
     }
 ]

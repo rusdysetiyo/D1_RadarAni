@@ -2,6 +2,14 @@ import os
 import requests
 import json
 import time
+import random
+import logging
+from pathlib import Path
+from typing import List, Dict, Optional, Any
+import urllib.parse
+import difflib
+
+import requests
 from bs4 import BeautifulSoup
 
 BASE_URL = "https://myanimelist.net/topanime.php?type=bypopularity"
