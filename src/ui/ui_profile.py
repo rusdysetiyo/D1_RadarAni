@@ -526,8 +526,6 @@ class UIProfile(ft.Container):
                     ),
                     ft.Container(
                         content=ft.Column([
-                            ft.Text("(dari semua ratingmu)", size=10,
-                                    color=self._TEXT_MUTED),
                             ft.Image(src=f"data:image/png;base64,{bar_b64}",
                                      fit="contain", expand=True)
                             if bar_b64 else self._empty_state("Belum ada data."),
