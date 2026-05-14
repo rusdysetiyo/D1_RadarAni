@@ -14,9 +14,16 @@ def main(page: ft.Page):
     auth_manager = AuthManager(data_manager)
     screen_manager = ScreenManager(page, data_manager, auth_manager)
 
-    test_user_id = "U001"
-    auth_manager.set_user_aktif(test_user_id)
-    screen_manager.tampilkan_home()
+    # Cek apakah ada user yang sudah login sebelumnya (sesi tersimpan)
+    user_id_tersimpan = data_manager.baca_sesi()
+
+    if user_id_tersimpan:
+        # Jika ada sesi, set user aktif dan langsung ke Home
+        auth_manager.set_user_aktif(user_id_tersimpan)
+        screen_manager.tampilkan_home()
+    else:
+        # Jika tidak ada sesi, tampilkan layar login
+        screen_manager.tampilkan_login()
 
 if __name__ == '__main__':
     ft.run(main)
