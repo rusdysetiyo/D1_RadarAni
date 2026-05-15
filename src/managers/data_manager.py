@@ -525,6 +525,65 @@ class DataManager:
 
         return rekomendasi_final
 
+# ==========================================
+    # STATISTIK USER (untuk UIProfile)
+    # ==========================================
+
+    def get_avg_dimensi_user(self, user_id) -> dict:
+        """Mengembalikan rata-rata skor per dimensi milik user sebagai dict."""
+        user = self.get_user_by_id(user_id)
+        if not user:
+            return {}
+
+        dims = user.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        labels = ["plot", "visual", "audio", "characterization", "direction"]
+        return {label: round(val, 2) for label, val in zip(labels, dims)}
+
+    def get_anime_favorit(self, user_id):
+        """
+        Mengambil detail lengkap dari semua anime yang difavoritkan user.
+        Digunakan untuk merender Halaman Profil.
+        """
+        user = self.get_user_by_id(user_id)
+        if not user:
+            return []
+
+        list_id_favorit = user.get("favorit", [])
+
+        # Ambil detail lengkap dari setiap ID di list favorit
+        anime_favorit_lengkap = []
+        for anime_id in list_id_favorit:
+            detail = self.get_detail_anime(anime_id)
+            if detail:
+                anime_favorit_lengkap.append(detail)
+
+        return anime_favorit_lengkap
+
+    def get_top_genre_user(self, user_id) -> dict:
+        """
+        Menghitung proporsi genre dari anime yang telah dirating user.
+        Mengembalikan dict {genre: persentase} dari top 5 genre.
+        """
+        ratings = self._read_json(self.ratings_file) or {}
+        user_ratings = ratings.get(user_id, {})
+
+        genre_count: dict = {}
+        total = 0
+        for anime_id in user_ratings:
+            detail = self.get_detail_anime(anime_id)
+            if not detail:
+                continue
+            for g in detail.get("genre", []):
+                genre_count[g] = genre_count.get(g, 0) + 1
+                total += 1
+
+        if not genre_count or total == 0:
+            return {}
+
+        sorted_genre = sorted(genre_count.items(), key=lambda x: x[1], reverse=True)[:5]
+        return {g: round(cnt / total * 100) for g, cnt in sorted_genre}
+
+
 
 # ===============
 # BLOK PENGUJIAN
