@@ -2,10 +2,8 @@ import flet as ft
 import asyncio
 from src.ui.sakura_anim import get_sakura_svg
 
-C_TEXT3     = "#4A4A4A"
-C_SAKURA_LT = "#D890A8"
-
-def buat_bloom_screen(pesan: str):
+# Parameter 'theme' ditambahin di sini
+def buat_bloom_screen(pesan: str, theme):
     sakura_img = ft.Image(
         src=get_sakura_svg(size=160),
         width=160, height=160,
@@ -19,21 +17,23 @@ def buat_bloom_screen(pesan: str):
     )
 
     label = ft.Text(
-        pesan, size=13, color=C_TEXT3,
+        pesan, size=13,
+        color=theme["text_main"], # <--- Teks utama ngikutin tema (terang/gelap)
         weight=ft.FontWeight.W_400,
         opacity=0,
         animate_opacity=ft.Animation(duration=400, curve=ft.AnimationCurve.EASE_IN),
     )
 
     dots = ft.Text(
-        "●  ●  ●", size=11, color=C_SAKURA_LT,
+        "●  ●  ●", size=11,
+        color=theme["primary"], # <--- Warna titik-titik pakai aksen utama tema
         opacity=0,
         animate_opacity=ft.Animation(duration=500, curve=ft.AnimationCurve.EASE_IN_OUT),
     )
 
     container = ft.Container(
         expand=True,
-        bgcolor="#FCF8FA",
+        bgcolor=theme["bg"], # <--- Background mutlak ngikutin background aplikasi
         content=ft.Column(
             controls=[
                 ft.Container(expand=True),
