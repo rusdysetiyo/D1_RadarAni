@@ -1,9 +1,15 @@
 import os
+import time
 import urllib.parse
+
+import requests
 from PIL import Image
 from scripts.scraper import RadarAniScraper
 from scripts.userScraper import generate_5d_scores
 from src.managers.data_manager import DataManager
+
+# Domain unik untuk URL anime MAL yang valid
+_MAL_ANIME_DOMAIN = "myanimelist.net/anime/"
 
 
 class DynamicAnimeScraper(RadarAniScraper):
@@ -73,13 +79,95 @@ class DynamicAnimeScraper(RadarAniScraper):
             print(f"[!] Gagal membuat thumbnail lokal: {e}")
             return cover_rel_path  # Fallback: pakai path cover asli jika gagal
 
-    def dapatkan_kandidat_judul(self, judul_input):
+    # ------------------------------------------------------------------ #
+    #  Validasi & Klasifikasi Input                                        #
+    # ------------------------------------------------------------------ #
+
+    @staticmethod
+    def validasi_input(query: str) -> None:
+        """
+        Memvalidasi input pengguna sebelum pencarian dilakukan.
+        Raise ValueError dengan pesan informatif jika input tidak valid.
+        """
+        # Tolak HTML mentah
+        if "<" in query and ">" in query:
+            raise ValueError(
+                "Input tidak valid: terdeteksi konten HTML. "
+                "Masukkan judul anime atau URL MyAnimeList yang valid."
+            )
+
+        is_url = query.lower().startswith("http://") or query.lower().startswith("https://")
+
+        # Tolak URL yang bukan dari domain MAL
+        if is_url and _MAL_ANIME_DOMAIN not in query:
+            raise ValueError(
+                "URL tidak valid. Harap masukkan URL detail anime dari MyAnimeList, "
+                "contoh: https://myanimelist.net/anime/20"
+            )
+
+        # Tolak teks terlalu pendek (hanya berlaku untuk pencarian judul, bukan URL)
+        if not is_url and len(query) < 3:
+            raise ValueError(
+                "Input minimal 3 karakter. "
+                "Jika judul memang sangat pendek, harap gunakan URL MyAnimeList."
+            )
+
+    @staticmethod
+    def is_mal_anime_url(query: str) -> bool:
+        """Mengembalikan True jika query adalah URL anime MAL."""
+        return _MAL_ANIME_DOMAIN in query
+
+    # ------------------------------------------------------------------ #
+    #  Pencarian                                                           #
+    # ------------------------------------------------------------------ #
+
+    def cari_dari_url(self, url: str) -> tuple:
+        """
+        Mencari info anime dari URL MAL.
+        Normalisasi URL → ekstrak mal_id → cek duplikasi → ambil info halaman.
+
+        Returns:
+            (judul: str, thumb_url: str | None, is_duplicate: bool, normalized_url: str)
+
+        Raises:
+            ValueError      — jika format URL tidak dapat diparsing
+            ConnectionError — jika halaman MAL gagal dimuat
+        """
+        normalized_url = self.normalize_mal_url(url)
+
+        parts = normalized_url.split("/")
+        # Struktur: ['https:', '', 'myanimelist.net', 'anime', '<id>', ...]
+        if len(parts) < 5 or not parts[4].isdigit():
+            raise ValueError(
+                "Format URL MAL tidak valid — ID anime tidak ditemukan. "
+                "Contoh yang benar: https://myanimelist.net/anime/20"
+            )
+
+        mal_id = int(parts[4])
+        is_duplicate, _ = self._cek_duplikasi(mal_id)
+        judul, thumb_url = self.dapatkan_info_dari_url(normalized_url)
+
+        return judul, thumb_url, is_duplicate, normalized_url
+
+    def dapatkan_kandidat_judul(self, judul_input: str) -> list:
+        """
+        Mencari daftar kandidat anime di MAL berdasarkan judul.
+
+        Returns:
+            list of (judul, url, thumb_url)  — bisa kosong jika tidak ada hasil.
+
+        Raises:
+            ConnectionError — jika gagal terhubung ke server MAL.
+        """
         query_aman = urllib.parse.quote(judul_input)
         search_url = f"https://myanimelist.net/anime.php?q={query_aman}&cat=anime"
 
         soup = self.get_soup(search_url)
         if not soup:
-            return []
+            raise ConnectionError(
+                "Gagal terhubung ke MyAnimeList. "
+                "Periksa koneksi internet Anda atau coba lagi nanti."
+            )
 
         hasil_tr = soup.find_all('tr')
         kandidat_list = []
@@ -104,13 +192,44 @@ class DynamicAnimeScraper(RadarAniScraper):
             kandidat_list.append((judul_kandidat, url_kandidat, thumb_url))
             if len(kandidat_list) >= 10:
                 break
-                
+
         return kandidat_list
 
-    def dapatkan_info_dari_url(self, url):
+    @staticmethod
+    def normalize_mal_url(url):
+        """
+        Memotong sub-tab MAL dari URL anime.
+        """
+        SUB_TABS = {
+            "moreinfo", "pics", "clubs", "forum", "news",
+            "stacks", "userrecs", "reviews", "stats",
+            "video", "episode", "characters",
+        }
+        # Buang query string dan fragment terlebih dahulu
+        clean = url.split('?')[0].split('#')[0].rstrip('/')
+        parts = clean.split('/')
+        # Struktur: ['https:', '', 'myanimelist.net', 'anime', '<id>', '<judul>', '<sub_tab?>']
+        # Index 6 (jika ada) adalah kandidat sub-tab
+        if len(parts) >= 7 and parts[6].lower() in SUB_TABS:
+            parts = parts[:6]  # buang sub-tab
+        return '/'.join(parts)
+
+    def dapatkan_info_dari_url(self, url: str) -> tuple:
+        """
+        Mengambil judul dan URL thumbnail dari halaman detail anime MAL.
+
+        Returns:
+            (judul: str, thumb_url: str | None)
+
+        Raises:
+            ConnectionError — jika halaman gagal dimuat (network error / diblokir).
+        """
         soup = self.get_soup(url)
         if not soup:
-            return "N/A", None
+            raise ConnectionError(
+                "Gagal memuat halaman MAL. Periksa koneksi internet Anda "
+                "atau coba lagi beberapa saat kemudian."
+            )
 
         judul = "N/A"
         title_container = soup.find('div', itemprop='name')
@@ -123,7 +242,7 @@ class DynamicAnimeScraper(RadarAniScraper):
         cover_tag = soup.find('img', itemprop='image')
         if cover_tag:
             cover_url = cover_tag.get('data-src') or cover_tag.get('src')
-            thumb_url = self._cover_to_thumb_url(cover_url)  # konversi ke thumbnail
+            thumb_url = self._cover_to_thumb_url(cover_url)
 
         return judul, thumb_url
 
@@ -200,58 +319,108 @@ class DynamicAnimeScraper(RadarAniScraper):
 
         print(f"[+] Injeksi rating selesai untuk '{anime_id}'.")
 
-    def eksekusi_tambah_anime(self, url, thumb_url=None):
-        """Mengekstraksi data, mengecek duplikasi, dan menyimpan ke JSON."""
+    def _fetch_banner_from_anilist(self, mal_id, anime_id) -> str:
+        if not mal_id:
+            return ""
+        query = '''
+        query ($idMal: Int) {
+          Media (idMal: $idMal, type: ANIME) {
+            bannerImage
+          }
+        }
+        '''
+        try:
+            response = requests.post(
+                'https://graphql.anilist.co',
+                json={'query': query, 'variables': {'idMal': mal_id}},
+                timeout=10
+            )
+            if response.status_code == 429:
+                print("[!] Rate limit Anilist, tunggu 5 detik...")
+                time.sleep(5)
+                return ""
+            if response.status_code == 200:
+                media = response.json().get('data', {}).get('Media')
+                if media and media.get('bannerImage'):
+                    return self.download_image(media['bannerImage'], self.banner_dir, f"{anime_id}_BANNER.jpg")
+        except Exception as e:
+            print(f"[!] Gagal fetch banner Anilist: {e}")
+        return ""
+
+    def eksekusi_tambah_anime(self, url: str, thumb_url: str | None = None) -> dict:
+        """
+        Mengekstraksi data, mengecek duplikasi, dan menyimpan ke database.
+
+        Returns:
+            dict — data anime yang berhasil ditambahkan.
+
+        Raises:
+            ValueError      — URL tidak valid atau anime sudah ada di database.
+            RuntimeError    — gagal mengekstraksi data dari halaman MAL.
+            ConnectionError — gagal terhubung ke MAL (diteruskan dari parse_anime_details).
+        """
         try:
             mal_id = int(url.split('/')[4])
         except (IndexError, ValueError):
-            print("[!] URL tidak valid. Tidak dapat menemukan MAL ID.")
-            return
+            raise ValueError(
+                "URL tidak valid — tidak dapat menemukan MAL ID. "
+                "Contoh URL yang benar: https://myanimelist.net/anime/20"
+            )
 
         is_duplicate, judul_terdaftar = self._cek_duplikasi(mal_id)
         if is_duplicate:
-            print(f"[-] Batal ditambahkan. Anime tersebut sudah ada di database dengan judul: {judul_terdaftar}")
-            return
+            raise ValueError(
+                f"Anime sudah ada di database dengan judul: '{judul_terdaftar}'"
+            )
 
         print("[*] Mengekstraksi data anime dari halaman detail...")
         next_id_number = self._generate_next_anime_id()
 
         anime_data = self.parse_anime_details(url, next_id_number)
 
-        if anime_data:
-            # PERBAIKAN: Jika ada thumb_url, unduh sebagai TIMG!
-            if thumb_url:
-                # Cara 1: Jika dapat URL thumbnail dari search
-                path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{next_id_number:03d}.jpg")
-                anime_data["thumbnail_path"] = path_thumb
-            elif anime_data.get("cover_path") and anime_data["cover_path"] != "N/A":
-                # Cara 2 (Fallback): URL input langsung, buat thumbnail dari cover lokal
-                print("[*] Membuat thumbnail 100x140 dari gambar cover...")
-                path_thumb = self.buat_thumbnail_lokal(anime_data["cover_path"], next_id_number)
-                anime_data["thumbnail_path"] = path_thumb
-            else:
-                # Cara 3: Gagal semuanya
-                anime_data["thumbnail_path"] = "N/A"
-
-            # Pastikan field cache rating ada sebelum disimpan
-            anime_data.setdefault("rating_count", 0)
-            anime_data.setdefault("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
-
-            print("[*] Menyimpan ke database...")
-            semua_anime = self.data_manager._read_json(self.data_manager.anime_file) or []
-            semua_anime.append(anime_data)
-            self.data_manager._write_json(self.data_manager.anime_file, semua_anime)
-
-            print(f"[+] SUKSES! '{anime_data['title']}' berhasil ditambahkan dengan ID {anime_data['anime_id']}.")
-
-            # Injeksi rating dari 10 user pertama jika skor MAL valid
-            self._injeksi_rating_awal(
-                anime_id=anime_data["anime_id"],
-                global_score=anime_data.get("global_score", 0.0),
-                genres=anime_data.get("genre", [])
+        if not anime_data:
+            raise RuntimeError(
+                "Gagal mengekstraksi data dari halaman MAL. Periksa koneksi anda. "
+                "Halaman mungkin tidak dapat diakses atau strukturnya berubah."
             )
+
+        # Penanganan thumbnail
+        if thumb_url:
+            path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{next_id_number:03d}.jpg")
+            anime_data["thumbnail_path"] = path_thumb
+        elif anime_data.get("cover_path") and anime_data["cover_path"] != "N/A":
+            print("[*] Membuat thumbnail 100x140 dari gambar cover...")
+            path_thumb = self.buat_thumbnail_lokal(anime_data["cover_path"], next_id_number)
+            anime_data["thumbnail_path"] = path_thumb
         else:
-            print("[!] Gagal mengekstraksi data.")
+            anime_data["thumbnail_path"] = "N/A"
+        print("[*] Mencari banner dari Anilist...")
+        time.sleep(1)
+        banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
+        anime_data["banner_path"] = banner_path
+        if banner_path:
+            print(f"[+] Banner didapat: {banner_path}")
+        else:
+            print("[-] Banner tidak tersedia di Anilist.")
+        # Pastikan field cache rating ada sebelum disimpan
+        anime_data.setdefault("rating_count", 0)
+        anime_data.setdefault("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+
+        print("[*] Menyimpan ke database...")
+        semua_anime = self.data_manager._read_json(self.data_manager.anime_file) or []
+        semua_anime.append(anime_data)
+        self.data_manager._write_json(self.data_manager.anime_file, semua_anime)
+
+        print(f"[+] SUKSES! '{anime_data['title']}' berhasil ditambahkan dengan ID {anime_data['anime_id']}.")
+
+        # Injeksi rating dari 10 user pertama jika skor MAL valid
+        self._injeksi_rating_awal(
+            anime_id=anime_data["anime_id"],
+            global_score=anime_data.get("global_score", 0.0),
+            genres=anime_data.get("genre", [])
+        )
+
+        return anime_data
 
 
 def run_terminal_interface():
@@ -275,7 +444,9 @@ def run_terminal_interface():
 
         if "http" in user_input:
             if "myanimelist.net/anime/" in user_input:
-                target_url = user_input
+                target_url = DynamicAnimeScraper.normalize_mal_url(user_input)
+                if target_url != user_input:
+                    print(f"[~] URL dinormalisasi ke: {target_url}")
                 # Karena input URL langsung, kita biarkan thumb_url None (nanti fallback ke cover)
             else:
                 print("[!] URL tidak valid. Harap masukkan URL detail anime dari MyAnimeList.")

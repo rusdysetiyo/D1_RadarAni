@@ -28,14 +28,15 @@
             8.3,
             8.35,
             8.37
-        ]
+        ],
+        "banner_path": "assets/banners/A001_BANNER.jpg"
     },
     {
         "anime_id": "A002",
         "mal_id": 1535,
         "title": "Death Note",
         "en_title": null,
-        "global_score": 8.68,
+        "global_score": 8.76,
         "genre": [
             "Supernatural",
             "Suspense",
@@ -48,14 +49,15 @@
         "episodes": "37",
         "cover_path": "assets/covers/CIMG002.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG002.jpg",
-        "rating_count": 64,
+        "rating_count": 63,
         "global_score_dimensions": [
-            8.56,
-            8.63,
-            8.63,
-            8.72,
-            8.86
-        ]
+            8.68,
+            8.75,
+            8.7,
+            8.84,
+            8.84
+        ],
+        "banner_path": "assets/banners/A002_BANNER.jpg"
     },
     {
         "anime_id": "A003",
@@ -84,7 +86,8 @@
             8.62,
             9.05,
             8.85
-        ]
+        ],
+        "banner_path": "assets/banners/A003_BANNER.jpg"
     },
     {
         "anime_id": "A004",
@@ -113,7 +116,8 @@
             7.9,
             8.03,
             8.23
-        ]
+        ],
+        "banner_path": "assets/banners/A004_BANNER.jpg"
     },
     {
         "anime_id": "A005",
@@ -141,7 +145,8 @@
             8.38,
             7.98,
             8.58
-        ]
+        ],
+        "banner_path": "assets/banners/A005_BANNER.jpg"
     },
     {
         "anime_id": "A006",
@@ -168,7 +173,8 @@
             7.64,
             7.05,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A006_BANNER.jpg"
     },
     {
         "anime_id": "A007",
@@ -196,7 +202,8 @@
             7.46,
             7.35,
             7.74
-        ]
+        ],
+        "banner_path": "assets/banners/A007_BANNER.jpg"
     },
     {
         "anime_id": "A008",
@@ -223,7 +230,8 @@
             8.19,
             8.36,
             8.83
-        ]
+        ],
+        "banner_path": "assets/banners/A008_BANNER.jpg"
     },
     {
         "anime_id": "A009",
@@ -251,7 +259,8 @@
             7.31,
             7.17,
             7.87
-        ]
+        ],
+        "banner_path": "assets/banners/A009_BANNER.jpg"
     },
     {
         "anime_id": "A010",
@@ -282,7 +291,8 @@
             7.4,
             7.71,
             7.69
-        ]
+        ],
+        "banner_path": "assets/banners/A010_BANNER.jpg"
     },
     {
         "anime_id": "A011",
@@ -307,7 +317,8 @@
             8.42,
             8.36,
             8.35
-        ]
+        ],
+        "banner_path": "assets/banners/A011_BANNER.jpg"
     },
     {
         "anime_id": "A012",
@@ -335,7 +346,8 @@
             8.32,
             8.07,
             8.83
-        ]
+        ],
+        "banner_path": "assets/banners/A012_BANNER.jpg"
     },
     {
         "anime_id": "A013",
@@ -365,7 +377,8 @@
             8.04,
             8.46,
             8.42
-        ]
+        ],
+        "banner_path": "assets/banners/A013_BANNER.jpg"
     },
     {
         "anime_id": "A014",
@@ -393,7 +406,8 @@
             8.55,
             9.09,
             8.91
-        ]
+        ],
+        "banner_path": "assets/banners/A014_BANNER.jpg"
     },
     {
         "anime_id": "A015",
@@ -421,7 +435,8 @@
             7.74,
             7.96,
             8.3
-        ]
+        ],
+        "banner_path": "assets/banners/A015_BANNER.jpg"
     },
     {
         "anime_id": "A016",
@@ -448,7 +463,8 @@
             8.28,
             8.46,
             8.46
-        ]
+        ],
+        "banner_path": "assets/banners/A016_BANNER.jpg"
     },
     {
         "anime_id": "A017",
@@ -475,7 +491,8 @@
             8.0,
             8.33,
             6.33
-        ]
+        ],
+        "banner_path": "assets/banners/A017_BANNER.jpg"
     },
     {
         "anime_id": "A018",
@@ -505,7 +522,8 @@
             8.4,
             8.77,
             8.86
-        ]
+        ],
+        "banner_path": "assets/banners/A018_BANNER.jpg"
     },
     {
         "anime_id": "A019",
@@ -531,7 +549,8 @@
             8.38,
             8.88,
             8.58
-        ]
+        ],
+        "banner_path": "assets/banners/A019_BANNER.jpg"
     },
     {
         "anime_id": "A020",
@@ -561,7 +580,8 @@
             8.68,
             8.97,
             9.21
-        ]
+        ],
+        "banner_path": "assets/banners/A020_BANNER.jpg"
     },
     {
         "anime_id": "A021",
@@ -589,7 +609,8 @@
             7.9,
             7.75,
             8.22
-        ]
+        ],
+        "banner_path": "assets/banners/A021_BANNER.jpg"
     },
     {
         "anime_id": "A022",
@@ -619,7 +640,8 @@
             8.31,
             8.78,
             8.69
-        ]
+        ],
+        "banner_path": "assets/banners/A022_BANNER.jpg"
     },
     {
         "anime_id": "A023",
@@ -648,7 +670,8 @@
             7.87,
             8.11,
             8.04
-        ]
+        ],
+        "banner_path": "assets/banners/A023_BANNER.jpg"
     },
     {
         "anime_id": "A024",
@@ -678,7 +701,8 @@
             9.19,
             8.5,
             8.19
-        ]
+        ],
+        "banner_path": "assets/banners/A024_BANNER.jpg"
     },
     {
         "anime_id": "A025",
@@ -705,7 +729,8 @@
             8.37,
             8.4,
             8.77
-        ]
+        ],
+        "banner_path": "assets/banners/A025_BANNER.jpg"
     },
     {
         "anime_id": "A026",
@@ -732,7 +757,8 @@
             8.32,
             8.33,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A026_BANNER.jpg"
     },
     {
         "anime_id": "A027",
@@ -759,7 +785,8 @@
             8.06,
             7.79,
             7.91
-        ]
+        ],
+        "banner_path": "assets/banners/A027_BANNER.jpg"
     },
     {
         "anime_id": "A028",
@@ -785,7 +812,8 @@
             7.74,
             7.98,
             7.91
-        ]
+        ],
+        "banner_path": "assets/banners/A028_BANNER.jpg"
     },
     {
         "anime_id": "A029",
@@ -813,7 +841,8 @@
             8.02,
             8.2,
             8.25
-        ]
+        ],
+        "banner_path": "assets/banners/A029_BANNER.jpg"
     },
     {
         "anime_id": "A030",
@@ -843,7 +872,8 @@
             8.67,
             9.0,
             8.52
-        ]
+        ],
+        "banner_path": "assets/banners/A030_BANNER.jpg"
     },
     {
         "anime_id": "A031",
@@ -870,7 +900,8 @@
             7.12,
             6.86,
             7.36
-        ]
+        ],
+        "banner_path": "assets/banners/A031_BANNER.jpg"
     },
     {
         "anime_id": "A032",
@@ -897,7 +928,8 @@
             7.5,
             7.5,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A032_BANNER.jpg"
     },
     {
         "anime_id": "A033",
@@ -924,7 +956,8 @@
             7.75,
             7.88,
             8.28
-        ]
+        ],
+        "banner_path": "assets/banners/A033_BANNER.jpg"
     },
     {
         "anime_id": "A034",
@@ -951,14 +984,15 @@
             7.27,
             7.07,
             7.84
-        ]
+        ],
+        "banner_path": "assets/banners/A034_BANNER.jpg"
     },
     {
         "anime_id": "A035",
         "mal_id": 6547,
         "title": "Angel Beats!",
         "en_title": null,
-        "global_score": 7.89,
+        "global_score": 7.99,
         "genre": [
             "Drama",
             "Fantasy",
@@ -970,14 +1004,15 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG035.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG035.jpg",
-        "rating_count": 71,
+        "rating_count": 70,
         "global_score_dimensions": [
-            7.79,
-            7.9,
             7.89,
-            7.94,
-            7.94
-        ]
+            8.0,
+            7.99,
+            8.04,
+            8.04
+        ],
+        "banner_path": "assets/banners/A035_BANNER.jpg"
     },
     {
         "anime_id": "A036",
@@ -1004,7 +1039,8 @@
             7.95,
             8.38,
             8.08
-        ]
+        ],
+        "banner_path": "assets/banners/A036_BANNER.jpg"
     },
     {
         "anime_id": "A037",
@@ -1032,7 +1068,8 @@
             7.89,
             8.4,
             8.23
-        ]
+        ],
+        "banner_path": "assets/banners/A037_BANNER.jpg"
     },
     {
         "anime_id": "A038",
@@ -1060,7 +1097,8 @@
             7.6,
             7.58,
             8.08
-        ]
+        ],
+        "banner_path": "assets/banners/A038_BANNER.jpg"
     },
     {
         "anime_id": "A039",
@@ -1091,7 +1129,8 @@
             7.55,
             7.64,
             7.53
-        ]
+        ],
+        "banner_path": "assets/banners/A039_BANNER.jpg"
     },
     {
         "anime_id": "A040",
@@ -1119,7 +1158,8 @@
             7.23,
             7.23,
             7.58
-        ]
+        ],
+        "banner_path": "assets/banners/A040_BANNER.jpg"
     },
     {
         "anime_id": "A041",
@@ -1147,7 +1187,8 @@
             7.42,
             7.08,
             7.88
-        ]
+        ],
+        "banner_path": "assets/banners/A041_BANNER.jpg"
     },
     {
         "anime_id": "A042",
@@ -1175,7 +1216,8 @@
             8.4,
             8.2,
             8.52
-        ]
+        ],
+        "banner_path": "assets/banners/A042_BANNER.jpg"
     },
     {
         "anime_id": "A043",
@@ -1205,7 +1247,8 @@
             7.82,
             8.05,
             7.91
-        ]
+        ],
+        "banner_path": "assets/banners/A043_BANNER.jpg"
     },
     {
         "anime_id": "A044",
@@ -1232,7 +1275,8 @@
             8.51,
             8.4,
             8.85
-        ]
+        ],
+        "banner_path": "assets/banners/A044_BANNER.jpg"
     },
     {
         "anime_id": "A045",
@@ -1262,7 +1306,8 @@
             8.03,
             8.13,
             8.26
-        ]
+        ],
+        "banner_path": "assets/banners/A045_BANNER.jpg"
     },
     {
         "anime_id": "A046",
@@ -1286,7 +1331,8 @@
             8.65,
             8.88,
             8.4
-        ]
+        ],
+        "banner_path": "assets/banners/A046_BANNER.jpg"
     },
     {
         "anime_id": "A047",
@@ -1313,7 +1359,8 @@
             7.76,
             8.1,
             8.33
-        ]
+        ],
+        "banner_path": "assets/banners/A047_BANNER.jpg"
     },
     {
         "anime_id": "A048",
@@ -1342,7 +1389,8 @@
             8.16,
             8.45,
             8.69
-        ]
+        ],
+        "banner_path": "assets/banners/A048_BANNER.jpg"
     },
     {
         "anime_id": "A049",
@@ -1368,7 +1416,8 @@
             8.17,
             7.77,
             7.6
-        ]
+        ],
+        "banner_path": "assets/banners/A049_BANNER.jpg"
     },
     {
         "anime_id": "A050",
@@ -1396,7 +1445,8 @@
             8.05,
             7.84,
             8.08
-        ]
+        ],
+        "banner_path": "assets/banners/A050_BANNER.jpg"
     },
     {
         "anime_id": "A051",
@@ -1423,7 +1473,8 @@
             7.97,
             8.21,
             8.21
-        ]
+        ],
+        "banner_path": "assets/banners/A051_BANNER.jpg"
     },
     {
         "anime_id": "A052",
@@ -1452,7 +1503,8 @@
             7.71,
             7.83,
             8.4
-        ]
+        ],
+        "banner_path": "assets/banners/A052_BANNER.jpg"
     },
     {
         "anime_id": "A053",
@@ -1479,7 +1531,8 @@
             8.15,
             7.92,
             7.96
-        ]
+        ],
+        "banner_path": "assets/banners/A053_BANNER.jpg"
     },
     {
         "anime_id": "A054",
@@ -1510,7 +1563,8 @@
             6.61,
             7.14,
             6.97
-        ]
+        ],
+        "banner_path": "assets/banners/A054_BANNER.jpg"
     },
     {
         "anime_id": "A055",
@@ -1536,7 +1590,8 @@
             8.23,
             8.46,
             8.62
-        ]
+        ],
+        "banner_path": "assets/banners/A055_BANNER.jpg"
     },
     {
         "anime_id": "A056",
@@ -1565,7 +1620,8 @@
             8.19,
             8.56,
             8.47
-        ]
+        ],
+        "banner_path": "assets/banners/A056_BANNER.jpg"
     },
     {
         "anime_id": "A057",
@@ -1594,7 +1650,8 @@
             7.2,
             7.33,
             8.33
-        ]
+        ],
+        "banner_path": "assets/banners/A057_BANNER.jpg"
     },
     {
         "anime_id": "A058",
@@ -1623,7 +1680,8 @@
             8.31,
             8.31,
             8.55
-        ]
+        ],
+        "banner_path": "assets/banners/A058_BANNER.jpg"
     },
     {
         "anime_id": "A059",
@@ -1652,7 +1710,8 @@
             7.67,
             7.96,
             8.48
-        ]
+        ],
+        "banner_path": "assets/banners/A059_BANNER.jpg"
     },
     {
         "anime_id": "A060",
@@ -1679,7 +1738,8 @@
             7.83,
             7.79,
             7.97
-        ]
+        ],
+        "banner_path": "assets/banners/A060_BANNER.jpg"
     },
     {
         "anime_id": "A061",
@@ -1708,7 +1768,8 @@
             8.29,
             8.71,
             9.04
-        ]
+        ],
+        "banner_path": "assets/banners/A061_BANNER.jpg"
     },
     {
         "anime_id": "A062",
@@ -1735,7 +1796,8 @@
             6.78,
             7.33,
             7.56
-        ]
+        ],
+        "banner_path": "assets/banners/A062_BANNER.jpg"
     },
     {
         "anime_id": "A063",
@@ -1762,7 +1824,8 @@
             7.45,
             7.77,
             7.26
-        ]
+        ],
+        "banner_path": "assets/banners/A063_BANNER.jpg"
     },
     {
         "anime_id": "A064",
@@ -1789,7 +1852,8 @@
             7.7,
             8.3,
             8.52
-        ]
+        ],
+        "banner_path": "assets/banners/A064_BANNER.jpg"
     },
     {
         "anime_id": "A065",
@@ -1817,7 +1881,8 @@
             7.53,
             7.77,
             8.02
-        ]
+        ],
+        "banner_path": "assets/banners/A065_BANNER.jpg"
     },
     {
         "anime_id": "A066",
@@ -1844,7 +1909,8 @@
             8.52,
             8.76,
             8.88
-        ]
+        ],
+        "banner_path": "assets/banners/A066_BANNER.jpg"
     },
     {
         "anime_id": "A067",
@@ -1872,7 +1938,8 @@
             7.88,
             7.97,
             8.3
-        ]
+        ],
+        "banner_path": "assets/banners/A067_BANNER.jpg"
     },
     {
         "anime_id": "A068",
@@ -1898,7 +1965,8 @@
             7.27,
             7.84,
             7.16
-        ]
+        ],
+        "banner_path": "assets/banners/A068_BANNER.jpg"
     },
     {
         "anime_id": "A069",
@@ -1925,7 +1993,8 @@
             8.15,
             7.85,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A069_BANNER.jpg"
     },
     {
         "anime_id": "A070",
@@ -1955,7 +2024,8 @@
             7.69,
             8.27,
             8.22
-        ]
+        ],
+        "banner_path": "assets/banners/A070_BANNER.jpg"
     },
     {
         "anime_id": "A071",
@@ -1982,7 +2052,8 @@
             8.3,
             8.18,
             7.91
-        ]
+        ],
+        "banner_path": "assets/banners/A071_BANNER.jpg"
     },
     {
         "anime_id": "A072",
@@ -2009,7 +2080,8 @@
             8.5,
             8.46,
             8.71
-        ]
+        ],
+        "banner_path": "assets/banners/A072_BANNER.jpg"
     },
     {
         "anime_id": "A073",
@@ -2035,7 +2107,8 @@
             8.41,
             8.07,
             8.63
-        ]
+        ],
+        "banner_path": "assets/banners/A073_BANNER.jpg"
     },
     {
         "anime_id": "A074",
@@ -2060,7 +2133,8 @@
             8.07,
             8.57,
             8.46
-        ]
+        ],
+        "banner_path": "assets/banners/A074_BANNER.jpg"
     },
     {
         "anime_id": "A075",
@@ -2085,7 +2159,8 @@
             7.89,
             7.76,
             8.16
-        ]
+        ],
+        "banner_path": "assets/banners/A075_BANNER.jpg"
     },
     {
         "anime_id": "A076",
@@ -2111,7 +2186,8 @@
             7.52,
             7.17,
             8.02
-        ]
+        ],
+        "banner_path": "assets/banners/A076_BANNER.jpg"
     },
     {
         "anime_id": "A077",
@@ -2139,7 +2215,8 @@
             7.94,
             7.94,
             8.22
-        ]
+        ],
+        "banner_path": "assets/banners/A077_BANNER.jpg"
     },
     {
         "anime_id": "A078",
@@ -2168,7 +2245,8 @@
             8.18,
             8.32,
             8.5
-        ]
+        ],
+        "banner_path": "assets/banners/A078_BANNER.jpg"
     },
     {
         "anime_id": "A079",
@@ -2194,7 +2272,8 @@
             7.82,
             7.82,
             7.96
-        ]
+        ],
+        "banner_path": "assets/banners/A079_BANNER.jpg"
     },
     {
         "anime_id": "A080",
@@ -2225,7 +2304,8 @@
             7.14,
             8.21,
             7.31
-        ]
+        ],
+        "banner_path": "assets/banners/A080_BANNER.jpg"
     },
     {
         "anime_id": "A081",
@@ -2257,7 +2337,8 @@
             7.19,
             7.81,
             7.57
-        ]
+        ],
+        "banner_path": "assets/banners/A081_BANNER.jpg"
     },
     {
         "anime_id": "A082",
@@ -2287,7 +2368,8 @@
             7.35,
             7.33,
             7.98
-        ]
+        ],
+        "banner_path": "assets/banners/A082_BANNER.jpg"
     },
     {
         "anime_id": "A083",
@@ -2313,7 +2395,8 @@
             8.62,
             8.52,
             8.73
-        ]
+        ],
+        "banner_path": "assets/banners/A083_BANNER.jpg"
     },
     {
         "anime_id": "A084",
@@ -2342,7 +2425,8 @@
             8.0,
             7.78,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A084_BANNER.jpg"
     },
     {
         "anime_id": "A085",
@@ -2369,7 +2453,8 @@
             7.57,
             7.36,
             8.57
-        ]
+        ],
+        "banner_path": "assets/banners/A085_BANNER.jpg"
     },
     {
         "anime_id": "A086",
@@ -2396,7 +2481,8 @@
             7.67,
             7.6,
             7.73
-        ]
+        ],
+        "banner_path": "assets/banners/A086_BANNER.jpg"
     },
     {
         "anime_id": "A087",
@@ -2423,7 +2509,8 @@
             8.54,
             8.39,
             8.14
-        ]
+        ],
+        "banner_path": "assets/banners/A087_BANNER.jpg"
     },
     {
         "anime_id": "A088",
@@ -2453,7 +2540,8 @@
             8.53,
             8.64,
             8.77
-        ]
+        ],
+        "banner_path": "assets/banners/A088_BANNER.jpg"
     },
     {
         "anime_id": "A089",
@@ -2480,7 +2568,8 @@
             8.05,
             7.89,
             8.2
-        ]
+        ],
+        "banner_path": "assets/banners/A089_BANNER.jpg"
     },
     {
         "anime_id": "A090",
@@ -2510,7 +2599,8 @@
             8.0,
             8.68,
             8.84
-        ]
+        ],
+        "banner_path": "assets/banners/A090_BANNER.jpg"
     },
     {
         "anime_id": "A091",
@@ -2540,7 +2630,8 @@
             7.41,
             7.9,
             7.76
-        ]
+        ],
+        "banner_path": "assets/banners/A091_BANNER.jpg"
     },
     {
         "anime_id": "A092",
@@ -2569,7 +2660,8 @@
             8.29,
             8.37,
             8.37
-        ]
+        ],
+        "banner_path": "assets/banners/A092_BANNER.jpg"
     },
     {
         "anime_id": "A093",
@@ -2597,7 +2689,8 @@
             7.45,
             6.95,
             8.36
-        ]
+        ],
+        "banner_path": "assets/banners/A093_BANNER.jpg"
     },
     {
         "anime_id": "A094",
@@ -2628,7 +2721,8 @@
             7.12,
             6.88,
             7.47
-        ]
+        ],
+        "banner_path": "assets/banners/A094_BANNER.jpg"
     },
     {
         "anime_id": "A095",
@@ -2654,7 +2748,8 @@
             8.51,
             8.45,
             8.47
-        ]
+        ],
+        "banner_path": "assets/banners/A095_BANNER.jpg"
     },
     {
         "anime_id": "A096",
@@ -2681,7 +2776,8 @@
             8.76,
             8.6,
             9.0
-        ]
+        ],
+        "banner_path": "assets/banners/A096_BANNER.jpg"
     },
     {
         "anime_id": "A097",
@@ -2707,7 +2803,8 @@
             7.73,
             8.21,
             8.12
-        ]
+        ],
+        "banner_path": "assets/banners/A097_BANNER.jpg"
     },
     {
         "anime_id": "A098",
@@ -2734,7 +2831,8 @@
             8.09,
             8.32,
             8.14
-        ]
+        ],
+        "banner_path": "assets/banners/A098_BANNER.jpg"
     },
     {
         "anime_id": "A099",
@@ -2762,7 +2860,8 @@
             8.15,
             8.76,
             8.27
-        ]
+        ],
+        "banner_path": "assets/banners/A099_BANNER.jpg"
     },
     {
         "anime_id": "A100",
@@ -2788,7 +2887,8 @@
             7.98,
             8.51,
             7.98
-        ]
+        ],
+        "banner_path": "assets/banners/A100_BANNER.jpg"
     },
     {
         "anime_id": "A101",
@@ -2814,7 +2914,8 @@
             7.87,
             7.87,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A101_BANNER.jpg"
     },
     {
         "anime_id": "A102",
@@ -2841,7 +2942,8 @@
             7.24,
             7.9,
             7.62
-        ]
+        ],
+        "banner_path": "assets/banners/A102_BANNER.jpg"
     },
     {
         "anime_id": "A103",
@@ -2870,7 +2972,8 @@
             6.89,
             7.24,
             7.46
-        ]
+        ],
+        "banner_path": "assets/banners/A103_BANNER.jpg"
     },
     {
         "anime_id": "A104",
@@ -2898,7 +3001,8 @@
             8.58,
             9.12,
             8.71
-        ]
+        ],
+        "banner_path": "assets/banners/A104_BANNER.jpg"
     },
     {
         "anime_id": "A105",
@@ -2926,7 +3030,8 @@
             8.75,
             8.79,
             8.55
-        ]
+        ],
+        "banner_path": "assets/banners/A105_BANNER.jpg"
     },
     {
         "anime_id": "A106",
@@ -2954,7 +3059,8 @@
             7.56,
             8.11,
             7.61
-        ]
+        ],
+        "banner_path": "assets/banners/A106_BANNER.jpg"
     },
     {
         "anime_id": "A107",
@@ -2982,7 +3088,8 @@
             8.22,
             8.48,
             8.78
-        ]
+        ],
+        "banner_path": "assets/banners/A107_BANNER.jpg"
     },
     {
         "anime_id": "A108",
@@ -3009,7 +3116,8 @@
             8.7,
             8.47,
             8.7
-        ]
+        ],
+        "banner_path": "assets/banners/A108_BANNER.jpg"
     },
     {
         "anime_id": "A109",
@@ -3039,7 +3147,8 @@
             8.26,
             8.13,
             8.43
-        ]
+        ],
+        "banner_path": "assets/banners/A109_BANNER.jpg"
     },
     {
         "anime_id": "A110",
@@ -3066,7 +3175,8 @@
             7.64,
             7.8,
             8.04
-        ]
+        ],
+        "banner_path": "assets/banners/A110_BANNER.jpg"
     },
     {
         "anime_id": "A111",
@@ -3093,7 +3203,8 @@
             7.86,
             7.09,
             7.32
-        ]
+        ],
+        "banner_path": "assets/banners/A111_BANNER.jpg"
     },
     {
         "anime_id": "A112",
@@ -3121,7 +3232,8 @@
             7.88,
             8.19,
             8.26
-        ]
+        ],
+        "banner_path": "assets/banners/A112_BANNER.jpg"
     },
     {
         "anime_id": "A113",
@@ -3148,7 +3260,8 @@
             7.83,
             7.59,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A113_BANNER.jpg"
     },
     {
         "anime_id": "A114",
@@ -3173,7 +3286,8 @@
             7.71,
             8.1,
             8.48
-        ]
+        ],
+        "banner_path": "assets/banners/A114_BANNER.jpg"
     },
     {
         "anime_id": "A115",
@@ -3200,7 +3314,8 @@
             8.07,
             8.7,
             8.15
-        ]
+        ],
+        "banner_path": "assets/banners/A115_BANNER.jpg"
     },
     {
         "anime_id": "A116",
@@ -3229,7 +3344,8 @@
             8.08,
             7.72,
             8.39
-        ]
+        ],
+        "banner_path": "assets/banners/A116_BANNER.jpg"
     },
     {
         "anime_id": "A117",
@@ -3255,7 +3371,8 @@
             8.24,
             8.42,
             8.18
-        ]
+        ],
+        "banner_path": "assets/banners/A117_BANNER.jpg"
     },
     {
         "anime_id": "A118",
@@ -3284,7 +3401,8 @@
             8.93,
             8.96,
             8.64
-        ]
+        ],
+        "banner_path": "assets/banners/A118_BANNER.jpg"
     },
     {
         "anime_id": "A119",
@@ -3315,7 +3433,8 @@
             6.96,
             6.83,
             7.3
-        ]
+        ],
+        "banner_path": "assets/banners/A119_BANNER.jpg"
     },
     {
         "anime_id": "A120",
@@ -3342,7 +3461,8 @@
             8.07,
             8.15,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A120_BANNER.jpg"
     },
     {
         "anime_id": "A121",
@@ -3369,7 +3489,8 @@
             7.67,
             7.85,
             7.88
-        ]
+        ],
+        "banner_path": "assets/banners/A121_BANNER.jpg"
     },
     {
         "anime_id": "A122",
@@ -3400,7 +3521,8 @@
             7.25,
             7.38,
             7.38
-        ]
+        ],
+        "banner_path": "assets/banners/A122_BANNER.jpg"
     },
     {
         "anime_id": "A123",
@@ -3425,7 +3547,8 @@
             8.88,
             9.08,
             9.02
-        ]
+        ],
+        "banner_path": "assets/banners/A123_BANNER.jpg"
     },
     {
         "anime_id": "A124",
@@ -3452,7 +3575,8 @@
             7.05,
             6.95,
             7.14
-        ]
+        ],
+        "banner_path": "assets/banners/A124_BANNER.jpg"
     },
     {
         "anime_id": "A125",
@@ -3479,7 +3603,8 @@
             7.86,
             8.07,
             7.4
-        ]
+        ],
+        "banner_path": "assets/banners/A125_BANNER.jpg"
     },
     {
         "anime_id": "A126",
@@ -3508,7 +3633,8 @@
             7.76,
             8.04,
             7.84
-        ]
+        ],
+        "banner_path": "assets/banners/A126_BANNER.jpg"
     },
     {
         "anime_id": "A127",
@@ -3538,7 +3664,8 @@
             8.04,
             7.35,
             8.13
-        ]
+        ],
+        "banner_path": "assets/banners/A127_BANNER.jpg"
     },
     {
         "anime_id": "A128",
@@ -3567,7 +3694,8 @@
             7.67,
             7.73,
             8.03
-        ]
+        ],
+        "banner_path": "assets/banners/A128_BANNER.jpg"
     },
     {
         "anime_id": "A129",
@@ -3594,7 +3722,8 @@
             8.26,
             7.87,
             8.65
-        ]
+        ],
+        "banner_path": "assets/banners/A129_BANNER.jpg"
     },
     {
         "anime_id": "A130",
@@ -3621,7 +3750,8 @@
             8.2,
             8.0,
             8.35
-        ]
+        ],
+        "banner_path": "assets/banners/A130_BANNER.jpg"
     },
     {
         "anime_id": "A131",
@@ -3649,7 +3779,8 @@
             8.21,
             7.95,
             7.95
-        ]
+        ],
+        "banner_path": "assets/banners/A131_BANNER.jpg"
     },
     {
         "anime_id": "A132",
@@ -3676,7 +3807,8 @@
             8.25,
             8.42,
             8.12
-        ]
+        ],
+        "banner_path": "assets/banners/A132_BANNER.jpg"
     },
     {
         "anime_id": "A133",
@@ -3704,7 +3836,8 @@
             7.55,
             7.37,
             7.45
-        ]
+        ],
+        "banner_path": "assets/banners/A133_BANNER.jpg"
     },
     {
         "anime_id": "A134",
@@ -3730,7 +3863,8 @@
             7.88,
             7.47,
             8.29
-        ]
+        ],
+        "banner_path": "assets/banners/A134_BANNER.jpg"
     },
     {
         "anime_id": "A135",
@@ -3757,7 +3891,8 @@
             7.56,
             7.41,
             7.44
-        ]
+        ],
+        "banner_path": "assets/banners/A135_BANNER.jpg"
     },
     {
         "anime_id": "A136",
@@ -3786,7 +3921,8 @@
             8.07,
             7.93,
             8.12
-        ]
+        ],
+        "banner_path": "assets/banners/A136_BANNER.jpg"
     },
     {
         "anime_id": "A137",
@@ -3813,7 +3949,8 @@
             8.24,
             7.9,
             8.62
-        ]
+        ],
+        "banner_path": "assets/banners/A137_BANNER.jpg"
     },
     {
         "anime_id": "A138",
@@ -3840,7 +3977,8 @@
             8.13,
             8.0,
             8.03
-        ]
+        ],
+        "banner_path": "assets/banners/A138_BANNER.jpg"
     },
     {
         "anime_id": "A139",
@@ -3866,7 +4004,8 @@
             8.27,
             8.18,
             8.45
-        ]
+        ],
+        "banner_path": "assets/banners/A139_BANNER.jpg"
     },
     {
         "anime_id": "A140",
@@ -3892,7 +4031,8 @@
             8.55,
             8.43,
             8.83
-        ]
+        ],
+        "banner_path": "assets/banners/A140_BANNER.jpg"
     },
     {
         "anime_id": "A141",
@@ -3920,7 +4060,8 @@
             7.72,
             8.15,
             8.38
-        ]
+        ],
+        "banner_path": "assets/banners/A141_BANNER.jpg"
     },
     {
         "anime_id": "A142",
@@ -3946,7 +4087,8 @@
             8.35,
             7.86,
             8.32
-        ]
+        ],
+        "banner_path": "assets/banners/A142_BANNER.jpg"
     },
     {
         "anime_id": "A143",
@@ -3973,7 +4115,8 @@
             7.31,
             7.76,
             7.31
-        ]
+        ],
+        "banner_path": "assets/banners/A143_BANNER.jpg"
     },
     {
         "anime_id": "A144",
@@ -4001,7 +4144,8 @@
             8.29,
             8.0,
             8.36
-        ]
+        ],
+        "banner_path": "assets/banners/A144_BANNER.jpg"
     },
     {
         "anime_id": "A145",
@@ -4027,7 +4171,8 @@
             7.76,
             7.49,
             8.34
-        ]
+        ],
+        "banner_path": "assets/banners/A145_BANNER.jpg"
     },
     {
         "anime_id": "A146",
@@ -4054,7 +4199,8 @@
             7.57,
             7.73,
             7.95
-        ]
+        ],
+        "banner_path": "assets/banners/A146_BANNER.jpg"
     },
     {
         "anime_id": "A147",
@@ -4085,7 +4231,8 @@
             8.56,
             8.44,
             8.67
-        ]
+        ],
+        "banner_path": "assets/banners/A147_BANNER.jpg"
     },
     {
         "anime_id": "A148",
@@ -4114,7 +4261,8 @@
             7.5,
             8.0,
             8.34
-        ]
+        ],
+        "banner_path": "assets/banners/A148_BANNER.jpg"
     },
     {
         "anime_id": "A149",
@@ -4141,7 +4289,8 @@
             7.38,
             7.72,
             8.34
-        ]
+        ],
+        "banner_path": "assets/banners/A149_BANNER.jpg"
     },
     {
         "anime_id": "A150",
@@ -4167,7 +4316,8 @@
             7.69,
             8.28,
             7.85
-        ]
+        ],
+        "banner_path": "assets/banners/A150_BANNER.jpg"
     },
     {
         "anime_id": "A151",
@@ -4196,7 +4346,8 @@
             7.41,
             7.73,
             7.65
-        ]
+        ],
+        "banner_path": "assets/banners/A151_BANNER.jpg"
     },
     {
         "anime_id": "A152",
@@ -4223,7 +4374,8 @@
             7.55,
             8.08,
             7.66
-        ]
+        ],
+        "banner_path": "assets/banners/A152_BANNER.jpg"
     },
     {
         "anime_id": "A153",
@@ -4250,7 +4402,8 @@
             7.83,
             7.69,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A153_BANNER.jpg"
     },
     {
         "anime_id": "A154",
@@ -4278,7 +4431,8 @@
             8.08,
             7.73,
             8.23
-        ]
+        ],
+        "banner_path": "assets/banners/A154_BANNER.jpg"
     },
     {
         "anime_id": "A155",
@@ -4305,7 +4459,8 @@
             8.47,
             7.49,
             7.35
-        ]
+        ],
+        "banner_path": "assets/banners/A155_BANNER.jpg"
     },
     {
         "anime_id": "A156",
@@ -4332,7 +4487,8 @@
             7.86,
             8.55,
             8.68
-        ]
+        ],
+        "banner_path": "assets/banners/A156_BANNER.jpg"
     },
     {
         "anime_id": "A157",
@@ -4360,7 +4516,8 @@
             7.93,
             7.55,
             8.52
-        ]
+        ],
+        "banner_path": "assets/banners/A157_BANNER.jpg"
     },
     {
         "anime_id": "A158",
@@ -4387,7 +4544,8 @@
             7.44,
             7.31,
             7.94
-        ]
+        ],
+        "banner_path": "assets/banners/A158_BANNER.jpg"
     },
     {
         "anime_id": "A159",
@@ -4417,7 +4575,8 @@
             7.13,
             6.5,
             7.21
-        ]
+        ],
+        "banner_path": "assets/banners/A159_BANNER.jpg"
     },
     {
         "anime_id": "A160",
@@ -4446,7 +4605,8 @@
             7.79,
             8.33,
             8.42
-        ]
+        ],
+        "banner_path": "assets/banners/A160_BANNER.jpg"
     },
     {
         "anime_id": "A161",
@@ -4472,7 +4632,8 @@
             8.5,
             8.4,
             8.55
-        ]
+        ],
+        "banner_path": "assets/banners/A161_BANNER.jpg"
     },
     {
         "anime_id": "A162",
@@ -4499,7 +4660,8 @@
             7.96,
             8.0,
             8.43
-        ]
+        ],
+        "banner_path": "assets/banners/A162_BANNER.jpg"
     },
     {
         "anime_id": "A163",
@@ -4528,7 +4690,8 @@
             7.62,
             7.42,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A163_BANNER.jpg"
     },
     {
         "anime_id": "A164",
@@ -4555,7 +4718,8 @@
             8.04,
             7.96,
             8.19
-        ]
+        ],
+        "banner_path": "assets/banners/A164_BANNER.jpg"
     },
     {
         "anime_id": "A165",
@@ -4582,7 +4746,8 @@
             7.94,
             8.67,
             8.44
-        ]
+        ],
+        "banner_path": "assets/banners/A165_BANNER.jpg"
     },
     {
         "anime_id": "A166",
@@ -4610,7 +4775,8 @@
             7.81,
             8.07,
             7.78
-        ]
+        ],
+        "banner_path": "assets/banners/A166_BANNER.jpg"
     },
     {
         "anime_id": "A167",
@@ -4638,7 +4804,8 @@
             7.63,
             7.77,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A167_BANNER.jpg"
     },
     {
         "anime_id": "A168",
@@ -4666,7 +4833,8 @@
             7.62,
             7.31,
             7.06
-        ]
+        ],
+        "banner_path": "assets/banners/A168_BANNER.jpg"
     },
     {
         "anime_id": "A169",
@@ -4693,7 +4861,8 @@
             7.95,
             7.6,
             8.7
-        ]
+        ],
+        "banner_path": "assets/banners/A169_BANNER.jpg"
     },
     {
         "anime_id": "A170",
@@ -4720,7 +4889,8 @@
             7.93,
             8.24,
             7.76
-        ]
+        ],
+        "banner_path": "assets/banners/A170_BANNER.jpg"
     },
     {
         "anime_id": "A171",
@@ -4748,7 +4918,8 @@
             7.56,
             7.31,
             6.94
-        ]
+        ],
+        "banner_path": "assets/banners/A171_BANNER.jpg"
     },
     {
         "anime_id": "A172",
@@ -4776,7 +4947,8 @@
             7.63,
             7.68,
             7.95
-        ]
+        ],
+        "banner_path": "assets/banners/A172_BANNER.jpg"
     },
     {
         "anime_id": "A173",
@@ -4805,7 +4977,8 @@
             8.0,
             9.09,
             7.82
-        ]
+        ],
+        "banner_path": "assets/banners/A173_BANNER.jpg"
     },
     {
         "anime_id": "A174",
@@ -4832,7 +5005,8 @@
             8.21,
             8.11,
             7.89
-        ]
+        ],
+        "banner_path": "assets/banners/A174_BANNER.jpg"
     },
     {
         "anime_id": "A175",
@@ -4859,7 +5033,8 @@
             8.79,
             7.64,
             8.36
-        ]
+        ],
+        "banner_path": "assets/banners/A175_BANNER.jpg"
     },
     {
         "anime_id": "A176",
@@ -4887,7 +5062,8 @@
             8.58,
             8.89,
             8.63
-        ]
+        ],
+        "banner_path": "assets/banners/A176_BANNER.jpg"
     },
     {
         "anime_id": "A177",
@@ -4914,7 +5090,8 @@
             8.22,
             8.38,
             7.91
-        ]
+        ],
+        "banner_path": "assets/banners/A177_BANNER.jpg"
     },
     {
         "anime_id": "A178",
@@ -4942,7 +5119,8 @@
             7.71,
             7.71,
             7.94
-        ]
+        ],
+        "banner_path": "assets/banners/A178_BANNER.jpg"
     },
     {
         "anime_id": "A179",
@@ -4971,7 +5149,8 @@
             8.02,
             8.48,
             8.59
-        ]
+        ],
+        "banner_path": "assets/banners/A179_BANNER.jpg"
     },
     {
         "anime_id": "A180",
@@ -5000,7 +5179,8 @@
             7.21,
             7.52,
             7.86
-        ]
+        ],
+        "banner_path": "assets/banners/A180_BANNER.jpg"
     },
     {
         "anime_id": "A181",
@@ -5026,7 +5206,8 @@
             7.55,
             8.1,
             7.72
-        ]
+        ],
+        "banner_path": "assets/banners/A181_BANNER.jpg"
     },
     {
         "anime_id": "A182",
@@ -5057,7 +5238,8 @@
             8.17,
             8.09,
             8.6
-        ]
+        ],
+        "banner_path": "assets/banners/A182_BANNER.jpg"
     },
     {
         "anime_id": "A183",
@@ -5086,7 +5268,8 @@
             7.63,
             8.3,
             7.81
-        ]
+        ],
+        "banner_path": "assets/banners/A183_BANNER.jpg"
     },
     {
         "anime_id": "A184",
@@ -5111,7 +5294,8 @@
             8.04,
             8.31,
             8.02
-        ]
+        ],
+        "banner_path": "assets/banners/A184_BANNER.jpg"
     },
     {
         "anime_id": "A185",
@@ -5138,7 +5322,8 @@
             7.71,
             7.6,
             7.74
-        ]
+        ],
+        "banner_path": "assets/banners/A185_BANNER.jpg"
     },
     {
         "anime_id": "A186",
@@ -5164,7 +5349,8 @@
             7.84,
             7.84,
             7.47
-        ]
+        ],
+        "banner_path": "assets/banners/A186_BANNER.jpg"
     },
     {
         "anime_id": "A187",
@@ -5191,7 +5377,8 @@
             8.48,
             8.07,
             8.66
-        ]
+        ],
+        "banner_path": "assets/banners/A187_BANNER.jpg"
     },
     {
         "anime_id": "A188",
@@ -5221,7 +5408,8 @@
             6.97,
             7.27,
             6.8
-        ]
+        ],
+        "banner_path": "assets/banners/A188_BANNER.jpg"
     },
     {
         "anime_id": "A189",
@@ -5247,7 +5435,8 @@
             8.2,
             8.28,
             8.48
-        ]
+        ],
+        "banner_path": "assets/banners/A189_BANNER.jpg"
     },
     {
         "anime_id": "A190",
@@ -5274,7 +5463,8 @@
             7.43,
             7.19,
             7.83
-        ]
+        ],
+        "banner_path": "assets/banners/A190_BANNER.jpg"
     },
     {
         "anime_id": "A191",
@@ -5301,7 +5491,8 @@
             7.41,
             6.88,
             7.53
-        ]
+        ],
+        "banner_path": "assets/banners/A191_BANNER.jpg"
     },
     {
         "anime_id": "A192",
@@ -5329,7 +5520,8 @@
             6.0,
             6.18,
             5.64
-        ]
+        ],
+        "banner_path": "assets/banners/A192_BANNER.jpg"
     },
     {
         "anime_id": "A193",
@@ -5356,7 +5548,8 @@
             8.11,
             7.77,
             8.26
-        ]
+        ],
+        "banner_path": "assets/banners/A193_BANNER.jpg"
     },
     {
         "anime_id": "A194",
@@ -5383,7 +5576,8 @@
             8.59,
             9.0,
             8.82
-        ]
+        ],
+        "banner_path": "assets/banners/A194_BANNER.jpg"
     },
     {
         "anime_id": "A195",
@@ -5414,7 +5608,8 @@
             6.54,
             7.85,
             8.08
-        ]
+        ],
+        "banner_path": "assets/banners/A195_BANNER.jpg"
     },
     {
         "anime_id": "A196",
@@ -5441,7 +5636,8 @@
             7.91,
             7.75,
             7.75
-        ]
+        ],
+        "banner_path": "assets/banners/A196_BANNER.jpg"
     },
     {
         "anime_id": "A197",
@@ -5469,7 +5665,8 @@
             8.13,
             8.43,
             8.35
-        ]
+        ],
+        "banner_path": "assets/banners/A197_BANNER.jpg"
     },
     {
         "anime_id": "A198",
@@ -5497,7 +5694,8 @@
             6.91,
             6.61,
             6.67
-        ]
+        ],
+        "banner_path": "assets/banners/A198_BANNER.jpg"
     },
     {
         "anime_id": "A199",
@@ -5524,7 +5722,8 @@
             7.85,
             7.9,
             8.7
-        ]
+        ],
+        "banner_path": "assets/banners/A199_BANNER.jpg"
     },
     {
         "anime_id": "A200",
@@ -5555,7 +5754,8 @@
             6.87,
             6.83,
             7.2
-        ]
+        ],
+        "banner_path": "assets/banners/A200_BANNER.jpg"
     },
     {
         "anime_id": "A201",
@@ -5581,7 +5781,8 @@
             6.64,
             7.23,
             7.62
-        ]
+        ],
+        "banner_path": "assets/banners/A201_BANNER.jpg"
     },
     {
         "anime_id": "A202",
@@ -5608,7 +5809,8 @@
             7.75,
             8.42,
             8.12
-        ]
+        ],
+        "banner_path": "assets/banners/A202_BANNER.jpg"
     },
     {
         "anime_id": "A203",
@@ -5639,7 +5841,8 @@
             7.5,
             8.3,
             7.9
-        ]
+        ],
+        "banner_path": "assets/banners/A203_BANNER.jpg"
     },
     {
         "anime_id": "A204",
@@ -5668,7 +5871,8 @@
             8.34,
             8.68,
             8.27
-        ]
+        ],
+        "banner_path": "assets/banners/A204_BANNER.jpg"
     },
     {
         "anime_id": "A205",
@@ -5695,7 +5899,8 @@
             8.25,
             7.7,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A205_BANNER.jpg"
     },
     {
         "anime_id": "A206",
@@ -5724,7 +5929,8 @@
             8.25,
             8.4,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A206_BANNER.jpg"
     },
     {
         "anime_id": "A207",
@@ -5751,7 +5957,8 @@
             8.13,
             8.2,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A207_BANNER.jpg"
     },
     {
         "anime_id": "A208",
@@ -5781,7 +5988,8 @@
             8.03,
             7.86,
             8.46
-        ]
+        ],
+        "banner_path": "assets/banners/A208_BANNER.jpg"
     },
     {
         "anime_id": "A209",
@@ -5807,7 +6015,8 @@
             8.12,
             7.88,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A209_BANNER.jpg"
     },
     {
         "anime_id": "A210",
@@ -5837,7 +6046,8 @@
             8.0,
             7.92,
             8.04
-        ]
+        ],
+        "banner_path": "assets/banners/A210_BANNER.jpg"
     },
     {
         "anime_id": "A211",
@@ -5864,7 +6074,8 @@
             8.54,
             8.58,
             8.35
-        ]
+        ],
+        "banner_path": "assets/banners/A211_BANNER.jpg"
     },
     {
         "anime_id": "A212",
@@ -5893,7 +6104,8 @@
             7.39,
             7.58,
             7.71
-        ]
+        ],
+        "banner_path": "assets/banners/A212_BANNER.jpg"
     },
     {
         "anime_id": "A213",
@@ -5922,7 +6134,8 @@
             8.24,
             8.53,
             8.76
-        ]
+        ],
+        "banner_path": "assets/banners/A213_BANNER.jpg"
     },
     {
         "anime_id": "A214",
@@ -5952,7 +6165,8 @@
             8.15,
             7.8,
             8.25
-        ]
+        ],
+        "banner_path": "assets/banners/A214_BANNER.jpg"
     },
     {
         "anime_id": "A215",
@@ -5979,7 +6193,8 @@
             8.29,
             8.16,
             8.45
-        ]
+        ],
+        "banner_path": "assets/banners/A215_BANNER.jpg"
     },
     {
         "anime_id": "A216",
@@ -6013,7 +6228,7 @@
         "mal_id": 34566,
         "title": "Boruto: Naruto Next Generations",
         "en_title": null,
-        "global_score": 6.5,
+        "global_score": 6.47,
         "genre": [
             "Action",
             "Adventure",
@@ -6027,14 +6242,15 @@
         "episodes": "293",
         "cover_path": "assets/covers/CIMG217.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG217.jpg",
-        "rating_count": 2,
+        "rating_count": 3,
         "global_score_dimensions": [
-            6.0,
-            6.5,
-            8.0,
-            5.5,
-            6.5
-        ]
+            5.67,
+            6.67,
+            7.0,
+            7.0,
+            6.0
+        ],
+        "banner_path": "assets/banners/A217_BANNER.jpg"
     },
     {
         "anime_id": "A218",
@@ -6061,7 +6277,8 @@
             8.25,
             8.04,
             7.89
-        ]
+        ],
+        "banner_path": "assets/banners/A218_BANNER.jpg"
     },
     {
         "anime_id": "A219",
@@ -6088,7 +6305,8 @@
             8.56,
             8.38,
             8.25
-        ]
+        ],
+        "banner_path": "assets/banners/A219_BANNER.jpg"
     },
     {
         "anime_id": "A220",
@@ -6114,7 +6332,8 @@
             7.78,
             8.06,
             8.94
-        ]
+        ],
+        "banner_path": "assets/banners/A220_BANNER.jpg"
     },
     {
         "anime_id": "A221",
@@ -6142,7 +6361,8 @@
             8.0,
             8.21,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A221_BANNER.jpg"
     },
     {
         "anime_id": "A222",
@@ -6170,7 +6390,8 @@
             8.4,
             7.73,
             8.6
-        ]
+        ],
+        "banner_path": "assets/banners/A222_BANNER.jpg"
     },
     {
         "anime_id": "A223",
@@ -6199,7 +6420,8 @@
             7.06,
             7.06,
             8.06
-        ]
+        ],
+        "banner_path": "assets/banners/A223_BANNER.jpg"
     },
     {
         "anime_id": "A224",
@@ -6229,7 +6451,8 @@
             7.47,
             7.83,
             7.58
-        ]
+        ],
+        "banner_path": "assets/banners/A224_BANNER.jpg"
     },
     {
         "anime_id": "A225",
@@ -6258,7 +6481,8 @@
             7.17,
             7.83,
             8.04
-        ]
+        ],
+        "banner_path": "assets/banners/A225_BANNER.jpg"
     },
     {
         "anime_id": "A226",
@@ -6289,7 +6513,8 @@
             8.4,
             8.69,
             8.86
-        ]
+        ],
+        "banner_path": "assets/banners/A226_BANNER.jpg"
     },
     {
         "anime_id": "A227",
@@ -6315,7 +6540,8 @@
             7.1,
             7.33,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A227_BANNER.jpg"
     },
     {
         "anime_id": "A228",
@@ -6342,7 +6568,8 @@
             7.9,
             7.52,
             7.43
-        ]
+        ],
+        "banner_path": "assets/banners/A228_BANNER.jpg"
     },
     {
         "anime_id": "A229",
@@ -6369,7 +6596,8 @@
             7.1,
             7.67,
             7.9
-        ]
+        ],
+        "banner_path": "assets/banners/A229_BANNER.jpg"
     },
     {
         "anime_id": "A230",
@@ -6400,7 +6628,8 @@
             6.92,
             6.53,
             7.06
-        ]
+        ],
+        "banner_path": "assets/banners/A230_BANNER.jpg"
     },
     {
         "anime_id": "A231",
@@ -6430,7 +6659,8 @@
             7.48,
             7.62,
             7.52
-        ]
+        ],
+        "banner_path": "assets/banners/A231_BANNER.jpg"
     },
     {
         "anime_id": "A232",
@@ -6457,7 +6687,8 @@
             8.07,
             8.17,
             8.76
-        ]
+        ],
+        "banner_path": "assets/banners/A232_BANNER.jpg"
     },
     {
         "anime_id": "A233",
@@ -6488,7 +6719,8 @@
             7.51,
             8.14,
             7.83
-        ]
+        ],
+        "banner_path": "assets/banners/A233_BANNER.jpg"
     },
     {
         "anime_id": "A234",
@@ -6518,7 +6750,8 @@
             7.5,
             7.89,
             7.72
-        ]
+        ],
+        "banner_path": "assets/banners/A234_BANNER.jpg"
     },
     {
         "anime_id": "A235",
@@ -6544,7 +6777,8 @@
             8.56,
             8.11,
             8.44
-        ]
+        ],
+        "banner_path": "assets/banners/A235_BANNER.jpg"
     },
     {
         "anime_id": "A236",
@@ -6572,7 +6806,8 @@
             7.5,
             8.02,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A236_BANNER.jpg"
     },
     {
         "anime_id": "A237",
@@ -6600,7 +6835,8 @@
             7.61,
             7.67,
             7.86
-        ]
+        ],
+        "banner_path": "assets/banners/A237_BANNER.jpg"
     },
     {
         "anime_id": "A238",
@@ -6627,7 +6863,8 @@
             7.64,
             7.43,
             7.43
-        ]
+        ],
+        "banner_path": "assets/banners/A238_BANNER.jpg"
     },
     {
         "anime_id": "A239",
@@ -6653,7 +6890,8 @@
             8.05,
             7.67,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A239_BANNER.jpg"
     },
     {
         "anime_id": "A240",
@@ -6681,7 +6919,8 @@
             7.95,
             8.41,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A240_BANNER.jpg"
     },
     {
         "anime_id": "A241",
@@ -6711,7 +6950,8 @@
             7.41,
             7.27,
             7.73
-        ]
+        ],
+        "banner_path": "assets/banners/A241_BANNER.jpg"
     },
     {
         "anime_id": "A242",
@@ -6739,7 +6979,8 @@
             8.23,
             8.23,
             8.7
-        ]
+        ],
+        "banner_path": "assets/banners/A242_BANNER.jpg"
     },
     {
         "anime_id": "A243",
@@ -6766,7 +7007,8 @@
             7.1,
             7.4,
             7.1
-        ]
+        ],
+        "banner_path": "assets/banners/A243_BANNER.jpg"
     },
     {
         "anime_id": "A244",
@@ -6794,7 +7036,8 @@
             7.7,
             8.12,
             7.95
-        ]
+        ],
+        "banner_path": "assets/banners/A244_BANNER.jpg"
     },
     {
         "anime_id": "A245",
@@ -6826,7 +7069,8 @@
             7.55,
             7.25,
             8.11
-        ]
+        ],
+        "banner_path": "assets/banners/A245_BANNER.jpg"
     },
     {
         "anime_id": "A246",
@@ -6853,7 +7097,8 @@
             8.73,
             8.73,
             8.76
-        ]
+        ],
+        "banner_path": "assets/banners/A246_BANNER.jpg"
     },
     {
         "anime_id": "A247",
@@ -6881,7 +7126,8 @@
             7.38,
             7.37,
             7.73
-        ]
+        ],
+        "banner_path": "assets/banners/A247_BANNER.jpg"
     },
     {
         "anime_id": "A248",
@@ -6909,7 +7155,8 @@
             6.83,
             7.11,
             7.33
-        ]
+        ],
+        "banner_path": "assets/banners/A248_BANNER.jpg"
     },
     {
         "anime_id": "A249",
@@ -6941,7 +7188,8 @@
             7.57,
             7.94,
             8.46
-        ]
+        ],
+        "banner_path": "assets/banners/A249_BANNER.jpg"
     },
     {
         "anime_id": "A250",
@@ -6971,7 +7219,8 @@
             7.79,
             8.32,
             8.74
-        ]
+        ],
+        "banner_path": "assets/banners/A250_BANNER.jpg"
     },
     {
         "anime_id": "A251",
@@ -6999,7 +7248,8 @@
             8.28,
             7.94,
             8.5
-        ]
+        ],
+        "banner_path": "assets/banners/A251_BANNER.jpg"
     },
     {
         "anime_id": "A252",
@@ -7027,7 +7277,8 @@
             7.87,
             8.41,
             8.39
-        ]
+        ],
+        "banner_path": "assets/banners/A252_BANNER.jpg"
     },
     {
         "anime_id": "A253",
@@ -7053,7 +7304,8 @@
             8.06,
             8.5,
             9.0
-        ]
+        ],
+        "banner_path": "assets/banners/A253_BANNER.jpg"
     },
     {
         "anime_id": "A254",
@@ -7081,7 +7333,8 @@
             7.38,
             7.54,
             7.29
-        ]
+        ],
+        "banner_path": "assets/banners/A254_BANNER.jpg"
     },
     {
         "anime_id": "A255",
@@ -7110,7 +7363,8 @@
             7.24,
             7.27,
             7.55
-        ]
+        ],
+        "banner_path": "assets/banners/A255_BANNER.jpg"
     },
     {
         "anime_id": "A256",
@@ -7140,7 +7394,8 @@
             7.94,
             8.22,
             8.41
-        ]
+        ],
+        "banner_path": "assets/banners/A256_BANNER.jpg"
     },
     {
         "anime_id": "A257",
@@ -7171,7 +7426,8 @@
             7.09,
             6.91,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A257_BANNER.jpg"
     },
     {
         "anime_id": "A258",
@@ -7200,7 +7456,8 @@
             7.56,
             8.81,
             8.75
-        ]
+        ],
+        "banner_path": "assets/banners/A258_BANNER.jpg"
     },
     {
         "anime_id": "A259",
@@ -7225,7 +7482,8 @@
             7.06,
             7.22,
             7.0
-        ]
+        ],
+        "banner_path": "assets/banners/A259_BANNER.jpg"
     },
     {
         "anime_id": "A260",
@@ -7252,7 +7510,8 @@
             7.44,
             7.41,
             7.89
-        ]
+        ],
+        "banner_path": "assets/banners/A260_BANNER.jpg"
     },
     {
         "anime_id": "A261",
@@ -7283,7 +7542,8 @@
             7.5,
             7.86,
             7.57
-        ]
+        ],
+        "banner_path": "assets/banners/A261_BANNER.jpg"
     },
     {
         "anime_id": "A262",
@@ -7312,7 +7572,8 @@
             7.88,
             8.64,
             8.66
-        ]
+        ],
+        "banner_path": "assets/banners/A262_BANNER.jpg"
     },
     {
         "anime_id": "A263",
@@ -7338,7 +7599,8 @@
             7.37,
             7.79,
             7.16
-        ]
+        ],
+        "banner_path": "assets/banners/A263_BANNER.jpg"
     },
     {
         "anime_id": "A264",
@@ -7365,7 +7627,8 @@
             7.93,
             8.46,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A264_BANNER.jpg"
     },
     {
         "anime_id": "A265",
@@ -7393,7 +7656,8 @@
             7.53,
             7.5,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A265_BANNER.jpg"
     },
     {
         "anime_id": "A266",
@@ -7420,7 +7684,8 @@
             8.0,
             8.0,
             8.14
-        ]
+        ],
+        "banner_path": "assets/banners/A266_BANNER.jpg"
     },
     {
         "anime_id": "A267",
@@ -7447,7 +7712,8 @@
             7.96,
             7.77,
             7.96
-        ]
+        ],
+        "banner_path": "assets/banners/A267_BANNER.jpg"
     },
     {
         "anime_id": "A268",
@@ -7474,7 +7740,8 @@
             7.97,
             7.43,
             7.43
-        ]
+        ],
+        "banner_path": "assets/banners/A268_BANNER.jpg"
     },
     {
         "anime_id": "A269",
@@ -7502,7 +7769,8 @@
             7.0,
             7.07,
             6.5
-        ]
+        ],
+        "banner_path": "assets/banners/A269_BANNER.jpg"
     },
     {
         "anime_id": "A270",
@@ -7529,7 +7797,8 @@
             8.83,
             9.0,
             8.83
-        ]
+        ],
+        "banner_path": "assets/banners/A270_BANNER.jpg"
     },
     {
         "anime_id": "A271",
@@ -7559,7 +7828,8 @@
             7.94,
             8.0,
             8.12
-        ]
+        ],
+        "banner_path": "assets/banners/A271_BANNER.jpg"
     },
     {
         "anime_id": "A272",
@@ -7587,7 +7857,8 @@
             7.19,
             7.16,
             7.65
-        ]
+        ],
+        "banner_path": "assets/banners/A272_BANNER.jpg"
     },
     {
         "anime_id": "A273",
@@ -7614,7 +7885,8 @@
             8.31,
             7.77,
             8.31
-        ]
+        ],
+        "banner_path": "assets/banners/A273_BANNER.jpg"
     },
     {
         "anime_id": "A274",
@@ -7641,7 +7913,8 @@
             7.56,
             8.28,
             8.11
-        ]
+        ],
+        "banner_path": "assets/banners/A274_BANNER.jpg"
     },
     {
         "anime_id": "A275",
@@ -7672,7 +7945,8 @@
             8.12,
             8.74,
             8.15
-        ]
+        ],
+        "banner_path": "assets/banners/A275_BANNER.jpg"
     },
     {
         "anime_id": "A276",
@@ -7699,7 +7973,8 @@
             7.71,
             8.19,
             8.48
-        ]
+        ],
+        "banner_path": "assets/banners/A276_BANNER.jpg"
     },
     {
         "anime_id": "A277",
@@ -7727,7 +8002,8 @@
             6.95,
             7.33,
             7.81
-        ]
+        ],
+        "banner_path": "assets/banners/A277_BANNER.jpg"
     },
     {
         "anime_id": "A278",
@@ -7753,7 +8029,8 @@
             8.07,
             8.14,
             8.43
-        ]
+        ],
+        "banner_path": "assets/banners/A278_BANNER.jpg"
     },
     {
         "anime_id": "A279",
@@ -7779,7 +8056,8 @@
             6.84,
             6.81,
             7.48
-        ]
+        ],
+        "banner_path": "assets/banners/A279_BANNER.jpg"
     },
     {
         "anime_id": "A280",
@@ -7807,7 +8085,8 @@
             7.85,
             8.23,
             8.15
-        ]
+        ],
+        "banner_path": "assets/banners/A280_BANNER.jpg"
     },
     {
         "anime_id": "A281",
@@ -7835,7 +8114,8 @@
             7.08,
             7.66,
             7.71
-        ]
+        ],
+        "banner_path": "assets/banners/A281_BANNER.jpg"
     },
     {
         "anime_id": "A282",
@@ -7861,7 +8141,8 @@
             7.18,
             8.08,
             8.11
-        ]
+        ],
+        "banner_path": "assets/banners/A282_BANNER.jpg"
     },
     {
         "anime_id": "A283",
@@ -7892,7 +8173,8 @@
             7.48,
             6.78,
             7.22
-        ]
+        ],
+        "banner_path": "assets/banners/A283_BANNER.jpg"
     },
     {
         "anime_id": "A284",
@@ -7918,7 +8200,8 @@
             7.25,
             7.75,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A284_BANNER.jpg"
     },
     {
         "anime_id": "A285",
@@ -7944,7 +8227,8 @@
             7.33,
             7.5,
             7.22
-        ]
+        ],
+        "banner_path": "assets/banners/A285_BANNER.jpg"
     },
     {
         "anime_id": "A286",
@@ -7974,7 +8258,8 @@
             7.48,
             7.52,
             7.48
-        ]
+        ],
+        "banner_path": "assets/banners/A286_BANNER.jpg"
     },
     {
         "anime_id": "A287",
@@ -8001,7 +8286,8 @@
             6.71,
             6.93,
             7.29
-        ]
+        ],
+        "banner_path": "assets/banners/A287_BANNER.jpg"
     },
     {
         "anime_id": "A288",
@@ -8028,7 +8314,8 @@
             7.4,
             8.27,
             8.07
-        ]
+        ],
+        "banner_path": "assets/banners/A288_BANNER.jpg"
     },
     {
         "anime_id": "A289",
@@ -8057,7 +8344,8 @@
             7.96,
             8.39,
             7.7
-        ]
+        ],
+        "banner_path": "assets/banners/A289_BANNER.jpg"
     },
     {
         "anime_id": "A290",
@@ -8087,7 +8375,8 @@
             7.24,
             7.24,
             7.44
-        ]
+        ],
+        "banner_path": "assets/banners/A290_BANNER.jpg"
     },
     {
         "anime_id": "A291",
@@ -8117,7 +8406,8 @@
             7.12,
             7.53,
             7.88
-        ]
+        ],
+        "banner_path": "assets/banners/A291_BANNER.jpg"
     },
     {
         "anime_id": "A292",
@@ -8143,7 +8433,8 @@
             9.58,
             8.08,
             8.92
-        ]
+        ],
+        "banner_path": "assets/banners/A292_BANNER.jpg"
     },
     {
         "anime_id": "A293",
@@ -8170,7 +8461,8 @@
             7.5,
             7.81,
             7.69
-        ]
+        ],
+        "banner_path": "assets/banners/A293_BANNER.jpg"
     },
     {
         "anime_id": "A294",
@@ -8197,7 +8489,8 @@
             7.28,
             7.41,
             8.14
-        ]
+        ],
+        "banner_path": "assets/banners/A294_BANNER.jpg"
     },
     {
         "anime_id": "A295",
@@ -8226,7 +8519,8 @@
             9.37,
             8.83,
             8.53
-        ]
+        ],
+        "banner_path": "assets/banners/A295_BANNER.jpg"
     },
     {
         "anime_id": "A296",
@@ -8253,7 +8547,8 @@
             7.76,
             8.1,
             7.9
-        ]
+        ],
+        "banner_path": "assets/banners/A296_BANNER.jpg"
     },
     {
         "anime_id": "A297",
@@ -8280,7 +8575,8 @@
             7.92,
             7.96,
             8.2
-        ]
+        ],
+        "banner_path": "assets/banners/A297_BANNER.jpg"
     },
     {
         "anime_id": "A298",
@@ -8307,7 +8603,8 @@
             7.13,
             6.78,
             7.35
-        ]
+        ],
+        "banner_path": "assets/banners/A298_BANNER.jpg"
     },
     {
         "anime_id": "A299",
@@ -8334,7 +8631,8 @@
             7.79,
             7.74,
             8.21
-        ]
+        ],
+        "banner_path": "assets/banners/A299_BANNER.jpg"
     },
     {
         "anime_id": "A300",
@@ -8362,7 +8660,8 @@
             8.0,
             8.3,
             8.78
-        ]
+        ],
+        "banner_path": "assets/banners/A300_BANNER.jpg"
     },
     {
         "anime_id": "A301",
@@ -8389,7 +8688,8 @@
             6.88,
             6.8,
             7.0
-        ]
+        ],
+        "banner_path": "assets/banners/A301_BANNER.jpg"
     },
     {
         "anime_id": "A302",
@@ -8416,7 +8716,8 @@
             7.5,
             7.41,
             8.32
-        ]
+        ],
+        "banner_path": "assets/banners/A302_BANNER.jpg"
     },
     {
         "anime_id": "A303",
@@ -8441,7 +8742,8 @@
             7.97,
             8.54,
             8.29
-        ]
+        ],
+        "banner_path": "assets/banners/A303_BANNER.jpg"
     },
     {
         "anime_id": "A304",
@@ -8473,7 +8775,8 @@
             7.97,
             8.23,
             8.47
-        ]
+        ],
+        "banner_path": "assets/banners/A304_BANNER.jpg"
     },
     {
         "anime_id": "A305",
@@ -8498,7 +8801,8 @@
             7.83,
             8.67,
             8.33
-        ]
+        ],
+        "banner_path": "assets/banners/A305_BANNER.jpg"
     },
     {
         "anime_id": "A306",
@@ -8526,7 +8830,8 @@
             8.77,
             7.66,
             7.57
-        ]
+        ],
+        "banner_path": "assets/banners/A306_BANNER.jpg"
     },
     {
         "anime_id": "A307",
@@ -8554,7 +8859,8 @@
             7.89,
             7.67,
             8.22
-        ]
+        ],
+        "banner_path": "assets/banners/A307_BANNER.jpg"
     },
     {
         "anime_id": "A308",
@@ -8583,7 +8889,8 @@
             7.74,
             8.16,
             8.26
-        ]
+        ],
+        "banner_path": "assets/banners/A308_BANNER.jpg"
     },
     {
         "anime_id": "A309",
@@ -8611,7 +8918,8 @@
             7.92,
             8.75,
             8.5
-        ]
+        ],
+        "banner_path": "assets/banners/A309_BANNER.jpg"
     },
     {
         "anime_id": "A310",
@@ -8639,7 +8947,8 @@
             7.49,
             7.33,
             7.69
-        ]
+        ],
+        "banner_path": "assets/banners/A310_BANNER.jpg"
     },
     {
         "anime_id": "A311",
@@ -8667,7 +8976,8 @@
             7.29,
             6.5,
             7.14
-        ]
+        ],
+        "banner_path": "assets/banners/A311_BANNER.jpg"
     },
     {
         "anime_id": "A312",
@@ -8694,7 +9004,8 @@
             7.59,
             7.59,
             7.45
-        ]
+        ],
+        "banner_path": "assets/banners/A312_BANNER.jpg"
     },
     {
         "anime_id": "A313",
@@ -8721,7 +9032,8 @@
             7.94,
             7.84,
             7.38
-        ]
+        ],
+        "banner_path": "assets/banners/A313_BANNER.jpg"
     },
     {
         "anime_id": "A314",
@@ -8749,7 +9061,8 @@
             7.18,
             7.18,
             6.76
-        ]
+        ],
+        "banner_path": "assets/banners/A314_BANNER.jpg"
     },
     {
         "anime_id": "A315",
@@ -8777,7 +9090,8 @@
             7.58,
             7.71,
             7.42
-        ]
+        ],
+        "banner_path": "assets/banners/A315_BANNER.jpg"
     },
     {
         "anime_id": "A316",
@@ -8803,7 +9117,8 @@
             8.0,
             7.97,
             7.93
-        ]
+        ],
+        "banner_path": "assets/banners/A316_BANNER.jpg"
     },
     {
         "anime_id": "A317",
@@ -8829,7 +9144,8 @@
             7.59,
             8.0,
             7.86
-        ]
+        ],
+        "banner_path": "assets/banners/A317_BANNER.jpg"
     },
     {
         "anime_id": "A318",
@@ -8857,7 +9173,8 @@
             8.0,
             7.79,
             8.29
-        ]
+        ],
+        "banner_path": "assets/banners/A318_BANNER.jpg"
     },
     {
         "anime_id": "A319",
@@ -8884,7 +9201,8 @@
             6.84,
             6.76,
             7.44
-        ]
+        ],
+        "banner_path": "assets/banners/A319_BANNER.jpg"
     },
     {
         "anime_id": "A320",
@@ -8915,7 +9233,8 @@
             6.98,
             6.98,
             7.5
-        ]
+        ],
+        "banner_path": "assets/banners/A320_BANNER.jpg"
     },
     {
         "anime_id": "A321",
@@ -8943,7 +9262,8 @@
             7.62,
             8.0,
             8.24
-        ]
+        ],
+        "banner_path": "assets/banners/A321_BANNER.jpg"
     },
     {
         "anime_id": "A322",
@@ -8972,7 +9292,8 @@
             7.36,
             7.28,
             7.26
-        ]
+        ],
+        "banner_path": "assets/banners/A322_BANNER.jpg"
     },
     {
         "anime_id": "A323",
@@ -8997,7 +9318,8 @@
             7.8,
             8.87,
             8.4
-        ]
+        ],
+        "banner_path": "assets/banners/A323_BANNER.jpg"
     },
     {
         "anime_id": "A324",
@@ -9025,7 +9347,8 @@
             7.33,
             8.14,
             8.06
-        ]
+        ],
+        "banner_path": "assets/banners/A324_BANNER.jpg"
     },
     {
         "anime_id": "A325",
@@ -9055,7 +9378,8 @@
             7.86,
             7.86,
             8.45
-        ]
+        ],
+        "banner_path": "assets/banners/A325_BANNER.jpg"
     },
     {
         "anime_id": "A326",
@@ -9083,7 +9407,8 @@
             8.19,
             8.31,
             8.56
-        ]
+        ],
+        "banner_path": "assets/banners/A326_BANNER.jpg"
     },
     {
         "anime_id": "A327",
@@ -9108,7 +9433,8 @@
             7.6,
             7.56,
             7.76
-        ]
+        ],
+        "banner_path": "assets/banners/A327_BANNER.jpg"
     },
     {
         "anime_id": "A328",
@@ -9136,7 +9462,8 @@
             7.85,
             8.55,
             8.53
-        ]
+        ],
+        "banner_path": "assets/banners/A328_BANNER.jpg"
     },
     {
         "anime_id": "A329",
@@ -9165,7 +9492,8 @@
             7.52,
             7.48,
             7.52
-        ]
+        ],
+        "banner_path": "assets/banners/A329_BANNER.jpg"
     },
     {
         "anime_id": "A330",
@@ -9193,7 +9521,8 @@
             7.59,
             8.09,
             8.31
-        ]
+        ],
+        "banner_path": "assets/banners/A330_BANNER.jpg"
     },
     {
         "anime_id": "A331",
@@ -9220,7 +9549,8 @@
             8.15,
             8.15,
             8.28
-        ]
+        ],
+        "banner_path": "assets/banners/A331_BANNER.jpg"
     },
     {
         "anime_id": "A332",
@@ -9247,7 +9577,8 @@
             6.33,
             6.53,
             6.05
-        ]
+        ],
+        "banner_path": "assets/banners/A332_BANNER.jpg"
     },
     {
         "anime_id": "A333",
@@ -9274,7 +9605,8 @@
             7.32,
             7.32,
             7.36
-        ]
+        ],
+        "banner_path": "assets/banners/A333_BANNER.jpg"
     },
     {
         "anime_id": "A334",
@@ -9304,7 +9636,8 @@
             7.47,
             7.8,
             8.2
-        ]
+        ],
+        "banner_path": "assets/banners/A334_BANNER.jpg"
     },
     {
         "anime_id": "A335",
@@ -9335,7 +9668,8 @@
             7.08,
             6.92,
             7.75
-        ]
+        ],
+        "banner_path": "assets/banners/A335_BANNER.jpg"
     },
     {
         "anime_id": "A336",
@@ -9360,7 +9694,8 @@
             7.22,
             7.48,
             6.91
-        ]
+        ],
+        "banner_path": "assets/banners/A336_BANNER.jpg"
     },
     {
         "anime_id": "A337",
@@ -9390,7 +9725,8 @@
             7.53,
             8.0,
             8.35
-        ]
+        ],
+        "banner_path": "assets/banners/A337_BANNER.jpg"
     },
     {
         "anime_id": "A338",
@@ -9422,7 +9758,8 @@
             8.24,
             8.52,
             8.42
-        ]
+        ],
+        "banner_path": "assets/banners/A338_BANNER.jpg"
     },
     {
         "anime_id": "A339",
@@ -9448,7 +9785,8 @@
             7.35,
             7.05,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A339_BANNER.jpg"
     },
     {
         "anime_id": "A340",
@@ -9473,7 +9811,8 @@
             7.07,
             7.73,
             7.34
-        ]
+        ],
+        "banner_path": "assets/banners/A340_BANNER.jpg"
     },
     {
         "anime_id": "A341",
@@ -9500,7 +9839,8 @@
             8.33,
             8.13,
             8.73
-        ]
+        ],
+        "banner_path": "assets/banners/A341_BANNER.jpg"
     },
     {
         "anime_id": "A342",
@@ -9528,7 +9868,8 @@
             7.28,
             7.24,
             7.0
-        ]
+        ],
+        "banner_path": "assets/banners/A342_BANNER.jpg"
     },
     {
         "anime_id": "A343",
@@ -9556,7 +9897,8 @@
             7.67,
             7.67,
             7.86
-        ]
+        ],
+        "banner_path": "assets/banners/A343_BANNER.jpg"
     },
     {
         "anime_id": "A344",
@@ -9584,7 +9926,8 @@
             7.67,
             7.95,
             7.98
-        ]
+        ],
+        "banner_path": "assets/banners/A344_BANNER.jpg"
     },
     {
         "anime_id": "A345",
@@ -9611,7 +9954,8 @@
             7.65,
             8.03,
             7.61
-        ]
+        ],
+        "banner_path": "assets/banners/A345_BANNER.jpg"
     },
     {
         "anime_id": "A346",
@@ -9640,7 +9984,8 @@
             7.39,
             7.17,
             7.48
-        ]
+        ],
+        "banner_path": "assets/banners/A346_BANNER.jpg"
     },
     {
         "anime_id": "A347",
@@ -9670,7 +10015,8 @@
             7.11,
             7.49,
             7.36
-        ]
+        ],
+        "banner_path": "assets/banners/A347_BANNER.jpg"
     },
     {
         "anime_id": "A348",
@@ -9696,14 +10042,15 @@
             8.7,
             8.48,
             8.91
-        ]
+        ],
+        "banner_path": "assets/banners/A348_BANNER.jpg"
     },
     {
         "anime_id": "A349",
         "mal_id": 28977,
         "title": "Gintama°",
         "en_title": "Gintama Season 4",
-        "global_score": 9.11,
+        "global_score": 8.88,
         "genre": [
             "Action",
             "Comedy",
@@ -9720,14 +10067,15 @@
         "episodes": "51",
         "cover_path": "assets/covers/CIMG349.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG349.jpg",
-        "rating_count": 17,
+        "rating_count": 18,
         "global_score_dimensions": [
-            9.18,
-            9.12,
-            8.71,
-            9.0,
-            9.53
-        ]
+            8.95,
+            8.89,
+            8.5,
+            8.78,
+            9.28
+        ],
+        "banner_path": "assets/banners/A349_BANNER.jpg"
     },
     {
         "anime_id": "A350",
@@ -9754,7 +10102,8 @@
             7.45,
             7.5,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A350_BANNER.jpg"
     },
     {
         "anime_id": "A351",
@@ -9780,7 +10129,8 @@
             7.36,
             7.36,
             7.82
-        ]
+        ],
+        "banner_path": "assets/banners/A351_BANNER.jpg"
     },
     {
         "anime_id": "A352",
@@ -9810,7 +10160,8 @@
             6.74,
             6.93,
             7.74
-        ]
+        ],
+        "banner_path": "assets/banners/A352_BANNER.jpg"
     },
     {
         "anime_id": "A353",
@@ -9840,7 +10191,8 @@
             6.91,
             7.22,
             7.62
-        ]
+        ],
+        "banner_path": "assets/banners/A353_BANNER.jpg"
     },
     {
         "anime_id": "A354",
@@ -9868,7 +10220,8 @@
             7.0,
             6.96,
             7.04
-        ]
+        ],
+        "banner_path": "assets/banners/A354_BANNER.jpg"
     },
     {
         "anime_id": "A355",
@@ -9894,7 +10247,8 @@
             7.39,
             7.56,
             7.39
-        ]
+        ],
+        "banner_path": "assets/banners/A355_BANNER.jpg"
     },
     {
         "anime_id": "A356",
@@ -9923,7 +10277,8 @@
             6.13,
             6.3,
             7.23
-        ]
+        ],
+        "banner_path": "assets/banners/A356_BANNER.jpg"
     },
     {
         "anime_id": "A357",
@@ -9951,7 +10306,8 @@
             7.67,
             7.93,
             7.73
-        ]
+        ],
+        "banner_path": "assets/banners/A357_BANNER.jpg"
     },
     {
         "anime_id": "A358",
@@ -9981,7 +10337,8 @@
             6.82,
             6.95,
             7.61
-        ]
+        ],
+        "banner_path": "assets/banners/A358_BANNER.jpg"
     },
     {
         "anime_id": "A359",
@@ -10007,7 +10364,8 @@
             7.14,
             7.64,
             7.58
-        ]
+        ],
+        "banner_path": "assets/banners/A359_BANNER.jpg"
     },
     {
         "anime_id": "A360",
@@ -10035,7 +10393,8 @@
             7.68,
             7.91,
             8.73
-        ]
+        ],
+        "banner_path": "assets/banners/A360_BANNER.jpg"
     },
     {
         "anime_id": "A361",
@@ -10063,7 +10422,8 @@
             8.42,
             8.83,
             9.33
-        ]
+        ],
+        "banner_path": "assets/banners/A361_BANNER.jpg"
     },
     {
         "anime_id": "A362",
@@ -10089,7 +10449,8 @@
             7.3,
             7.35,
             8.26
-        ]
+        ],
+        "banner_path": "assets/banners/A362_BANNER.jpg"
     },
     {
         "anime_id": "A363",
@@ -10114,7 +10475,8 @@
             7.0,
             7.47,
             6.53
-        ]
+        ],
+        "banner_path": "assets/banners/A363_BANNER.jpg"
     },
     {
         "anime_id": "A364",
@@ -10144,7 +10506,8 @@
             7.08,
             7.21,
             7.63
-        ]
+        ],
+        "banner_path": "assets/banners/A364_BANNER.jpg"
     },
     {
         "anime_id": "A365",
@@ -10171,7 +10534,8 @@
             7.9,
             8.1,
             8.05
-        ]
+        ],
+        "banner_path": "assets/banners/A365_BANNER.jpg"
     },
     {
         "anime_id": "A366",
@@ -10199,7 +10563,8 @@
             7.35,
             7.2,
             7.85
-        ]
+        ],
+        "banner_path": "assets/banners/A366_BANNER.jpg"
     },
     {
         "anime_id": "A367",
@@ -10226,7 +10591,8 @@
             7.89,
             7.5,
             7.68
-        ]
+        ],
+        "banner_path": "assets/banners/A367_BANNER.jpg"
     },
     {
         "anime_id": "A368",
@@ -10255,7 +10621,8 @@
             7.71,
             7.58,
             8.31
-        ]
+        ],
+        "banner_path": "assets/banners/A368_BANNER.jpg"
     },
     {
         "anime_id": "A369",
@@ -10283,7 +10650,8 @@
             7.86,
             8.2,
             7.8
-        ]
+        ],
+        "banner_path": "assets/banners/A369_BANNER.jpg"
     },
     {
         "anime_id": "A370",
@@ -10313,7 +10681,8 @@
             7.1,
             7.29,
             7.98
-        ]
+        ],
+        "banner_path": "assets/banners/A370_BANNER.jpg"
     },
     {
         "anime_id": "A371",
@@ -10342,7 +10711,8 @@
             6.9,
             5.9,
             7.1
-        ]
+        ],
+        "banner_path": "assets/banners/A371_BANNER.jpg"
     },
     {
         "anime_id": "A372",
@@ -10370,7 +10740,8 @@
             7.63,
             7.87,
             7.95
-        ]
+        ],
+        "banner_path": "assets/banners/A372_BANNER.jpg"
     },
     {
         "anime_id": "A373",
@@ -10399,7 +10770,8 @@
             7.19,
             7.68,
             7.03
-        ]
+        ],
+        "banner_path": "assets/banners/A373_BANNER.jpg"
     },
     {
         "anime_id": "A374",
@@ -10428,7 +10800,8 @@
             7.23,
             7.42,
             8.15
-        ]
+        ],
+        "banner_path": "assets/banners/A374_BANNER.jpg"
     },
     {
         "anime_id": "A375",
@@ -10454,7 +10827,8 @@
             7.57,
             7.75,
             8.18
-        ]
+        ],
+        "banner_path": "assets/banners/A375_BANNER.jpg"
     },
     {
         "anime_id": "A376",
@@ -10481,7 +10855,8 @@
             7.79,
             8.14,
             8.1
-        ]
+        ],
+        "banner_path": "assets/banners/A376_BANNER.jpg"
     },
     {
         "anime_id": "A377",
@@ -10509,7 +10884,8 @@
             8.68,
             9.23,
             8.94
-        ]
+        ],
+        "banner_path": "assets/banners/A377_BANNER.jpg"
     },
     {
         "anime_id": "A378",
@@ -10537,7 +10913,8 @@
             7.7,
             8.09,
             7.85
-        ]
+        ],
+        "banner_path": "assets/banners/A378_BANNER.jpg"
     },
     {
         "anime_id": "A379",
@@ -10565,7 +10942,8 @@
             7.28,
             7.31,
             7.83
-        ]
+        ],
+        "banner_path": "assets/banners/A379_BANNER.jpg"
     },
     {
         "anime_id": "A380",
@@ -10592,7 +10970,8 @@
             7.74,
             8.04,
             8.17
-        ]
+        ],
+        "banner_path": "assets/banners/A380_BANNER.jpg"
     },
     {
         "anime_id": "A381",
@@ -10623,7 +11002,8 @@
             8.22,
             8.71,
             8.24
-        ]
+        ],
+        "banner_path": "assets/banners/A381_BANNER.jpg"
     },
     {
         "anime_id": "A382",
@@ -10652,7 +11032,8 @@
             7.12,
             6.76,
             7.12
-        ]
+        ],
+        "banner_path": "assets/banners/A382_BANNER.jpg"
     },
     {
         "anime_id": "A383",
@@ -10677,7 +11058,8 @@
             8.3,
             8.15,
             8.48
-        ]
+        ],
+        "banner_path": "assets/banners/A383_BANNER.jpg"
     },
     {
         "anime_id": "A384",
@@ -10705,14 +11087,15 @@
             8.11,
             7.72,
             8.06
-        ]
+        ],
+        "banner_path": "assets/banners/A384_BANNER.jpg"
     },
     {
         "anime_id": "A385",
         "mal_id": 48569,
         "title": "86 Part 2",
         "en_title": "86 Eighty-Six Part 2",
-        "global_score": 8.82,
+        "global_score": 8.61,
         "genre": [
             "Drama",
             "Sci-Fi",
@@ -10725,14 +11108,15 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG385.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG385.jpg",
-        "rating_count": 20,
+        "rating_count": 21,
         "global_score_dimensions": [
-            8.45,
-            8.75,
-            8.9,
-            9.3,
-            8.7
-        ]
+            8.24,
+            8.62,
+            8.71,
+            9.14,
+            8.33
+        ],
+        "banner_path": "assets/banners/A385_BANNER.jpg"
     },
     {
         "anime_id": "A386",
@@ -10760,7 +11144,8 @@
             7.57,
             7.97,
             8.6
-        ]
+        ],
+        "banner_path": "assets/banners/A386_BANNER.jpg"
     },
     {
         "anime_id": "A387",
@@ -10791,7 +11176,8 @@
             6.59,
             7.41,
             7.47
-        ]
+        ],
+        "banner_path": "assets/banners/A387_BANNER.jpg"
     },
     {
         "anime_id": "A388",
@@ -10818,7 +11204,8 @@
             9.0,
             8.5,
             7.88
-        ]
+        ],
+        "banner_path": "assets/banners/A388_BANNER.jpg"
     },
     {
         "anime_id": "A389",
@@ -10847,7 +11234,8 @@
             7.69,
             7.69,
             8.62
-        ]
+        ],
+        "banner_path": "assets/banners/A389_BANNER.jpg"
     },
     {
         "anime_id": "A390",
@@ -10877,7 +11265,8 @@
             7.93,
             8.0,
             7.47
-        ]
+        ],
+        "banner_path": "assets/banners/A390_BANNER.jpg"
     },
     {
         "anime_id": "A391",
@@ -10904,7 +11293,8 @@
             7.89,
             8.39,
             8.17
-        ]
+        ],
+        "banner_path": "assets/banners/A391_BANNER.jpg"
     },
     {
         "anime_id": "A392",
@@ -10934,7 +11324,8 @@
             7.14,
             7.25,
             7.54
-        ]
+        ],
+        "banner_path": "assets/banners/A392_BANNER.jpg"
     },
     {
         "anime_id": "A393",
@@ -10960,7 +11351,8 @@
             7.5,
             7.57,
             7.57
-        ]
+        ],
+        "banner_path": "assets/banners/A393_BANNER.jpg"
     },
     {
         "anime_id": "A394",
@@ -10985,7 +11377,8 @@
             6.86,
             7.14,
             7.14
-        ]
+        ],
+        "banner_path": "assets/banners/A394_BANNER.jpg"
     },
     {
         "anime_id": "A395",
@@ -11014,7 +11407,8 @@
             7.29,
             6.75,
             7.42
-        ]
+        ],
+        "banner_path": "assets/banners/A395_BANNER.jpg"
     },
     {
         "anime_id": "A396",
@@ -11044,7 +11438,8 @@
             7.86,
             7.94,
             8.06
-        ]
+        ],
+        "banner_path": "assets/banners/A396_BANNER.jpg"
     },
     {
         "anime_id": "A397",
@@ -11071,7 +11466,8 @@
             8.25,
             8.67,
             8.75
-        ]
+        ],
+        "banner_path": "assets/banners/A397_BANNER.jpg"
     },
     {
         "anime_id": "A398",
@@ -11097,7 +11493,8 @@
             7.85,
             7.0,
             7.38
-        ]
+        ],
+        "banner_path": "assets/banners/A398_BANNER.jpg"
     },
     {
         "anime_id": "A399",
@@ -11127,7 +11524,8 @@
             7.91,
             8.09,
             7.82
-        ]
+        ],
+        "banner_path": "assets/banners/A399_BANNER.jpg"
     },
     {
         "anime_id": "A400",
@@ -11155,7 +11553,8 @@
             7.43,
             7.8,
             7.77
-        ]
+        ],
+        "banner_path": "assets/banners/A400_BANNER.jpg"
     },
     {
         "anime_id": "A401",
@@ -11184,7 +11583,8 @@
             7.54,
             8.04,
             7.96
-        ]
+        ],
+        "banner_path": "assets/banners/A401_BANNER.jpg"
     },
     {
         "anime_id": "A402",
@@ -11212,7 +11612,8 @@
             7.5,
             7.58,
             7.9
-        ]
+        ],
+        "banner_path": "assets/banners/A402_BANNER.jpg"
     },
     {
         "anime_id": "A403",
@@ -11241,7 +11642,8 @@
             8.05,
             8.39,
             8.3
-        ]
+        ],
+        "banner_path": "assets/banners/A403_BANNER.jpg"
     },
     {
         "anime_id": "A404",
@@ -11275,7 +11677,8 @@
             7.9,
             7.73,
             8.33
-        ]
+        ],
+        "banner_path": "assets/banners/A404_BANNER.jpg"
     },
     {
         "anime_id": "A405",
@@ -11305,7 +11708,8 @@
             7.07,
             7.93,
             8.13
-        ]
+        ],
+        "banner_path": "assets/banners/A405_BANNER.jpg"
     },
     {
         "anime_id": "A406",
@@ -11336,7 +11740,8 @@
             8.26,
             8.87,
             8.78
-        ]
+        ],
+        "banner_path": "assets/banners/A406_BANNER.jpg"
     },
     {
         "anime_id": "A407",
@@ -11361,7 +11766,8 @@
             8.07,
             8.36,
             8.79
-        ]
+        ],
+        "banner_path": "assets/banners/A407_BANNER.jpg"
     },
     {
         "anime_id": "A408",
@@ -11391,7 +11797,8 @@
             7.81,
             8.1,
             8.06
-        ]
+        ],
+        "banner_path": "assets/banners/A408_BANNER.jpg"
     },
     {
         "anime_id": "A409",
@@ -11418,7 +11825,8 @@
             7.82,
             7.27,
             7.82
-        ]
+        ],
+        "banner_path": "assets/banners/A409_BANNER.jpg"
     },
     {
         "anime_id": "A410",
@@ -11446,7 +11854,8 @@
             8.79,
             7.93,
             8.43
-        ]
+        ],
+        "banner_path": "assets/banners/A410_BANNER.jpg"
     },
     {
         "anime_id": "A411",
@@ -11474,7 +11883,8 @@
             7.5,
             7.56,
             8.22
-        ]
+        ],
+        "banner_path": "assets/banners/A411_BANNER.jpg"
     },
     {
         "anime_id": "A412",
@@ -11501,7 +11911,8 @@
             7.89,
             7.83,
             7.83
-        ]
+        ],
+        "banner_path": "assets/banners/A412_BANNER.jpg"
     },
     {
         "anime_id": "A413",
@@ -11530,7 +11941,8 @@
             7.18,
             6.89,
             6.68
-        ]
+        ],
+        "banner_path": "assets/banners/A413_BANNER.jpg"
     },
     {
         "anime_id": "A414",
@@ -11559,7 +11971,8 @@
             6.63,
             6.83,
             7.33
-        ]
+        ],
+        "banner_path": "assets/banners/A414_BANNER.jpg"
     },
     {
         "anime_id": "A415",
@@ -11587,7 +12000,8 @@
             7.58,
             7.92,
             8.21
-        ]
+        ],
+        "banner_path": "assets/banners/A415_BANNER.jpg"
     },
     {
         "anime_id": "A416",
@@ -11613,7 +12027,8 @@
             8.14,
             7.79,
             7.93
-        ]
+        ],
+        "banner_path": "assets/banners/A416_BANNER.jpg"
     },
     {
         "anime_id": "A417",
@@ -11641,7 +12056,8 @@
             7.59,
             7.5,
             7.41
-        ]
+        ],
+        "banner_path": "assets/banners/A417_BANNER.jpg"
     },
     {
         "anime_id": "A418",
@@ -11670,7 +12086,8 @@
             5.95,
             6.58,
             6.68
-        ]
+        ],
+        "banner_path": "assets/banners/A418_BANNER.jpg"
     },
     {
         "anime_id": "A419",
@@ -11700,7 +12117,8 @@
             7.77,
             8.66,
             8.48
-        ]
+        ],
+        "banner_path": "assets/banners/A419_BANNER.jpg"
     },
     {
         "anime_id": "A420",
@@ -11725,7 +12143,8 @@
             7.62,
             8.0,
             7.96
-        ]
+        ],
+        "banner_path": "assets/banners/A420_BANNER.jpg"
     },
     {
         "anime_id": "A421",
@@ -11753,7 +12172,8 @@
             7.95,
             7.95,
             8.48
-        ]
+        ],
+        "banner_path": "assets/banners/A421_BANNER.jpg"
     },
     {
         "anime_id": "A422",
@@ -11781,7 +12201,8 @@
             8.26,
             8.49,
             8.72
-        ]
+        ],
+        "banner_path": "assets/banners/A422_BANNER.jpg"
     },
     {
         "anime_id": "A423",
@@ -11805,7 +12226,8 @@
             8.2,
             8.13,
             8.73
-        ]
+        ],
+        "banner_path": "assets/banners/A423_BANNER.jpg"
     },
     {
         "anime_id": "A424",
@@ -11832,7 +12254,8 @@
             6.9,
             7.13,
             6.48
-        ]
+        ],
+        "banner_path": "assets/banners/A424_BANNER.jpg"
     },
     {
         "anime_id": "A425",
@@ -11862,7 +12285,8 @@
             6.8,
             6.72,
             7.48
-        ]
+        ],
+        "banner_path": "assets/banners/A425_BANNER.jpg"
     },
     {
         "anime_id": "A426",
@@ -11889,7 +12313,8 @@
             7.24,
             8.17,
             7.56
-        ]
+        ],
+        "banner_path": "assets/banners/A426_BANNER.jpg"
     },
     {
         "anime_id": "A427",
@@ -11917,7 +12342,8 @@
             7.5,
             8.21,
             8.26
-        ]
+        ],
+        "banner_path": "assets/banners/A427_BANNER.jpg"
     },
     {
         "anime_id": "A428",
@@ -11945,7 +12371,8 @@
             7.44,
             7.16,
             7.8
-        ]
+        ],
+        "banner_path": "assets/banners/A428_BANNER.jpg"
     },
     {
         "anime_id": "A429",
@@ -11972,7 +12399,8 @@
             7.0,
             7.5,
             7.43
-        ]
+        ],
+        "banner_path": "assets/banners/A429_BANNER.jpg"
     },
     {
         "anime_id": "A430",
@@ -12001,14 +12429,15 @@
             6.85,
             6.76,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A430_BANNER.jpg"
     },
     {
         "anime_id": "A431",
         "mal_id": 40417,
         "title": "Fruits Basket 2nd Season",
         "en_title": null,
-        "global_score": 8.75,
+        "global_score": 8.76,
         "genre": [
             "Drama",
             "Romance",
@@ -12029,7 +12458,8 @@
             8.0,
             9.31,
             8.85
-        ]
+        ],
+        "banner_path": "assets/banners/A431_BANNER.jpg"
     },
     {
         "anime_id": "A432",
@@ -12056,7 +12486,8 @@
             7.64,
             7.72,
             7.76
-        ]
+        ],
+        "banner_path": "assets/banners/A432_BANNER.jpg"
     },
     {
         "anime_id": "A433",
@@ -12084,7 +12515,8 @@
             7.88,
             8.0,
             8.41
-        ]
+        ],
+        "banner_path": "assets/banners/A433_BANNER.jpg"
     },
     {
         "anime_id": "A434",
@@ -12111,7 +12543,8 @@
             7.57,
             7.65,
             7.26
-        ]
+        ],
+        "banner_path": "assets/banners/A434_BANNER.jpg"
     },
     {
         "anime_id": "A435",
@@ -12138,7 +12571,8 @@
             8.09,
             8.23,
             8.53
-        ]
+        ],
+        "banner_path": "assets/banners/A435_BANNER.jpg"
     },
     {
         "anime_id": "A436",
@@ -12166,7 +12600,8 @@
             8.0,
             6.6,
             7.4
-        ]
+        ],
+        "banner_path": "assets/banners/A436_BANNER.jpg"
     },
     {
         "anime_id": "A437",
@@ -12195,7 +12630,8 @@
             7.36,
             8.06,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A437_BANNER.jpg"
     },
     {
         "anime_id": "A438",
@@ -12222,7 +12658,8 @@
             6.69,
             7.25,
             6.92
-        ]
+        ],
+        "banner_path": "assets/banners/A438_BANNER.jpg"
     },
     {
         "anime_id": "A439",
@@ -12251,7 +12688,8 @@
             7.56,
             8.25,
             8.5
-        ]
+        ],
+        "banner_path": "assets/banners/A439_BANNER.jpg"
     },
     {
         "anime_id": "A440",
@@ -12275,7 +12713,8 @@
             8.58,
             7.68,
             8.89
-        ]
+        ],
+        "banner_path": "assets/banners/A440_BANNER.jpg"
     },
     {
         "anime_id": "A441",
@@ -12302,7 +12741,8 @@
             6.73,
             8.0,
             9.0
-        ]
+        ],
+        "banner_path": "assets/banners/A441_BANNER.jpg"
     },
     {
         "anime_id": "A442",
@@ -12332,7 +12772,8 @@
             6.7,
             6.5,
             7.25
-        ]
+        ],
+        "banner_path": "assets/banners/A442_BANNER.jpg"
     },
     {
         "anime_id": "A443",
@@ -12359,7 +12800,8 @@
             8.64,
             9.18,
             9.0
-        ]
+        ],
+        "banner_path": "assets/banners/A443_BANNER.jpg"
     },
     {
         "anime_id": "A444",
@@ -12387,7 +12829,8 @@
             6.95,
             6.95,
             7.52
-        ]
+        ],
+        "banner_path": "assets/banners/A444_BANNER.jpg"
     },
     {
         "anime_id": "A445",
@@ -12414,7 +12857,8 @@
             7.07,
             7.36,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A445_BANNER.jpg"
     },
     {
         "anime_id": "A446",
@@ -12443,7 +12887,8 @@
             7.64,
             8.02,
             8.04
-        ]
+        ],
+        "banner_path": "assets/banners/A446_BANNER.jpg"
     },
     {
         "anime_id": "A447",
@@ -12470,7 +12915,8 @@
             6.52,
             7.04,
             7.22
-        ]
+        ],
+        "banner_path": "assets/banners/A447_BANNER.jpg"
     },
     {
         "anime_id": "A448",
@@ -12496,7 +12942,8 @@
             6.76,
             7.59,
             6.53
-        ]
+        ],
+        "banner_path": "assets/banners/A448_BANNER.jpg"
     },
     {
         "anime_id": "A449",
@@ -12527,7 +12974,8 @@
             6.67,
             7.44,
             7.22
-        ]
+        ],
+        "banner_path": "assets/banners/A449_BANNER.jpg"
     },
     {
         "anime_id": "A450",
@@ -12555,7 +13003,8 @@
             7.69,
             7.38,
             8.19
-        ]
+        ],
+        "banner_path": "assets/banners/A450_BANNER.jpg"
     },
     {
         "anime_id": "A451",
@@ -12581,7 +13030,8 @@
             7.85,
             8.31,
             8.62
-        ]
+        ],
+        "banner_path": "assets/banners/A451_BANNER.jpg"
     },
     {
         "anime_id": "A452",
@@ -12607,7 +13057,8 @@
             7.33,
             7.33,
             7.78
-        ]
+        ],
+        "banner_path": "assets/banners/A452_BANNER.jpg"
     },
     {
         "anime_id": "A453",
@@ -12634,7 +13085,8 @@
             7.67,
             8.1,
             7.64
-        ]
+        ],
+        "banner_path": "assets/banners/A453_BANNER.jpg"
     },
     {
         "anime_id": "A454",
@@ -12662,7 +13114,8 @@
             7.91,
             7.91,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A454_BANNER.jpg"
     },
     {
         "anime_id": "A455",
@@ -12691,7 +13144,8 @@
             7.31,
             7.12,
             8.31
-        ]
+        ],
+        "banner_path": "assets/banners/A455_BANNER.jpg"
     },
     {
         "anime_id": "A456",
@@ -12718,7 +13172,8 @@
             8.24,
             8.96,
             7.8
-        ]
+        ],
+        "banner_path": "assets/banners/A456_BANNER.jpg"
     },
     {
         "anime_id": "A457",
@@ -12744,7 +13199,8 @@
             8.33,
             8.21,
             8.19
-        ]
+        ],
+        "banner_path": "assets/banners/A457_BANNER.jpg"
     },
     {
         "anime_id": "A458",
@@ -12772,7 +13228,8 @@
             7.94,
             7.59,
             8.29
-        ]
+        ],
+        "banner_path": "assets/banners/A458_BANNER.jpg"
     },
     {
         "anime_id": "A459",
@@ -12799,7 +13256,8 @@
             7.53,
             7.27,
             7.67
-        ]
+        ],
+        "banner_path": "assets/banners/A459_BANNER.jpg"
     },
     {
         "anime_id": "A460",
@@ -12826,7 +13284,8 @@
             6.69,
             7.17,
             6.86
-        ]
+        ],
+        "banner_path": "assets/banners/A460_BANNER.jpg"
     },
     {
         "anime_id": "A461",
@@ -12851,7 +13310,8 @@
             7.65,
             7.29,
             7.88
-        ]
+        ],
+        "banner_path": "assets/banners/A461_BANNER.jpg"
     },
     {
         "anime_id": "A462",
@@ -12877,7 +13337,8 @@
             7.44,
             8.12,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A462_BANNER.jpg"
     },
     {
         "anime_id": "A463",
@@ -12903,7 +13364,8 @@
             7.57,
             9.04,
             8.0
-        ]
+        ],
+        "banner_path": "assets/banners/A463_BANNER.jpg"
     },
     {
         "anime_id": "A464",
@@ -12931,7 +13393,8 @@
             8.07,
             8.43,
             8.14
-        ]
+        ],
+        "banner_path": "assets/banners/A464_BANNER.jpg"
     },
     {
         "anime_id": "A465",
@@ -12957,7 +13420,8 @@
             7.13,
             7.36,
             7.87
-        ]
+        ],
+        "banner_path": "assets/banners/A465_BANNER.jpg"
     },
     {
         "anime_id": "A466",
@@ -12984,7 +13448,8 @@
             8.07,
             7.71,
             8.29
-        ]
+        ],
+        "banner_path": "assets/banners/A466_BANNER.jpg"
     },
     {
         "anime_id": "A467",
@@ -13013,7 +13478,8 @@
             8.17,
             8.25,
             8.5
-        ]
+        ],
+        "banner_path": "assets/banners/A467_BANNER.jpg"
     },
     {
         "anime_id": "A468",
@@ -13039,7 +13505,8 @@
             7.73,
             7.85,
             8.09
-        ]
+        ],
+        "banner_path": "assets/banners/A468_BANNER.jpg"
     },
     {
         "anime_id": "A469",
@@ -13068,7 +13535,8 @@
             7.88,
             8.24,
             8.12
-        ]
+        ],
+        "banner_path": "assets/banners/A469_BANNER.jpg"
     },
     {
         "anime_id": "A470",
@@ -13097,7 +13565,8 @@
             7.25,
             7.54,
             7.29
-        ]
+        ],
+        "banner_path": "assets/banners/A470_BANNER.jpg"
     },
     {
         "anime_id": "A471",
@@ -13124,7 +13593,8 @@
             8.12,
             8.12,
             8.44
-        ]
+        ],
+        "banner_path": "assets/banners/A471_BANNER.jpg"
     },
     {
         "anime_id": "A472",
@@ -13153,7 +13623,8 @@
             8.67,
             7.33,
             8.27
-        ]
+        ],
+        "banner_path": "assets/banners/A472_BANNER.jpg"
     },
     {
         "anime_id": "A473",
@@ -13180,7 +13651,8 @@
             7.62,
             7.23,
             7.5
-        ]
+        ],
+        "banner_path": "assets/banners/A473_BANNER.jpg"
     },
     {
         "anime_id": "A474",
@@ -13206,7 +13678,8 @@
             7.74,
             7.79,
             8.14
-        ]
+        ],
+        "banner_path": "assets/banners/A474_BANNER.jpg"
     },
     {
         "anime_id": "A475",
@@ -13238,7 +13711,8 @@
             7.63,
             7.76,
             7.95
-        ]
+        ],
+        "banner_path": "assets/banners/A475_BANNER.jpg"
     },
     {
         "anime_id": "A476",
@@ -13266,7 +13740,8 @@
             8.19,
             7.44,
             8.81
-        ]
+        ],
+        "banner_path": "assets/banners/A476_BANNER.jpg"
     },
     {
         "anime_id": "A477",
@@ -13293,7 +13768,8 @@
             7.3,
             7.5,
             7.9
-        ]
+        ],
+        "banner_path": "assets/banners/A477_BANNER.jpg"
     },
     {
         "anime_id": "A478",
@@ -13320,7 +13796,8 @@
             8.25,
             8.88,
             7.62
-        ]
+        ],
+        "banner_path": "assets/banners/A478_BANNER.jpg"
     },
     {
         "anime_id": "A479",
@@ -13348,7 +13825,8 @@
             7.51,
             6.8,
             7.29
-        ]
+        ],
+        "banner_path": "assets/banners/A479_BANNER.jpg"
     },
     {
         "anime_id": "A480",
@@ -13375,7 +13853,8 @@
             7.39,
             7.56,
             7.56
-        ]
+        ],
+        "banner_path": "assets/banners/A480_BANNER.jpg"
     },
     {
         "anime_id": "A481",
@@ -13401,7 +13880,8 @@
             7.08,
             7.05,
             7.78
-        ]
+        ],
+        "banner_path": "assets/banners/A481_BANNER.jpg"
     },
     {
         "anime_id": "A482",
@@ -13428,7 +13908,8 @@
             8.07,
             8.07,
             7.43
-        ]
+        ],
+        "banner_path": "assets/banners/A482_BANNER.jpg"
     },
     {
         "anime_id": "A483",
@@ -13453,7 +13934,8 @@
             7.33,
             6.94,
             7.56
-        ]
+        ],
+        "banner_path": "assets/banners/A483_BANNER.jpg"
     },
     {
         "anime_id": "A484",
@@ -13480,7 +13962,8 @@
             8.07,
             8.63,
             8.52
-        ]
+        ],
+        "banner_path": "assets/banners/A484_BANNER.jpg"
     },
     {
         "anime_id": "A485",
@@ -13509,7 +13992,8 @@
             8.03,
             8.35,
             8.26
-        ]
+        ],
+        "banner_path": "assets/banners/A485_BANNER.jpg"
     },
     {
         "anime_id": "A486",
@@ -13538,7 +14022,8 @@
             7.25,
             7.42,
             7.17
-        ]
+        ],
+        "banner_path": "assets/banners/A486_BANNER.jpg"
     },
     {
         "anime_id": "A487",
@@ -13566,7 +14051,8 @@
             7.77,
             8.18,
             7.87
-        ]
+        ],
+        "banner_path": "assets/banners/A487_BANNER.jpg"
     },
     {
         "anime_id": "A488",
@@ -13594,7 +14080,8 @@
             6.53,
             7.67,
             7.73
-        ]
+        ],
+        "banner_path": "assets/banners/A488_BANNER.jpg"
     },
     {
         "anime_id": "A489",
@@ -13621,7 +14108,8 @@
             7.53,
             7.58,
             7.86
-        ]
+        ],
+        "banner_path": "assets/banners/A489_BANNER.jpg"
     },
     {
         "anime_id": "A490",
@@ -13649,7 +14137,8 @@
             7.97,
             8.41,
             7.9
-        ]
+        ],
+        "banner_path": "assets/banners/A490_BANNER.jpg"
     },
     {
         "anime_id": "A491",
@@ -13676,7 +14165,8 @@
             8.29,
             8.57,
             8.21
-        ]
+        ],
+        "banner_path": "assets/banners/A491_BANNER.jpg"
     },
     {
         "anime_id": "A492",
@@ -13705,7 +14195,8 @@
             7.94,
             8.19,
             7.94
-        ]
+        ],
+        "banner_path": "assets/banners/A492_BANNER.jpg"
     },
     {
         "anime_id": "A493",
@@ -13733,7 +14224,8 @@
             7.75,
             8.06,
             7.5
-        ]
+        ],
+        "banner_path": "assets/banners/A493_BANNER.jpg"
     },
     {
         "anime_id": "A494",
@@ -13759,7 +14251,8 @@
             7.45,
             7.75,
             8.5
-        ]
+        ],
+        "banner_path": "assets/banners/A494_BANNER.jpg"
     },
     {
         "anime_id": "A495",
@@ -13788,7 +14281,8 @@
             7.0,
             7.53,
             7.45
-        ]
+        ],
+        "banner_path": "assets/banners/A495_BANNER.jpg"
     },
     {
         "anime_id": "A496",
@@ -13815,7 +14309,8 @@
             8.6,
             9.0,
             8.4
-        ]
+        ],
+        "banner_path": "assets/banners/A496_BANNER.jpg"
     },
     {
         "anime_id": "A497",
@@ -13841,7 +14336,8 @@
             7.42,
             7.79,
             7.75
-        ]
+        ],
+        "banner_path": "assets/banners/A497_BANNER.jpg"
     },
     {
         "anime_id": "A498",
@@ -13867,7 +14363,8 @@
             7.42,
             7.82,
             8.18
-        ]
+        ],
+        "banner_path": "assets/banners/A498_BANNER.jpg"
     },
     {
         "anime_id": "A499",
@@ -13893,7 +14390,8 @@
             7.73,
             7.41,
             7.32
-        ]
+        ],
+        "banner_path": "assets/banners/A499_BANNER.jpg"
     },
     {
         "anime_id": "A500",
@@ -13920,6 +14418,86 @@
             7.75,
             8.4,
             8.7
+        ],
+        "banner_path": "assets/banners/A500_BANNER.jpg"
+    },
+    {
+        "anime_id": "A501",
+        "mal_id": 12149,
+        "title": "AKB0048",
+        "en_title": null,
+        "global_score": 7.46,
+        "genre": [
+            "Sci-Fi",
+            "Idols (Female)",
+            "Music"
+        ],
+        "synopsis": "After an interplanetary war at the beginning of the 21st century, planet Earth has been left in ruins, with much of its ecosystem completely destroyed. Because it was no longer possible to live a normal life on this planet, the inhabitants are forced to move on to other planets where life will, hopefully, be more comfortable.The Deep Galactic Trade Organization, a totalitarian government that affects many of the newly inhabited planets, has somehow come to the conclusion that music is a source of evil, and that it must be banned and destroyed for good. The talent group AKB0048 is soon formed, based on the original AKB48 members that once lived on Earth. Even though their music is now considered universally illegal, they make it their mission to bring their music back to life by travelling from one planet to another and holding as many concerts as they possibly can. They must undergo a whole new set of training methods in order to become the best that they can possibly be, while also avoiding the constant danger of being arrested because of their music. Join interplanetary popstars AKB0048 as they try to save the world－with music!",
+        "studio": "Satelight",
+        "type": "TV",
+        "episodes": "13",
+        "cover_path": "assets/covers/CIMG501.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG501.jpg",
+        "banner_path": "assets/banners/A501_BANNER.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            7.2,
+            7.2,
+            8.7,
+            6.89,
+            7.3
+        ]
+    },
+    {
+        "anime_id": "A502",
+        "mal_id": 29850,
+        "title": "AKB48 Stage Fighter",
+        "en_title": null,
+        "global_score": 5.07,
+        "genre": [
+            "Action"
+        ],
+        "synopsis": "Commercial for AKB48 Stage Fighter mobile phone game.",
+        "studio": "None found,add some",
+        "type": "CM",
+        "episodes": "1",
+        "cover_path": "assets/covers/CIMG502.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG502.jpg",
+        "banner_path": "",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            4.9,
+            5.0,
+            5.2,
+            5.01,
+            5.2
+        ]
+    },
+    {
+        "anime_id": "A503",
+        "mal_id": 40571,
+        "title": "Majo no Tabitabi",
+        "en_title": "Wandering Witch: The Journey of Elaina",
+        "global_score": 8.16,
+        "trailer_url": "https://www.youtube.com/watch?v=Bfe08q9jer8",
+        "genre": [
+            "Adventure",
+            "Fantasy"
+        ],
+        "synopsis": "Since childhood, Elaina has always been fascinated by the stories written within her favorite book, especially those about Nike, a renowned witch who had numerous great travels across the world. Wanting to experience the awe of adventure herself, Elaina strives to become a witch, and despite the numerous trials that come her way, she eventually succeeds.Now a full-fledged witch, Elaina finally embarks on her long-awaited journey, in which she meets many people along the way, learning their various stories. Through all of this, she explores the world at its fullest—experiencing both its bright and dark sides—starting her legendary tale.[Written by MAL Rewrite]",
+        "studio": "C2C",
+        "type": "TV",
+        "episodes": "12",
+        "cover_path": "assets/covers/CIMG503.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG503.jpg",
+        "banner_path": "assets/banners/A503_BANNER.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            7.8,
+            8.5,
+            8.0,
+            7.6,
+            8.9
         ]
     }
 ]

@@ -5,7 +5,6 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Optional, Any
 import urllib.parse
-# Tambahkan ini di bagian atas jika belum ada
 import difflib
 
 import requests
@@ -37,6 +36,8 @@ class RadarAniScraper:
         self.assets_dir = self.root_dir / "assets"
         self.thumb_dir = self.assets_dir / "thumbnails"
         self.cover_dir = self.assets_dir / "covers"
+        self.banner_dir = self.assets_dir / "banners"
+        self.banner_dir.mkdir(parents=True, exist_ok=True)
         self.data_dir = self.root_dir / "data"
 
         self.checkpoint_file = self.data_dir / 'anime_list_checkpoint.json'
@@ -140,12 +141,37 @@ class RadarAniScraper:
 
         synopsis_tag = soup.find('p', itemprop='description')
 
+        # --- EKSTRAKSI TRAILER ---
+        trailer_url = "N/A"
+        video_promo = soup.find('div', class_='video-promotion')
+        if video_promo:
+            video_link = video_promo.find('a', class_='iframe')
+            if video_link and video_link.get('href'):
+                raw_url = video_link['href']
+                try:
+                    # Parse URL untuk membuang parameter yang tidak perlu
+                    parsed_url = urllib.parse.urlparse(raw_url)
+
+                    # Cek apakah ini URL embed YouTube
+                    if '/embed/' in parsed_url.path:
+                        # Ekstrak ID Video (contoh path: /embed/LHtdKWJdif4)
+                        video_id = parsed_url.path.split('/embed/')[-1]
+                        # Susun ulang menjadi tautan watch standar
+                        trailer_url = f"https://www.youtube.com/watch?v={video_id}"
+                    else:
+                        # Fallback jika bukan YouTube embed standar (hanya buang query-nya saja)
+                        trailer_url = raw_url.split('?')[0]
+                except Exception as e:
+                    logger.warning(f"Gagal mem-parsing URL trailer untuk ID {mal_id}: {e}")
+                    trailer_url = raw_url  # Simpan URL mentah jika gagal dibersihkan
+
         return {
             "anime_id": f"A{counter:03d}",
-            "mal_id": mal_id,  # --- DITAMBAHKAN DI SINI ---
+            "mal_id": mal_id,
             "title": main_title,
             "en_title": en_title,
             "global_score": global_score,
+            "trailer_url": trailer_url,
             "genre": [g.text for g in soup.find_all('span', itemprop='genre')],
             "synopsis": synopsis_tag.get_text(strip=True) if synopsis_tag else "No synopsis.",
             "studio": self.extract_sidebar_info(soup, "Studios:"),
@@ -253,4 +279,3 @@ class RadarAniScraper:
             self.checkpoint_file.unlink()
 
         logger.info(f"=== Selesai! Total {len(anime_list)} anime berhasil disimpan ===")
-
