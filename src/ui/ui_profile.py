@@ -300,7 +300,7 @@ class UIProfile(ft.Container):
 
         ada_statistik = bool(statistik)
         ada_genre     = bool(genre_proporsi)
-        total_rated   = len(anime_list)
+        total_rated   = user.get("total_ratings", 0)
         avg_overall   = (round(sum(statistik.values()) / len(statistik), 1)
                          if statistik else 0.0)
         total_genres  = len(genre_proporsi)
