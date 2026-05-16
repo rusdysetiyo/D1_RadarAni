@@ -10,6 +10,7 @@ class ScreenManager:
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.halaman_terakhir = "home"
+        self.halaman_sebelumnya = "home"
         self.filter_terakhir = "all"
         self.tema_aktif = "1"
         self.theme = ThemeManager.get_theme(self.tema_aktif)
@@ -46,10 +47,11 @@ class ScreenManager:
         if hasattr(self, "guide_manager") and self.guide_manager:
             self.guide_manager.set_visible(False)
 
-        layar, petals, circle, dots = buat_bloom_screen(pesan, self.theme)
+        layar, petals, circle, dots, efek_bunga = buat_bloom_screen(pesan, self.theme, self.page)
         self.bersihkan_layar()
         self.page.add(layar)
-        await animasi_bloom(petals, circle, dots)
+        await animasi_bloom(petals, circle, dots, efek_bunga)
+        efek_bunga.stop()
         self.bersihkan_layar()
 
         self.current_view_instance = target_class(
@@ -64,7 +66,6 @@ class ScreenManager:
                 self.guide_manager.set_visible(True)
             else:
                 self.guide_manager.set_visible(False)
-            # -----------------------------------------
 
         self.page.update()
 
@@ -98,6 +99,7 @@ class ScreenManager:
         self.page.update()
 
     def tampilkan_detail(self, anime_id: str):
+        self.halaman_sebelumnya = self.halaman_terakhir
         self.halaman_terakhir = "detail"
         from src.ui.ui_detail import UIDetail
         self.page.run_task(self._jalankan_transisi, "Opening Anime Data...", UIDetail, anime_id)
@@ -118,10 +120,14 @@ class ScreenManager:
         self.page.run_task(self._jalankan_transisi, "Fetching Anime Data...", UIScraping)
 
     def kembali_ke_asal(self):
-        if self.halaman_terakhir == "katalog":
+        if self.halaman_sebelumnya == "katalog":
             self.tampilkan_katalog(filter_kategori=self.filter_terakhir)
-        elif self.halaman_terakhir == "analytics":
+        elif self.halaman_sebelumnya == "analytics":
             self.tampilkan_analytics()
+        elif self.halaman_sebelumnya == "profil":
+            self.tampilkan_profil()
+        elif self.halaman_sebelumnya == "scraping":
+            self.tampilkan_scraping()
         else:
             self.tampilkan_home()
 

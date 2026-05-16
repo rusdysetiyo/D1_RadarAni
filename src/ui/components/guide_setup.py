@@ -1,6 +1,5 @@
 import flet as ft
-from src.ui.sakura_anim import get_sakura_svg
-
+from ui.components.sakura_anim import get_sakura_svg
 
 class GuideManager:
     def __init__(self, page: ft.Page, theme):
@@ -103,8 +102,8 @@ class GuideManager:
             (ft.Icons.MENU_BOOK_ROUNDED,  "Browse anime titles through the Catalog"),
             (ft.Icons.TOUCH_APP_ROUNDED,  "Click any anime card to view its full details"),
             (ft.Icons.SEARCH_ROUNDED,     "Use Global Search (CTRL + F) to find anything, anywhere"),
-            (ft.Icons.PALETTE_ROUNDED,    "Switch themes via CTRL + 1–4, or cycle through with CTRL + T"),
-            (ft.Icons.STAR_ROUNDED,       "Rate an anime from the Detail page — press S to save"),
+            (ft.Icons.PALETTE_ROUNDED,    "Switch themes via CTRL + 1–8, or cycle through with CTRL + T"),
+            (ft.Icons.STAR_ROUNDED,       "Rate an anime from the Detail page"),
             (ft.Icons.KEYBOARD_ROUNDED,   "Open this guide anytime using the ? button"),
         ]
 
@@ -144,8 +143,19 @@ class GuideManager:
     def _build_shortcuts(self) -> ft.Column:
         sections = [
             ("GLOBAL & NAVIGATION", [
-                (["ALT", "1–5"],      "Navigate to Home / Catalog / Analytic / Scrape / Profile"),
-                (["CTRL", "1–4"],     "Switch to Theme 1–4 directly"),
+                (["ALT", "1"], "Go to Home"),
+                (["ALT", "2"], "Go to Catalog"),
+                (["ALT", "3"], "Go to Analytics"),
+                (["ALT", "4"], "Go to Scrape"),
+                (["ALT", "5"], "Go to Profile"),
+                (["CTRL", "1"], "Theme: Sakura"),
+                (["CTRL", "2"], "Theme: Matcha"),
+                (["CTRL", "3"], "Theme: Dark"),
+                (["CTRL", "4"], "Theme: Ocean"),
+                (["CTRL", "5"], "Theme: Pastel"),
+                (["CTRL", "6"], "Theme: Aurora"),
+                (["CTRL", "7"], "Theme: Cyber"),
+                (["CTRL", "8"], "Theme: Dusk"),
                 (["CTRL", "T"],       "Cycle through themes in order"),
                 (["CTRL", "F"],       "Open Global Search"),
                 (["ESC"],             "Close pop-up"),
@@ -160,7 +170,6 @@ class GuideManager:
                 (["◄", "►"],         "Go to previous / next page"),
             ]),
             ("DETAIL & PROFILE", [
-                (["S", "D"],          "Save / delete your anime rating"),
                 (["ENTER"],           "Submit input while typing"),
                 (["CTRL", "L"],       "Log out of your account"),
                 (["CTRL", "DEL"],     "Delete your account"),

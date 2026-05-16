@@ -1,7 +1,7 @@
 import flet as ft
 import math
 import os
-from src.ui.icons import _sakura_icon_svg
+from ui.components.icons import _sakura_icon_svg
 
 # ── Section: Konfigurasi Dasar ────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -12,7 +12,7 @@ class AnimeCard(ft.Container):
     def __init__(self, anime: dict, skor_global, skor_personal, theme, is_favorite=False, on_click_callback=None):
         super().__init__()
         self.anime = anime
-        self.theme = theme # Injeksi theme
+        self.theme = theme
         self.is_favorite = is_favorite
         self._on_click_cb = on_click_callback
 
@@ -72,7 +72,7 @@ class AnimeCard(ft.Container):
             poster = ft.Image(
                 src=thumb, width=140, height=162,
                 fit=ft.BoxFit.COVER,
-                border_radius=ft.border_radius.only(top_left=10, top_right=10),
+                border_radius=10,
             )
         else:
             poster = ft.Container(
@@ -90,7 +90,7 @@ class AnimeCard(ft.Container):
         self._overlay = ft.Container(
             width=140, height=162,
             bgcolor=self.theme["overlay_bg"],
-            border_radius=ft.border_radius.only(top_left=10, top_right=10),
+            border_radius=10,
             padding=8,
             content=ft.Column(
                 controls=[
@@ -130,9 +130,12 @@ class AnimeCard(ft.Container):
                             overflow=ft.TextOverflow.ELLIPSIS),
 
                     ft.Row(controls=[
-                        ft.Text(f"Avg: ★ {skor_global:.1f}" if skor_global else "Avg: ★ —",
-                                size=9, color=self.theme["accent_star"], weight=ft.FontWeight.BOLD,
-                                tooltip="Global Average Rating"),
+                        ft.Icon(ft.Icons.LANGUAGE, size=9, color=self.theme["text_secondary"]),
+                        ft.Text(f"{skor_global:.1f}" if skor_global else "—",
+                                size=9, color=self.theme["accent_star"], weight=ft.FontWeight.BOLD),
+                        ft.Text("·", size=8, color=self.theme["border_color"]),
+                        ft.Text(f"{anime.get('episodes', '?')} eps", size=8,
+                                color=self.theme["text_secondary"]),
                     ], spacing=3),
                 ],
                 spacing=2, tight=True,
@@ -254,7 +257,7 @@ class AnimeListItem(ft.Container):
         else:
             rated_badge = ft.Container(
                 content=ft.Text(
-                    "★ rated" if is_rated else "not rated",
+                    f"★ {skor_personal:.1f}" if is_rated else "not rated",
                     size=8,
                     color=self.theme["pill_text"] if is_rated else self.theme["card"],
                     weight=ft.FontWeight.BOLD

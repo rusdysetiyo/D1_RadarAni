@@ -2,10 +2,7 @@ import flet as ft
 import random
 import asyncio
 import os
-from src.ui.icons import _sakura_icon_svg
-
-# IMPORT TEMA
-from src.config.theme import ThemeManager
+from ui.components.icons import _sakura_icon_svg
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
@@ -136,7 +133,7 @@ class AnimeCardSmall(ft.Container):
         is_rated = skor_personal is not None
 
         pill_bg = self.theme["pill_rated"] if is_rated else ft.Colors.with_opacity(0.85, self.theme["text_muted"])
-        pill_txt = "★ rated" if is_rated else "not rated"
+        pill_txt = f"★ {skor_personal:.1f}" if is_rated else "not rated"
         pill_color = self.theme["card"]
 
         self._status_pill = ft.Container(
@@ -200,9 +197,6 @@ class AnimeCardSmall(ft.Container):
             ) if poster_path else ft.Icon(ft.Icons.PHOTO, color=self.theme["text_muted"])
         )
 
-        sp_txt = f"you: {skor_personal:.1f}" if is_rated else "you: N/A"
-        sp_col = self.theme["primary"] if is_rated else self.theme["text_muted"]
-
         info = ft.Container(
             padding=ft.padding.only(left=7, right=7, top=4, bottom=5),
             content=ft.Column(
@@ -214,10 +208,12 @@ class AnimeCardSmall(ft.Container):
                     ),
                     ft.Row(
                         controls=[
-                            ft.Text(f"★ {skor_global:.1f}" if skor_global else "★ —", size=8,
+                            ft.Icon(ft.Icons.LANGUAGE, size=9, color=self.theme["text_secondary"]),
+                            ft.Text(f"{skor_global:.1f}" if skor_global else "—", size=8,
                                     color=self.theme["accent_star"], weight=ft.FontWeight.BOLD),
                             ft.Text("·", size=8, color=self.theme["border_color"]),
-                            ft.Text(sp_txt, size=8, color=sp_col, weight=ft.FontWeight.BOLD),
+                            ft.Text(f"{anime.get('episodes', '?')} eps", size=8,
+                                    color=self.theme["text_secondary"]),
                         ], spacing=3, alignment=ft.MainAxisAlignment.CENTER
                     ),
                 ], spacing=2, tight=True, horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -329,6 +325,7 @@ def _sidebar(screen_manager, auth_manager, toggle_fn, theme, halaman_aktif="home
         clip_behavior=ft.ClipBehavior.HARD_EDGE,
     )
 
+
 class UIHome(ft.Row):
     def __init__(self, page, data_manager, auth_manager, screen_manager, theme):
         super().__init__()
@@ -337,7 +334,7 @@ class UIHome(ft.Row):
         self.auth_manager = auth_manager
         self.screen_manager = screen_manager
         self._sidebar_open = False
-        self.current_theme = ThemeManager.get_theme(self.screen_manager.tema_aktif)
+
         self.theme = theme
 
         self.expand = True
@@ -345,41 +342,145 @@ class UIHome(ft.Row):
 
         self._sidebar_widget = _sidebar(
             screen_manager, auth_manager,
-            self._toggle_sidebar, self.current_theme, halaman_aktif="home"
+            self._toggle_sidebar, self.theme, halaman_aktif="home"
         )
 
-        # FITUR UJI COBA THEME SEMENTARA (Akan dipindah ke profile nanti)
         def on_theme_selected(e):
             pilihan = e.control.data
             theme_dialog.open = False
             self.my_page.update()
             self.screen_manager.tampilkan_home(pilihan_tema=pilihan)
 
-        def _bikin_buletan(key_tema, warna_hex):
+        TEMA_INFO = {
+            "1": ("Sakura", ["#FF759E", "#C3D3B4"]),
+            "2": ("Matcha", ["#5C805C", "#DDA7B0"]),
+            "5": ("Pastel", ["#839CCB", "#F2A3A1"]),
+            "4": ("Ocean", ["#3B82F6", "#1D4ED8"]),
+            "3": ("Dark", ["#1a1a2e", "#E8CEDB"]),
+            "6": ("Aurora", ["#A855F7", "#10B981"]),
+            "7": ("Cyber", ["#3B82F6", "#FACC15"]),
+            "8": ("Candy", ["#F45990", "#F0C89B"]),
+        }
+
+        tema_aktif = getattr(self.screen_manager, "tema_aktif", "1")
+        nama_aktif = TEMA_INFO.get(tema_aktif, ("—", []))[0]
+
+        def _section_label(teks):
             return ft.Container(
-                width=40, height=40,
-                bgcolor=warna_hex,
-                shape=ft.BoxShape.CIRCLE,
-                data=key_tema,
-                on_click=on_theme_selected
+                content=ft.Row([
+                    ft.Container(width=20, height=1, bgcolor=self.theme["border_color"]),
+                    ft.Text(teks, size=9, color=self.theme["text_secondary"],
+                            weight=ft.FontWeight.W_600),
+                    ft.Container(width=20, height=1, bgcolor=self.theme["border_color"]),
+                ], spacing=6, alignment=ft.MainAxisAlignment.CENTER),
+                width=340,
             )
 
-        swatches_row = ft.Row(
+        def _bikin_card(key_tema, nama, warna_list):
+            is_active = key_tema == tema_aktif
+
+            circle = ft.Stack(
+                controls=[
+                    ft.Container(
+                        width=44, height=44,
+                        shape=ft.BoxShape.CIRCLE,
+                        gradient=ft.LinearGradient(
+                            begin=ft.Alignment.TOP_LEFT,
+                            end=ft.Alignment.BOTTOM_RIGHT,
+                            colors=warna_list,
+                        ),
+                    ),
+                    ft.Container(
+                        content=ft.Icon(ft.Icons.CHECK, size=8, color="#ffffff"),
+                        width=14, height=14,
+                        border_radius=7,
+                        bgcolor=warna_list[0],
+                        border=ft.border.all(2, self.theme["card"]),
+                        alignment=ft.Alignment.CENTER,
+                        right=0, bottom=0,
+                        visible=is_active,
+                    ),
+                ],
+                width=44, height=44,
+            )
+
+            return ft.GestureDetector(
+                content=ft.Container(
+                    content=ft.Column([
+                        circle,
+                        ft.Text(
+                            nama, size=10,
+                            weight=ft.FontWeight.W_600 if is_active else ft.FontWeight.NORMAL,
+                            color=self.theme["primary"] if is_active else self.theme["text_main"],
+                            text_align=ft.TextAlign.CENTER,
+                            max_lines=1,
+                        ),
+                    ], spacing=8, tight=True,
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+                    width=76,
+                    padding=ft.padding.symmetric(horizontal=4, vertical=10),
+                    border_radius=12,
+                    bgcolor=self.theme.get("surface", self.theme["bg"]) if is_active else ft.Colors.TRANSPARENT,
+                    border=ft.border.all(
+                        1.5 if is_active else 0.5,
+                        self.theme["primary"] if is_active else self.theme["border_color"]
+                    ),
+                ),
+                data=key_tema,
+                on_tap=on_theme_selected,
+            )
+
+        baris_light = ft.Row(
             controls=[
-                _bikin_buletan("1", "#E8CEDB"),
-                _bikin_buletan("2", "#C3D3B4"),
-                _bikin_buletan("3", "#121212"),
-                _bikin_buletan("4", "#3B82F6"),
+                _bikin_card("1", "Sakura", ["#FF759E", "#C3D3B4"]),
+                _bikin_card("2", "Matcha", ["#5C805C", "#DDA7B0"]),
+                _bikin_card("5", "Pastel", ["#839CCB", "#F2A3A1"]),
+                _bikin_card("4", "Ocean", ["#3B82F6", "#1D4ED8"]),
             ],
-            alignment=ft.MainAxisAlignment.CENTER,
-            spacing=15
+            alignment=ft.MainAxisAlignment.CENTER, spacing=6,
+        )
+
+        baris_dark = ft.Row(
+            controls=[
+                _bikin_card("3", "Dark", ["#1a1a2e", "#E8CEDB"]),
+                _bikin_card("6", "Aurora", ["#A855F7", "#10B981"]),
+                _bikin_card("7", "Cyber", ["#3B82F6", "#FACC15"]),
+                _bikin_card("8", "Dusk", ["#F45990", "#F0C89B"]),
+            ],
+            alignment=ft.MainAxisAlignment.CENTER, spacing=6,
         )
 
         theme_dialog = ft.AlertDialog(
-            title=ft.Text("Select Theme", size=16, weight=ft.FontWeight.BOLD, color=self.current_theme["text_main"], text_align=ft.TextAlign.CENTER),
-            content=ft.Container(content=swatches_row, padding=ft.padding.symmetric(vertical=10)),
-            bgcolor=self.current_theme["card"],
-            shape=ft.RoundedRectangleBorder(radius=16),
+            title=ft.Container(
+                content=ft.Column([
+                    ft.Text(
+                        "Select theme", size=15,
+                        weight=ft.FontWeight.W_600,
+                        color=self.theme["text_main"],
+                        text_align=ft.TextAlign.CENTER,
+                    ),
+                    ft.Text(
+                        f"Active: {nama_aktif}",
+                        size=11,
+                        color=self.theme["text_secondary"],
+                        text_align=ft.TextAlign.CENTER,
+                    ),
+                ], spacing=2, tight=True,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+                padding=ft.padding.only(bottom=4),
+            ),
+            content=ft.Container(
+                content=ft.Column([
+                    _section_label("Light"),
+                    baris_light,
+                    _section_label("Dark / Dimmed"),
+                    baris_dark,
+                ], spacing=8, tight=True),
+                padding=ft.padding.symmetric(vertical=8, horizontal=4),
+                width=340,
+            ),
+            bgcolor=self.theme["card"],
+            shape=ft.RoundedRectangleBorder(radius=18),
         )
 
         def buka_dialog_tema(e):
@@ -390,40 +491,40 @@ class UIHome(ft.Row):
 
         btn_theme_picker = ft.IconButton(
             icon=ft.Icons.PALETTE_OUTLINED,
-            icon_color=self.current_theme["text_main"],
+            icon_color=self.theme["text_main"],
             tooltip="Change Theme",
-            on_click=buka_dialog_tema
+            on_click=buka_dialog_tema,
         )
 
         topbar = ft.Container(
             padding=ft.padding.symmetric(horizontal=16), height=55,
             blur=ft.Blur(10, 10, ft.BlurTileMode.MIRROR),
-            bgcolor=ft.Colors.with_opacity(0.8, self.current_theme["bg"]),
+            bgcolor=ft.Colors.with_opacity(0.8, self.theme["bg"]),
             shadow=ft.BoxShadow(blur_radius=15, color="#15000000", offset=ft.Offset(0, 4)),
             content=ft.Row(
                 controls=[
-                    ft.IconButton(ft.Icons.MENU, icon_color=self.current_theme["primary"], on_click=self._toggle_sidebar, tooltip="Menu"),
+                    ft.IconButton(ft.Icons.MENU, icon_color=self.theme["primary"], on_click=self._toggle_sidebar, tooltip="Menu"),
                     ft.Column(
                         [
                             ft.Row(
                                 spacing=0,
                                 controls=[
-                                    ft.Text("R", font_family="Hitchcut", size=24, color=self.current_theme["logo_1"]),
-                                    ft.Text("a", font_family="Hitchcut", size=24, color=self.current_theme["logo_2"]),
-                                    ft.Text("d", font_family="Hitchcut", size=24, color=self.current_theme["logo_1"]),
-                                    ft.Text("a", font_family="Hitchcut", size=24, color=self.current_theme["logo_2"]),
-                                    ft.Text("r", font_family="Hitchcut", size=24, color=self.current_theme["logo_1"]),
-                                    ft.Text("A", font_family="Hitchcut", size=24, color=self.current_theme["logo_2"]),
-                                    ft.Text("n", font_family="Hitchcut", size=24, color=self.current_theme["logo_1"]),
-                                    ft.Text("i", font_family="Hitchcut", size=24, color=self.current_theme["logo_2"]),
+                                    ft.Text("R", font_family="Hitchcut", size=24, color=self.theme["logo_1"]),
+                                    ft.Text("a", font_family="Hitchcut", size=24, color=self.theme["logo_2"]),
+                                    ft.Text("d", font_family="Hitchcut", size=24, color=self.theme["logo_1"]),
+                                    ft.Text("a", font_family="Hitchcut", size=24, color=self.theme["logo_2"]),
+                                    ft.Text("r", font_family="Hitchcut", size=24, color=self.theme["logo_1"]),
+                                    ft.Text("A", font_family="Hitchcut", size=24, color=self.theme["logo_2"]),
+                                    ft.Text("n", font_family="Hitchcut", size=24, color=self.theme["logo_1"]),
+                                    ft.Text("i", font_family="Hitchcut", size=24, color=self.theme["logo_2"]),
                                 ]
                             ),
-                            ft.Text("レーダアニ", font_family="Mofuji04", size=10, color=self.current_theme["text_muted"]),
+                            ft.Text("レーダアニ", font_family="Mofuji04", size=10, color=self.theme["text_muted"]),
                         ], spacing=0, tight=True,
                     ),
                     ft.Container(expand=True),
                     btn_theme_picker,
-                    ft.IconButton(ft.Icons.ACCOUNT_CIRCLE, icon_color=self.current_theme["text_muted"], tooltip="Profile", on_click=lambda _: self.screen_manager.tampilkan_profil())
+                    ft.IconButton(ft.Icons.ACCOUNT_CIRCLE, icon_color=self.theme["text_muted"], tooltip="Profile", on_click=lambda _: self.screen_manager.tampilkan_profil())
                 ], vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
         )
@@ -432,10 +533,10 @@ class UIHome(ft.Row):
         user_data = self.data_manager.get_user_by_id(user_id)
         username = user_data.get("username", "User") if user_data else "User"
 
-        self._stat_rated = _stat_pill("評", "RATED", self.current_theme["pill_rated"])
-        self._stat_unrated = _stat_pill("未", "UNRATED", self.current_theme["pill_unrated"])
-        self._stat_avg = _stat_pill("均", "AVG", self.current_theme["pill_avg"])
-        self._stat_dim = _stat_pill("極", "TOP", self.current_theme["pill_top"])
+        self._stat_rated = _stat_pill("評", "RATED", self.theme["pill_rated"])
+        self._stat_unrated = _stat_pill("未", "UNRATED", self.theme["pill_unrated"])
+        self._stat_avg = _stat_pill("均", "AVG", self.theme["pill_avg"])
+        self._stat_dim = _stat_pill("極", "TOP", self.theme["pill_top"])
 
         self._rec_title = ft.Text(
             "—", size=28,
@@ -522,9 +623,9 @@ class UIHome(ft.Row):
                                 ft.Container(
                                     content=ft.Row(
                                         controls=[
-                                            ft.Container(width=3, height=14, bgcolor=self.current_theme["primary"],
+                                            ft.Container(width=3, height=14, bgcolor=self.theme["primary"],
                                                          border_radius=2),
-                                            ft.Text("RECOMMENDED FOR YOU", size=10, color=self.current_theme["primary"],
+                                            ft.Text("RECOMMENDED FOR YOU", size=10, color=self.theme["primary"],
                                                     weight=ft.FontWeight.W_800),
                                         ], spacing=6,
                                     ),
@@ -547,16 +648,22 @@ class UIHome(ft.Row):
                                 ft.ElevatedButton(
                                     content=ft.Row(
                                         controls=[
-                                            ft.Icon(ft.Icons.PLAY_ARROW_ROUNDED, size=20,
-                                                    color=self.current_theme["bg"]),
-                                            ft.Text("View Details", size=14, weight=ft.FontWeight.W_700,
-                                                    color=self.current_theme["bg"]),
+                                            ft.Icon(ft.Icons.PLAY_ARROW_ROUNDED, size=20),
+                                            ft.Text("View Details", size=14, weight=ft.FontWeight.W_700),
                                         ], spacing=6, tight=True,
                                     ),
                                     style=ft.ButtonStyle(
                                         bgcolor={
-                                            ft.ControlState.DEFAULT: self.current_theme["primary"],
-                                            ft.ControlState.HOVERED: ft.Colors.WHITE
+                                            ft.ControlState.DEFAULT: self.theme["primary"],
+                                            ft.ControlState.HOVERED: ft.Colors.WHITE,
+                                        },
+                                        color={
+                                            ft.ControlState.DEFAULT: self.theme["bg"],
+                                            ft.ControlState.HOVERED: self.theme["primary"],
+                                        },
+                                        side={
+                                            ft.ControlState.HOVERED: ft.BorderSide(1.5, self.theme["primary"]),
+                                            ft.ControlState.DEFAULT: ft.BorderSide(0, ft.Colors.TRANSPARENT),
                                         },
                                         shape=ft.RoundedRectangleBorder(radius=6),
                                         padding=ft.padding.symmetric(horizontal=24, vertical=14),
@@ -579,7 +686,7 @@ class UIHome(ft.Row):
                     ft.Row(
                         controls=[
                             ft.Image(src=_sakura_icon_svg(), width=24, height=24, fit="contain"),
-                            ft.Text(f"Konnichiwa, {username}!", size=18, color=self.current_theme["text_main"], weight=ft.FontWeight.BOLD),
+                            ft.Text(f"Konnichiwa, {username}!", size=18, color=self.theme["text_main"], weight=ft.FontWeight.BOLD),
                         ], alignment=ft.MainAxisAlignment.START, vertical_alignment=ft.CrossAxisAlignment.CENTER, spacing=8
                     ),
                     ft.Row(controls=[self._stat_rated, self._stat_unrated, self._stat_avg, self._stat_dim], spacing=6),
@@ -607,7 +714,7 @@ class UIHome(ft.Row):
             padding=ft.padding.only(top=10),
             content=ft.Column(
                 controls=[
-                    _section_header("What Everyone's Watching", self.current_theme, on_lihat_semua=lambda _: self.screen_manager.tampilkan_katalog(filter_kategori="trending")),
+                    _section_header("What Everyone's Watching", self.theme, on_lihat_semua=lambda _: self.screen_manager.tampilkan_katalog(filter_kategori="trending")),
                     ft.Container(content=self._trending_row, padding=ft.padding.only(left=24, right=24, top=5, bottom=15)),
                 ], spacing=0,
             ), opacity=1.0, animate_opacity=300, scale=1.0, animate_scale=300,
@@ -620,7 +727,7 @@ class UIHome(ft.Row):
             padding=ft.padding.only(top=10),
             content=ft.Column(
                 controls=[
-                    _section_header("Your Latest Picks", self.current_theme, on_lihat_semua=lambda _: self.screen_manager.tampilkan_katalog(filter_kategori="rated")),
+                    _section_header("Your Latest Picks", self.theme, on_lihat_semua=lambda _: self.screen_manager.tampilkan_katalog(filter_kategori="rated")),
                     ft.Container(content=self._recent_row, padding=ft.padding.only(left=24, right=24, top=5, bottom=15)),
                 ], spacing=0,
             ), opacity=1.0, animate_opacity=300, scale=1.0, animate_scale=300,
@@ -633,7 +740,7 @@ class UIHome(ft.Row):
             padding=ft.padding.only(top=10),
             content=ft.Column(
                 controls=[
-                    _section_header("Ready for Your Review", self.current_theme, on_lihat_semua=lambda _: self.screen_manager.tampilkan_katalog(filter_kategori="unrated")),
+                    _section_header("Ready for Your Review", self.theme, on_lihat_semua=lambda _: self.screen_manager.tampilkan_katalog(filter_kategori="unrated")),
                     ft.Container(content=self._unrated_row, padding=ft.padding.only(left=24, right=24, top=5, bottom=15)),
                 ], spacing=0,
             ), opacity=1.0, animate_opacity=300, scale=1.0, animate_scale=300, margin=ft.margin.only(bottom=30),
@@ -660,7 +767,7 @@ class UIHome(ft.Row):
             controls=[
                 ft.Container(
                     content=self._main_col, left=0, right=0, top=0, bottom=0,
-                    bgcolor=self.current_theme["bg"] # Pake warna BG tema
+                    bgcolor=self.theme["bg"] # Pake warna BG tema
                 ),
                 wadah_sakura,
             ], expand=True,
@@ -668,7 +775,7 @@ class UIHome(ft.Row):
 
         self.controls = [self._sidebar_widget, area_utama]
 
-        self.efek_sakura = HujanSakura(_hujan_stack, self.current_theme)
+        self.efek_sakura = HujanSakura(_hujan_stack, self.theme)
         self.my_page.run_task(self.efek_sakura.turun)
 
     # ... Sisa Method (_muat_sections, _perbarui_stats, _muat_rekomendasi, _muat_recent, dll)
@@ -831,26 +938,26 @@ class UIHome(ft.Row):
     def _muat_recent(self, user_id):
         self._recent_row.controls.clear()
         if not user_id:
-            self._recent_row.controls.append(ft.Text("No ratings yet.", color=self.current_theme["text_muted"], size=12))
+            self._recent_row.controls.append(ft.Text("No ratings yet.", color=self.theme["text_muted"], size=12))
             return
         for anime, sp in self._cached_anime_rated[:10]:
             sg = anime.get("global_score", 0) or 0
             # PASS THEME KESINI
-            self._recent_row.controls.append(AnimeCardSmall(anime, sg, sp, self.current_theme, on_click_callback=self.screen_manager.tampilkan_detail))
+            self._recent_row.controls.append(AnimeCardSmall(anime, sg, sp, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
 
         if not self._cached_anime_rated:
             self._recent_row.controls.append(
                 ft.Container(
                     width=320, height=180,
-                    gradient=ft.LinearGradient(begin=ft.Alignment(0, -1), end=ft.Alignment(0, 1), colors=[self.current_theme["card"], self.current_theme["bg"]]),
-                    border=ft.Border.all(1, self.current_theme["border_color"]), border_radius=16, padding=20, margin=ft.padding.only(left=4, right=4, top=10, bottom=10),
+                    gradient=ft.LinearGradient(begin=ft.Alignment(0, -1), end=ft.Alignment(0, 1), colors=[self.theme["card"], self.theme["bg"]]),
+                    border=ft.Border.all(1, self.theme["border_color"]), border_radius=16, padding=20, margin=ft.padding.only(left=4, right=4, top=10, bottom=10),
                     content=ft.Column(
                         controls=[
-                            ft.Text("( ╥ω╥ )", size=32, color=self.current_theme["primary"], weight=ft.FontWeight.BOLD),
-                            ft.Text("Oops, you haven't rated any anime yet!", color=self.current_theme["text_main"], size=13, weight=ft.FontWeight.BOLD),
-                            ft.Text("Rate your favorite anime to get personalized recommendations.", color=self.current_theme["text_secondary"], size=11, text_align=ft.TextAlign.CENTER),
+                            ft.Text("( ╥ω╥ )", size=32, color=self.theme["primary"], weight=ft.FontWeight.BOLD),
+                            ft.Text("Oops, you haven't rated any anime yet!", color=self.theme["text_main"], size=13, weight=ft.FontWeight.BOLD),
+                            ft.Text("Rate your favorite anime to get personalized recommendations.", color=self.theme["text_secondary"], size=11, text_align=ft.TextAlign.CENTER),
                             ft.Container(height=5),
-                            ft.ElevatedButton("Explore Catalog", icon=ft.Icons.EXPLORE, color=self.current_theme["card"], bgcolor=self.current_theme["primary"], style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10), padding=ft.padding.symmetric(horizontal=20, vertical=12), elevation=0), on_click=lambda _: self.screen_manager.tampilkan_katalog()),
+                            ft.ElevatedButton("Explore Catalog", icon=ft.Icons.EXPLORE, color=self.theme["card"], bgcolor=self.theme["primary"], style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10), padding=ft.padding.symmetric(horizontal=20, vertical=12), elevation=0), on_click=lambda _: self.screen_manager.tampilkan_katalog()),
                         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=4,
                     ), alignment=ft.Alignment(0, 0),
                 )
@@ -864,7 +971,7 @@ class UIHome(ft.Row):
             sg = anime.get("global_score", 0) or 0
             sp = self._cached_skor_user.get(aid, None) if user_id else None
             # PASS THEME KESINI
-            self._trending_row.controls.append(AnimeCardSmall(anime, sg, sp, self.current_theme, on_click_callback=self.screen_manager.tampilkan_detail))
+            self._trending_row.controls.append(AnimeCardSmall(anime, sg, sp, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
 
     def _muat_top_unrated(self, user_id):
         self._unrated_row.controls.clear()
@@ -872,9 +979,9 @@ class UIHome(ft.Row):
         for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
             # PASS THEME KESINI
-            self._unrated_row.controls.append(AnimeCardSmall(anime, sg, None, self.current_theme, on_click_callback=self.screen_manager.tampilkan_detail))
+            self._unrated_row.controls.append(AnimeCardSmall(anime, sg, None, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
         if not self._cached_anime_unrated:
-            self._unrated_row.controls.append(ft.Text("You've rated all available anime!", color=self.current_theme["text_muted"], size=12))
+            self._unrated_row.controls.append(ft.Text("You've rated all available anime!", color=self.theme["text_muted"], size=12))
 
     def _toggle_sidebar(self, e=None):
         self._sidebar_open = not self._sidebar_open
