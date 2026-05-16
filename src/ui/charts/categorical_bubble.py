@@ -52,11 +52,10 @@ class CategoricalBubbleChart(ft.Stack):
                 return f"#{r:02X}{g:02X}{b:02X}"
         return stops[-1][1]
 
-    def __init__(self, animes: list, title: str, theme: dict = None):
+    def __init__(self, animes: list, title: str, theme: dict = None, tooltip=None):
         super().__init__(expand=True)
         self._title   = title
         self._theme   = theme
-        self._tooltip = Tooltip()
         self._hovered = (-1, -1)   # (studio_idx, genre_idx)
         self._w = self._h = 0
 
@@ -119,7 +118,17 @@ class CategoricalBubbleChart(ft.Stack):
             content=ft.Container(expand=True),
             on_hover=self._on_hover,
         )
-        self.controls = [self._canvas, self._gd, self._tooltip]
+
+        self._owns_tooltip = tooltip is None
+        self._tooltip      = tooltip if tooltip is not None else Tooltip()
+        if self._owns_tooltip:
+            self.controls = [self._canvas, self._gd, self._tooltip]
+        else:
+            self.controls = [self._canvas, self._gd]
+
+        # Cache pre-computed bubble positions (diupdate saat resize)
+        self._bubble_pos_cache: list = []   # [(cx, cy, r, bubble_dict), ...]
+        self._bubble_lookup: dict  = {}     # (si, gi) -> bubble_dict
 
     # ── Geometry helpers ──────────────────────────────────────────────────
     def _cell_center(self, si: int, gi: int):
@@ -288,45 +297,52 @@ class CategoricalBubbleChart(ft.Stack):
 
     def _on_resize(self, e):
         self._w, self._h = e.width, e.height
+        # Rebuild cache posisi bubble sekali per resize
+        self._bubble_pos_cache = []
+        self._bubble_lookup = {}
+        for b in self._bubbles:
+            cx, cy, slot = self._cell_center(b["si"], b["gi"])
+            r = self._bubble_radius(b["count"], slot)
+            self._bubble_pos_cache.append((cx, cy, r, b))
+            self._bubble_lookup[(b["si"], b["gi"])] = b
         self._redraw()
 
     # ── Interaction ───────────────────────────────────────────────────────
     def _on_hover(self, e):
         mx, my = e.local_position.x, e.local_position.y
-        if self._w == 0:
+        if self._w == 0 or not self._bubble_pos_cache:
             return
 
         hit = (-1, -1)
         best_dist = float("inf")
-        for b in self._bubbles:
-            cx, cy, slot = self._cell_center(b["si"], b["gi"])
-            r = self._bubble_radius(b["count"], slot)
+        # Gunakan cache posisi — tidak perlu hitung ulang cell_center setiap hover
+        for cx, cy, r, b in self._bubble_pos_cache:
             d = math.hypot(mx - cx, my - cy)
             if d <= r + 4 and d < best_dist:
                 best_dist = d
                 hit = (b["si"], b["gi"])
 
-        if hit != self._hovered:
-            self._hovered = hit
-            self._redraw()
+        # Early return — state tidak berubah
+        if hit == self._hovered:
+            return
 
-            if hit != (-1, -1):
-                si, gi = hit
-                b = next(x for x in self._bubbles if x["si"]==si and x["gi"]==gi)
-                score_str = f"{b['avg_score']:.2f}" if b["avg_score"] else "N/A"
-                cx, cy, slot = self._cell_center(si, gi)
-                
-                tip_x = max(0, min(cx + 8, self._w - 200))
-                tip_y = max(0, min(cy - 4, self._h - 100))
-                self._tooltip.show_at(
-                    tip_x, tip_y,
-                    f"{self._genres[gi]}  ×  {self._studios[si]}",
-                    [
-                        ("Jumlah Anime", str(b["count"])),
-                        ("Avg Rating",   score_str),
-                        ("Genre",        self._genres[gi]),
-                        ("Studio",       self._studios[si]),
-                    ],
-                )
-            else:
-                self._tooltip.hide()
+        self._hovered = hit
+        self._redraw()
+
+        if hit != (-1, -1):
+            si, gi = hit
+            # Lookup O(1) — tidak perlu linear scan next()
+            b = self._bubble_lookup[(si, gi)]
+            score_str = f"{b['avg_score']:.2f}" if b["avg_score"] else "N/A"
+            self._tooltip.show_at(
+                e.global_position.x, e.global_position.y,
+                f"{self._genres[gi]}  \u00d7  {self._studios[si]}",
+                [
+                    ("Jumlah Anime", str(b["count"])),
+                    ("Avg Rating",   score_str),
+                    ("Genre",        self._genres[gi]),
+                    ("Studio",       self._studios[si]),
+                ],
+            )
+        else:
+            self._tooltip.hide()

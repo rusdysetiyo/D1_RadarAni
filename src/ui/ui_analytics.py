@@ -4,6 +4,7 @@ from src.ui.charts import (
     VerticalBarChart, HorizontalBarChart, DonutChart,
     GenreNetworkGraph, CategoricalBubbleChart, KDEChart
 )
+from src.ui.charts.tooltip import Tooltip
 from src.config.theme import ThemeManager
 
 
@@ -70,6 +71,9 @@ class UIAnalytics(ft.Row):
 
         self.current_theme = ThemeManager.get_theme(self.screen_manager.tema_aktif)
 
+        # ── Global tooltip — dipasang di page.overlay agar tidak ter-clip card ──
+        self._global_tooltip = Tooltip()
+
         from src.ui.ui_home import _sidebar
         self._sidebar_widget = _sidebar(
             screen_manager, auth_manager,
@@ -118,6 +122,25 @@ class UIAnalytics(ft.Row):
         )
         self.controls = [self._sidebar_widget, area_utama]
 
+    # ── Lifecycle ─────────────────────────────────────────────────────────
+    def did_mount(self):
+        """Pasang global tooltip ke page.overlay saat halaman ditampilkan."""
+        if self._global_tooltip not in self.my_page.overlay:
+            self.my_page.overlay.append(self._global_tooltip)
+        # Beri tahu tooltip ukuran halaman untuk flip logic
+        self._global_tooltip.set_page_size(
+            self.my_page.width  or 1280,
+            self.my_page.height or 800,
+        )
+        self.my_page.update()
+
+    def will_unmount(self):
+        """Lepas tooltip dari overlay saat navigasi pindah halaman."""
+        self._global_tooltip.visible = False
+        if self._global_tooltip in self.my_page.overlay:
+            self.my_page.overlay.remove(self._global_tooltip)
+        self.my_page.update()
+
     def _toggle_sidebar(self, e=None):
         self._sidebar_open = not self._sidebar_open
         self._sidebar_widget.width = 240 if self._sidebar_open else 0
@@ -148,6 +171,8 @@ class UIAnalytics(ft.Row):
             ),
         )
 
+        tt = self._global_tooltip   # alias singkat
+
         # Chart 1 — Genre
         genres_counter = Counter()
         for a in animes:
@@ -155,7 +180,8 @@ class UIAnalytics(ft.Row):
                 genres_counter[g] += 1
         genre_data = [{"label": g, "value": cnt, "extra": None}
                       for g, cnt in genres_counter.most_common(10)]
-        chart1 = VerticalBarChart(genre_data, "Most Common Genres", y_label="Jumlah Anime", theme=self.current_theme)
+        chart1 = VerticalBarChart(genre_data, "Most Common Genres", y_label="Jumlah Anime",
+                                  theme=self.current_theme, tooltip=tt)
 
         # Chart 2 — Episodes
         bin_labels = ["1–12", "13–24", "25–36", "37–48", "49–100", "100+"]
@@ -174,7 +200,7 @@ class UIAnalytics(ft.Row):
         ep_data = [{"label": lbl, "value": cnt, "extra": f"{cnt} anime"}
                    for lbl, cnt in zip(bin_labels, bin_counts)]
         chart2 = VerticalBarChart(ep_data, "Episode Count Distribution",
-                                  y_label="Jumlah Anime", theme=self.current_theme)
+                                  y_label="Jumlah Anime", theme=self.current_theme, tooltip=tt)
 
         # Chart 3 — Type donut
         types_counter = Counter(a.get("type", "Unknown") for a in animes)
@@ -182,7 +208,7 @@ class UIAnalytics(ft.Row):
         t_total  = sum(v for _, v in t_sorted)
         donut_data = [{"label": lbl, "value": cnt, "pct": cnt / t_total * 100}
                       for lbl, cnt in t_sorted]
-        chart3 = DonutChart(donut_data, "Show Types Proportion", theme=self.current_theme)
+        chart3 = DonutChart(donut_data, "Show Types Proportion", theme=self.current_theme, tooltip=tt)
 
         # Chart 4 — Studios
         studio_scores: dict = {}
@@ -200,7 +226,8 @@ class UIAnalytics(ft.Row):
              "extra": f"{len(kv[1])}"}
             for kv in top10
         ]
-        chart4 = HorizontalBarChart(studio_data, "Average Scores of the Top 10 Most Active Studios", theme=self.current_theme)
+        chart4 = HorizontalBarChart(studio_data, "Average Scores of the Top 10 Most Active Studios",
+                                    theme=self.current_theme, tooltip=tt)
 
         row1 = ft.Row(
             controls=[_chart_card(chart1, self.current_theme), _chart_card(chart2, self.current_theme)],
@@ -212,7 +239,8 @@ class UIAnalytics(ft.Row):
         )
 
         # Chart 5 — Genre Co-occurrence Network Graph
-        chart5 = GenreNetworkGraph(animes, "Genre Co-occurrence Network", theme=self.current_theme)
+        chart5 = GenreNetworkGraph(animes, "Genre Co-occurrence Network",
+                                   theme=self.current_theme, tooltip=tt)
 
         row3 = ft.Row(
             controls=[_network_card(chart5, self.current_theme)],
@@ -220,7 +248,7 @@ class UIAnalytics(ft.Row):
         )
 
         # Chart 6 — KDE Plot
-        chart6 = KDEChart(animes, theme=self.current_theme)
+        chart6 = KDEChart(animes, theme=self.current_theme, tooltip=tt)
         row4 = ft.Row(
             controls=[_chart_card(chart6, self.current_theme)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
@@ -228,7 +256,7 @@ class UIAnalytics(ft.Row):
 
         # Chart 7 — Studio × Genre Categorical Bubble Chart
         chart7 = CategoricalBubbleChart(
-            animes, "Studio × Genre Bubble Chart", theme=self.current_theme
+            animes, "Studio × Genre Bubble Chart", theme=self.current_theme, tooltip=tt
         )
         row5 = ft.Row(
             controls=[_bubble_card(chart7, self.current_theme)],

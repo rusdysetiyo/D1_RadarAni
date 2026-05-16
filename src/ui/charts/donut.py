@@ -8,14 +8,16 @@ from .palette import (
 from .tooltip import Tooltip
 
 class DonutChart(ft.Stack):
-    def __init__(self, data: list, title: str, theme: dict = None):
+    def __init__(self, data: list, title: str, theme: dict = None, tooltip=None):
         super().__init__(expand=True)
         self._data    = data
         self._title   = title
         self._hovered = -1
-        self._tooltip = Tooltip()
         self._theme   = theme
         self._w = self._h = 0
+
+        self._owns_tooltip = tooltip is None
+        self._tooltip      = tooltip if tooltip is not None else Tooltip()
 
         self._canvas = cv.Canvas(shapes=[], expand=True,
                                  on_resize=self._on_resize)
@@ -23,7 +25,10 @@ class DonutChart(ft.Stack):
             content=ft.Container(expand=True),
             on_hover=self._on_hover,
         )
-        self.controls = [self._canvas, self._gd, self._tooltip]
+        if self._owns_tooltip:
+            self.controls = [self._canvas, self._gd, self._tooltip]
+        else:
+            self.controls = [self._canvas, self._gd]
 
     def _on_resize(self, e):
         self._w, self._h = e.width, e.height
@@ -153,15 +158,18 @@ class DonutChart(ft.Stack):
                     hit = i
                     break
 
-        if hit != self._hovered:
-            self._hovered = hit
-            self._redraw(hit)
-            if hit >= 0:
-                d = self._data[hit]
-                self._tooltip.show_at(
-                    mx, my, d["label"],
-                    [("Jumlah", str(d["value"])),
-                     ("Persen", f"{d['pct']:.1f}%")],
-                )
-            else:
-                self._tooltip.hide()
+        if hit == self._hovered:
+            return
+
+        self._hovered = hit
+        self._redraw(hit)
+        if hit >= 0:
+            d = self._data[hit]
+            self._tooltip.show_at(
+                e.global_position.x, e.global_position.y,
+                d["label"],
+                [("Jumlah", str(d["value"])),
+                 ("Persen", f"{d['pct']:.1f}%")],
+            )
+        else:
+            self._tooltip.hide()

@@ -75,14 +75,17 @@ class GenreNetworkGraph(ft.Stack):
             truncated = truncated[:-1] + "…"
         return [truncated]
 
-    def __init__(self, animes: list, title: str, theme: dict = None):
+    def __init__(self, animes: list, title: str, theme: dict = None, tooltip=None):
         super().__init__(expand=True)
         self._title   = title
         self._theme   = theme
         self._hovered_node = -1
         self._hovered_edge = -1
-        self._tooltip      = Tooltip()
         self._w = self._h  = 0
+        self._layout_computed = False   # flag agar layout hanya dihitung sekali
+
+        self._owns_tooltip = tooltip is None
+        self._tooltip      = tooltip if tooltip is not None else Tooltip()
 
         # ── Pre-process data ──────────────────────────────────────────────
         genre_counter: Counter = Counter()
@@ -131,7 +134,10 @@ class GenreNetworkGraph(ft.Stack):
             content=ft.Container(expand=True),
             on_hover=self._on_hover,
         )
-        self.controls = [self._canvas, self._gd, self._tooltip]
+        if self._owns_tooltip:
+            self.controls = [self._canvas, self._gd, self._tooltip]
+        else:
+            self.controls = [self._canvas, self._gd]
 
     # ── Layout helpers ────────────────────────────────────────────────────
     def _compute_layout(self):
@@ -167,7 +173,10 @@ class GenreNetworkGraph(ft.Stack):
 
     def _on_resize(self, e):
         self._w, self._h = e.width, e.height
-        self._compute_layout()
+        # Hitung layout hanya saat pertama kali (ukuran berubah signifikan)
+        if not self._layout_computed:
+            self._compute_layout()
+            self._layout_computed = True
         self._redraw(-1, -1)
 
     # ── Draw ──────────────────────────────────────────────────────────────
@@ -334,7 +343,6 @@ class GenreNetworkGraph(ft.Stack):
             for ei, edge in enumerate(self._edges):
                 ni = self._nodes[edge["i"]]
                 nj = self._nodes[edge["j"]]
-                # Jarak titik ke segmen
                 dist = self._pt_to_seg(mx, my, ni["x"], ni["y"], nj["x"], nj["y"])
                 if dist <= max(edge["stroke"] / 2 + 3, 5):
                     hit_edge = ei
@@ -347,22 +355,19 @@ class GenreNetworkGraph(ft.Stack):
 
             if hit_node >= 0:
                 node = self._nodes[hit_node]
-                # Hitung semua edge yang terhubung
                 conn = sum(1 for e in self._edges if hit_node in (e["i"], e["j"]))
                 self._tooltip.show_at(
-                    node["x"], node["y"], node["label"],
+                    e.global_position.x, e.global_position.y,
+                    node["label"],
                     [("Jumlah Anime", str(node["count"])),
                      ("Koneksi Genre", str(conn))],
                 )
             elif hit_edge >= 0:
                 edge  = self._edges[hit_edge]
                 label = f"{self._nodes[edge['i']]['label']} × {self._nodes[edge['j']]['label']}"
-                ni = self._nodes[edge['i']]
-                nj = self._nodes[edge['j']]
-                mx_edge = (ni["x"] + nj["x"]) / 2
-                my_edge = (ni["y"] + nj["y"]) / 2
                 self._tooltip.show_at(
-                    mx_edge, my_edge, label,
+                    e.global_position.x, e.global_position.y,
+                    label,
                     [("Co-occurrence", str(edge["weight"])),
                      ("Tebal garis",   f"{edge['stroke']:.1f}px")],
                 )

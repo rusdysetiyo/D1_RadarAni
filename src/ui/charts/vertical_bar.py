@@ -12,14 +12,18 @@ class VerticalBarChart(ft.Stack):
     PAD_T = 28
     PAD_B = 72   # extra ruang untuk label X diagonal
 
-    def __init__(self, bar_data: list, title: str, y_label: str = "", theme: dict = None):
+    def __init__(self, bar_data: list, title: str, y_label: str = "",
+                 theme: dict = None, tooltip=None):
         super().__init__(expand=True)
         self._data    = bar_data
         self._title   = title
         self._hovered = -1
-        self._tooltip = Tooltip()
         self._theme   = theme
         self._w = self._h = 0
+
+        # Gunakan tooltip eksternal (page.overlay) jika disediakan
+        self._owns_tooltip = tooltip is None
+        self._tooltip      = tooltip if tooltip is not None else Tooltip()
 
         self._canvas = cv.Canvas(shapes=[], expand=True,
                                  on_resize=self._on_resize)
@@ -27,7 +31,11 @@ class VerticalBarChart(ft.Stack):
             content=ft.Container(expand=True),
             on_hover=self._on_hover,
         )
-        self.controls = [self._canvas, self._gd, self._tooltip]
+        # Hanya masukkan tooltip ke controls jika milik sendiri
+        if self._owns_tooltip:
+            self.controls = [self._canvas, self._gd, self._tooltip]
+        else:
+            self.controls = [self._canvas, self._gd]
 
     def _on_resize(self, e):
         self._w, self._h = e.width, e.height
@@ -131,7 +139,11 @@ class VerticalBarChart(ft.Stack):
             if hit >= 0:
                 d = self._data[hit]
                 rows = [("Jumlah Anime", str(d["value"]))]
-                bx, by, bw, bh = self._bar_rect(hit, self._w, self._h)
-                self._tooltip.show_at(bx + bw / 2, by, d["label"], rows)
+                # Gunakan global_position agar tooltip muncul dekat kursor
+                # dan tidak terpotong card boundary
+                self._tooltip.show_at(
+                    e.global_position.x, e.global_position.y,
+                    d["label"], rows,
+                )
             else:
                 self._tooltip.hide()

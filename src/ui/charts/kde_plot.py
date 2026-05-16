@@ -13,14 +13,16 @@ class KDEChart(ft.Container):
     PAD_T = 16
     PAD_B = 28
 
-    def __init__(self, animes: list, theme: dict = None):
+    def __init__(self, animes: list, theme: dict = None, tooltip=None):
         super().__init__(expand=True)
         self._animes = animes
         self._theme  = theme
         self._hovered_idx = -1
-        self._tooltip = Tooltip()
         self._w = self._h = 0
-        
+
+        self._owns_tooltip = tooltip is None
+        self._tooltip      = tooltip if tooltip is not None else Tooltip()
+
         self._dim_labels = ["Global Score", "Plot", "Visual", "Audio", "Characterization", "Direction"]
         self._selected_dim = "Global Score"
 
@@ -49,7 +51,12 @@ class KDEChart(ft.Container):
             content=ft.Container(expand=True),
             on_hover=self._on_hover,
         )
-        
+
+        # Hanya masukkan tooltip ke Stack jika milik sendiri
+        stack_controls = [self._canvas, self._gd]
+        if self._owns_tooltip:
+            stack_controls.append(self._tooltip)
+
         _title_color = theme["text_main"] if theme else C_TEXT
         self.content = ft.Column(
             controls=[
@@ -63,11 +70,11 @@ class KDEChart(ft.Container):
                     ),
                     padding=ft.padding.only(left=16, right=16, top=12, bottom=0)
                 ),
-                ft.Stack(controls=[self._canvas, self._gd, self._tooltip], expand=True),
+                ft.Stack(controls=stack_controls, expand=True),
             ],
             spacing=0,
         )
-        
+
         # Precompute the KDE for the initial default dimension
         self._update_kde_cache()
 
@@ -214,7 +221,7 @@ class KDEChart(ft.Container):
         mx, my = e.local_position.x, e.local_position.y
         if self._w == 0:
             return
-            
+
         area_w = self._w - self.PAD_L - self.PAD_R
         area_h = self._h - self.PAD_T - self.PAD_B
 
@@ -223,18 +230,24 @@ class KDEChart(ft.Container):
             if xs:
                 rel_x = (mx - self.PAD_L) / area_w * 10.0
                 idx = int(rel_x / 10.0 * (len(xs) - 1))
-                idx = max(0, min(idx, len(xs)-1))
-                
-                if self._hovered_idx != idx:
-                    self._hovered_idx = idx
-                    self._redraw(idx)
-                    
-                    rows = [
-                        ("Score", f"{xs[idx]:.1f}"),
-                        ("Density", f"{ys[idx]:.4f}")
-                    ]
-                    px = self.PAD_L + area_w * (xs[idx] / 10.0)
-                    self._tooltip.show_at(px, my, self._selected_dim, rows)
+                idx = max(0, min(idx, len(xs) - 1))
+
+                # Early return — tidak ada perubahan index
+                if self._hovered_idx == idx:
+                    return
+
+                self._hovered_idx = idx
+                self._redraw(idx)
+
+                rows = [
+                    ("Score",   f"{xs[idx]:.1f}"),
+                    ("Density", f"{ys[idx]:.4f}"),
+                ]
+                # Gunakan global_position agar tooltip muncul di dekat kursor
+                self._tooltip.show_at(
+                    e.global_position.x, e.global_position.y,
+                    self._selected_dim, rows,
+                )
         else:
             if self._hovered_idx != -1:
                 self._hovered_idx = -1
