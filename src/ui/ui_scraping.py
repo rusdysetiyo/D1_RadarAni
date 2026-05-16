@@ -6,19 +6,19 @@ from src.config.theme import ThemeManager
 
 
 class UIScraping(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager, theme):
+    def __init__(self, page, data_manager, auth_manager, screen_manager, theme=None):
         super().__init__()
         self.my_page = page
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.screen_manager = screen_manager
-        self.theme = theme
 
         self.expand = True
         self.spacing = 0
         self._sidebar_open = False
 
-        self.current_theme = ThemeManager.get_theme(self.screen_manager.tema_aktif)
+        # Terima theme dari screen_manager; fallback ke ThemeManager jika tidak ada
+        self.current_theme = theme if theme is not None else ThemeManager.get_theme(self.screen_manager.tema_aktif)
 
         from src.ui.ui_home import _sidebar
         self._sidebar_widget = _sidebar(

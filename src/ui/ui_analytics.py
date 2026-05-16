@@ -59,7 +59,7 @@ def _bubble_card(chart, theme) -> ft.Container:
 # Main UI
 # ─────────────────────────────────────────────────────────────────────────────
 class UIAnalytics(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager):
+    def __init__(self, page, data_manager, auth_manager, screen_manager, theme=None):
         super().__init__()
         self.my_page        = page
         self.data_manager   = data_manager
@@ -69,7 +69,8 @@ class UIAnalytics(ft.Row):
         self.spacing = 0
         self._sidebar_open = False
 
-        self.current_theme = ThemeManager.get_theme(self.screen_manager.tema_aktif)
+        # Terima theme dari screen_manager; fallback ke ThemeManager jika tidak ada
+        self.current_theme = theme if theme is not None else ThemeManager.get_theme(self.screen_manager.tema_aktif)
 
         # ── Global tooltip — dipasang di page.overlay agar tidak ter-clip card ──
         self._global_tooltip = Tooltip()
