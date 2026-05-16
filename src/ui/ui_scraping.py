@@ -6,12 +6,13 @@ from src.config.theme import ThemeManager
 
 
 class UIScraping(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager):
+    def __init__(self, page, data_manager, auth_manager, screen_manager, theme):
         super().__init__()
         self.my_page = page
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.screen_manager = screen_manager
+        self.theme = theme
 
         self.expand = True
         self.spacing = 0

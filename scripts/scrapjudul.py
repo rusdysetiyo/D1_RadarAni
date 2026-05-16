@@ -1,5 +1,8 @@
 import os
+import time
 import urllib.parse
+
+import requests
 from PIL import Image
 from scripts.scraper import RadarAniScraper
 from scripts.userScraper import generate_5d_scores
@@ -316,6 +319,34 @@ class DynamicAnimeScraper(RadarAniScraper):
 
         print(f"[+] Injeksi rating selesai untuk '{anime_id}'.")
 
+    def _fetch_banner_from_anilist(self, mal_id, anime_id) -> str:
+        if not mal_id:
+            return ""
+        query = '''
+        query ($idMal: Int) {
+          Media (idMal: $idMal, type: ANIME) {
+            bannerImage
+          }
+        }
+        '''
+        try:
+            response = requests.post(
+                'https://graphql.anilist.co',
+                json={'query': query, 'variables': {'idMal': mal_id}},
+                timeout=10
+            )
+            if response.status_code == 429:
+                print("[!] Rate limit Anilist, tunggu 5 detik...")
+                time.sleep(5)
+                return ""
+            if response.status_code == 200:
+                media = response.json().get('data', {}).get('Media')
+                if media and media.get('bannerImage'):
+                    return self.download_image(media['bannerImage'], self.banner_dir, f"{anime_id}_BANNER.jpg")
+        except Exception as e:
+            print(f"[!] Gagal fetch banner Anilist: {e}")
+        return ""
+
     def eksekusi_tambah_anime(self, url: str, thumb_url: str | None = None) -> dict:
         """
         Mengekstraksi data, mengecek duplikasi, dan menyimpan ke database.
@@ -363,7 +394,14 @@ class DynamicAnimeScraper(RadarAniScraper):
             anime_data["thumbnail_path"] = path_thumb
         else:
             anime_data["thumbnail_path"] = "N/A"
-
+        print("[*] Mencari banner dari Anilist...")
+        time.sleep(1)
+        banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
+        anime_data["banner_path"] = banner_path
+        if banner_path:
+            print(f"[+] Banner didapat: {banner_path}")
+        else:
+            print("[-] Banner tidak tersedia di Anilist.")
         # Pastikan field cache rating ada sebelum disimpan
         anime_data.setdefault("rating_count", 0)
         anime_data.setdefault("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])

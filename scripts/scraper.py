@@ -36,6 +36,8 @@ class RadarAniScraper:
         self.assets_dir = self.root_dir / "assets"
         self.thumb_dir = self.assets_dir / "thumbnails"
         self.cover_dir = self.assets_dir / "covers"
+        self.banner_dir = self.assets_dir / "banners"
+        self.banner_dir.mkdir(parents=True, exist_ok=True)
         self.data_dir = self.root_dir / "data"
 
         self.checkpoint_file = self.data_dir / 'anime_list_checkpoint.json'
@@ -277,4 +279,3 @@ class RadarAniScraper:
             self.checkpoint_file.unlink()
 
         logger.info(f"=== Selesai! Total {len(anime_list)} anime berhasil disimpan ===")
-

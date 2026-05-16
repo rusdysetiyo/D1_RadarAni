@@ -1,0 +1,619 @@
+/* ================================================
+   RadarAni — Sakura Theme
+   Warna utama: #D4EBF8 (biru muda) & #FCF8FA (sakura putih)
+   ================================================ */
+
+/* ── Global ── */
+QWidget {
+    font-family: "Segoe UI", "Yu Gothic UI", sans-serif;
+    font-size: 13px;
+    color: #2D2D2D;
+    background-color: transparent;
+}
+
+QMainWindow, QDialog {
+    background-color: #FCF8FA;
+}
+
+/* Scrollbar */
+QScrollBar:vertical {
+    background: #F5EEF2;
+    width: 6px;
+    border-radius: 3px;
+    margin: 0;
+}
+QScrollBar::handle:vertical {
+    background: #D4A8BC;
+    border-radius: 3px;
+    min-height: 30px;
+}
+QScrollBar::handle:vertical:hover {
+    background: #B87A9A;
+}
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0;
+}
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: none;
+}
+
+QScrollBar:horizontal {
+    background: #F5EEF2;
+    height: 6px;
+    border-radius: 3px;
+}
+QScrollBar::handle:horizontal {
+    background: #D4A8BC;
+    border-radius: 3px;
+    min-width: 30px;
+}
+QScrollBar::handle:horizontal:hover {
+    background: #B87A9A;
+}
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    width: 0;
+}
+
+/* ── Top Bar ── */
+#topBar {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #EDE0E8;
+    min-height: 48px;
+    max-height: 48px;
+}
+
+#brandLabel {
+    font-size: 16px;
+    font-weight: 700;
+    color: #8B5A7A;
+    letter-spacing: 0.5px;
+}
+
+#brandSubLabel {
+    font-size: 10px;
+    color: #B89AAA;
+    letter-spacing: 1px;
+}
+
+#hamburgerBtn {
+    background: transparent;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    font-size: 18px;
+    color: #8B5A7A;
+}
+#hamburgerBtn:hover {
+    background-color: #F5EEF2;
+}
+
+/* ── Search Bar ── */
+#searchBar {
+    background-color: #F5EEF2;
+    border: 1px solid #E8D5E0;
+    border-radius: 20px;
+    padding: 6px 14px 6px 36px;
+    font-size: 12px;
+    color: #2D2D2D;
+    min-width: 200px;
+    max-width: 260px;
+}
+#searchBar:focus {
+    border-color: #C48FAA;
+    background-color: #FFFFFF;
+    outline: none;
+}
+#searchBar::placeholder {
+    color: #C4A8B8;
+}
+
+/* ── Header Area ── */
+#headerWidget {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #EDE0E8;
+    padding: 12px 20px 10px 20px;
+}
+
+#greetingLabel {
+    font-size: 18px;
+    font-weight: 700;
+    color: #5C3D52;
+}
+
+/* Stats pills */
+#statPill {
+    background-color: #F5EEF2;
+    border: 1px solid #EDE0E8;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11px;
+    color: #8B6A7A;
+}
+
+/* ── Recommendation Banner ── */
+#recBanner {
+    background-color: #F9F0F5;
+    border: 1px solid #E8D0DE;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-top: 8px;
+}
+
+#recLabel {
+    font-size: 9px;
+    font-weight: 700;
+    color: #9B6080;
+    letter-spacing: 0.8px;
+}
+
+#recTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5C3D52;
+}
+
+#recReason {
+    font-size: 10px;
+    color: #A07888;
+}
+
+#recBtn {
+    background-color: #C07090;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+}
+#recBtn:hover {
+    background-color: #A85878;
+}
+#recBtn:pressed {
+    background-color: #904060;
+}
+
+/* ── Toolbar (Filter + Sort) ── */
+#toolbarWidget {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #EDE0E8;
+    padding: 6px 20px;
+    min-height: 38px;
+    max-height: 38px;
+}
+
+/* Filter buttons */
+#filterBtn {
+    background-color: transparent;
+    border: 1px solid #E0D0D8;
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: 11px;
+    color: #9B7A8A;
+    font-weight: 500;
+}
+#filterBtn:hover {
+    background-color: #F5EEF2;
+    border-color: #C4A0B4;
+}
+#filterBtn[active="true"] {
+    background-color: #C07090;
+    border-color: #C07090;
+    color: #FFFFFF;
+}
+
+/* Sort dropdown */
+#sortCombo {
+    background-color: #F5EEF2;
+    border: 1px solid #E0D0D8;
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: #7A5A6A;
+    min-width: 140px;
+}
+#sortCombo:hover {
+    border-color: #C4A0B4;
+}
+#sortCombo::drop-down {
+    border: none;
+    width: 20px;
+}
+QComboBox QAbstractItemView {
+    background-color: #FFFFFF;
+    border: 1px solid #E0D0D8;
+    border-radius: 8px;
+    selection-background-color: #F5EEF2;
+    selection-color: #5C3D52;
+    outline: none;
+}
+
+/* ── Scroll Area (Grid Container) ── */
+#scrollArea {
+    background-color: transparent;
+    border: none;
+}
+#scrollArea > QWidget#scrollContent {
+    background-color: transparent;
+}
+
+/* ── Anime Card ── */
+#animeCard {
+    background-color: #FFFFFF;
+    border: 1px solid #EDE0E8;
+    border-radius: 10px;
+}
+#animeCard:hover {
+    border-color: #C07090;
+    background-color: #FDF5F8;
+}
+
+#cardTitle {
+    font-size: 10px;
+    font-weight: 600;
+    color: #3D2535;
+}
+
+#scoreGlobal {
+    font-size: 9px;
+    color: #C08030;
+    font-weight: 600;
+}
+
+#scorePersonal {
+    font-size: 9px;
+    color: #9060A0;
+    font-weight: 600;
+}
+
+#scoreNA {
+    font-size: 9px;
+    color: #B0A0A8;
+}
+
+/* Rated badge */
+#ratedBadge {
+    background-color: #C07090;
+    color: #FFFFFF;
+    font-size: 8px;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 1px 6px;
+}
+
+/* Unrated badge */
+#unratedBadge {
+    background-color: #F0E8EC;
+    color: #A08090;
+    font-size: 8px;
+    border-radius: 8px;
+    padding: 1px 6px;
+    border: 1px solid #E0D0D8;
+}
+
+/* ── Pagination ── */
+#paginationWidget {
+    background-color: #FFFFFF;
+    border-top: 1px solid #EDE0E8;
+    padding: 8px 20px;
+}
+
+#pageBtn {
+    background-color: transparent;
+    border: 1px solid #E0D0D8;
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 11px;
+    color: #8B6A7A;
+    min-width: 28px;
+}
+#pageBtn:hover {
+    background-color: #F5EEF2;
+    border-color: #C4A0B4;
+}
+#pageBtn[active="true"] {
+    background-color: #C07090;
+    border-color: #C07090;
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+#pageInfoLabel {
+    font-size: 11px;
+    color: #B0909A;
+}
+
+/* ── Sidebar Overlay ── */
+#sidebar {
+    background-color: #FAF0F4;
+    border-right: 1px solid #EDE0E8;
+    min-width: 200px;
+    max-width: 200px;
+}
+
+#sidebarNavBtn {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #5C3D52;
+    text-align: left;
+    font-weight: 500;
+}
+#sidebarNavBtn:hover {
+    background-color: #F0E0E8;
+}
+#sidebarNavBtn[active="true"] {
+    background-color: #EAD0DC;
+    color: #8B2050;
+}
+
+#sidebarDangerBtn {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: #C04040;
+    text-align: left;
+}
+#sidebarDangerBtn:hover {
+    background-color: #FCE8E8;
+}
+
+#sidebarLogoutBtn {
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: #7A5A6A;
+    text-align: left;
+}
+#sidebarLogoutBtn:hover {
+    background-color: #F0E0E8;
+}
+
+/* ── Login & Register Pages ── */
+#authContainer {
+    background-color: #FFFFFF;
+    border: 1px solid #EDE0E8;
+    border-radius: 16px;
+    padding: 32px 28px;
+    min-width: 320px;
+    max-width: 360px;
+}
+
+#authTitle {
+    font-size: 22px;
+    font-weight: 700;
+    color: #8B3A6A;
+    letter-spacing: 0.5px;
+}
+
+#authSubtitle {
+    font-size: 11px;
+    color: #B89AAA;
+    letter-spacing: 1.5px;
+}
+
+#authInput {
+    background-color: #FAF5F8;
+    border: 1px solid #E0D0D8;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13px;
+    color: #2D2D2D;
+    min-height: 36px;
+}
+#authInput:focus {
+    border-color: #C07090;
+    background-color: #FFFFFF;
+}
+
+#authPrimaryBtn {
+    background-color: #C07090;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 40px;
+}
+#authPrimaryBtn:hover {
+    background-color: #A85878;
+}
+#authPrimaryBtn:pressed {
+    background-color: #904060;
+}
+
+#authLinkBtn {
+    background-color: transparent;
+    border: none;
+    color: #C07090;
+    font-size: 12px;
+    text-decoration: underline;
+    padding: 0;
+}
+#authLinkBtn:hover {
+    color: #904060;
+}
+
+#authFieldLabel {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8B6070;
+}
+
+/* ── Detail Page ── */
+#detailBackBtn {
+    background-color: transparent;
+    border: none;
+    color: #8B5A7A;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+#detailBackBtn:hover {
+    background-color: #F5EEF2;
+}
+
+#detailTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3D2535;
+}
+
+#detailMetaLabel {
+    font-size: 11px;
+    color: #9B7A8A;
+}
+
+#genreTag {
+    background-color: #F0E0EC;
+    color: #8B4A6A;
+    font-size: 10px;
+    border-radius: 10px;
+    padding: 2px 10px;
+    border: 1px solid #E0C0D0;
+}
+
+#synopsisText {
+    font-size: 12px;
+    color: #5A4A50;
+    line-height: 1.6;
+}
+
+#globalScoreBox {
+    background-color: #FFF0E8;
+    border: 1px solid #F0D0B8;
+    border-radius: 10px;
+    padding: 10px 16px;
+}
+
+#globalScoreNum {
+    font-size: 28px;
+    font-weight: 700;
+    color: #C07030;
+}
+
+#globalScoreLabel {
+    font-size: 9px;
+    color: #B09070;
+    letter-spacing: 0.5px;
+}
+
+#userScoreBox {
+    background-color: #F5F0FA;
+    border: 1px solid #DDD0F0;
+    border-radius: 10px;
+    padding: 10px 16px;
+}
+
+#userScoreNum {
+    font-size: 28px;
+    font-weight: 700;
+    color: #8050B0;
+}
+
+#userScoreNA {
+    font-size: 28px;
+    font-weight: 700;
+    color: #B0A0C0;
+}
+
+#userScoreLabel {
+    font-size: 9px;
+    color: #9080A0;
+    letter-spacing: 0.5px;
+}
+
+#ratingDimensionLabel {
+    font-size: 11px;
+    color: #7A5A6A;
+    font-weight: 600;
+}
+
+#ratingCombo {
+    background-color: #F5EEF2;
+    border: 1px solid #E0D0D8;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    color: #5C3D52;
+    min-width: 60px;
+}
+
+#saveRatingBtn {
+    background-color: #C07090;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 38px;
+}
+#saveRatingBtn:hover {
+    background-color: #A85878;
+}
+
+#deleteRatingBtn {
+    background-color: #FFFFFF;
+    color: #C04060;
+    border: 1px solid #F0C0C8;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 38px;
+}
+#deleteRatingBtn:hover {
+    background-color: #FCE8EC;
+}
+
+/* ── Profile Page ── */
+#profileAvatar {
+    background-color: #EAD0E0;
+    border-radius: 40px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    font-size: 28px;
+    color: #8B4A6A;
+}
+
+#profileUsername {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3D2535;
+}
+
+#profileMetaLabel {
+    font-size: 11px;
+    color: #9B7A8A;
+}
+
+#profileStatCard {
+    background-color: #FAF0F5;
+    border: 1px solid #EDE0E8;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+#profileStatNum {
+    font-size: 20px;
+    font-weight: 700;
+    color: #8B3A6A;
+}
+
+#profileStatLabel {
+    font-size: 10px;
+    color: #A08090;
+}
