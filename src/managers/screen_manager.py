@@ -15,6 +15,8 @@ class ScreenManager:
         self.auth_manager = auth_manager
         self.halaman_terakhir = "home"
         self.filter_terakhir = "all"
+        self.tema_aktif = "1"
+
 
     def bersihkan_layar(self):
         self.page.controls.clear()
@@ -36,10 +38,15 @@ class ScreenManager:
         if hasattr(halaman_baru, '_muat_sections'):
             self.page.run_task(halaman_baru._muat_sections)
 
-    def tampilkan_home(self):
+    def tampilkan_home(self, pilihan_tema=None):
+        if pilihan_tema:
+            self.tema_aktif = pilihan_tema
         self.halaman_terakhir = "home"
         from src.ui.ui_home import UIHome
-        self.page.run_task(self._jalankan_transisi, "Entering RadarAni...", UIHome)
+        from src.config.theme import ThemeManager
+        
+        theme_obj = ThemeManager.get_theme(self.tema_aktif)
+        self.page.run_task(self._jalankan_transisi, "Entering RadarAni...", UIHome, theme=theme_obj)
 
     def tampilkan_katalog(self, filter_kategori="all"):
         self.halaman_terakhir = "katalog"

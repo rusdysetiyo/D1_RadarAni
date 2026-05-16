@@ -13,16 +13,19 @@ class KDEChart(ft.Container):
     PAD_T = 16
     PAD_B = 28
 
-    def __init__(self, animes: list):
+    def __init__(self, animes: list, theme: dict = None):
         super().__init__(expand=True)
         self._animes = animes
-        self._hovered_x = -1
+        self._theme  = theme
+        self._hovered_idx = -1
         self._tooltip = Tooltip()
         self._w = self._h = 0
         
         self._dim_labels = ["Global Score", "Plot", "Visual", "Audio", "Characterization", "Direction"]
         self._selected_dim = "Global Score"
 
+        _border_color = theme["border_color"] if theme else C_BORDER
+        _text_color   = theme["text_main"]    if theme else C_TEXT
         self._dropdown = ft.Dropdown(
             options=[ft.dropdown.Option(l) for l in self._dim_labels],
             value=self._selected_dim,
@@ -30,7 +33,7 @@ class KDEChart(ft.Container):
             height=32,
             text_size=11,
             content_padding=ft.padding.symmetric(horizontal=8, vertical=2),
-            border_color=C_BORDER,
+            border_color=_border_color,
             border_radius=6,
         )
         if hasattr(self._dropdown, 'on_change'):
@@ -47,12 +50,13 @@ class KDEChart(ft.Container):
             on_hover=self._on_hover,
         )
         
+        _title_color = theme["text_main"] if theme else C_TEXT
         self.content = ft.Column(
             controls=[
                 ft.Container(
                     content=ft.Row(
                         controls=[
-                            ft.Text("Rating Distribution (KDE Plot)", size=12, weight=ft.FontWeight.BOLD, color=C_TEXT),
+                            ft.Text("Rating Distribution (KDE Plot)", size=12, weight=ft.FontWeight.BOLD, color=_title_color),
                             self._dropdown,
                         ],
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -74,7 +78,7 @@ class KDEChart(ft.Container):
 
     def _on_resize(self, e):
         self._w, self._h = e.width, e.height
-        self._redraw(self._hovered_x)
+        self._redraw(self._hovered_idx)
 
     def _update_kde_cache(self):
         data = self._get_data()
@@ -117,7 +121,7 @@ class KDEChart(ft.Container):
             
         return xs, ys
 
-    def _redraw(self, hover_x=-1):
+    def _redraw(self, hover_idx=-1):
         if self._w == 0:
             return
         w, h = self._w, self._h
@@ -130,7 +134,13 @@ class KDEChart(ft.Container):
         max_y = max(ys) if ys else 1.0
         if max_y == 0: max_y = 1.0
 
-        axis_p = ft.Paint(style=ft.PaintingStyle.STROKE, stroke_width=1, color=C_BORDER)
+        c_text3   = self._theme["text_muted"]   if self._theme else C_TEXT3
+        c_border  = self._theme["border_color"] if self._theme else C_BORDER
+        c_primary = self._theme["primary"]       if self._theme else C_SAKURA
+        c_primary_dk = self._theme["primary"]   if self._theme else C_SAKURA_DK
+        c_hover   = self._theme["primary"]       if self._theme else C_HOVER
+
+        axis_p = ft.Paint(style=ft.PaintingStyle.STROKE, stroke_width=1, color=c_border)
         shapes.append(cv.Path(
             [cv.Path.MoveTo(self.PAD_L, self.PAD_T),
              cv.Path.LineTo(self.PAD_L, h - self.PAD_B),
@@ -146,7 +156,7 @@ class KDEChart(ft.Container):
                 [cv.Path.MoveTo(self.PAD_L, gy), cv.Path.LineTo(w - self.PAD_R, gy)],
                 grid_p,
             ))
-            shapes.append(_cv_text_right(self.PAD_L - 4, gy, lbl, 9, C_TEXT3))
+            shapes.append(_cv_text_right(self.PAD_L - 4, gy, lbl, 9, c_text3))
 
         for i in range(11):
             gx = self.PAD_L + area_w * (i / 10.0)
@@ -154,7 +164,7 @@ class KDEChart(ft.Container):
                 [cv.Path.MoveTo(gx, h - self.PAD_B), cv.Path.LineTo(gx, h - self.PAD_B + 4)],
                 axis_p,
             ))
-            shapes.append(_cv_text_top_center(gx, h - self.PAD_B + 6, str(i), 9, C_TEXT3))
+            shapes.append(_cv_text_top_center(gx, h - self.PAD_B + 6, str(i), 9, c_text3))
 
         if not xs:
             self._canvas.shapes = shapes
@@ -174,7 +184,7 @@ class KDEChart(ft.Container):
         fill_els.append(cv.Path.Close())
         shapes.append(cv.Path(
             elements=fill_els,
-            paint=ft.Paint(style=ft.PaintingStyle.FILL, color=_rgba(C_SAKURA, 0.3)),
+            paint=ft.Paint(style=ft.PaintingStyle.FILL, color=_rgba(c_primary, 0.3)),
         ))
 
         stroke_els = [cv.Path.MoveTo(pts[0][0], pts[0][1])]
@@ -182,22 +192,20 @@ class KDEChart(ft.Container):
             stroke_els.append(cv.Path.LineTo(px, py))
         shapes.append(cv.Path(
             elements=stroke_els,
-            paint=ft.Paint(style=ft.PaintingStyle.STROKE, stroke_width=2, color=C_SAKURA_DK),
+            paint=ft.Paint(style=ft.PaintingStyle.STROKE, stroke_width=2, color=c_primary_dk),
         ))
 
-        if hover_x >= self.PAD_L and hover_x <= w - self.PAD_R:
-            rel_x = (hover_x - self.PAD_L) / area_w * 10.0
-            idx = int(rel_x / 10.0 * (len(xs) - 1))
-            if 0 <= idx < len(ys):
-                shapes.append(cv.Path(
-                    [cv.Path.MoveTo(hover_x, self.PAD_T), cv.Path.LineTo(hover_x, h - self.PAD_B)],
-                    ft.Paint(style=ft.PaintingStyle.STROKE, stroke_width=1, color=C_HOVER),
-                ))
-                py = self.PAD_T + area_h * (1 - ys[idx] / max_y)
-                shapes.append(cv.Circle(
-                    x=hover_x, y=py, radius=4,
-                    paint=ft.Paint(style=ft.PaintingStyle.FILL, color=C_HOVER)
-                ))
+        if hover_idx >= 0 and hover_idx < len(xs):
+            px = self.PAD_L + area_w * (xs[hover_idx] / 10.0)
+            py = self.PAD_T + area_h * (1 - ys[hover_idx] / max_y)
+            shapes.append(cv.Path(
+                [cv.Path.MoveTo(px, self.PAD_T), cv.Path.LineTo(px, h - self.PAD_B)],
+                ft.Paint(style=ft.PaintingStyle.STROKE, stroke_width=1, color=c_hover),
+            ))
+            shapes.append(cv.Circle(
+                x=px, y=py, radius=4,
+                paint=ft.Paint(style=ft.PaintingStyle.FILL, color=c_hover)
+            ))
                 
         self._canvas.shapes = shapes
         self._canvas.update()
@@ -211,24 +219,24 @@ class KDEChart(ft.Container):
         area_h = self._h - self.PAD_T - self.PAD_B
 
         if self.PAD_L <= mx <= self._w - self.PAD_R and self.PAD_T <= my <= self._h - self.PAD_B + 10:
-            ix = int(mx)
-            if self._hovered_x != ix:
-                self._hovered_x = ix
-                self._redraw(ix)
-            
             xs, ys = self._cached_xs, self._cached_ys
             if xs:
-                rel_x = (ix - self.PAD_L) / area_w * 10.0
+                rel_x = (mx - self.PAD_L) / area_w * 10.0
                 idx = int(rel_x / 10.0 * (len(xs) - 1))
                 idx = max(0, min(idx, len(xs)-1))
                 
-                rows = [
-                    ("Score", f"{xs[idx]:.1f}"),
-                    ("Density", f"{ys[idx]:.4f}")
-                ]
-                self._tooltip.show_at(ix, my, self._selected_dim, rows)
+                if self._hovered_idx != idx:
+                    self._hovered_idx = idx
+                    self._redraw(idx)
+                    
+                    rows = [
+                        ("Score", f"{xs[idx]:.1f}"),
+                        ("Density", f"{ys[idx]:.4f}")
+                    ]
+                    px = self.PAD_L + area_w * (xs[idx] / 10.0)
+                    self._tooltip.show_at(px, my, self._selected_dim, rows)
         else:
-            if self._hovered_x != -1:
-                self._hovered_x = -1
+            if self._hovered_idx != -1:
+                self._hovered_idx = -1
                 self._redraw(-1)
                 self._tooltip.hide()

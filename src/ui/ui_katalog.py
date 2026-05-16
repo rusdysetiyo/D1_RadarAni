@@ -2,6 +2,7 @@ import flet as ft
 import math
 import os
 from src.ui.icons import _sakura_icon_svg
+from src.config.theme import ThemeManager
 
 # ── Section: Konfigurasi Dasar & Tema ────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -340,10 +341,12 @@ class UIKatalog(ft.Row):
         self.spacing = 0
 
         # ── Sidebar ──
+        self.current_theme = ThemeManager.get_theme(self.screen_manager.tema_aktif)
+        
         from src.ui.ui_home import _sidebar
         self._sidebar_widget = _sidebar(
             screen_manager, auth_manager,
-            self._toggle_sidebar, halaman_aktif="katalog"
+            self._toggle_sidebar, self.current_theme, halaman_aktif="katalog"
         )
 
         # ── Topbar & Search ──

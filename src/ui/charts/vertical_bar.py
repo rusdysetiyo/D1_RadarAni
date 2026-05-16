@@ -12,12 +12,13 @@ class VerticalBarChart(ft.Stack):
     PAD_T = 28
     PAD_B = 72   # extra ruang untuk label X diagonal
 
-    def __init__(self, bar_data: list, title: str, y_label: str = ""):
+    def __init__(self, bar_data: list, title: str, y_label: str = "", theme: dict = None):
         super().__init__(expand=True)
         self._data    = bar_data
         self._title   = title
         self._hovered = -1
         self._tooltip = Tooltip()
+        self._theme   = theme
         self._w = self._h = 0
 
         self._canvas = cv.Canvas(shapes=[], expand=True,
@@ -53,6 +54,14 @@ class VerticalBarChart(ft.Stack):
         area_h  = h - self.PAD_T - self.PAD_B
         shapes  = []
 
+        c_text       = self._theme["text_main"]        if self._theme else C_TEXT
+        c_text2      = self._theme["text_secondary"]   if self._theme else C_TEXT2
+        c_text3      = self._theme["text_muted"]       if self._theme else C_TEXT3
+        c_border     = self._theme["border_color"]     if self._theme else C_BORDER
+        c_primary    = self._theme["primary"]          if self._theme else C_SAKURA_DK
+        chart_colors = self._theme.get("chart_colors", CHART_COLORS) if self._theme else CHART_COLORS
+        c_hover      = self._theme["primary"]          if self._theme else C_HOVER
+
         grid_p = ft.Paint(style=ft.PaintingStyle.STROKE,
                           stroke_width=0.7, color="#22000000")
         for frac in [0.25, 0.5, 0.75, 1.0]:
@@ -64,12 +73,12 @@ class VerticalBarChart(ft.Stack):
                 grid_p,
             ))
             shapes.append(_cv_text_right(
-                self.PAD_L - 4, gy, label, 9, C_TEXT3))
+                self.PAD_L - 4, gy, label, 9, c_text3))
 
         for i, d in enumerate(self._data):
             bx, by, bw, bh = self._bar_rect(i, w, h)
             is_hov = (i == hovered)
-            color  = C_HOVER if is_hov else CHART_COLORS[i % len(CHART_COLORS)]
+            color  = c_hover if is_hov else chart_colors[i % len(chart_colors)]
             alpha  = 1.0 if (is_hov or hovered == -1) else 0.45
 
             shapes.append(cv.Rect(
@@ -88,12 +97,12 @@ class VerticalBarChart(ft.Stack):
                 rotate=0.785,   # 45 derajat dalam radian
                 style=ft.TextStyle(
                     size=9,
-                    color=C_SAKURA_DK if is_hov else C_TEXT2,
+                    color=c_primary if is_hov else c_text2,
                 ),
             ))
 
         axis_p = ft.Paint(style=ft.PaintingStyle.STROKE,
-                          stroke_width=1, color=C_BORDER)
+                          stroke_width=1, color=c_border)
         shapes.append(cv.Path(
             [cv.Path.MoveTo(self.PAD_L, self.PAD_T),
              cv.Path.LineTo(self.PAD_L, h - self.PAD_B),
@@ -101,7 +110,7 @@ class VerticalBarChart(ft.Stack):
             axis_p,
         ))
 
-        shapes.append(_cv_text_top_center(w / 2, 6, self._title, 12, C_TEXT, bold=True))
+        shapes.append(_cv_text_top_center(w / 2, 6, self._title, 12, c_text, bold=True))
 
         self._canvas.shapes = shapes
         self._canvas.update()
@@ -119,9 +128,10 @@ class VerticalBarChart(ft.Stack):
         if hit != self._hovered:
             self._hovered = hit
             self._redraw(hit)
-        if hit >= 0:
-            d = self._data[hit]
-            rows = [("Jumlah Anime", str(d["value"]))]
-            self._tooltip.show_at(mx, my, d["label"], rows)
-        else:
-            self._tooltip.hide()
+            if hit >= 0:
+                d = self._data[hit]
+                rows = [("Jumlah Anime", str(d["value"]))]
+                bx, by, bw, bh = self._bar_rect(hit, self._w, self._h)
+                self._tooltip.show_at(bx + bw / 2, by, d["label"], rows)
+            else:
+                self._tooltip.hide()

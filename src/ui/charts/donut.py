@@ -8,12 +8,13 @@ from .palette import (
 from .tooltip import Tooltip
 
 class DonutChart(ft.Stack):
-    def __init__(self, data: list, title: str):
+    def __init__(self, data: list, title: str, theme: dict = None):
         super().__init__(expand=True)
         self._data    = data
         self._title   = title
         self._hovered = -1
         self._tooltip = Tooltip()
+        self._theme   = theme
         self._w = self._h = 0
 
         self._canvas = cv.Canvas(shapes=[], expand=True,
@@ -54,9 +55,15 @@ class DonutChart(ft.Stack):
         angles = self._slice_angles()
         shapes = []
 
+        c_text       = self._theme["text_main"]        if self._theme else C_TEXT
+        c_text2      = self._theme["text_secondary"]   if self._theme else C_TEXT2
+        c_white      = self._theme["card"]             if self._theme else C_WHITE
+        c_primary    = self._theme["primary"]          if self._theme else C_SAKURA_DK
+        chart_colors = self._theme.get("chart_colors", CHART_COLORS) if self._theme else CHART_COLORS
+
         for i, (d, (sa, sw)) in enumerate(zip(self._data, angles)):
             is_hov = (i == hovered)
-            color  = CHART_COLORS[i % len(CHART_COLORS)]
+            color  = chart_colors[i % len(chart_colors)]
             alpha  = 1.0 if (is_hov or hovered == -1) else 0.38
             expand = 7 if is_hov else 0
             mid_a  = sa + sw / 2
@@ -89,7 +96,7 @@ class DonutChart(ft.Stack):
             shapes.append(cv.Path(
                 elements=border_els,
                 paint=ft.Paint(style=ft.PaintingStyle.STROKE,
-                               stroke_width=1.5, color=C_WHITE),
+                               stroke_width=1.5, color=c_white),
             ))
 
         # Legend — kanan chart
@@ -102,7 +109,7 @@ class DonutChart(ft.Stack):
 
         for i, d in enumerate(self._data):
             is_hov   = (i == hovered)
-            color    = CHART_COLORS[i % len(CHART_COLORS)]
+            color    = chart_colors[i % len(chart_colors)]
             leg_alph = 1.0 if (is_hov or hovered == -1) else 0.38
             ly       = leg_start_y + i * row_h + row_h / 2
 
@@ -117,13 +124,13 @@ class DonutChart(ft.Stack):
             txt = f"{d['label']}  {d['value']} ({d['pct']:.1f}%)"
             shapes.append(_cv_text_left(
                 leg_x + box + 5, ly, txt, 10,
-                C_SAKURA_DK if is_hov else C_TEXT2,
+                c_primary if is_hov else c_text2,
                 bold=is_hov,
             ))
 
         # Title center atas
         shapes.append(_cv_text_top_center(
-            self._w / 2, 6, self._title, 12, C_TEXT, bold=True))
+            self._w / 2, 6, self._title, 12, c_text, bold=True))
 
         self._canvas.shapes = shapes
         self._canvas.update()
@@ -149,12 +156,12 @@ class DonutChart(ft.Stack):
         if hit != self._hovered:
             self._hovered = hit
             self._redraw(hit)
-        if hit >= 0:
-            d = self._data[hit]
-            self._tooltip.show_at(
-                mx, my, d["label"],
-                [("Jumlah", str(d["value"])),
-                 ("Persen", f"{d['pct']:.1f}%")],
-            )
-        else:
-            self._tooltip.hide()
+            if hit >= 0:
+                d = self._data[hit]
+                self._tooltip.show_at(
+                    mx, my, d["label"],
+                    [("Jumlah", str(d["value"])),
+                     ("Persen", f"{d['pct']:.1f}%")],
+                )
+            else:
+                self._tooltip.hide()

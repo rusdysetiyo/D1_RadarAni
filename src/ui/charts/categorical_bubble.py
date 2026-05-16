@@ -52,9 +52,10 @@ class CategoricalBubbleChart(ft.Stack):
                 return f"#{r:02X}{g:02X}{b:02X}"
         return stops[-1][1]
 
-    def __init__(self, animes: list, title: str):
+    def __init__(self, animes: list, title: str, theme: dict = None):
         super().__init__(expand=True)
         self._title   = title
+        self._theme   = theme
         self._tooltip = Tooltip()
         self._hovered = (-1, -1)   # (studio_idx, genre_idx)
         self._w = self._h = 0
@@ -159,13 +160,18 @@ class CategoricalBubbleChart(ft.Stack):
         sw = area_w / max(n_g, 1)   # lebar slot per genre
         sh = area_h / max(n_s, 1)   # tinggi slot per studio
 
-        # ── Title & hint ─────────────────────────────────────────────────
+        c_text    = self._theme["text_main"]       if self._theme else C_TEXT
+        c_text2   = self._theme["text_secondary"]  if self._theme else C_TEXT2
+        c_text3   = self._theme["text_muted"]      if self._theme else C_TEXT3
+        c_primary = self._theme["primary"]         if self._theme else C_SAKURA_DK
+
+        # ── Title & hint ─────────────────────────────────────────────────────
         shapes.append(_cv_text_top_center(
-            self._w / 2, 6, self._title, 12, C_TEXT, bold=True))
+            self._w / 2, 6, self._title, 12, c_text, bold=True))
         shapes.append(_cv_text_top_center(
             self._w / 2, 22,
             "Ukuran = Jumlah Anime  •  Warna = Rating (merah=rendah, hijau=tinggi)",
-            8.5, C_TEXT3))
+            8.5, c_text3))
 
         # ── Grid lines ───────────────────────────────────────────────────
         grid_p = ft.Paint(style=ft.PaintingStyle.STROKE,
@@ -198,18 +204,18 @@ class CategoricalBubbleChart(ft.Stack):
                 rotate=0.785,
                 style=ft.TextStyle(
                     size=11,
-                    color=C_SAKURA_DK if is_hov else C_TEXT2,
+                    color=c_primary if is_hov else c_text2,
                     weight=ft.FontWeight.BOLD if is_hov else ft.FontWeight.NORMAL,
                 ),
             ))
 
-        # ── Y-axis labels (Studio) — rata kanan ──────────────────────────
+        # ── Y-axis labels (Studio) — rata kanan ────────────────────────────────
         for si, studio in enumerate(self._studios):
             cy = self.PAD_T + si * sh + sh / 2
             is_hov = (si == hov_si)
             shapes.append(_cv_text_right(
                 self.PAD_L - 6, cy, studio, 11,
-                C_SAKURA_DK if is_hov else C_TEXT2,
+                c_primary if is_hov else c_text2,
             ))
 
         # ── Bubbles ──────────────────────────────────────────────────────
@@ -271,11 +277,11 @@ class CategoricalBubbleChart(ft.Stack):
                 paint=ft.Paint(style=ft.PaintingStyle.FILL, color=c),
             ))
         shapes.append(_cv_text_right(
-            legend_x - 4, legend_y - bar_h / 2, "0", 8, C_TEXT3))
+            legend_x - 4, legend_y - bar_h / 2, "0", 8, c_text3))
         shapes.append(_cv_text_left(
-            legend_x + bar_w + 4, legend_y - bar_h / 2, "10", 8, C_TEXT3))
+            legend_x + bar_w + 4, legend_y - bar_h / 2, "10", 8, c_text3))
         shapes.append(_cv_text_top_center(
-            legend_x + bar_w / 2, legend_y + 1, "Rating", 7.5, C_TEXT3))
+            legend_x + bar_w / 2, legend_y + 1, "Rating", 7.5, c_text3))
 
         self._canvas.shapes = shapes
         self._canvas.update()
@@ -304,22 +310,23 @@ class CategoricalBubbleChart(ft.Stack):
             self._hovered = hit
             self._redraw()
 
-        if hit != (-1, -1):
-            si, gi = hit
-            b = next(x for x in self._bubbles if x["si"]==si and x["gi"]==gi)
-            score_str = f"{b['avg_score']:.2f}" if b["avg_score"] else "N/A"
-            # Clamp tooltip agar selalu dekat kursor (maks 8px offset)
-            tip_x = max(0, min(mx + 8, self._w - 200))
-            tip_y = max(0, min(my - 4, self._h - 100))
-            self._tooltip.show_at(
-                tip_x, tip_y,
-                f"{self._genres[gi]}  ×  {self._studios[si]}",
-                [
-                    ("Jumlah Anime", str(b["count"])),
-                    ("Avg Rating",   score_str),
-                    ("Genre",        self._genres[gi]),
-                    ("Studio",       self._studios[si]),
-                ],
-            )
-        else:
-            self._tooltip.hide()
+            if hit != (-1, -1):
+                si, gi = hit
+                b = next(x for x in self._bubbles if x["si"]==si and x["gi"]==gi)
+                score_str = f"{b['avg_score']:.2f}" if b["avg_score"] else "N/A"
+                cx, cy, slot = self._cell_center(si, gi)
+                
+                tip_x = max(0, min(cx + 8, self._w - 200))
+                tip_y = max(0, min(cy - 4, self._h - 100))
+                self._tooltip.show_at(
+                    tip_x, tip_y,
+                    f"{self._genres[gi]}  ×  {self._studios[si]}",
+                    [
+                        ("Jumlah Anime", str(b["count"])),
+                        ("Avg Rating",   score_str),
+                        ("Genre",        self._genres[gi]),
+                        ("Studio",       self._studios[si]),
+                    ],
+                )
+            else:
+                self._tooltip.hide()

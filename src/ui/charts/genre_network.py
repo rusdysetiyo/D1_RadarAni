@@ -75,9 +75,10 @@ class GenreNetworkGraph(ft.Stack):
             truncated = truncated[:-1] + "…"
         return [truncated]
 
-    def __init__(self, animes: list, title: str):
+    def __init__(self, animes: list, title: str, theme: dict = None):
         super().__init__(expand=True)
         self._title   = title
+        self._theme   = theme
         self._hovered_node = -1
         self._hovered_edge = -1
         self._tooltip      = Tooltip()
@@ -175,14 +176,24 @@ class GenreNetworkGraph(ft.Stack):
             return
         shapes = []
 
+        c_text    = self._theme["text_main"]  if self._theme else C_TEXT
+        c_text3   = self._theme["text_muted"] if self._theme else C_TEXT3
+        c_primary = self._theme["primary"]    if self._theme else C_SAKURA
+        c_hover   = self._theme["primary"]    if self._theme else C_HOVER
+        # Node colors: gunakan chart_colors tema jika ada, fallback ke NODE_COLORS bawaan
+        node_colors = (
+            self._theme.get("chart_colors", self.NODE_COLORS)
+            if self._theme else self.NODE_COLORS
+        )
+
         # ── Title ────────────────────────────────────────────────────────
         shapes.append(_cv_text_top_center(
-            self._w / 2, 6, self._title, 12, C_TEXT, bold=True))
+            self._w / 2, 6, self._title, 12, c_text, bold=True))
 
         # ── Legend hint ──────────────────────────────────────────────────
         hint = "Garis tebal = sering berpasangan  •  Lingkaran besar = genre populer"
         shapes.append(_cv_text_top_center(
-            self._w / 2, 22, hint, 8.5, C_TEXT3))
+            self._w / 2, 22, hint, 8.5, c_text3))
 
         # ── Edges ────────────────────────────────────────────────────────
         for ei, edge in enumerate(self._edges):
@@ -200,7 +211,7 @@ class GenreNetworkGraph(ft.Stack):
             else:
                 alpha = 0.30
 
-            color = C_HOVER if (is_hov_e or is_adj) else C_SAKURA
+            color = c_hover if (is_hov_e or is_adj) else c_primary
             shapes.append(cv.Path(
                 [cv.Path.MoveTo(ni["x"], ni["y"]),
                  cv.Path.LineTo(nj["x"], nj["y"])],
@@ -224,7 +235,7 @@ class GenreNetworkGraph(ft.Stack):
         for ni, node in enumerate(self._nodes):
             is_hov_n  = (ni == hov_node)
             is_adj_n  = (ni in adj_nodes)
-            color     = self.NODE_COLORS[ni % len(self.NODE_COLORS)]
+            color     = node_colors[ni % len(node_colors)]
 
             # Alpha: node hover=1.0, tetangga=1.0, tidak terkait=0.28
             if hov_node == -1 or is_hov_n or is_adj_n:
@@ -241,7 +252,7 @@ class GenreNetworkGraph(ft.Stack):
                     x=x, y=y, radius=r + 7,
                     paint=ft.Paint(
                         style=ft.PaintingStyle.FILL,
-                        color=_rgba(C_HOVER, 0.20),
+                        color=_rgba(c_hover, 0.20),
                     ),
                 ))
             # Outline tipis untuk node tetangga
@@ -251,7 +262,7 @@ class GenreNetworkGraph(ft.Stack):
                     paint=ft.Paint(
                         style=ft.PaintingStyle.STROKE,
                         stroke_width=1.5,
-                        color=_rgba(C_SAKURA, 0.50),
+                        color=_rgba(c_primary, 0.50),
                     ),
                 ))
 
@@ -334,25 +345,29 @@ class GenreNetworkGraph(ft.Stack):
             self._hovered_edge = hit_edge
             self._redraw(hit_node, hit_edge)
 
-        if hit_node >= 0:
-            node = self._nodes[hit_node]
-            # Hitung semua edge yang terhubung
-            conn = sum(1 for e in self._edges if hit_node in (e["i"], e["j"]))
-            self._tooltip.show_at(
-                mx, my, node["label"],
-                [("Jumlah Anime", str(node["count"])),
-                 ("Koneksi Genre", str(conn))],
-            )
-        elif hit_edge >= 0:
-            edge  = self._edges[hit_edge]
-            label = f"{self._nodes[edge['i']]['label']} × {self._nodes[edge['j']]['label']}"
-            self._tooltip.show_at(
-                mx, my, label,
-                [("Co-occurrence", str(edge["weight"])),
-                 ("Tebal garis",   f"{edge['stroke']:.1f}px")],
-            )
-        else:
-            self._tooltip.hide()
+            if hit_node >= 0:
+                node = self._nodes[hit_node]
+                # Hitung semua edge yang terhubung
+                conn = sum(1 for e in self._edges if hit_node in (e["i"], e["j"]))
+                self._tooltip.show_at(
+                    node["x"], node["y"], node["label"],
+                    [("Jumlah Anime", str(node["count"])),
+                     ("Koneksi Genre", str(conn))],
+                )
+            elif hit_edge >= 0:
+                edge  = self._edges[hit_edge]
+                label = f"{self._nodes[edge['i']]['label']} × {self._nodes[edge['j']]['label']}"
+                ni = self._nodes[edge['i']]
+                nj = self._nodes[edge['j']]
+                mx_edge = (ni["x"] + nj["x"]) / 2
+                my_edge = (ni["y"] + nj["y"]) / 2
+                self._tooltip.show_at(
+                    mx_edge, my_edge, label,
+                    [("Co-occurrence", str(edge["weight"])),
+                     ("Tebal garis",   f"{edge['stroke']:.1f}px")],
+                )
+            else:
+                self._tooltip.hide()
 
     @staticmethod
     def _pt_to_seg(px, py, ax, ay, bx, by) -> float:

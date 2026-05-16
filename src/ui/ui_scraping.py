@@ -1,16 +1,8 @@
 import flet as ft
 from scripts.scrapjudul import DynamicAnimeScraper
+from src.config.theme import ThemeManager
 
 
-C_SAKURA = "#C07090"
-C_SAKURA_LT = "#F9F0F5"
-C_TEXT = "#3D2535"
-C_TEXT2 = "#8B6A7A"
-C_TEXT3 = "#B0909A"
-C_BORDER = "#EDE0E8"
-C_WHITE = "#FFFFFF"
-C_BG = "#FCF8FA"
-C_BG2 = "#F5EEF2"
 
 
 class UIScraping(ft.Row):
@@ -25,10 +17,12 @@ class UIScraping(ft.Row):
         self.spacing = 0
         self._sidebar_open = False
 
+        self.current_theme = ThemeManager.get_theme(self.screen_manager.tema_aktif)
+
         from src.ui.ui_home import _sidebar
         self._sidebar_widget = _sidebar(
             screen_manager, auth_manager,
-            self._toggle_sidebar, halaman_aktif="scraping"
+            self._toggle_sidebar, self.current_theme, halaman_aktif="scraping"
         )
 
         self.scraper = DynamicAnimeScraper()
@@ -38,21 +32,21 @@ class UIScraping(ft.Row):
             label="Anime Title or MAL URL",
             hint_text="e.g. 'Naruto' or 'https://myanimelist.net/anime/20'",
             expand=True,
-            border_color=C_BORDER,
-            focused_border_color=C_SAKURA,
-            color=C_TEXT,
+            border_color=self.current_theme["border_color"],
+            focused_border_color=self.current_theme["primary"],
+            color=self.current_theme["text_main"],
         )
 
         self._btn_search = ft.ElevatedButton(
             "Search",
             icon=ft.Icons.SEARCH,
-            bgcolor=C_SAKURA,
-            color=C_WHITE,
+            bgcolor=self.current_theme["primary"],
+            color=self.current_theme["card"],
             on_click=self._on_search_click,
         )
 
-        self._loading_indicator = ft.ProgressRing(visible=False, color=C_SAKURA)
-        self._status_text = ft.Text("", color=C_TEXT2, size=14)
+        self._loading_indicator = ft.ProgressRing(visible=False, color=self.current_theme["primary"])
+        self._status_text = ft.Text("", color=self.current_theme["text_secondary"], size=14)
         self._results_container = ft.Column(
             spacing=10, scroll=ft.ScrollMode.AUTO, expand=True
         )
@@ -60,11 +54,8 @@ class UIScraping(ft.Row):
         topbar = ft.Container(
             padding=ft.padding.symmetric(horizontal=16),
             height=55,
-            gradient=ft.LinearGradient(
-                begin=ft.Alignment(0, -1),
-                end=ft.Alignment(0, 1),
-                colors=["#A1C4FD", "#E0F2FE"],
-            ),
+            blur=ft.Blur(10, 10, ft.BlurTileMode.MIRROR),
+            bgcolor=ft.Colors.with_opacity(0.8, self.current_theme["bg"]),
             shadow=ft.BoxShadow(
                 blur_radius=15,
                 color="#15000000",
@@ -74,7 +65,7 @@ class UIScraping(ft.Row):
                 controls=[
                     ft.IconButton(
                         ft.Icons.MENU,
-                        icon_color=C_SAKURA,
+                        icon_color=self.current_theme["primary"],
                         on_click=self._toggle_sidebar,
                         tooltip="Menu",
                     ),
@@ -83,10 +74,10 @@ class UIScraping(ft.Row):
                             ft.Text(
                                 "RadarAni",
                                 size=13,
-                                color=C_SAKURA,
+                                color=self.current_theme["primary"],
                                 weight=ft.FontWeight.BOLD,
                             ),
-                            ft.Text("レーダアニ", size=8, color=C_TEXT3),
+                            ft.Text("レーダアニ", size=8, color=self.current_theme["text_muted"]),
                         ],
                         spacing=0,
                         tight=True,
@@ -100,18 +91,19 @@ class UIScraping(ft.Row):
         main_content = ft.Container(
             padding=30,
             expand=True,
+            bgcolor=self.current_theme["bg"],
             content=ft.Column(
                 controls=[
                     ft.Text(
                         "Live Anime Scraper",
                         size=24,
                         weight=ft.FontWeight.BOLD,
-                        color=C_TEXT,
+                        color=self.current_theme["text_main"],
                     ),
                     ft.Text(
                         "Add anime directly from MyAnimeList by title or URL.",
                         size=14,
-                        color=C_TEXT2,
+                        color=self.current_theme["text_secondary"],
                     ),
                     ft.Container(height=10),
                     ft.Row(
@@ -122,12 +114,12 @@ class UIScraping(ft.Row):
                         [self._loading_indicator, self._status_text],
                         alignment=ft.MainAxisAlignment.START,
                     ),
-                    ft.Divider(color=C_BORDER),
+                    ft.Divider(color=self.current_theme["border_color"]),
                     ft.Text(
                         "Results:",
                         size=16,
                         weight=ft.FontWeight.BOLD,
-                        color=C_TEXT,
+                        color=self.current_theme["text_main"],
                     ),
                     self._results_container,
                 ],
@@ -141,7 +133,7 @@ class UIScraping(ft.Row):
             expand=True,
         )
 
-        self.controls = [self._sidebar_widget, self._main_col]
+        self.controls = [self._sidebar_widget, ft.Container(content=self._main_col, bgcolor=self.current_theme["bg"], expand=True)]
 
     # ------------------------------------------------------------------ #
     #  Helpers                                                             #
@@ -207,7 +199,7 @@ class UIScraping(ft.Row):
             self._show_input_error(str(ex))
             return
 
-        self._status_text.color = C_TEXT2
+        self._status_text.color = self.current_theme["text_secondary"]
         self._status_text.value = "Searching…"
         self._results_container.controls.clear()
         self._set_searching(True)
@@ -225,7 +217,7 @@ class UIScraping(ft.Row):
     def _do_search(self, query: str):
         new_rows: list[ft.Control] = []
         status_msg = ""
-        status_color = C_TEXT2
+        status_color = self.current_theme["text_secondary"]
         tip_msg = ""
 
         try:
@@ -283,7 +275,7 @@ class UIScraping(ft.Row):
 
         if tip_msg:
             new_rows.append(
-                ft.Text(tip_msg, color=C_TEXT2, size=12, italic=True)
+                ft.Text(tip_msg, color=self.current_theme["text_secondary"], size=12, italic=True)
             )
 
         self._results_container.controls.clear()
@@ -301,7 +293,7 @@ class UIScraping(ft.Row):
     def _build_result_row(self, judul, url, thumb, label_text, is_duplicate, data):
         teks_judul = ft.Text(
             value=label_text,
-            color=ft.Colors.RED_400 if is_duplicate else C_TEXT,
+            color=self.current_theme["error"] if is_duplicate else self.current_theme["text_main"],
             size=14,
             expand=True,
         )
@@ -310,8 +302,8 @@ class UIScraping(ft.Row):
         btn_add = self._make_button(
             text="Added" if is_duplicate else "Add Anime",
             icon=ft.Icons.CHECK if is_duplicate else ft.Icons.ADD,
-            bgcolor=C_BG2 if is_duplicate else C_SAKURA,
-            color=C_TEXT3 if is_duplicate else C_WHITE,
+            bgcolor=self.current_theme["bg_secondary"] if is_duplicate else self.current_theme["primary"],
+            color=self.current_theme["text_muted"] if is_duplicate else self.current_theme["card"],
             disabled=is_duplicate,
             on_click=self._on_add_click,
             data=data,
@@ -321,7 +313,7 @@ class UIScraping(ft.Row):
             controls=[
                 ft.Image(src=thumb, width=40, height=55, fit=ft.BoxFit.COVER)
                 if thumb
-                else ft.Container(width=40, height=55, bgcolor=C_BG2),
+                else ft.Container(width=40, height=55, bgcolor=self.current_theme["bg_secondary"]),
                 teks_judul,
                 btn_add,
             ],
@@ -350,9 +342,9 @@ class UIScraping(ft.Row):
 
         btn.on_click = None
         btn.opacity = 0.5
-        btn.bgcolor = C_BG2
+        btn.bgcolor = self.current_theme["bg_secondary"]
         # ✅ Ganti seluruh content sekaligus — bukan mutasi child
-        btn.content = self._make_btn_content(ft.Icons.HOURGLASS_EMPTY, "Adding…", C_TEXT3)
+        btn.content = self._make_btn_content(ft.Icons.HOURGLASS_EMPTY, "Adding…", self.current_theme["text_muted"])
         btn.update()
 
         self._status_text.value = f"Menambahkan '{judul}'… Mohon tunggu."
@@ -366,20 +358,20 @@ class UIScraping(ft.Row):
         try:
             self.scraper.eksekusi_tambah_anime(url, thumb)
 
-            btn.bgcolor = C_BG2
+            btn.bgcolor = self.current_theme["bg_secondary"]
             btn.opacity = 0.5
             btn.on_click = None
-            btn.content = self._make_btn_content(ft.Icons.CHECK, "Added", C_TEXT3)
+            btn.content = self._make_btn_content(ft.Icons.CHECK, "Added", self.current_theme["text_muted"])
             self._status_text.value = f"'{judul}' berhasil ditambahkan!"
-            self._status_text.color = C_TEXT2
+            self._status_text.color = self.current_theme["text_secondary"]
 
         except Exception as ex:
-            btn.bgcolor = C_SAKURA
+            btn.bgcolor = self.current_theme["primary"]
             btn.opacity = 1.0
             btn.on_click = self._on_add_click
-            btn.content = self._make_btn_content(ft.Icons.ADD, "Add Anime", C_WHITE)
+            btn.content = self._make_btn_content(ft.Icons.ADD, "Add Anime", self.current_theme["card"])
             self._status_text.value = f"Gagal menambahkan '{judul}': {ex}"
-            self._status_text.color = ft.Colors.RED_400
+            self._status_text.color = self.current_theme["error"]
 
         self._loading_indicator.visible = False
         btn.update()
