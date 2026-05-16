@@ -300,7 +300,9 @@ class UIProfile(ft.Container):
 
         ada_statistik = bool(statistik)
         ada_genre     = bool(genre_proporsi)
-        total_rated   = len(anime_list)
+        # Hitung dari ratings.json langsung — ground truth, tidak bisa off by 1
+        _all_ratings = self.data_manager._read_json(self.data_manager.ratings_file) or {}
+        total_rated   = len(_all_ratings.get(user.get("user_id", ""), {}))
         avg_overall   = (round(sum(statistik.values()) / len(statistik), 1)
                          if statistik else 0.0)
         total_genres  = len(genre_proporsi)
@@ -526,6 +528,8 @@ class UIProfile(ft.Container):
                     ),
                     ft.Container(
                         content=ft.Column([
+                            ft.Text("(dari semua ratingmu)", size=10,
+                                    color=self._TEXT_MUTED),
                             ft.Image(src=f"data:image/png;base64,{bar_b64}",
                                      fit="contain", expand=True)
                             if bar_b64 else self._empty_state("Belum ada data."),
