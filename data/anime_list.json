@@ -1,8 +1,10 @@
 [
     {
         "anime_id": "A001",
+        "mal_id": 16498,
         "title": "Shingeki no Kyojin",
         "en_title": "Attack on Titan",
+        "global_score": 8.43,
         "genre": [
             "Action",
             "Award Winning",
@@ -18,13 +20,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG001.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG001.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG001.jpg",
+        "rating_count": 63,
+        "global_score_dimensions": [
+            8.41,
+            8.7,
+            8.3,
+            8.35,
+            8.37
+        ]
     },
     {
         "anime_id": "A002",
+        "mal_id": 1535,
         "title": "Death Note",
         "en_title": null,
-        "global_score": 8.77,
+        "global_score": 8.76,
         "genre": [
             "Supernatural",
             "Suspense",
@@ -37,20 +48,21 @@
         "episodes": "37",
         "cover_path": "assets/covers/CIMG002.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG002.jpg",
-        "rating_count": 62,
+        "rating_count": 63,
         "global_score_dimensions": [
-            8.69,
-            8.79,
+            8.68,
+            8.75,
             8.7,
             8.84,
-            8.85
+            8.84
         ]
     },
     {
         "anime_id": "A003",
+        "mal_id": 5114,
         "title": "Fullmetal Alchemist: Brotherhood",
         "en_title": null,
-        "global_score": 8.83,
+        "global_score": 8.84,
         "genre": [
             "Action",
             "Adventure",
@@ -65,20 +77,21 @@
         "episodes": "64",
         "cover_path": "assets/covers/CIMG003.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG003.jpg",
-        "rating_count": 60,
+        "rating_count": 61,
         "global_score_dimensions": [
-            8.9,
-            8.72,
-            8.61,
-            9.07,
-            8.83
+            8.92,
+            8.74,
+            8.62,
+            9.05,
+            8.85
         ]
     },
     {
         "anime_id": "A004",
+        "mal_id": 30276,
         "title": "One Punch Man",
         "en_title": "One-Punch Man",
-        "global_score": 8.05,
+        "global_score": 8.03,
         "genre": [
             "Action",
             "Comedy",
@@ -93,19 +106,21 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG004.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG004.jpg",
-        "rating_count": 61,
+        "rating_count": 62,
         "global_score_dimensions": [
             7.74,
-            8.28,
-            7.91,
-            8.06,
-            8.25
+            8.24,
+            7.9,
+            8.03,
+            8.23
         ]
     },
     {
         "anime_id": "A005",
+        "mal_id": 38000,
         "title": "Kimetsu no Yaiba",
         "en_title": "Demon Slayer: Kimetsu no Yaiba",
+        "global_score": 8.26,
         "genre": [
             "Action",
             "Award Winning",
@@ -118,14 +133,22 @@
         "type": "TV",
         "episodes": "26",
         "cover_path": "assets/covers/CIMG005.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG005.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG005.jpg",
+        "rating_count": 45,
+        "global_score_dimensions": [
+            8.09,
+            8.27,
+            8.38,
+            7.98,
+            8.58
+        ]
     },
     {
         "anime_id": "A006",
         "mal_id": 31964,
         "title": "Boku no Hero Academia",
         "en_title": "My Hero Academia",
-        "global_score": 7.68,
+        "global_score": 7.7,
         "genre": [
             "Action",
             "School",
@@ -138,13 +161,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG006.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG006.jpg",
-        "rating_count": 54,
+        "rating_count": 55,
         "global_score_dimensions": [
-            7.43,
-            8.3,
-            7.63,
-            7.05,
-            8.03
+            7.44,
+            8.31,
+            7.64,
+            7.07,
+            8.07
         ]
     },
     {
@@ -152,6 +175,7 @@
         "mal_id": 11757,
         "title": "Sword Art Online",
         "en_title": null,
+        "global_score": 7.54,
         "genre": [
             "Action",
             "Adventure",
@@ -163,31 +187,23 @@
         "studio": "A-1 Pictures",
         "type": "TV",
         "episodes": "25",
-        "cover_path": "assets/covers/CIMG006.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG006.jpg"
-    },
-    {
-        "anime_id": "A007",
-        "title": "Boku no Hero Academia",
-        "en_title": "My Hero Academia",
-        "genre": [
-            "Action",
-            "School",
-            "Super Power",
-            "Shounen"
-        ],
-        "synopsis": "The appearance of \"quirks,\" newly discovered super powers, has been steadily increasing over the years, with 80 percent of humanity possessing various abilities from manipulation of elements to shapeshifting. This leaves the remainder of the world completely powerless, and Izuku Midoriya is one such individual.Since he was a child, the ambitious middle schooler has wanted nothing more than to be a hero. Izuku's unfair fate leaves him admiring heroes and taking notes on them whenever he can. But it seems that his persistence has borne some fruit: Izuku meets the number one hero and his personal idol, All Might. All Might's quirk is a unique ability that can be inherited, and he has chosen Izuku to be his successor!Enduring many months of grueling training, Izuku enrolls in UA High, a prestigious high school famous for its excellent hero training program, and this year's freshmen look especially promising. With his bizarre but talented classmates and the looming threat of a villainous organization, Izuku will soon learn what it really means to be a hero.[Written by MAL Rewrite]",
-        "studio": "Bones",
-        "type": "TV",
-        "episodes": "13",
         "cover_path": "assets/covers/CIMG007.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG007.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG007.jpg",
+        "rating_count": 65,
+        "global_score_dimensions": [
+            7.38,
+            7.78,
+            7.46,
+            7.35,
+            7.74
+        ]
     },
     {
         "anime_id": "A008",
+        "mal_id": 11061,
         "title": "Hunter x Hunter (2011)",
         "en_title": "Hunter x Hunter",
-        "global_score": 8.51,
+        "global_score": 8.48,
         "genre": [
             "Action",
             "Adventure",
@@ -200,20 +216,21 @@
         "episodes": "148",
         "cover_path": "assets/covers/CIMG008.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG008.jpg",
-        "rating_count": 41,
+        "rating_count": 42,
         "global_score_dimensions": [
+            8.33,
+            8.69,
+            8.19,
             8.36,
-            8.71,
-            8.22,
-            8.42,
-            8.85
+            8.83
         ]
     },
     {
         "anime_id": "A009",
+        "mal_id": 20,
         "title": "Naruto",
         "en_title": null,
-        "global_score": 7.47,
+        "global_score": 7.48,
         "genre": [
             "Action",
             "Adventure",
@@ -227,19 +244,21 @@
         "episodes": "220",
         "cover_path": "assets/covers/CIMG009.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG009.jpg",
-        "rating_count": 51,
+        "rating_count": 52,
         "global_score_dimensions": [
-            7.32,
-            7.68,
-            7.3,
-            7.19,
+            7.33,
+            7.71,
+            7.31,
+            7.17,
             7.87
         ]
     },
     {
         "anime_id": "A010",
+        "mal_id": 22319,
         "title": "Tokyo Ghoul",
         "en_title": null,
+        "global_score": 7.62,
         "genre": [
             "Action",
             "Fantasy",
@@ -255,12 +274,22 @@
         "type": "TV",
         "episodes": "12",
         "cover_path": "assets/covers/CIMG010.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG010.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG010.jpg",
+        "rating_count": 45,
+        "global_score_dimensions": [
+            7.69,
+            7.6,
+            7.4,
+            7.71,
+            7.69
+        ]
     },
     {
         "anime_id": "A011",
+        "mal_id": 32281,
         "title": "Kimi no Na wa.",
         "en_title": "Your Name.",
+        "global_score": 8.46,
         "genre": [
             "Award Winning",
             "Drama"
@@ -270,12 +299,50 @@
         "type": "Movie",
         "episodes": "1",
         "cover_path": "assets/covers/CIMG011.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG011.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG011.jpg",
+        "rating_count": 55,
+        "global_score_dimensions": [
+            8.6,
+            8.58,
+            8.42,
+            8.36,
+            8.35
+        ]
     },
     {
         "anime_id": "A012",
+        "mal_id": 40748,
+        "title": "Jujutsu Kaisen",
+        "en_title": null,
+        "global_score": 8.36,
+        "genre": [
+            "Action",
+            "Award Winning",
+            "Supernatural",
+            "School",
+            "Shounen"
+        ],
+        "synopsis": "Idly indulging in baseless paranormal activities with the Occult Club, high schooler Yuuji Itadori spends his days at either the clubroom or the hospital, where he visits his bedridden grandfather. However, this leisurely lifestyle soon takes a turn for the strange when he unknowingly encounters a cursed item. Triggering a chain of supernatural occurrences, Yuuji finds himself suddenly thrust into the world of Curses—dreadful beings formed from human malice and negativity—after swallowing the said item, revealed to be a finger belonging to the demon Sukuna Ryoumen, the King of Curses.Yuuji experiences first-hand the threat these Curses pose to society as he discovers his own newfound powers. Introduced to the Tokyo Prefectural Jujutsu High School, he begins to walk down a path from which he cannot return—the path of a Jujutsu sorcerer.[Written by MAL Rewrite]",
+        "studio": "MAPPA",
+        "type": "TV",
+        "episodes": "24",
+        "cover_path": "assets/covers/CIMG012.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG012.jpg",
+        "rating_count": 41,
+        "global_score_dimensions": [
+            7.76,
+            8.8,
+            8.32,
+            8.07,
+            8.83
+        ]
+    },
+    {
+        "anime_id": "A013",
+        "mal_id": 25777,
         "title": "Shingeki no Kyojin Season 2",
         "en_title": "Attack on Titan Season 2",
+        "global_score": 8.31,
         "genre": [
             "Action",
             "Drama",
@@ -289,31 +356,23 @@
         "studio": "Wit Studio",
         "type": "TV",
         "episodes": "12",
-        "cover_path": "assets/covers/CIMG012.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG012.jpg"
-    },
-    {
-        "anime_id": "A013",
-        "title": "Jujutsu Kaisen",
-        "en_title": null,
-        "genre": [
-            "Action",
-            "Award Winning",
-            "Supernatural",
-            "School",
-            "Shounen"
-        ],
-        "synopsis": "Idly indulging in baseless paranormal activities with the Occult Club, high schooler Yuuji Itadori spends his days at either the clubroom or the hospital, where he visits his bedridden grandfather. However, this leisurely lifestyle soon takes a turn for the strange when he unknowingly encounters a cursed item. Triggering a chain of supernatural occurrences, Yuuji finds himself suddenly thrust into the world of Curses—dreadful beings formed from human malice and negativity—after swallowing the said item, revealed to be a finger belonging to the demon Sukuna Ryoumen, the King of Curses.Yuuji experiences first-hand the threat these Curses pose to society as he discovers his own newfound powers. Introduced to the Tokyo Prefectural Jujutsu High School, he begins to walk down a path from which he cannot return—the path of a Jujutsu sorcerer.[Written by MAL Rewrite]",
-        "studio": "MAPPA",
-        "type": "TV",
-        "episodes": "24",
         "cover_path": "assets/covers/CIMG013.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG013.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG013.jpg",
+        "rating_count": 52,
+        "global_score_dimensions": [
+            8.08,
+            8.56,
+            8.04,
+            8.46,
+            8.42
+        ]
     },
     {
         "anime_id": "A014",
+        "mal_id": 9253,
         "title": "Steins;Gate",
         "en_title": null,
+        "global_score": 8.84,
         "genre": [
             "Drama",
             "Sci-Fi",
@@ -326,13 +385,22 @@
         "type": "TV",
         "episodes": "24",
         "cover_path": "assets/covers/CIMG014.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG014.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG014.jpg",
+        "rating_count": 66,
+        "global_score_dimensions": [
+            8.73,
+            8.92,
+            8.55,
+            9.09,
+            8.91
+        ]
     },
     {
         "anime_id": "A015",
+        "mal_id": 1735,
         "title": "Naruto: Shippuuden",
         "en_title": "Naruto Shippuden",
-        "global_score": 8.03,
+        "global_score": 8.02,
         "genre": [
             "Action",
             "Adventure",
@@ -346,19 +414,21 @@
         "episodes": "500",
         "cover_path": "assets/covers/CIMG015.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG015.jpg",
-        "rating_count": 26,
+        "rating_count": 27,
         "global_score_dimensions": [
-            7.62,
-            8.54,
-            7.77,
+            7.56,
+            8.56,
+            7.74,
             7.96,
-            8.27
+            8.3
         ]
     },
     {
         "anime_id": "A016",
+        "mal_id": 33486,
         "title": "Boku no Hero Academia 2nd Season",
         "en_title": "My Hero Academia Season 2",
+        "global_score": 8.35,
         "genre": [
             "Action",
             "School",
@@ -370,12 +440,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG016.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG016.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG016.jpg",
+        "rating_count": 46,
+        "global_score_dimensions": [
+            7.98,
+            8.59,
+            8.28,
+            8.46,
+            8.46
+        ]
     },
     {
         "anime_id": "A017",
+        "mal_id": 21,
         "title": "One Piece",
         "en_title": null,
+        "global_score": 7.43,
         "genre": [
             "Action",
             "Adventure",
@@ -387,12 +467,22 @@
         "type": "TV",
         "episodes": "Unknown",
         "cover_path": "assets/covers/CIMG017.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG017.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG017.jpg",
+        "rating_count": 6,
+        "global_score_dimensions": [
+            7.5,
+            7.0,
+            8.0,
+            8.33,
+            6.33
+        ]
     },
     {
         "anime_id": "A018",
+        "mal_id": 35760,
         "title": "Shingeki no Kyojin Season 3",
         "en_title": "Attack on Titan Season 3",
+        "global_score": 8.61,
         "genre": [
             "Action",
             "Drama",
@@ -407,12 +497,22 @@
         "type": "TV",
         "episodes": "12",
         "cover_path": "assets/covers/CIMG018.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG018.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG018.jpg",
+        "rating_count": 35,
+        "global_score_dimensions": [
+            8.57,
+            8.43,
+            8.4,
+            8.77,
+            8.86
+        ]
     },
     {
         "anime_id": "A019",
+        "mal_id": 28851,
         "title": "Koe no Katachi",
         "en_title": "A Silent Voice",
+        "global_score": 8.68,
         "genre": [
             "Award Winning",
             "Drama",
@@ -423,12 +523,22 @@
         "type": "Movie",
         "episodes": "1",
         "cover_path": "assets/covers/CIMG019.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG019.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG019.jpg",
+        "rating_count": 50,
+        "global_score_dimensions": [
+            9.0,
+            8.58,
+            8.38,
+            8.88,
+            8.58
+        ]
     },
     {
         "anime_id": "A020",
+        "mal_id": 38524,
         "title": "Shingeki no Kyojin Season 3 Part 2",
         "en_title": "Attack on Titan Season 3 Part 2",
+        "global_score": 9.03,
         "genre": [
             "Action",
             "Drama",
@@ -443,12 +553,22 @@
         "type": "TV",
         "episodes": "10",
         "cover_path": "assets/covers/CIMG020.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG020.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG020.jpg",
+        "rating_count": 34,
+        "global_score_dimensions": [
+            8.91,
+            9.38,
+            8.68,
+            8.97,
+            9.21
+        ]
     },
     {
         "anime_id": "A021",
+        "mal_id": 19815,
         "title": "No Game No Life",
         "en_title": "No Game, No Life",
+        "global_score": 7.97,
         "genre": [
             "Comedy",
             "Fantasy",
@@ -461,13 +581,22 @@
         "type": "TV",
         "episodes": "12",
         "cover_path": "assets/covers/CIMG021.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG021.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG021.jpg",
+        "rating_count": 59,
+        "global_score_dimensions": [
+            7.81,
+            8.19,
+            7.9,
+            7.75,
+            8.22
+        ]
     },
     {
         "anime_id": "A022",
+        "mal_id": 1575,
         "title": "Code Geass: Hangyaku no Lelouch",
         "en_title": "Code Geass: Lelouch of the Rebellion",
-        "global_score": 8.57,
+        "global_score": 8.61,
         "genre": [
             "Award Winning",
             "Drama",
@@ -485,17 +614,19 @@
         "thumbnail_path": "assets/thumbnails/TIMG022.jpg",
         "rating_count": 67,
         "global_score_dimensions": [
-            8.69,
-            8.48,
-            8.28,
-            8.75,
-            8.63
+            8.72,
+            8.55,
+            8.31,
+            8.78,
+            8.69
         ]
     },
     {
         "anime_id": "A023",
+        "mal_id": 31240,
         "title": "Re:Zero kara Hajimeru Isekai Seikatsu",
         "en_title": "Re:ZERO -Starting Life in Another World-",
+        "global_score": 8.07,
         "genre": [
             "Drama",
             "Fantasy",
@@ -509,13 +640,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG023.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG023.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG023.jpg",
+        "rating_count": 55,
+        "global_score_dimensions": [
+            8.22,
+            8.13,
+            7.87,
+            8.11,
+            8.04
+        ]
     },
     {
         "anime_id": "A024",
+        "mal_id": 23273,
         "title": "Shigatsu wa Kimi no Uso",
         "en_title": "Your Lie in April",
-        "global_score": 8.41,
+        "global_score": 8.44,
         "genre": [
             "Drama",
             "Romance",
@@ -531,19 +671,21 @@
         "episodes": "22",
         "cover_path": "assets/covers/CIMG024.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG024.jpg",
-        "rating_count": 51,
+        "rating_count": 52,
         "global_score_dimensions": [
-            8.11,
-            8.11,
-            9.17,
-            8.47,
-            8.15
+            8.15,
+            8.15,
+            9.19,
+            8.5,
+            8.19
         ]
     },
     {
         "anime_id": "A025",
+        "mal_id": 36456,
         "title": "Boku no Hero Academia 3rd Season",
         "en_title": "My Hero Academia Season 3",
+        "global_score": 8.47,
         "genre": [
             "Action",
             "School",
@@ -555,12 +697,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG025.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG025.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG025.jpg",
+        "rating_count": 35,
+        "global_score_dimensions": [
+            8.14,
+            8.66,
+            8.37,
+            8.4,
+            8.77
+        ]
     },
     {
         "anime_id": "A026",
+        "mal_id": 4224,
         "title": "Toradora!",
         "en_title": null,
+        "global_score": 8.26,
         "genre": [
             "Drama",
             "Romance",
@@ -572,12 +724,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG026.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG026.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG026.jpg",
+        "rating_count": 66,
+        "global_score_dimensions": [
+            8.38,
+            8.2,
+            8.32,
+            8.33,
+            8.09
+        ]
     },
     {
         "anime_id": "A027",
+        "mal_id": 20507,
         "title": "Noragami",
         "en_title": null,
+        "global_score": 7.91,
         "genre": [
             "Action",
             "Supernatural",
@@ -589,12 +751,22 @@
         "type": "TV",
         "episodes": "12",
         "cover_path": "assets/covers/CIMG027.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG027.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG027.jpg",
+        "rating_count": 53,
+        "global_score_dimensions": [
+            7.77,
+            8.02,
+            8.06,
+            7.79,
+            7.91
+        ]
     },
     {
         "anime_id": "A028",
+        "mal_id": 32182,
         "title": "Mob Psycho 100",
         "en_title": null,
+        "global_score": 7.83,
         "genre": [
             "Action",
             "Comedy",
@@ -605,12 +777,22 @@
         "type": "TV",
         "episodes": "12",
         "cover_path": "assets/covers/CIMG028.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG028.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG028.jpg",
+        "rating_count": 47,
+        "global_score_dimensions": [
+            7.55,
+            7.94,
+            7.74,
+            7.98,
+            7.91
+        ]
     },
     {
         "anime_id": "A029",
+        "mal_id": 31043,
         "title": "Boku dake ga Inai Machi",
         "en_title": "Erased",
+        "global_score": 8.1,
         "genre": [
             "Mystery",
             "Suspense",
@@ -623,12 +805,22 @@
         "type": "TV",
         "episodes": "12",
         "cover_path": "assets/covers/CIMG029.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG029.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG029.jpg",
+        "rating_count": 61,
+        "global_score_dimensions": [
+            8.11,
+            7.9,
+            8.02,
+            8.2,
+            8.25
+        ]
     },
     {
         "anime_id": "A030",
+        "mal_id": 40028,
         "title": "Shingeki no Kyojin: The Final Season",
         "en_title": "Attack on Titan: Final Season",
+        "global_score": 8.76,
         "genre": [
             "Action",
             "Drama",
@@ -643,12 +835,22 @@
         "type": "TV",
         "episodes": "16",
         "cover_path": "assets/covers/CIMG030.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG030.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG030.jpg",
+        "rating_count": 27,
+        "global_score_dimensions": [
+            9.0,
+            8.59,
+            8.67,
+            9.0,
+            8.52
+        ]
     },
     {
         "anime_id": "A031",
+        "mal_id": 22199,
         "title": "Akame ga Kill!",
         "en_title": null,
+        "global_score": 7.16,
         "genre": [
             "Action",
             "Fantasy",
@@ -660,12 +862,22 @@
         "type": "TV",
         "episodes": "24",
         "cover_path": "assets/covers/CIMG031.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG031.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG031.jpg",
+        "rating_count": 42,
+        "global_score_dimensions": [
+            6.64,
+            7.83,
+            7.12,
+            6.86,
+            7.36
+        ]
     },
     {
         "anime_id": "A032",
+        "mal_id": 24833,
         "title": "Ansatsu Kyoushitsu",
         "en_title": "Assassination Classroom",
+        "global_score": 7.78,
         "genre": [
             "Action",
             "Comedy",
@@ -677,12 +889,22 @@
         "type": "TV",
         "episodes": "22",
         "cover_path": "assets/covers/CIMG032.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG032.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG032.jpg",
+        "rating_count": 38,
+        "global_score_dimensions": [
+            7.68,
+            8.18,
+            7.5,
+            7.5,
+            8.05
+        ]
     },
     {
         "anime_id": "A033",
+        "mal_id": 23755,
         "title": "Nanatsu no Taizai",
         "en_title": "The Seven Deadly Sins",
+        "global_score": 7.93,
         "genre": [
             "Action",
             "Adventure",
@@ -695,36 +917,21 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG033.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG033.jpg",
-        "rating_count": 39,
+        "rating_count": 40,
         "global_score_dimensions": [
-            7.9,
-            7.87,
-            7.82,
             7.88,
-            8.24
+            7.9,
+            7.75,
+            7.88,
+            8.28
         ]
     },
     {
         "anime_id": "A034",
-        "title": "Angel Beats!",
-        "en_title": null,
-        "genre": [
-            "Drama",
-            "Fantasy",
-            "School"
-        ],
-        "synopsis": "Death is one of many mysteries that has left humanity in the dark since the dawn of time. However, the burning question of what happens to the soul after one dies is soon answered to 17-year-old Yuzuru Otonashi. Waking up with no previous memories in a dimension between life and death, he discovers the unsettling truth of the afterlife.Taking the form of a high school, this bizarre dimension is designated to shelter those who died unwanted deaths. Feeling wronged by God during their earthly lives, the school's residents have decided to form the Afterlife Battlefront—a rebellious faction determined to oppose their god-like student council president, Kanade \"Angel\" Tachibana. The group's leader, Yuri Nakamura, recruits Otonashi in their fight against Angel in order to take control of their own lives. However, questioning the morality behind their actions, Otonashi takes a step behind the enemy lines to understand the opposing side of their common fate.[Written by MAL Rewrite]",
-        "studio": "P.A. Works",
-        "type": "TV",
-        "episodes": "13",
-        "cover_path": "assets/covers/CIMG034.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG034.jpg"
-    },
-    {
-        "anime_id": "A035",
+        "mal_id": 269,
         "title": "Bleach",
         "en_title": null,
-        "global_score": 7.47,
+        "global_score": 7.48,
         "genre": [
             "Action",
             "Adventure",
@@ -737,11 +944,11 @@
         "episodes": "366",
         "cover_path": "assets/covers/CIMG034.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG034.jpg",
-        "rating_count": 43,
+        "rating_count": 44,
         "global_score_dimensions": [
-            7.58,
-            7.61,
-            7.25,
+            7.57,
+            7.64,
+            7.27,
             7.07,
             7.84
         ]
@@ -751,7 +958,7 @@
         "mal_id": 6547,
         "title": "Angel Beats!",
         "en_title": null,
-        "global_score": 7.98,
+        "global_score": 7.99,
         "genre": [
             "Drama",
             "Fantasy",
@@ -763,19 +970,21 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG035.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG035.jpg",
-        "rating_count": 69,
+        "rating_count": 70,
         "global_score_dimensions": [
-            7.86,
+            7.89,
             8.0,
             7.99,
-            8.06,
-            8.03
+            8.04,
+            8.04
         ]
     },
     {
         "anime_id": "A036",
+        "mal_id": 20583,
         "title": "Haikyuu!!",
         "en_title": "Haikyu!!",
+        "global_score": 8.16,
         "genre": [
             "Sports",
             "School",
@@ -787,12 +996,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG036.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG036.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG036.jpg",
+        "rating_count": 37,
+        "global_score_dimensions": [
+            8.16,
+            8.22,
+            7.95,
+            8.38,
+            8.08
+        ]
     },
     {
         "anime_id": "A037",
+        "mal_id": 37779,
         "title": "Yakusoku no Neverland",
         "en_title": "The Promised Neverland",
+        "global_score": 8.29,
         "genre": [
             "Mystery",
             "Suspense",
@@ -805,12 +1024,22 @@
         "type": "TV",
         "episodes": "12",
         "cover_path": "assets/covers/CIMG037.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG037.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG037.jpg",
+        "rating_count": 35,
+        "global_score_dimensions": [
+            8.8,
+            8.11,
+            7.89,
+            8.4,
+            8.23
+        ]
     },
     {
         "anime_id": "A038",
+        "mal_id": 30831,
         "title": "Kono Subarashii Sekai ni Shukufuku wo!",
         "en_title": "KonoSuba: God's Blessing on This Wonderful World!",
+        "global_score": 7.62,
         "genre": [
             "Adventure",
             "Comedy",
@@ -823,12 +1052,22 @@
         "type": "TV",
         "episodes": "10",
         "cover_path": "assets/covers/CIMG038.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG038.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG038.jpg",
+        "rating_count": 52,
+        "global_score_dimensions": [
+            7.33,
+            7.5,
+            7.6,
+            7.58,
+            8.08
+        ]
     },
     {
         "anime_id": "A039",
+        "mal_id": 10620,
         "title": "Mirai Nikki (TV)",
         "en_title": "The Future Diary",
+        "global_score": 7.65,
         "genre": [
             "Action",
             "Supernatural",
@@ -844,12 +1083,22 @@
         "type": "TV",
         "episodes": "26",
         "cover_path": "assets/covers/CIMG039.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG039.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG039.jpg",
+        "rating_count": 53,
+        "global_score_dimensions": [
+            7.68,
+            7.87,
+            7.55,
+            7.64,
+            7.53
+        ]
     },
     {
         "anime_id": "A040",
+        "mal_id": 21881,
         "title": "Sword Art Online II",
         "en_title": null,
+        "global_score": 7.37,
         "genre": [
             "Action",
             "Adventure",
@@ -862,12 +1111,22 @@
         "type": "TV",
         "episodes": "24",
         "cover_path": "assets/covers/CIMG040.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG040.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG040.jpg",
+        "rating_count": 53,
+        "global_score_dimensions": [
+            7.23,
+            7.58,
+            7.23,
+            7.23,
+            7.58
+        ]
     },
     {
         "anime_id": "A041",
+        "mal_id": 9919,
         "title": "Ao no Exorcist",
         "en_title": "Blue Exorcist",
+        "global_score": 7.56,
         "genre": [
             "Action",
             "Supernatural",
@@ -880,13 +1139,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG041.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG041.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG041.jpg",
+        "rating_count": 48,
+        "global_score_dimensions": [
+            7.4,
+            8.04,
+            7.42,
+            7.08,
+            7.88
+        ]
     },
     {
         "anime_id": "A042",
+        "mal_id": 1,
         "title": "Cowboy Bebop",
         "en_title": null,
-        "global_score": 8.39,
+        "global_score": 8.41,
         "genre": [
             "Action",
             "Award Winning",
@@ -900,19 +1168,21 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG042.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG042.jpg",
-        "rating_count": 49,
+        "rating_count": 50,
         "global_score_dimensions": [
-            8.18,
-            8.76,
-            8.37,
             8.16,
-            8.51
+            8.78,
+            8.4,
+            8.2,
+            8.52
         ]
     },
     {
         "anime_id": "A043",
+        "mal_id": 22535,
         "title": "Kiseijuu: Sei no Kakuritsu",
         "en_title": "Parasyte: The Maxim",
+        "global_score": 8.08,
         "genre": [
             "Action",
             "Horror",
@@ -927,12 +1197,22 @@
         "type": "TV",
         "episodes": "24",
         "cover_path": "assets/covers/CIMG043.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG043.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG043.jpg",
+        "rating_count": 44,
+        "global_score_dimensions": [
+            8.43,
+            8.2,
+            7.82,
+            8.05,
+            7.91
+        ]
     },
     {
         "anime_id": "A044",
+        "mal_id": 199,
         "title": "Sen to Chihiro no Kamikakushi",
         "en_title": "Spirited Away",
+        "global_score": 8.59,
         "genre": [
             "Adventure",
             "Award Winning",
@@ -944,12 +1224,22 @@
         "type": "Movie",
         "episodes": "1",
         "cover_path": "assets/covers/CIMG044.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG044.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG044.jpg",
+        "rating_count": 55,
+        "global_score_dimensions": [
+            8.55,
+            8.65,
+            8.51,
+            8.4,
+            8.85
+        ]
     },
     {
         "anime_id": "A045",
+        "mal_id": 30,
         "title": "Shinseiki Evangelion",
         "en_title": "Neon Genesis Evangelion",
+        "global_score": 8.22,
         "genre": [
             "Avant Garde",
             "Award Winning",
@@ -964,12 +1254,22 @@
         "type": "TV",
         "episodes": "26",
         "cover_path": "assets/covers/CIMG045.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG045.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG045.jpg",
+        "rating_count": 65,
+        "global_score_dimensions": [
+            8.18,
+            8.23,
+            8.11,
+            8.18,
+            8.37
+        ]
     },
     {
         "anime_id": "A046",
+        "mal_id": 33352,
         "title": "Violet Evergarden",
         "en_title": null,
+        "global_score": 8.53,
         "genre": [
             "Drama"
         ],
@@ -978,12 +1278,22 @@
         "type": "TV",
         "episodes": "13",
         "cover_path": "assets/covers/CIMG046.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG046.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG046.jpg",
+        "rating_count": 43,
+        "global_score_dimensions": [
+            8.49,
+            8.23,
+            8.65,
+            8.88,
+            8.4
+        ]
     },
     {
         "anime_id": "A047",
+        "mal_id": 37450,
         "title": "Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai",
         "en_title": "Rascal Does Not Dream of Bunny Girl Senpai",
+        "global_score": 8.14,
         "genre": [
             "Drama",
             "Romance",
@@ -995,12 +1305,22 @@
         "type": "TV",
         "episodes": "13",
         "cover_path": "assets/covers/CIMG047.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG047.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG047.jpg",
+        "rating_count": 42,
+        "global_score_dimensions": [
+            8.24,
+            8.26,
+            7.76,
+            8.1,
+            8.33
+        ]
     },
     {
         "anime_id": "A048",
+        "mal_id": 2904,
         "title": "Code Geass: Hangyaku no Lelouch R2",
         "en_title": "Code Geass: Lelouch of the Rebellion R2",
+        "global_score": 8.42,
         "genre": [
             "Award Winning",
             "Drama",
@@ -1014,12 +1334,22 @@
         "type": "TV",
         "episodes": "25",
         "cover_path": "assets/covers/CIMG048.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG048.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG048.jpg",
+        "rating_count": 62,
+        "global_score_dimensions": [
+            8.65,
+            8.13,
+            8.16,
+            8.45,
+            8.69
+        ]
     },
     {
         "anime_id": "A049",
+        "mal_id": 38691,
         "title": "Dr. Stone",
         "en_title": null,
+        "global_score": 7.88,
         "genre": [
             "Adventure",
             "Comedy",
@@ -1030,12 +1360,22 @@
         "type": "TV",
         "episodes": "24",
         "cover_path": "assets/covers/CIMG049.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG049.jpg"
+        "thumbnail_path": "assets/thumbnails/TIMG049.jpg",
+        "rating_count": 30,
+        "global_score_dimensions": [
+            7.87,
+            8.0,
+            8.17,
+            7.77,
+            7.6
+        ]
     },
     {
         "anime_id": "A050",
+        "mal_id": 44511,
         "title": "Chainsaw Man",
         "en_title": null,
+        "global_score": 7.95,
         "genre": [
             "Action",
             "Fantasy",
@@ -1090,7 +1430,7 @@
         "mal_id": 28223,
         "title": "Death Parade",
         "en_title": null,
-        "global_score": 8.07,
+        "global_score": 8.06,
         "genre": [
             "Drama",
             "Fantasy",
@@ -1105,13 +1445,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG052.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG052.jpg",
-        "rating_count": 41,
+        "rating_count": 42,
         "global_score_dimensions": [
-            8.34,
-            8.04,
-            7.7,
-            7.85,
-            8.36
+            8.31,
+            8.02,
+            7.71,
+            7.83,
+            8.4
         ]
     },
     {
@@ -1319,7 +1659,7 @@
         "mal_id": 6702,
         "title": "Fairy Tail",
         "en_title": null,
-        "global_score": 7.89,
+        "global_score": 7.88,
         "genre": [
             "Action",
             "Adventure",
@@ -1332,13 +1672,13 @@
         "episodes": "175",
         "cover_path": "assets/covers/CIMG060.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG060.jpg",
-        "rating_count": 28,
+        "rating_count": 29,
         "global_score_dimensions": [
-            7.53,
-            8.35,
-            7.86,
-            7.82,
-            7.9
+            7.48,
+            8.34,
+            7.83,
+            7.79,
+            7.97
         ]
     },
     {
@@ -1402,7 +1742,7 @@
         "mal_id": 11111,
         "title": "Another",
         "en_title": null,
-        "global_score": 7.48,
+        "global_score": 7.47,
         "genre": [
             "Horror",
             "Mystery",
@@ -1415,13 +1755,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG063.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG063.jpg",
-        "rating_count": 52,
+        "rating_count": 53,
         "global_score_dimensions": [
-            7.67,
-            7.23,
-            7.46,
+            7.66,
+            7.21,
+            7.45,
             7.77,
-            7.25
+            7.26
         ]
     },
     {
@@ -1484,7 +1824,7 @@
         "mal_id": 2001,
         "title": "Tengen Toppa Gurren Lagann",
         "en_title": "Gurren Lagann",
-        "global_score": 8.76,
+        "global_score": 8.74,
         "genre": [
             "Adventure",
             "Award Winning",
@@ -1497,13 +1837,13 @@
         "episodes": "27",
         "cover_path": "assets/covers/CIMG066.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG066.jpg",
-        "rating_count": 49,
+        "rating_count": 50,
         "global_score_dimensions": [
+            8.74,
+            8.8,
+            8.52,
             8.76,
-            8.86,
-            8.57,
-            8.73,
-            8.9
+            8.88
         ]
     },
     {
@@ -1702,7 +2042,7 @@
         "mal_id": 9989,
         "title": "Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.",
         "en_title": "Anohana: The Flower We Saw That Day",
-        "global_score": 8.42,
+        "global_score": 8.44,
         "genre": [
             "Drama",
             "Supernatural"
@@ -1713,13 +2053,13 @@
         "episodes": "11",
         "cover_path": "assets/covers/CIMG074.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG074.jpg",
-        "rating_count": 53,
+        "rating_count": 54,
         "global_score_dimensions": [
-            8.66,
-            8.38,
-            8.03,
-            8.54,
-            8.47
+            8.67,
+            8.41,
+            8.07,
+            8.57,
+            8.46
         ]
     },
     {
@@ -1727,7 +2067,7 @@
         "mal_id": 15809,
         "title": "Hataraku Maou-sama!",
         "en_title": "The Devil is a Part-Timer!",
-        "global_score": 8.07,
+        "global_score": 8.04,
         "genre": [
             "Comedy",
             "Supernatural"
@@ -1738,13 +2078,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG075.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG075.jpg",
-        "rating_count": 54,
+        "rating_count": 55,
         "global_score_dimensions": [
-            8.09,
-            8.35,
-            7.91,
+            8.05,
+            8.33,
+            7.89,
             7.76,
-            8.22
+            8.16
         ]
     },
     {
@@ -1892,7 +2232,7 @@
         "mal_id": 226,
         "title": "Elfen Lied",
         "en_title": null,
-        "global_score": 7.53,
+        "global_score": 7.54,
         "genre": [
             "Action",
             "Drama",
@@ -1910,13 +2250,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG081.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG081.jpg",
-        "rating_count": 52,
+        "rating_count": 53,
         "global_score_dimensions": [
-            7.77,
-            7.33,
-            7.17,
-            7.83,
-            7.56
+            7.81,
+            7.34,
+            7.19,
+            7.81,
+            7.57
         ]
     },
     {
@@ -1924,7 +2264,7 @@
         "mal_id": 8074,
         "title": "Highschool of the Dead",
         "en_title": null,
-        "global_score": 7.58,
+        "global_score": 7.55,
         "genre": [
             "Action",
             "Horror",
@@ -1940,13 +2280,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG082.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG082.jpg",
-        "rating_count": 54,
+        "rating_count": 55,
         "global_score_dimensions": [
-            7.22,
+            7.18,
             7.91,
-            7.34,
-            7.37,
-            8.04
+            7.35,
+            7.33,
+            7.98
         ]
     },
     {
@@ -1954,7 +2294,7 @@
         "mal_id": 10087,
         "title": "Fate/Zero",
         "en_title": null,
-        "global_score": 8.65,
+        "global_score": 8.64,
         "genre": [
             "Action",
             "Fantasy",
@@ -1966,13 +2306,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG083.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG083.jpg",
-        "rating_count": 47,
+        "rating_count": 48,
         "global_score_dimensions": [
-            8.64,
-            8.75,
-            8.59,
-            8.53,
-            8.75
+            8.65,
+            8.69,
+            8.62,
+            8.52,
+            8.73
         ]
     },
     {
@@ -2049,13 +2389,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG086.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG086.jpg",
-        "rating_count": 44,
+        "rating_count": 45,
         "global_score_dimensions": [
-            7.59,
-            7.59,
-            7.73,
-            7.57,
-            7.7
+            7.6,
+            7.6,
+            7.67,
+            7.6,
+            7.73
         ]
     },
     {
@@ -2090,7 +2430,7 @@
         "mal_id": 121,
         "title": "Fullmetal Alchemist",
         "en_title": null,
-        "global_score": 8.6,
+        "global_score": 8.58,
         "genre": [
             "Action",
             "Adventure",
@@ -2106,12 +2446,12 @@
         "episodes": "51",
         "cover_path": "assets/covers/CIMG088.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG088.jpg",
-        "rating_count": 46,
+        "rating_count": 47,
         "global_score_dimensions": [
-            8.39,
-            8.6,
-            8.56,
-            8.65,
+            8.38,
+            8.57,
+            8.53,
+            8.64,
             8.77
         ]
     },
@@ -2281,13 +2621,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG094.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG094.jpg",
-        "rating_count": 42,
+        "rating_count": 43,
         "global_score_dimensions": [
-            7.41,
-            7.81,
+            7.42,
+            7.77,
             7.12,
-            6.85,
-            7.46
+            6.88,
+            7.47
         ]
     },
     {
@@ -2295,7 +2635,7 @@
         "mal_id": 2167,
         "title": "Clannad",
         "en_title": null,
-        "global_score": 8.42,
+        "global_score": 8.43,
         "genre": [
             "Drama",
             "Romance",
@@ -2307,13 +2647,13 @@
         "episodes": "23",
         "cover_path": "assets/covers/CIMG095.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG095.jpg",
-        "rating_count": 52,
+        "rating_count": 53,
         "global_score_dimensions": [
-            8.44,
-            8.25,
-            8.5,
-            8.48,
-            8.44
+            8.45,
+            8.28,
+            8.51,
+            8.45,
+            8.47
         ]
     },
     {
@@ -2374,7 +2714,7 @@
         "mal_id": 5081,
         "title": "Bakemonogatari",
         "en_title": null,
-        "global_score": 8.22,
+        "global_score": 8.2,
         "genre": [
             "Mystery",
             "Romance",
@@ -2387,13 +2727,13 @@
         "episodes": "15",
         "cover_path": "assets/covers/CIMG098.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG098.jpg",
-        "rating_count": 55,
+        "rating_count": 56,
         "global_score_dimensions": [
-            8.0,
-            8.47,
-            8.11,
-            8.34,
-            8.18
+            7.98,
+            8.46,
+            8.09,
+            8.32,
+            8.14
         ]
     },
     {
@@ -2760,7 +3100,7 @@
         "mal_id": 205,
         "title": "Samurai Champloo",
         "en_title": null,
-        "global_score": 8.16,
+        "global_score": 8.13,
         "genre": [
             "Action",
             "Adventure",
@@ -2774,13 +3114,13 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG112.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG112.jpg",
-        "rating_count": 42,
+        "rating_count": 43,
         "global_score_dimensions": [
             7.93,
-            8.41,
-            7.92,
-            8.22,
-            8.31
+            8.4,
+            7.88,
+            8.19,
+            8.26
         ]
     },
     {
@@ -2867,7 +3207,7 @@
         "mal_id": 813,
         "title": "Dragon Ball Z",
         "en_title": null,
-        "global_score": 8.12,
+        "global_score": 8.11,
         "genre": [
             "Action",
             "Adventure",
@@ -2882,13 +3222,13 @@
         "episodes": "291",
         "cover_path": "assets/covers/CIMG116.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG116.jpg",
-        "rating_count": 35,
+        "rating_count": 36,
         "global_score_dimensions": [
             8.06,
-            8.29,
-            8.05,
-            7.8,
-            8.4
+            8.31,
+            8.08,
+            7.72,
+            8.39
         ]
     },
     {
@@ -3067,7 +3407,7 @@
         "mal_id": 4181,
         "title": "Clannad: After Story",
         "en_title": null,
-        "global_score": 8.94,
+        "global_score": 8.96,
         "genre": [
             "Drama",
             "Romance"
@@ -3078,13 +3418,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG123.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG123.jpg",
-        "rating_count": 47,
+        "rating_count": 48,
         "global_score_dimensions": [
+            9.1,
+            8.71,
+            8.88,
             9.08,
-            8.7,
-            8.86,
-            9.06,
-            9.0
+            9.02
         ]
     },
     {
@@ -3453,7 +3793,7 @@
         "mal_id": 34577,
         "title": "Nanatsu no Taizai: Imashime no Fukkatsu",
         "en_title": "The Seven Deadly Sins: Revival of the Commandments",
-        "global_score": 8.26,
+        "global_score": 8.2,
         "genre": [
             "Action",
             "Adventure",
@@ -3466,13 +3806,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG137.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG137.jpg",
-        "rating_count": 20,
+        "rating_count": 21,
         "global_score_dimensions": [
-            8.04,
-            8.5,
-            8.2,
-            7.95,
-            8.6
+            7.9,
+            8.33,
+            8.24,
+            7.9,
+            8.62
         ]
     },
     {
@@ -3533,7 +3873,7 @@
         "mal_id": 11741,
         "title": "Fate/Zero 2nd Season",
         "en_title": "Fate/Zero Season 2",
-        "global_score": 8.57,
+        "global_score": 8.55,
         "genre": [
             "Action",
             "Fantasy",
@@ -3545,13 +3885,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG140.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG140.jpg",
-        "rating_count": 46,
+        "rating_count": 47,
         "global_score_dimensions": [
-            8.42,
-            8.56,
-            8.58,
-            8.42,
-            8.87
+            8.43,
+            8.53,
+            8.55,
+            8.43,
+            8.83
         ]
     },
     {
@@ -3587,7 +3927,7 @@
         "mal_id": 22297,
         "title": "Fate/stay night: Unlimited Blade Works",
         "en_title": "Fate/stay night [Unlimited Blade Works]",
-        "global_score": 8.31,
+        "global_score": 8.3,
         "genre": [
             "Action",
             "Fantasy",
@@ -3599,13 +3939,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG142.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG142.jpg",
-        "rating_count": 36,
+        "rating_count": 37,
         "global_score_dimensions": [
-            8.19,
-            8.77,
-            8.36,
-            7.83,
-            8.36
+            8.16,
+            8.78,
+            8.35,
+            7.86,
+            8.32
         ]
     },
     {
@@ -3694,7 +4034,7 @@
         "mal_id": 23847,
         "title": "Yahari Ore no Seishun Love Comedy wa Machigatteiru. Zoku",
         "en_title": "My Teen Romantic Comedy SNAFU TOO!",
-        "global_score": 7.74,
+        "global_score": 7.7,
         "genre": [
             "Comedy",
             "Romance",
@@ -3707,13 +4047,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG146.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG146.jpg",
-        "rating_count": 36,
+        "rating_count": 37,
         "global_score_dimensions": [
-            7.75,
-            7.55,
-            7.64,
-            7.75,
-            8.0
+            7.76,
+            7.51,
+            7.57,
+            7.73,
+            7.95
         ]
     },
     {
@@ -3834,7 +4174,7 @@
         "mal_id": 223,
         "title": "Dragon Ball",
         "en_title": null,
-        "global_score": 7.69,
+        "global_score": 7.71,
         "genre": [
             "Action",
             "Adventure",
@@ -3849,13 +4189,13 @@
         "episodes": "153",
         "cover_path": "assets/covers/CIMG151.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG151.jpg",
-        "rating_count": 36,
+        "rating_count": 37,
         "global_score_dimensions": [
-            7.75,
-            7.94,
-            7.39,
-            7.69,
-            7.67
+            7.78,
+            7.97,
+            7.41,
+            7.73,
+            7.65
         ]
     },
     {
@@ -4277,7 +4617,7 @@
         "mal_id": 30240,
         "title": "Prison School",
         "en_title": null,
-        "global_score": 7.8,
+        "global_score": 7.78,
         "genre": [
             "Comedy",
             "Ecchi",
@@ -4291,13 +4631,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG167.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG167.jpg",
-        "rating_count": 29,
+        "rating_count": 30,
         "global_score_dimensions": [
-            7.76,
-            7.72,
-            7.58,
-            7.8,
-            8.14
+            7.73,
+            7.7,
+            7.63,
+            7.77,
+            8.07
         ]
     },
     {
@@ -4333,7 +4673,7 @@
         "mal_id": 22043,
         "title": "Fairy Tail (2014)",
         "en_title": "Fairy Tail Series 2",
-        "global_score": 8.19,
+        "global_score": 8.09,
         "genre": [
             "Action",
             "Adventure",
@@ -4346,13 +4686,13 @@
         "episodes": "102",
         "cover_path": "assets/covers/CIMG169.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG169.jpg",
-        "rating_count": 19,
+        "rating_count": 20,
         "global_score_dimensions": [
-            7.84,
-            8.58,
-            8.11,
-            7.68,
-            8.74
+            7.75,
+            8.45,
+            7.95,
+            7.6,
+            8.7
         ]
     },
     {
@@ -4667,7 +5007,7 @@
         "mal_id": 27775,
         "title": "Plastic Memories",
         "en_title": null,
-        "global_score": 7.69,
+        "global_score": 7.72,
         "genre": [
             "Drama",
             "Romance",
@@ -4679,13 +5019,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG181.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG181.jpg",
-        "rating_count": 28,
+        "rating_count": 29,
         "global_score_dimensions": [
-            7.75,
-            7.39,
-            7.61,
-            8.03,
-            7.67
+            7.76,
+            7.48,
+            7.55,
+            8.1,
+            7.72
         ]
     },
     {
@@ -4927,13 +5267,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG190.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG190.jpg",
-        "rating_count": 52,
+        "rating_count": 53,
         "global_score_dimensions": [
-            7.35,
+            7.36,
             7.87,
-            7.42,
+            7.43,
             7.19,
-            7.85
+            7.83
         ]
     },
     {
@@ -5646,7 +5986,7 @@
         "mal_id": 16782,
         "title": "Kotonoha no Niwa",
         "en_title": "The Garden of Words",
-        "global_score": 8.03,
+        "global_score": 8.01,
         "genre": [
             "Award Winning",
             "Drama",
@@ -5659,12 +5999,12 @@
         "episodes": "1",
         "cover_path": "assets/covers/CIMG216.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG216.jpg",
-        "rating_count": 40,
+        "rating_count": 41,
         "global_score_dimensions": [
-            8.1,
-            7.9,
             8.07,
-            8.25,
+            7.9,
+            8.02,
+            8.24,
             7.83
         ]
     },
@@ -5755,7 +6095,7 @@
         "mal_id": 28701,
         "title": "Fate/stay night: Unlimited Blade Works 2nd Season",
         "en_title": "Fate/stay night [Unlimited Blade Works] Season 2",
-        "global_score": 8.23,
+        "global_score": 8.22,
         "genre": [
             "Action",
             "Fantasy",
@@ -5767,13 +6107,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG220.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG220.jpg",
-        "rating_count": 35,
+        "rating_count": 36,
         "global_score_dimensions": [
             7.94,
-            8.4,
-            7.83,
+            8.36,
+            7.78,
             8.06,
-            8.91
+            8.94
         ]
     },
     {
@@ -5837,7 +6177,7 @@
         "mal_id": 30694,
         "title": "Dragon Ball Super",
         "en_title": null,
-        "global_score": 7.62,
+        "global_score": 7.54,
         "genre": [
             "Action",
             "Adventure",
@@ -5852,13 +6192,13 @@
         "episodes": "131",
         "cover_path": "assets/covers/CIMG223.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG223.jpg",
-        "rating_count": 16,
+        "rating_count": 17,
         "global_score_dimensions": [
-            8.12,
-            7.69,
+            8.0,
+            7.53,
             7.06,
-            7.13,
-            8.13
+            7.06,
+            8.06
         ]
     },
     {
@@ -6155,7 +6495,7 @@
         "mal_id": 227,
         "title": "FLCL",
         "en_title": null,
-        "global_score": 7.84,
+        "global_score": 7.83,
         "genre": [
             "Avant Garde",
             "Comedy",
@@ -6171,13 +6511,13 @@
         "episodes": "6",
         "cover_path": "assets/covers/CIMG234.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG234.jpg",
-        "rating_count": 45,
+        "rating_count": 46,
         "global_score_dimensions": [
-            8.02,
-            8.0,
-            7.47,
-            7.91,
-            7.8
+            8.04,
+            7.98,
+            7.5,
+            7.89,
+            7.72
         ]
     },
     {
@@ -6479,13 +6819,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG245.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG245.jpg",
-        "rating_count": 43,
+        "rating_count": 44,
         "global_score_dimensions": [
-            7.47,
-            8.0,
-            7.54,
-            7.28,
-            8.14
+            7.5,
+            8.02,
+            7.55,
+            7.25,
+            8.11
         ]
     },
     {
@@ -6493,7 +6833,7 @@
         "mal_id": 12355,
         "title": "Ookami Kodomo no Ame to Yuki",
         "en_title": "Wolf Children",
-        "global_score": 8.74,
+        "global_score": 8.77,
         "genre": [
             "Award Winning",
             "Slice of Life",
@@ -6506,13 +6846,13 @@
         "episodes": "1",
         "cover_path": "assets/covers/CIMG246.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG246.jpg",
-        "rating_count": 40,
+        "rating_count": 41,
         "global_score_dimensions": [
-            8.77,
             8.8,
-            8.72,
-            8.7,
-            8.73
+            8.83,
+            8.73,
+            8.73,
+            8.76
         ]
     },
     {
@@ -6576,7 +6916,7 @@
         "mal_id": 249,
         "title": "InuYasha",
         "en_title": null,
-        "global_score": 8.02,
+        "global_score": 8.03,
         "genre": [
             "Action",
             "Adventure",
@@ -6594,13 +6934,13 @@
         "episodes": "167",
         "cover_path": "assets/covers/CIMG249.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG249.jpg",
-        "rating_count": 34,
+        "rating_count": 35,
         "global_score_dimensions": [
-            7.88,
-            8.24,
-            7.62,
             7.91,
-            8.47
+            8.26,
+            7.57,
+            7.94,
+            8.46
         ]
     },
     {
@@ -7032,7 +7372,7 @@
         "mal_id": 6,
         "title": "Trigun",
         "en_title": null,
-        "global_score": 7.77,
+        "global_score": 7.74,
         "genre": [
             "Action",
             "Adventure",
@@ -7046,13 +7386,13 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG265.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG265.jpg",
-        "rating_count": 39,
+        "rating_count": 40,
         "global_score_dimensions": [
+            7.83,
             7.85,
-            7.87,
-            7.57,
-            7.51,
-            8.08
+            7.53,
+            7.5,
+            8.0
         ]
     },
     {
@@ -7641,7 +7981,7 @@
         "mal_id": 39701,
         "title": "Nanatsu no Taizai: Kamigami no Gekirin",
         "en_title": "The Seven Deadly Sins: Imperial Wrath of the Gods",
-        "global_score": 6.91,
+        "global_score": 6.79,
         "genre": [
             "Action",
             "Adventure",
@@ -7654,13 +7994,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG287.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG287.jpg",
-        "rating_count": 13,
+        "rating_count": 14,
         "global_score_dimensions": [
-            6.54,
-            6.69,
-            7.0,
-            6.85,
-            7.47
+            6.43,
+            6.57,
+            6.71,
+            6.93,
+            7.29
         ]
     },
     {
@@ -7724,7 +8064,7 @@
         "mal_id": 270,
         "title": "Hellsing",
         "en_title": null,
-        "global_score": 7.29,
+        "global_score": 7.31,
         "genre": [
             "Action",
             "Horror",
@@ -7740,13 +8080,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG290.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG290.jpg",
-        "rating_count": 40,
+        "rating_count": 41,
         "global_score_dimensions": [
-            6.98,
-            7.6,
-            7.25,
-            7.25,
-            7.38
+            7.05,
+            7.59,
+            7.24,
+            7.24,
+            7.44
         ]
     },
     {
@@ -7864,7 +8204,7 @@
         "mal_id": 877,
         "title": "Nana",
         "en_title": null,
-        "global_score": 8.88,
+        "global_score": 8.86,
         "genre": [
             "Drama",
             "Romance",
@@ -7879,13 +8219,13 @@
         "episodes": "47",
         "cover_path": "assets/covers/CIMG295.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG295.jpg",
-        "rating_count": 29,
+        "rating_count": 30,
         "global_score_dimensions": [
-            8.65,
-            9.0,
-            9.35,
-            8.86,
-            8.55
+            8.63,
+            8.93,
+            9.37,
+            8.83,
+            8.53
         ]
     },
     {
@@ -7906,13 +8246,13 @@
         "episodes": "11",
         "cover_path": "assets/covers/CIMG296.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG296.jpg",
-        "rating_count": 50,
+        "rating_count": 51,
         "global_score_dimensions": [
-            7.98,
+            8.02,
+            8.06,
+            7.76,
             8.1,
-            7.78,
-            8.08,
-            7.92
+            7.9
         ]
     },
     {
@@ -7947,7 +8287,7 @@
         "mal_id": 31722,
         "title": "Nanatsu no Taizai: Seisen no Shirushi",
         "en_title": "The Seven Deadly Sins: Signs of Holy War",
-        "global_score": 7.02,
+        "global_score": 7.04,
         "genre": [
             "Action",
             "Adventure",
@@ -7960,13 +8300,13 @@
         "episodes": "4",
         "cover_path": "assets/covers/CIMG298.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG298.jpg",
-        "rating_count": 22,
+        "rating_count": 23,
         "global_score_dimensions": [
-            6.86,
+            6.91,
             7.04,
-            7.09,
-            6.77,
-            7.37
+            7.13,
+            6.78,
+            7.35
         ]
     },
     {
@@ -8193,7 +8533,7 @@
         "mal_id": 392,
         "title": "Yuu☆Yuu☆Hakusho",
         "en_title": "Yu Yu Hakusho: Ghost Files",
-        "global_score": 7.87,
+        "global_score": 7.9,
         "genre": [
             "Action",
             "Supernatural",
@@ -8207,13 +8547,13 @@
         "episodes": "112",
         "cover_path": "assets/covers/CIMG307.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG307.jpg",
-        "rating_count": 26,
+        "rating_count": 27,
         "global_score_dimensions": [
-            7.77,
-            7.92,
-            7.85,
-            7.62,
-            8.19
+            7.74,
+            7.96,
+            7.89,
+            7.67,
+            8.22
         ]
     },
     {
@@ -8278,7 +8618,7 @@
         "mal_id": 11759,
         "title": "Accel World",
         "en_title": null,
-        "global_score": 7.47,
+        "global_score": 7.48,
         "genre": [
             "Action",
             "Romance",
@@ -8292,13 +8632,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG310.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG310.jpg",
-        "rating_count": 44,
+        "rating_count": 45,
         "global_score_dimensions": [
             7.16,
-            7.66,
-            7.5,
-            7.34,
-            7.68
+            7.71,
+            7.49,
+            7.33,
+            7.69
         ]
     },
     {
@@ -8444,7 +8784,7 @@
         "mal_id": 28297,
         "title": "Ore Monogatari!!",
         "en_title": "My Love Story!!",
-        "global_score": 7.98,
+        "global_score": 7.93,
         "genre": [
             "Comedy",
             "Romance",
@@ -8456,13 +8796,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG316.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG316.jpg",
-        "rating_count": 29,
+        "rating_count": 30,
         "global_score_dimensions": [
-            7.59,
-            8.21,
-            8.14,
-            8.07,
-            7.89
+            7.57,
+            8.17,
+            8.0,
+            7.97,
+            7.93
         ]
     },
     {
@@ -8750,7 +9090,7 @@
         "mal_id": 8769,
         "title": "Ore no Imouto ga Konnani Kawaii Wake ga Nai",
         "en_title": "OreImo",
-        "global_score": 7.51,
+        "global_score": 7.49,
         "genre": [
             "Comedy",
             "Otaku Culture"
@@ -8761,13 +9101,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG327.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG327.jpg",
-        "rating_count": 49,
+        "rating_count": 50,
         "global_score_dimensions": [
-            7.31,
-            7.22,
-            7.61,
-            7.63,
-            7.78
+            7.32,
+            7.2,
+            7.6,
+            7.56,
+            7.76
         ]
     },
     {
@@ -8775,7 +9115,7 @@
         "mal_id": 17074,
         "title": "Monogatari Series: Second Season",
         "en_title": null,
-        "global_score": 8.5,
+        "global_score": 8.49,
         "genre": [
             "Comedy",
             "Mystery",
@@ -8789,13 +9129,13 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG328.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG328.jpg",
-        "rating_count": 39,
+        "rating_count": 40,
         "global_score_dimensions": [
-            8.83,
-            8.74,
-            7.87,
-            8.56,
-            8.49
+            8.78,
+            8.75,
+            7.85,
+            8.55,
+            8.53
         ]
     },
     {
@@ -9057,7 +9397,7 @@
         "mal_id": 43,
         "title": "Koukaku Kidoutai",
         "en_title": "Ghost in the Shell",
-        "global_score": 8.37,
+        "global_score": 8.41,
         "genre": [
             "Award Winning",
             "Mystery",
@@ -9075,13 +9415,13 @@
         "episodes": "1",
         "cover_path": "assets/covers/CIMG338.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG338.jpg",
-        "rating_count": 32,
+        "rating_count": 33,
         "global_score_dimensions": [
-            8.19,
-            8.6,
-            8.22,
-            8.47,
-            8.37
+            8.21,
+            8.64,
+            8.24,
+            8.52,
+            8.42
         ]
     },
     {
@@ -9140,7 +9480,7 @@
         "mal_id": 41467,
         "title": "Bleach: Sennen Kessen-hen",
         "en_title": "Bleach: Thousand-Year Blood War",
-        "global_score": 8.56,
+        "global_score": 8.47,
         "genre": [
             "Action",
             "Adventure",
@@ -9153,13 +9493,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG341.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG341.jpg",
-        "rating_count": 14,
+        "rating_count": 15,
         "global_score_dimensions": [
-            8.29,
-            9.0,
-            8.5,
-            8.14,
-            8.85
+            8.2,
+            8.93,
+            8.33,
+            8.13,
+            8.73
         ]
     },
     {
@@ -9477,7 +9817,7 @@
         "mal_id": 3455,
         "title": "To LOVE-Ru",
         "en_title": "To Love Ru",
-        "global_score": 7.39,
+        "global_score": 7.34,
         "genre": [
             "Comedy",
             "Romance",
@@ -9493,13 +9833,13 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG353.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG353.jpg",
-        "rating_count": 31,
+        "rating_count": 32,
         "global_score_dimensions": [
-            7.46,
-            7.61,
-            6.97,
-            7.26,
-            7.64
+            7.41,
+            7.53,
+            6.91,
+            7.22,
+            7.62
         ]
     },
     {
@@ -9507,7 +9847,7 @@
         "mal_id": 527,
         "title": "Pokemon",
         "en_title": "Pokémon",
-        "global_score": 7.16,
+        "global_score": 7.12,
         "genre": [
             "Action",
             "Adventure",
@@ -9521,12 +9861,12 @@
         "episodes": "276",
         "cover_path": "assets/covers/CIMG354.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG354.jpg",
-        "rating_count": 24,
+        "rating_count": 25,
         "global_score_dimensions": [
             6.92,
-            7.79,
-            7.04,
+            7.68,
             7.0,
+            6.96,
             7.04
         ]
     },
@@ -9561,7 +9901,7 @@
         "mal_id": 225,
         "title": "Dragon Ball GT",
         "en_title": null,
-        "global_score": 6.61,
+        "global_score": 6.65,
         "genre": [
             "Action",
             "Adventure",
@@ -9576,13 +9916,13 @@
         "episodes": "64",
         "cover_path": "assets/covers/CIMG356.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG356.jpg",
-        "rating_count": 29,
+        "rating_count": 30,
         "global_score_dimensions": [
-            6.66,
-            6.8,
-            6.1,
-            6.28,
-            7.2
+            6.7,
+            6.87,
+            6.13,
+            6.3,
+            7.23
         ]
     },
     {
@@ -9618,7 +9958,7 @@
         "mal_id": 9041,
         "title": "IS: Infinite Stratos",
         "en_title": "Infinite Stratos",
-        "global_score": 7.16,
+        "global_score": 7.15,
         "genre": [
             "Action",
             "Comedy",
@@ -9634,13 +9974,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG358.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG358.jpg",
-        "rating_count": 43,
+        "rating_count": 44,
         "global_score_dimensions": [
-            7.07,
-            7.35,
-            6.79,
-            6.93,
-            7.62
+            7.02,
+            7.32,
+            6.82,
+            6.95,
+            7.61
         ]
     },
     {
@@ -9838,7 +10178,7 @@
         "mal_id": 16870,
         "title": "The Last: Naruto the Movie",
         "en_title": "Naruto Shippuden the Movie 7: The Last",
-        "global_score": 7.49,
+        "global_score": 7.55,
         "genre": [
             "Action",
             "Adventure",
@@ -9852,13 +10192,13 @@
         "episodes": "1",
         "cover_path": "assets/covers/CIMG366.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG366.jpg",
-        "rating_count": 19,
+        "rating_count": 20,
         "global_score_dimensions": [
-            7.47,
-            7.68,
-            7.32,
-            7.11,
-            7.89
+            7.55,
+            7.8,
+            7.35,
+            7.2,
+            7.85
         ]
     },
     {
@@ -9950,7 +10290,7 @@
         "mal_id": 11499,
         "title": "Sankarea",
         "en_title": "Sankarea: Undying Love",
-        "global_score": 7.47,
+        "global_score": 7.44,
         "genre": [
             "Comedy",
             "Horror",
@@ -9966,13 +10306,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG370.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG370.jpg",
-        "rating_count": 41,
+        "rating_count": 42,
         "global_score_dimensions": [
-            7.32,
-            7.53,
-            7.13,
-            7.32,
-            8.03
+            7.31,
+            7.52,
+            7.1,
+            7.29,
+            7.98
         ]
     },
     {
@@ -10066,7 +10406,7 @@
         "mal_id": 8841,
         "title": "Kore wa Zombie desu ka?",
         "en_title": "Is This a Zombie?",
-        "global_score": 7.67,
+        "global_score": 7.66,
         "genre": [
             "Action",
             "Comedy",
@@ -10081,13 +10421,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG374.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG374.jpg",
-        "rating_count": 47,
+        "rating_count": 48,
         "global_score_dimensions": [
-            7.55,
-            7.96,
-            7.26,
-            7.41,
-            8.17
+            7.54,
+            7.98,
+            7.23,
+            7.42,
+            8.15
         ]
     },
     {
@@ -10232,7 +10572,7 @@
         "mal_id": 136,
         "title": "Hunter x Hunter",
         "en_title": null,
-        "global_score": 8.18,
+        "global_score": 8.09,
         "genre": [
             "Action",
             "Adventure",
@@ -10245,13 +10585,13 @@
         "episodes": "62",
         "cover_path": "assets/covers/CIMG380.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG380.jpg",
-        "rating_count": 22,
+        "rating_count": 23,
         "global_score_dimensions": [
-            7.96,
-            8.68,
-            7.82,
-            8.22,
-            8.18
+            7.83,
+            8.65,
+            7.74,
+            8.04,
+            8.17
         ]
     },
     {
@@ -10571,7 +10911,7 @@
         "mal_id": 9513,
         "title": "Beelzebub",
         "en_title": null,
-        "global_score": 7.52,
+        "global_score": 7.48,
         "genre": [
             "Action",
             "Comedy",
@@ -10587,13 +10927,13 @@
         "episodes": "60",
         "cover_path": "assets/covers/CIMG392.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG392.jpg",
-        "rating_count": 27,
+        "rating_count": 28,
         "global_score_dimensions": [
-            7.29,
-            8.22,
-            7.26,
-            7.33,
-            7.49
+            7.32,
+            8.14,
+            7.14,
+            7.25,
+            7.54
         ]
     },
     {
@@ -11141,7 +11481,7 @@
         "mal_id": 8425,
         "title": "Gosick",
         "en_title": null,
-        "global_score": 7.94,
+        "global_score": 7.92,
         "genre": [
             "Drama",
             "Mystery",
@@ -11154,13 +11494,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG412.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG412.jpg",
-        "rating_count": 46,
+        "rating_count": 47,
         "global_score_dimensions": [
-            8.22,
-            7.89,
+            8.19,
+            7.85,
             7.89,
             7.83,
-            7.87
+            7.83
         ]
     },
     {
@@ -11183,13 +11523,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG413.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG413.jpg",
-        "rating_count": 37,
+        "rating_count": 38,
         "global_score_dimensions": [
             6.97,
-            7.54,
+            7.55,
             7.18,
-            6.86,
-            6.7
+            6.89,
+            6.68
         ]
     },
     {
@@ -11529,7 +11869,7 @@
         "mal_id": 15689,
         "title": "Nekomonogatari: Kuro",
         "en_title": "Nekomonogatari Black",
-        "global_score": 7.73,
+        "global_score": 7.69,
         "genre": [
             "Mystery",
             "Romance",
@@ -11542,13 +11882,13 @@
         "episodes": "4",
         "cover_path": "assets/covers/CIMG426.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG426.jpg",
-        "rating_count": 40,
+        "rating_count": 41,
         "global_score_dimensions": [
-            7.95,
-            7.58,
-            7.3,
-            8.27,
-            7.52
+            7.93,
+            7.54,
+            7.24,
+            8.17,
+            7.56
         ]
     },
     {
@@ -11598,13 +11938,13 @@
         "episodes": "203",
         "cover_path": "assets/covers/CIMG428.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG428.jpg",
-        "rating_count": 24,
+        "rating_count": 25,
         "global_score_dimensions": [
-            8.17,
-            7.71,
-            7.46,
-            7.25,
-            7.79
+            8.2,
+            7.76,
+            7.44,
+            7.16,
+            7.8
         ]
     },
     {
@@ -11969,7 +12309,7 @@
         "mal_id": 7088,
         "title": "Ichiban Ushiro no Daimaou",
         "en_title": "Demon King Daimao",
-        "global_score": 7.01,
+        "global_score": 6.99,
         "genre": [
             "Action",
             "Comedy",
@@ -11985,13 +12325,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG442.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG442.jpg",
-        "rating_count": 39,
+        "rating_count": 40,
         "global_score_dimensions": [
-            6.61,
+            6.62,
             7.85,
-            6.74,
-            6.49,
-            7.31
+            6.7,
+            6.5,
+            7.25
         ]
     },
     {
@@ -12054,7 +12394,7 @@
         "mal_id": 35972,
         "title": "Fairy Tail: Final Series",
         "en_title": "Fairy Tail Final Series",
-        "global_score": 7.94,
+        "global_score": 7.76,
         "genre": [
             "Action",
             "Adventure",
@@ -12067,13 +12407,13 @@
         "episodes": "51",
         "cover_path": "assets/covers/CIMG445.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG445.jpg",
-        "rating_count": 13,
+        "rating_count": 14,
         "global_score_dimensions": [
-            8.31,
-            8.54,
-            7.15,
-            7.54,
-            8.15
+            8.0,
+            8.36,
+            7.07,
+            7.36,
+            8.0
         ]
     },
     {
@@ -12149,13 +12489,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG448.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG448.jpg",
-        "rating_count": 16,
+        "rating_count": 17,
         "global_score_dimensions": [
-            6.87,
-            6.56,
-            6.75,
-            7.63,
-            6.5
+            6.88,
+            6.53,
+            6.76,
+            7.59,
+            6.53
         ]
     },
     {
@@ -12274,7 +12614,7 @@
         "mal_id": 9656,
         "title": "Kimi ni Todoke 2nd Season",
         "en_title": "Kimi ni Todoke: From Me to You Season 2",
-        "global_score": 7.9,
+        "global_score": 7.92,
         "genre": [
             "Drama",
             "Romance",
@@ -12287,13 +12627,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG453.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG453.jpg",
-        "rating_count": 41,
+        "rating_count": 42,
         "global_score_dimensions": [
-            8.61,
-            7.49,
-            7.64,
-            8.13,
-            7.63
+            8.64,
+            7.55,
+            7.67,
+            8.1,
+            7.64
         ]
     },
     {
@@ -12891,13 +13231,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG475.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG475.jpg",
-        "rating_count": 40,
+        "rating_count": 41,
         "global_score_dimensions": [
-            7.95,
+            7.93,
             7.98,
-            7.57,
-            7.75,
-            8.0
+            7.63,
+            7.76,
+            7.95
         ]
     },
     {
@@ -13120,7 +13460,7 @@
         "mal_id": 10162,
         "title": "Usagi Drop",
         "en_title": "Bunny Drop",
-        "global_score": 8.34,
+        "global_score": 8.35,
         "genre": [
             "Slice of Life",
             "Childcare",
@@ -13133,13 +13473,13 @@
         "episodes": "11",
         "cover_path": "assets/covers/CIMG484.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG484.jpg",
-        "rating_count": 45,
+        "rating_count": 46,
         "global_score_dimensions": [
-            8.62,
-            7.91,
-            8.05,
-            8.62,
-            8.51
+            8.63,
+            7.89,
+            8.07,
+            8.63,
+            8.52
         ]
     },
     {
@@ -13176,7 +13516,7 @@
         "mal_id": 10110,
         "title": "Mayo Chiki!",
         "en_title": null,
-        "global_score": 7.37,
+        "global_score": 7.36,
         "genre": [
             "Comedy",
             "Romance",
@@ -13191,13 +13531,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG486.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG486.jpg",
-        "rating_count": 35,
+        "rating_count": 36,
         "global_score_dimensions": [
-            7.6,
-            7.43,
-            7.26,
-            7.37,
-            7.2
+            7.58,
+            7.39,
+            7.25,
+            7.42,
+            7.17
         ]
     },
     {
@@ -13426,7 +13766,7 @@
         "mal_id": 59,
         "title": "Chobits",
         "en_title": null,
-        "global_score": 7.39,
+        "global_score": 7.36,
         "genre": [
             "Comedy",
             "Drama",
@@ -13441,13 +13781,13 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG495.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG495.jpg",
-        "rating_count": 39,
+        "rating_count": 40,
         "global_score_dimensions": [
-            7.36,
-            7.51,
-            7.03,
-            7.57,
-            7.49
+            7.3,
+            7.5,
+            7.0,
+            7.53,
+            7.45
         ]
     },
     {
@@ -13534,7 +13874,7 @@
         "mal_id": 34662,
         "title": "Fate/Apocrypha",
         "en_title": null,
-        "global_score": 7.44,
+        "global_score": 7.42,
         "genre": [
             "Action",
             "Fantasy",
@@ -13546,13 +13886,13 @@
         "episodes": "25",
         "cover_path": "assets/covers/CIMG499.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG499.jpg",
-        "rating_count": 21,
+        "rating_count": 22,
         "global_score_dimensions": [
-            7.33,
-            7.38,
-            7.72,
-            7.38,
-            7.38
+            7.27,
+            7.36,
+            7.73,
+            7.41,
+            7.32
         ]
     },
     {
@@ -13743,84 +14083,6 @@
             6.9,
             7.9,
             8.69
-        ]
-    },
-    {
-        "anime_id": "A507",
-        "mal_id": 34012,
-        "title": "Isekai Shokudou",
-        "en_title": "Restaurant to Another World",
-        "global_score": 7.26,
-        "trailer_url": "https://www.youtube.com/watch?v=auIcebhIzMc",
-        "genre": [
-            "Fantasy",
-            "Gourmet",
-            "Slice of Life",
-            "Isekai"
-        ],
-        "synopsis": "Western Restaurant Nekoya is a popular eatery located on a street corner in a Tokyo shopping district. Serving both traditional Japanese fare as well as Western dishes, this eating establishment is popular among Tokyo's residents. But this seemingly ordinary restaurant is also popular with another type of clientele...While the restaurant is thought to be closed on Saturdays, the truth is that on this special day each week, its doors are instead opened to the inhabitants of other worlds. From dragons and elves to fairies and mages, this restaurant has no shortage of strange customers. Nevertheless, the enigmatic chef known only as \"Master\" will be waiting to serve up their favorite dishes with a kind smile and keep them coming back for many more Saturdays to come.[Written by MAL Rewrite]",
-        "studio": "SILVER LINK.",
-        "type": "TV",
-        "episodes": "12",
-        "cover_path": "assets/covers/CIMG507.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG507.jpg",
-        "rating_count": 10,
-        "global_score_dimensions": [
-            6.4,
-            8.1,
-            7.11,
-            7.1,
-            7.6
-        ]
-    },
-    {
-        "anime_id": "A508",
-        "mal_id": 40746,
-        "title": "Overflow",
-        "en_title": null,
-        "global_score": 6.72,
-        "trailer_url": "N/A",
-        "genre": [
-            "Hentai"
-        ],
-        "synopsis": "Kazushi Sudou is a university student who is visited by his two childhood friends, the sisters Ayane and Kotone Shirakawa. When Ayane discovers that Kazushi not only forgot to buy her pudding but is also using her special lotion in the bath, she decides to take revenge and join Kazushi in his bath along with Kotone. Will the perverted Kazushi be able to remain indifferent to them both?[Written by MAL Rewrite]",
-        "studio": "Studio Hokiboshi",
-        "type": "ONA",
-        "episodes": "8",
-        "cover_path": "assets/covers/CIMG508.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG508.jpg",
-        "rating_count": 10,
-        "global_score_dimensions": [
-            6.4,
-            6.21,
-            6.9,
-            7.3,
-            6.79
-        ]
-    },
-    {
-        "anime_id": "A509",
-        "mal_id": 8918,
-        "title": "Princess Lover! OVA",
-        "en_title": null,
-        "global_score": 6.93,
-        "trailer_url": "N/A",
-        "genre": [
-            "Hentai"
-        ],
-        "synopsis": "After his parents are killed in an accident, Teppei Kobayashi is adopted by his grandfather, Isshin Arima. After taking his grandfather's name, Teppei is made the heir to the Arima Financial Combine, one of the leading forces in the Japanese industry. As befits the heir to an industrial empire, he is enrolled in one of Japan's most prestigious international schools.There, Teppei finds himself surrounded by women of noble bearing and status. He quickly falls for Sylvia van Hossen, a European princess and fencing master. But Sylvia is aloof and difficult to read, and his maid, Yuu Fujikura, seems to have her own agenda. Will Teppei become thePrincess Lover, or is his romance with Sylvia destined for failure?",
-        "studio": "Public Enemies",
-        "type": "OVA",
-        "episodes": "2",
-        "cover_path": "assets/covers/CIMG509.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG509.jpg",
-        "rating_count": 10,
-        "global_score_dimensions": [
-            7.0,
-            7.1,
-            6.81,
-            6.8,
-            7.0
         ]
     }
 ]
