@@ -981,21 +981,33 @@ class UIHome(ft.Row):
         if not user_id:
             self._recent_row.controls.append(ft.Text("No ratings yet.", color=self.theme["text_muted"], size=12))
             return
+
+        user_data = self.data_manager.get_user_by_id(user_id) or {}
+        list_favorit = user_data.get("favorit", [])
+
         for anime, sp in self._cached_anime_rated[:10]:
             sg = anime.get("global_score", 0) or 0
-            self._recent_row.controls.append(AnimeCardSmall(anime, sg, sp, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
+            self._recent_row.controls.append(
+                AnimeCardSmall(anime, sg, sp, self.theme,
+                               is_favorite=(anime.get("anime_id", "") in list_favorit),
+                               on_click_callback=self.screen_manager.tampilkan_detail)
+            )
 
         if not self._cached_anime_rated:
             self._recent_row.controls.append(
                 ft.Container(
                     width=320, height=180,
-                    gradient=ft.LinearGradient(begin=ft.Alignment(0, -1), end=ft.Alignment(0, 1), colors=[self.theme["card"], self.theme["bg"]]),
-                    border=ft.Border.all(1, self.theme["border_color"]), border_radius=16, padding=20, margin=ft.padding.only(left=4, right=4, top=10, bottom=10),
+                    gradient=ft.LinearGradient(begin=ft.Alignment(0, -1), end=ft.Alignment(0, 1),
+                                               colors=[self.theme["card"], self.theme["bg"]]),
+                    border=ft.Border.all(1, self.theme["border_color"]), border_radius=16, padding=20,
+                    margin=ft.padding.only(left=4, right=4, top=10, bottom=10),
                     content=ft.Column(
                         controls=[
                             ft.Text("( ╥ω╥ )", size=32, color=self.theme["primary"], weight=ft.FontWeight.BOLD),
-                            ft.Text("Oops, you haven't rated any anime yet!", color=self.theme["text_main"], size=13, weight=ft.FontWeight.BOLD),
-                            ft.Text("Rate your favorite anime to get personalized recommendations.", color=self.theme["text_secondary"], size=11, text_align=ft.TextAlign.CENTER),
+                            ft.Text("Oops, you haven't rated any anime yet!", color=self.theme["text_main"], size=13,
+                                    weight=ft.FontWeight.BOLD),
+                            ft.Text("Rate your favorite anime to get personalized recommendations.",
+                                    color=self.theme["text_secondary"], size=11, text_align=ft.TextAlign.CENTER),
                             ft.Container(height=5),
                             ft.ElevatedButton(
                                 "Explore Catalog",
@@ -1020,21 +1032,38 @@ class UIHome(ft.Row):
 
     def _muat_trending(self, user_id):
         self._trending_row.controls.clear()
-        semua_sorted = sorted(self._cached_semua_anime, key=lambda a: (a.get("rating_count", 0) or 0, a.get("global_score", 0) or 0), reverse=True)
+        user_data = self.data_manager.get_user_by_id(user_id) or {}
+        list_favorit = user_data.get("favorit", [])
+
+        semua_sorted = sorted(self._cached_semua_anime,
+                              key=lambda a: (a.get("rating_count", 0) or 0, a.get("global_score", 0) or 0),
+                              reverse=True)
         for anime in semua_sorted[:7]:
             aid = anime.get("anime_id", "")
-            sg  = anime.get("global_score", 0) or 0
-            sp  = self._cached_skor_user.get(aid, None) if user_id else None
-            self._trending_row.controls.append(AnimeCardSmall(anime, sg, sp, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
+            sg = anime.get("global_score", 0) or 0
+            sp = self._cached_skor_user.get(aid, None) if user_id else None
+            self._trending_row.controls.append(
+                AnimeCardSmall(anime, sg, sp, self.theme,
+                               is_favorite=(anime.get("anime_id", "") in list_favorit),
+                               on_click_callback=self.screen_manager.tampilkan_detail)
+            )
 
     def _muat_top_unrated(self, user_id):
         self._unrated_row.controls.clear()
+        user_data = self.data_manager.get_user_by_id(user_id) or {}
+        list_favorit = user_data.get("favorit", [])
+
         unrated_sorted = sorted(self._cached_anime_unrated, key=lambda a: a.get("global_score", 0) or 0, reverse=True)
         for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
-            self._unrated_row.controls.append(AnimeCardSmall(anime, sg, None, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
+            self._unrated_row.controls.append(
+                AnimeCardSmall(anime, sg, None, self.theme,
+                               is_favorite=(anime.get("anime_id", "") in list_favorit),
+                               on_click_callback=self.screen_manager.tampilkan_detail)
+            )
         if not self._cached_anime_unrated:
-            self._unrated_row.controls.append(ft.Text("You've rated all available anime!", color=self.theme["text_muted"], size=12))
+            self._unrated_row.controls.append(
+                ft.Text("You've rated all available anime!", color=self.theme["text_muted"], size=12))
 
     def _toggle_sidebar(self, e=None):
         self._sidebar_open = not self._sidebar_open
