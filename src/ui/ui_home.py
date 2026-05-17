@@ -461,7 +461,7 @@ class UIHome(ft.Row):
                 _bikin_card("3", "Dark",       ["#1a1a2e", "#E8CEDB"]),
                 _bikin_card("6", "Aurora",     ["#A855F7", "#10B981"]),
                 _bikin_card("7", "Cyber",      ["#3B82F6", "#FACC15"]),
-                _bikin_card("8", "Narutomaki", ["#F45990", "#F0C89B"]),
+                _bikin_card("8", "Dusk", ["#F45990", "#F0C89B"]),
             ],
             alignment=ft.MainAxisAlignment.CENTER, spacing=6,
         )
@@ -628,16 +628,13 @@ class UIHome(ft.Row):
             content=ft.Stack(
                 expand=True,
                 controls=[
-                    # Layer 1: Gambar banner
                     self._rec_image_container,
 
-                    # Layer 2: Overlay gelap tipis
                     ft.Container(
                         expand=True,
                         bgcolor=ft.Colors.with_opacity(0.2, ft.Colors.BLACK),
                     ),
 
-                    # Layer 3: Gradient hitam dari kiri ke kanan
                     ft.Container(
                         expand=True,
                         gradient=ft.LinearGradient(
@@ -653,7 +650,6 @@ class UIHome(ft.Row):
                         ),
                     ),
 
-                    # Layer 4: Konten teks di kiri
                     ft.Container(
                         expand=True,
                         padding=ft.padding.only(left=50, right=50, top=0, bottom=0),
@@ -809,7 +805,6 @@ class UIHome(ft.Row):
         )
 
         self.controls = [self._sidebar_widget, area_utama]
-
         self.efek_sakura = HujanSakura(_hujan_stack, self.theme)
         self.my_page.run_task(self.efek_sakura.turun)
 
