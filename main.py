@@ -49,7 +49,16 @@ def main(page: ft.Page):
     screen_manager = ScreenManager(page, data_manager, auth_manager)
     kb_manager = KeyboardManager(page, screen_manager, auth_manager)
 
-    screen_manager.tampilkan_login()
+    # Cek apakah ada user yang sudah login sebelumnya (sesi tersimpan)
+    user_id_tersimpan = data_manager.baca_sesi()
 
-if __name__ == "__main__":
-    ft.run(main, assets_dir="assets")
+    if user_id_tersimpan:
+        # Jika ada sesi, set user aktif dan langsung ke Home
+        auth_manager.set_user_aktif(user_id_tersimpan)
+        screen_manager.tampilkan_home()
+    else:
+        # Jika tidak ada sesi, tampilkan layar login
+        screen_manager.tampilkan_login()
+
+if __name__ == '__main__':
+    ft.run(main)

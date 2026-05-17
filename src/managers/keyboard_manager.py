@@ -33,6 +33,8 @@ class KeyboardManager:
         """Reloads the current view gracefully (useful after theme change)."""
         if halaman_sekarang == "home":
             self.sm.tampilkan_home()
+        elif halaman_sekarang == "login":
+                if hasattr(self.sm, "tampilkan_login"): self.sm.tampilkan_login()
         elif halaman_sekarang == "katalog":
             self.sm.tampilkan_katalog(filter_kategori=getattr(self.sm, "filter_terakhir", "all"))
         elif halaman_sekarang == "profil":
@@ -42,7 +44,7 @@ class KeyboardManager:
         elif halaman_sekarang == "scraping":
             if hasattr(self.sm, "tampilkan_scraping"): self.sm.tampilkan_scraping()
         elif halaman_sekarang == "detail" and view:
-            if hasattr(view, "perbarui_tema"): view.perbarui_tema()
+            if hasattr(self.sm,"tampilkan_detail"): self.sm.tampilkan_detail(anime_id=getattr(view, "anime_id", None))
 
     # ---------------------------------------------------------
     # MAIN EVENT HANDLER

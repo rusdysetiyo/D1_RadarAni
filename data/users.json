@@ -1704,5 +1704,24 @@
             7.47,
             7.75
         ]
+    },
+    {
+        "user_id": "U080",
+        "username": "ddddd",
+        "password": "ddddd",
+        "created_at": "2026-05-17 12:14:04",
+        "last_login": "2026-05-17T12:14:10.246496",
+        "rating_count": 3,
+        "average_score": 1.2,
+        "average_dimensions": [
+            1.0,
+            1.0,
+            2.0,
+            1.0,
+            1.0
+        ],
+        "favorit": [
+            "A014"
+        ]
     }
 ]

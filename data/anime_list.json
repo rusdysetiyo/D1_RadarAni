@@ -385,7 +385,7 @@
         "mal_id": 9253,
         "title": "Steins;Gate",
         "en_title": null,
-        "global_score": 8.84,
+        "global_score": 8.72,
         "genre": [
             "Drama",
             "Sci-Fi",
@@ -399,13 +399,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG014.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG014.jpg",
-        "rating_count": 66,
+        "rating_count": 67,
         "global_score_dimensions": [
-            8.73,
-            8.92,
-            8.55,
-            9.09,
-            8.91
+            8.61,
+            8.8,
+            8.44,
+            8.97,
+            8.79
         ],
         "banner_path": "assets/banners/A014_BANNER.jpg"
     },
@@ -10051,7 +10051,7 @@
         "mal_id": 28977,
         "title": "Gintama°",
         "en_title": "Gintama Season 4",
-        "global_score": 9.11,
+        "global_score": 8.69,
         "genre": [
             "Action",
             "Comedy",
@@ -10068,13 +10068,13 @@
         "episodes": "51",
         "cover_path": "assets/covers/CIMG349.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG349.jpg",
-        "rating_count": 17,
+        "rating_count": 18,
         "global_score_dimensions": [
-            9.18,
-            9.12,
-            8.71,
-            9.0,
-            9.53
+            8.73,
+            8.67,
+            8.45,
+            8.56,
+            9.06
         ],
         "banner_path": "assets/banners/A349_BANNER.jpg"
     },
@@ -12781,7 +12781,7 @@
         "mal_id": 42938,
         "title": "Fruits Basket: The Final",
         "en_title": "Fruits Basket: The Final Season",
-        "global_score": 9.05,
+        "global_score": 8.38,
         "genre": [
             "Drama",
             "Romance",
@@ -12794,13 +12794,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG443.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG443.jpg",
-        "rating_count": 11,
+        "rating_count": 12,
         "global_score_dimensions": [
-            9.18,
-            9.27,
-            8.64,
-            9.18,
-            9.0
+            8.5,
+            8.58,
+            8.0,
+            8.5,
+            8.33
         ],
         "banner_path": "assets/banners/A443_BANNER.jpg"
     },
