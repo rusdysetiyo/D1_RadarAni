@@ -10,24 +10,6 @@ from src.config.theme import ThemeManager
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
-
-# ── Warna Tema ────────────────────────────────────────
-C_BG = "#FCF8FA"
-C_BG2 = "#F5EEF2"
-C_SAKURA = "#C07090"
-C_SAKURA_LT = "#F9F0F5"
-C_BLUE_LT = "#D4EBF8"
-C_TEXT = "#3D2535"
-C_TEXT2 = "#8B6A7A"
-C_TEXT3 = "#B0909A"
-C_BORDER = "#EDE0E8"
-C_GOLD = "#C08030"
-C_PURPLE = "#9060A0"
-C_WHITE = "#FFFFFF"
-C_PBORDER = "#BFFF5593"
-C_GBORDER = "#BF6958FF"
-C_PRADAR = "#40FF81EA"
-C_GRADAR = "#40709DFF"
 # ═══════════════════════════════════════════════════════════════
 #  HELPER FUNCTIONS
 # ═══════════════════════════════════════════════════════════════
@@ -321,28 +303,6 @@ def build_radar_chart(global_scores, personal_scores, labels, theme, size=300):
         content=ft.canvas.Canvas(shapes=shapes, width=size, height=size)
     )
 
-
-def score_dropdown(label: str, theme):
-    return ft.Column(
-        spacing=4,
-        controls=[
-            ft.Text(label, size=11, color=theme["text_main"], weight=ft.FontWeight.W_500),
-            ft.Dropdown(
-                value="1",
-                options=[ft.dropdown.Option(str(i)) for i in range(1, 11)],
-                width=110,
-                height=42,
-                bgcolor=theme["card"],
-                border_color=theme["border_color"],
-                color=theme["text_main"],
-                border_radius=8,
-                text_size=13,
-                content_padding=ft.padding.symmetric(horizontal=10, vertical=4),
-            )
-        ]
-    )
-
-
 def score_card(value, theme, global_score=False):
     return ft.Container(
         width=150,
@@ -439,7 +399,6 @@ class LeftPanel(ft.Container):
         )
 
     def _build_genre_tags(self, gendres):
-        print("Genres:", gendres)  # Debug print untuk memastikan data genre diterima dengan benar
         return ft.Row(
             wrap=True, spacing=6, run_spacing=6,
             controls=[tag(genre, self._theme) for genre in gendres]
@@ -754,9 +713,9 @@ class RightPanel(ft.Container):
             self.my_page.update()
             self._show_snackbar("Rating Berhasil Diperbarui!", self._theme["success"])
 
-        except Exception as err:
-            print(f"Error: {err}")
-
+        except Exception as ex:
+            self._show_snackbar(f"Error saving rating: {str(ex)}", self._theme["error"])
+            
     def delete_rating(self, e):
         user_id = self.data_manager.baca_sesi()
         self.data_manager.hapus_rating(user_id, self.anime_id)
