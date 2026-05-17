@@ -385,9 +385,16 @@ class UIKatalog(ft.Row):
                 controls=[
                     ft.IconButton(
                         icon=ft.Icons.ARROW_BACK if is_sub_page else ft.Icons.MENU,
-                        icon_color=self.theme["primary"],
+                        tooltip="Back" if is_sub_page else "Menu",
                         on_click=lambda
                             e: self.screen_manager.tampilkan_home() if is_sub_page else self._toggle_sidebar(e),
+                        style=ft.ButtonStyle(
+                            overlay_color=ft.Colors.TRANSPARENT,
+                            icon_color={
+                                ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["primary"]),
+                                ft.ControlState.DEFAULT: self.theme["primary"],
+                            }
+                        )
                     ),
                     ft.Column(
                         [
@@ -435,6 +442,10 @@ class UIKatalog(ft.Row):
         list_genre_unik = sorted(list({g for a in semua_anime_awal for g in a.get("genre", [])}))
 
         def _buat_chip(label, data, aktif=False):
+            def _on_hover(e):
+                e.control.scale = 1.05 if str(e.data).lower() == "true" else 1.0
+                e.control.update()
+
             return ft.Container(
                 content=ft.Text(
                     label, size=12, color=ft.Colors.WHITE if aktif else self.theme["text_main"],
@@ -442,12 +453,14 @@ class UIKatalog(ft.Row):
                 ),
                 data=data,
                 bgcolor=self.theme["primary"] if aktif else self.theme["primary_light"],
-                border=ft.border.all(1.5 if aktif else 1, self.theme["primary"] if aktif else self.theme["border_color"]),
+                border=ft.border.all(1.5 if aktif else 1,
+                                     self.theme["primary"] if aktif else self.theme["border_color"]),
                 border_radius=25,
                 padding=ft.padding.symmetric(horizontal=16, vertical=8),
                 on_click=self._pilih_genre_dari_dialog,
-                animate=ft.Animation(150, ft.AnimationCurve.EASE_OUT),
-                ink=True
+                on_hover=_on_hover,
+                scale=1.0,
+                animate_scale=ft.Animation(150, ft.AnimationCurve.EASE_OUT),
             )
 
         self._chip_refs = {}
@@ -472,7 +485,16 @@ class UIKatalog(ft.Row):
                     ft.Container(expand=True),
                     ft.Container(
                         content=ft.IconButton(
-                            ft.Icons.CLOSE, icon_size=18, icon_color=self.theme["text_muted"], on_click=self._tutup_dialog_genre,
+                            icon=ft.Icons.CLOSE,
+                            icon_size=18,
+                            on_click=self._tutup_dialog_genre,
+                            style=ft.ButtonStyle(
+                                overlay_color=ft.Colors.TRANSPARENT,
+                                icon_color={
+                                    ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["primary"]),
+                                    ft.ControlState.DEFAULT: self.theme["text_muted"],
+                                }
+                            )
                         ),
                         bgcolor=self.theme["bg_secondary"],
                         border_radius=20,
@@ -502,10 +524,15 @@ class UIKatalog(ft.Row):
 
         self._btn_filter = ft.IconButton(
             icon=ft.Icons.FILTER_ALT,
-            icon_color=self.theme["text_secondary"],
-            icon_size=20,
             tooltip="Filter Genre",
-            on_click=self._buka_dialog_genre
+            on_click=self._buka_dialog_genre,
+            style=ft.ButtonStyle(
+                overlay_color=ft.Colors.TRANSPARENT,
+                icon_color={
+                    ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["text_secondary"]),
+                    ft.ControlState.DEFAULT: self.theme["text_secondary"],
+                }
+            )
         )
 
         self._sort_label = ft.Text("Sort: Title", size=11, color=self.theme["text_main"])
@@ -523,11 +550,31 @@ class UIKatalog(ft.Row):
             )
         )
 
-        self._btn_grid = ft.IconButton(ft.Icons.GRID_VIEW,
-                                       icon_color=self.theme["primary"] if self._view_mode == "grid" else self.theme["text_muted"], icon_size=20,
-                                       on_click=lambda _: self._set_view("grid"))
-        self._btn_list = ft.IconButton(ft.Icons.LIST, icon_color=self.theme["primary"] if self._view_mode == "list" else self.theme["text_muted"],
-                                       icon_size=20, on_click=lambda _: self._set_view("list"))
+        self._btn_grid = ft.IconButton(
+            icon=ft.Icons.GRID_VIEW,
+            on_click=lambda _: self._set_view("grid"),
+            style=ft.ButtonStyle(
+                overlay_color=ft.Colors.TRANSPARENT,
+                icon_color={
+                    ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["primary"]),
+                    ft.ControlState.DEFAULT: self.theme["primary"] if self._view_mode == "grid" else self.theme[
+                        "text_muted"],
+                }
+            )
+        )
+
+        self._btn_list = ft.IconButton(
+            icon=ft.Icons.LIST,
+            on_click=lambda _: self._set_view("list"),
+            style=ft.ButtonStyle(
+                overlay_color=ft.Colors.TRANSPARENT,
+                icon_color={
+                    ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["primary"]),
+                    ft.ControlState.DEFAULT: self.theme["primary"] if self._view_mode == "list" else self.theme[
+                        "text_muted"],
+                }
+            )
+        )
 
         # ── Pagination Setup ──
         self._pagination_row = ft.Row(alignment=ft.MainAxisAlignment.CENTER, spacing=5)

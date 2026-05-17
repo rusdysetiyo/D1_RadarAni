@@ -2,9 +2,10 @@ import flet as ft
 
 
 class KeyboardManager:
-    def __init__(self, page, screen_manager):
+    def __init__(self, page, screen_manager, auth_manager):
         self.page = page
         self.sm = screen_manager
+        self.auth = auth_manager
         self.page.on_keyboard_event = self.handle_event
 
     def _close_active_dialog(self):
@@ -155,12 +156,65 @@ class KeyboardManager:
                 self.sm.tampilkan_home()
             return
 
-        # [Ctrl + L / Ctrl + Delete] Profile Actions
-        if e.ctrl and halaman_sekarang == "profil" and view:
-            if key_pressed == "L" and hasattr(view, "aksi_tombol_logout"):
+        # [Ctrl + L / Ctrl + Delete]
+        if e.ctrl and key_pressed == "L":
+            if halaman_sekarang == "profil" and hasattr(view, "aksi_tombol_logout"):
                 view.aksi_tombol_logout(None)
-                return
-            elif key_pressed == "DELETE" and hasattr(view, "aksi_tombol_hapus_akun"):
+            else:
+                theme = getattr(self.sm, "theme", {})
+                PRIMARY = theme.get("primary", "#6c5ce7")
+                CARD = theme.get("card", "#ffffff")
+                TEXT_MUTED = theme.get("text_muted", "#999999")
+                BORDER = theme.get("border_color", "#e0e0e0")
+
+                def aksi_ya(ev):
+                    dialog_logout.open = False
+                    self.page.update()
+                    self.auth.logout()
+                    self.sm.tampilkan_login()
+
+                def aksi_batal(ev):
+                    dialog_logout.open = False
+                    self.page.update()
+
+                dialog_logout = ft.AlertDialog(
+                    modal=True,
+                    title=ft.Row([
+                        ft.Icon(ft.Icons.LOGOUT_ROUNDED, color=PRIMARY, size=20),
+                        ft.Text("Confirm Logout", weight=ft.FontWeight.W_800, color=PRIMARY, size=14),
+                    ], spacing=8),
+                    content=ft.Text(
+                        "Are you sure you want to log out of your account?",
+                        size=12, color=TEXT_MUTED,
+                    ),
+                    actions=[
+                        ft.OutlinedButton(
+                            "Cancel", on_click=aksi_batal,
+                            style=ft.ButtonStyle(
+                                side=ft.BorderSide(1.5, BORDER),
+                                shape=ft.RoundedRectangleBorder(radius=8),
+                                color=TEXT_MUTED,
+                            ),
+                        ),
+                        ft.ElevatedButton(
+                            "Log Out", on_click=aksi_ya,
+                            style=ft.ButtonStyle(
+                                bgcolor=PRIMARY, color=CARD,
+                                shape=ft.RoundedRectangleBorder(radius=8),
+                            ),
+                        ),
+                    ],
+                    actions_alignment=ft.MainAxisAlignment.END,
+                    bgcolor=CARD,
+                )
+
+                self.page.overlay.append(dialog_logout)
+                dialog_logout.open = True
+                self.page.update()
+            return
+
+        if e.ctrl and halaman_sekarang == "profil" and view:
+            if key_pressed == "DELETE" and hasattr(view, "aksi_tombol_hapus_akun"):
                 view.aksi_tombol_hapus_akun(None)
                 return
 
@@ -210,3 +264,10 @@ class KeyboardManager:
                 self.page.run_task(view.main_scroll.scroll_to, delta=-150, duration=150)
             elif not e.ctrl and key_pressed == "ARROW DOWN":
                 self.page.run_task(view.main_scroll.scroll_to, delta=150, duration=150)
+            if halaman_sekarang == "katalog" and view:
+                if key_pressed == "ARROW LEFT" and hasattr(view, "_ganti_halaman"):
+                    if view._halaman > 1:
+                        view._ganti_halaman(view._halaman - 1)
+                elif key_pressed == "ARROW RIGHT" and hasattr(view, "_ganti_halaman"):
+                    if view._halaman < view._total_pg:
+                        view._ganti_halaman(view._halaman + 1)

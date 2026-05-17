@@ -87,7 +87,11 @@ def _section_header(title: str, theme, on_lihat_semua=None) -> ft.Container:
                 ft.TextButton(
                     "View All →",
                     style=ft.ButtonStyle(
-                        color={ft.ControlState.DEFAULT: theme["primary"]},
+                        overlay_color=ft.Colors.TRANSPARENT,
+                        color={
+                            ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, theme["primary"]),
+                            ft.ControlState.DEFAULT: theme["primary"],
+                        },
                         padding=ft.padding.all(0),
                     ),
                     on_click=on_lihat_semua,
@@ -97,7 +101,6 @@ def _section_header(title: str, theme, on_lihat_semua=None) -> ft.Container:
             vertical_alignment=ft.CrossAxisAlignment.CENTER,
         ),
     )
-
 
 class AnimeCardSmall(ft.Container):
     def __init__(self, anime: dict, skor_global, skor_personal, theme, is_favorite=False, on_click_callback=None):
@@ -297,7 +300,20 @@ def _sidebar(screen_manager, auth_manager, toggle_fn, theme, halaman_aktif="home
             content=ft.Column(
                 controls=[
                     ft.Row(
-                        [ft.IconButton(ft.Icons.CHEVRON_LEFT, icon_color=theme["primary"], icon_size=20, on_click=toggle_fn)],
+                        [
+                            ft.IconButton(
+                                icon=ft.Icons.CHEVRON_LEFT,
+                                icon_size=20,
+                                on_click=toggle_fn,
+                                style=ft.ButtonStyle(
+                                    overlay_color=ft.Colors.TRANSPARENT,
+                                    icon_color={
+                                        ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, theme["primary"]),
+                                        ft.ControlState.DEFAULT: theme["primary"],
+                                    }
+                                )
+                            )
+                        ],
                         alignment=ft.MainAxisAlignment.END,
                     ),
                     ft.Container(height=8),
@@ -356,10 +372,10 @@ class UIHome(ft.Row):
             "2": ("Matcha", ["#5C805C", "#DDA7B0"]),
             "5": ("Pastel", ["#839CCB", "#F2A3A1"]),
             "4": ("Ocean", ["#3B82F6", "#1D4ED8"]),
-            "3": ("Dark", ["#1a1a2e", "#E8CEDB"]),
+            "3": ("Dark",   ["#1a1a2e", "#E8CEDB"]),
             "6": ("Aurora", ["#A855F7", "#10B981"]),
-            "7": ("Cyber", ["#3B82F6", "#FACC15"]),
-            "8": ("Candy", ["#F45990", "#F0C89B"]),
+            "7": ("Cyber",  ["#3B82F6", "#FACC15"]),
+            "8": ("Dusk", ["#F45990", "#F0C89B"]),
         }
 
         tema_aktif = getattr(self.screen_manager, "tema_aktif", "1")
@@ -435,17 +451,17 @@ class UIHome(ft.Row):
                 _bikin_card("1", "Sakura", ["#FF759E", "#C3D3B4"]),
                 _bikin_card("2", "Matcha", ["#5C805C", "#DDA7B0"]),
                 _bikin_card("5", "Pastel", ["#839CCB", "#F2A3A1"]),
-                _bikin_card("4", "Ocean", ["#3B82F6", "#1D4ED8"]),
+                _bikin_card("4", "Ocean",  ["#3B82F6", "#1D4ED8"]),
             ],
             alignment=ft.MainAxisAlignment.CENTER, spacing=6,
         )
 
         baris_dark = ft.Row(
             controls=[
-                _bikin_card("3", "Dark", ["#1a1a2e", "#E8CEDB"]),
-                _bikin_card("6", "Aurora", ["#A855F7", "#10B981"]),
-                _bikin_card("7", "Cyber", ["#3B82F6", "#FACC15"]),
-                _bikin_card("8", "Dusk", ["#F45990", "#F0C89B"]),
+                _bikin_card("3", "Dark",       ["#1a1a2e", "#E8CEDB"]),
+                _bikin_card("6", "Aurora",     ["#A855F7", "#10B981"]),
+                _bikin_card("7", "Cyber",      ["#3B82F6", "#FACC15"]),
+                _bikin_card("8", "Narutomaki", ["#F45990", "#F0C89B"]),
             ],
             alignment=ft.MainAxisAlignment.CENTER, spacing=6,
         )
@@ -491,9 +507,15 @@ class UIHome(ft.Row):
 
         btn_theme_picker = ft.IconButton(
             icon=ft.Icons.PALETTE_OUTLINED,
-            icon_color=self.theme["text_main"],
             tooltip="Change Theme",
             on_click=buka_dialog_tema,
+            style=ft.ButtonStyle(
+                overlay_color=ft.Colors.TRANSPARENT,
+                icon_color={
+                    ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["text_main"]),
+                    ft.ControlState.DEFAULT: self.theme["text_main"],
+                }
+            )
         )
 
         topbar = ft.Container(
@@ -503,7 +525,18 @@ class UIHome(ft.Row):
             shadow=ft.BoxShadow(blur_radius=15, color="#15000000", offset=ft.Offset(0, 4)),
             content=ft.Row(
                 controls=[
-                    ft.IconButton(ft.Icons.MENU, icon_color=self.theme["primary"], on_click=self._toggle_sidebar, tooltip="Menu"),
+                    ft.IconButton(
+                        icon=ft.Icons.MENU,
+                        tooltip="Menu",
+                        on_click=self._toggle_sidebar,
+                        style=ft.ButtonStyle(
+                            overlay_color=ft.Colors.TRANSPARENT,
+                            icon_color={
+                                ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["primary"]),
+                                ft.ControlState.DEFAULT: self.theme["primary"],
+                            }
+                        )
+                    ),
                     ft.Column(
                         [
                             ft.Row(
@@ -524,7 +557,18 @@ class UIHome(ft.Row):
                     ),
                     ft.Container(expand=True),
                     btn_theme_picker,
-                    ft.IconButton(ft.Icons.ACCOUNT_CIRCLE, icon_color=self.theme["text_muted"], tooltip="Profile", on_click=lambda _: self.screen_manager.tampilkan_profil())
+                    ft.IconButton(
+                        icon=ft.Icons.ACCOUNT_CIRCLE,
+                        tooltip="Profile",
+                        on_click=lambda _: self.screen_manager.tampilkan_profil(),
+                        style=ft.ButtonStyle(
+                            overlay_color=ft.Colors.TRANSPARENT,
+                            icon_color={
+                                ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["primary"]),
+                                ft.ControlState.DEFAULT: self.theme["text_muted"]
+                            }
+                        )
+                    )
                 ], vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
         )
@@ -533,10 +577,10 @@ class UIHome(ft.Row):
         user_data = self.data_manager.get_user_by_id(user_id)
         username = user_data.get("username", "User") if user_data else "User"
 
-        self._stat_rated = _stat_pill("評", "RATED", self.theme["pill_rated"])
+        self._stat_rated   = _stat_pill("評", "RATED",   self.theme["pill_rated"])
         self._stat_unrated = _stat_pill("未", "UNRATED", self.theme["pill_unrated"])
-        self._stat_avg = _stat_pill("均", "AVG", self.theme["pill_avg"])
-        self._stat_dim = _stat_pill("極", "TOP", self.theme["pill_top"])
+        self._stat_avg     = _stat_pill("均", "AVG",     self.theme["pill_avg"])
+        self._stat_dim     = _stat_pill("極", "TOP",     self.theme["pill_top"])
 
         self._rec_title = ft.Text(
             "—", size=28,
@@ -549,21 +593,21 @@ class UIHome(ft.Row):
             "Based on your top dimension",
             size=12, color="#CCFFFFFF",
         )
-
         self._rec_synopsis = ft.Text(
             "", size=12, color="#CCCCCC", max_lines=3, overflow=ft.TextOverflow.ELLIPSIS
         )
         self._rec_anime_id = None
-
-        self._rec_image = ft.Image(src="", width=36, height=50, fit="cover", visible=False)
-
+        self._rec_image = ft.Image(src=None, width=36, height=50, fit="cover", visible=False)
         self._rec_image_container = ft.Image(
-            src="",
+            src=None,
+            visible=False,
             width=float("inf"),
             height=340,
             fit=ft.BoxFit.COVER,
             expand=True,
         )
+
+        self._rec_btn_ref = ft.Ref[ft.ElevatedButton]()
 
         def banner_hover(e):
             is_hover = str(e.data).lower() == "true"
@@ -584,32 +628,32 @@ class UIHome(ft.Row):
             content=ft.Stack(
                 expand=True,
                 controls=[
-                    # Layer 1: Gambar ditarik Full (Burek gapapa, ntar ditutup gradien)
+                    # Layer 1: Gambar banner
                     self._rec_image_container,
 
-                    # Layer 2: Overlay Gelap tipis di seluruh gambar biar bureknya tersamarkan
+                    # Layer 2: Overlay gelap tipis
                     ft.Container(
                         expand=True,
                         bgcolor=ft.Colors.with_opacity(0.2, ft.Colors.BLACK),
                     ),
 
-                    # Layer 3: Gradient HITAM PEKAT dari Kiri ke Kanan (Anti-Kamuflase)
+                    # Layer 3: Gradient hitam dari kiri ke kanan
                     ft.Container(
                         expand=True,
                         gradient=ft.LinearGradient(
-                            begin=ft.Alignment(-1.0, 0),  # Kiri mentok
-                            end=ft.Alignment(1.0, 0),  # Kanan mentok
+                            begin=ft.Alignment(-1.0, 0),
+                            end=ft.Alignment(1.0, 0),
                             colors=[
-                                "#F2000000",  # Hitam 95% nutupin kiri banget buat teks
-                                "#B3000000",  # Hitam 70%
-                                "#4D000000",  # Hitam 30%
-                                ft.Colors.TRANSPARENT,  # Kanan bolong buat liat gambar
+                                "#F2000000",
+                                "#B3000000",
+                                "#4D000000",
+                                ft.Colors.TRANSPARENT,
                             ],
                             stops=[0.0, 0.45, 0.8, 1.0],
                         ),
                     ),
 
-                    # Layer 4: Konten Teks di Kiri
+                    # Layer 4: Konten teks di kiri
                     ft.Container(
                         expand=True,
                         padding=ft.padding.only(left=50, right=50, top=0, bottom=0),
@@ -619,33 +663,24 @@ class UIHome(ft.Row):
                             alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.START,
                             controls=[
-                                # Label kecil
                                 ft.Container(
                                     content=ft.Row(
                                         controls=[
-                                            ft.Container(width=3, height=14, bgcolor=self.theme["primary"],
-                                                         border_radius=2),
-                                            ft.Text("RECOMMENDED FOR YOU", size=10, color=self.theme["primary"],
-                                                    weight=ft.FontWeight.W_800),
+                                            ft.Container(width=3, height=14, bgcolor=self.theme["primary"], border_radius=2),
+                                            ft.Text("RECOMMENDED FOR YOU", size=10, color=self.theme["primary"], weight=ft.FontWeight.W_800),
                                         ], spacing=6,
                                     ),
                                 ),
                                 ft.Container(height=8),
-
-                                # Judul (Pasti putih)
                                 self._rec_title,
                                 ft.Container(height=4),
-
-                                # Alasan (Pasti putih pudar)
                                 self._rec_reason,
                                 ft.Container(height=12),
-
-                                # Sinopsis
                                 self._rec_synopsis,
                                 ft.Container(height=24),
-
-                                # Tombol
                                 ft.ElevatedButton(
+                                    ref=self._rec_btn_ref,
+                                    visible=False,
                                     content=ft.Row(
                                         controls=[
                                             ft.Icon(ft.Icons.PLAY_ARROW_ROUNDED, size=20),
@@ -767,7 +802,7 @@ class UIHome(ft.Row):
             controls=[
                 ft.Container(
                     content=self._main_col, left=0, right=0, top=0, bottom=0,
-                    bgcolor=self.theme["bg"] # Pake warna BG tema
+                    bgcolor=self.theme["bg"]
                 ),
                 wadah_sakura,
             ], expand=True,
@@ -778,9 +813,20 @@ class UIHome(ft.Row):
         self.efek_sakura = HujanSakura(_hujan_stack, self.theme)
         self.my_page.run_task(self.efek_sakura.turun)
 
-    # ... Sisa Method (_muat_sections, _perbarui_stats, _muat_rekomendasi, _muat_recent, dll)
-    # BIARKAN SAMA PERSIS KAYA KODE ASLI LU, HANYA GANTI PARAMETER PAS MANGGIL AnimeCardSmall
+    # ── helper internal ────────────────────────────────────────────────────
+    def _hide_rec_empty_state(self):
+        """Sembunyiin image container dan button saat empty state."""
+        self._rec_image_container.visible = False
+        if self._rec_btn_ref.current:
+            self._rec_btn_ref.current.visible = False
 
+    def _show_rec_content(self):
+        """Tampilkan image container dan button saat ada rekomendasi."""
+        self._rec_image_container.visible = True
+        if self._rec_btn_ref.current:
+            self._rec_btn_ref.current.visible = True
+
+    # ── async sections ─────────────────────────────────────────────────────
     async def _muat_sections(self):
         user_id = self.data_manager.baca_sesi()
         if not user_id: return
@@ -789,13 +835,12 @@ class UIHome(ft.Row):
         semua_rating = self.data_manager._read_json(self.data_manager.ratings_file) or {}
         rating_user_ini = semua_rating.get(user_id, {})
 
-        self._cached_anime_rated = []
+        self._cached_anime_rated   = []
         self._cached_anime_unrated = []
-        self._cached_skor_user = {}
+        self._cached_skor_user     = {}
 
         for i, anime in enumerate(self._cached_semua_anime):
             aid = anime.get("anime_id", "")
-
             if aid in rating_user_ini:
                 skor_dict = rating_user_ini[aid]
                 sp = round(sum(skor_dict.values()) / len(skor_dict), 2) if skor_dict else 0
@@ -824,66 +869,66 @@ class UIHome(ft.Row):
 
         try:
             if hasattr(self, '_trending_row'): self._trending_row.update()
-            if hasattr(self, '_recent_row'): self._recent_row.update()
-            if hasattr(self, '_unrated_row'): self._unrated_row.update()
+            if hasattr(self, '_recent_row'):   self._recent_row.update()
+            if hasattr(self, '_unrated_row'):  self._unrated_row.update()
             self.update()
         except Exception as err:
             print(f"Error pas update Home: {err}")
 
     def _perbarui_stats(self, user_id):
         if not user_id: return
-        rated = len(self._cached_anime_rated)
+        rated   = len(self._cached_anime_rated)
         unrated = len(self._cached_anime_unrated)
         user_data = self.data_manager.get_user_by_id(user_id) or {}
         avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
         avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
         top_dim = max(avg_dim, key=avg_dim.get).capitalize() if avg_dim else "—"
-        scores = [sp for _, sp in self._cached_anime_rated]
+        scores  = [sp for _, sp in self._cached_anime_rated]
         avg_val = f"{sum(scores) / len(scores):.1f}" if scores else "—"
 
-        self._stat_rated.content.controls[2].value = str(rated)
+        self._stat_rated.content.controls[2].value   = str(rated)
         self._stat_unrated.content.controls[2].value = str(unrated)
-        self._stat_avg.content.controls[2].value = str(avg_val)
-        self._stat_dim.content.controls[2].value = str(top_dim)
+        self._stat_avg.content.controls[2].value     = str(avg_val)
+        self._stat_dim.content.controls[2].value     = str(top_dim)
         self.update()
 
     def _muat_rekomendasi(self, user_id):
         if not user_id: return
-        MIN_RATING = 3
-        jumlah_rated = len(self._cached_anime_rated) if hasattr(self, '_cached_anime_rated') else 0
+        MIN_RATING    = 3
+        jumlah_rated  = len(self._cached_anime_rated) if hasattr(self, '_cached_anime_rated') else 0
 
         if jumlah_rated == 0:
-            self._rec_title.value = "Start rating to unlock recommendations."
+            self._rec_title.value  = "Start rating to unlock recommendations."
             self._rec_reason.value = "Rate your first anime to begin."
-            self._rec_image.visible = False
+            self._hide_rec_empty_state()
             self.update(); return
 
         if jumlah_rated < MIN_RATING:
-            sisa = MIN_RATING - jumlah_rated
+            sisa     = MIN_RATING - jumlah_rated
             progress = "●" * jumlah_rated + "○" * sisa
-            self._rec_title.value = f"Rate {sisa} more anime to unlock recommendations."
+            self._rec_title.value  = f"Rate {sisa} more anime to unlock recommendations."
             self._rec_reason.value = f"{progress}  {jumlah_rated} / {MIN_RATING}"
-            self._rec_image.visible = False
+            self._hide_rec_empty_state()
             self.update(); return
 
-        user_data = self.data_manager.get_user_by_id(user_id) or {}
-        avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        user_data      = self.data_manager.get_user_by_id(user_id) or {}
+        avg_list       = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
-        avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
+        avg_dim        = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
 
         if not avg_dim:
-            self._rec_title.value = "Keep rating to improve your recommendations."
+            self._rec_title.value  = "Keep rating to improve your recommendations."
             self._rec_reason.value = "Not enough dimension data yet."
-            self._rec_image.visible = False
+            self._hide_rec_empty_state()
             self.update(); return
 
         skor_tertinggi = max(avg_dim.values())
-        dimensi_seri = [dim for dim, skor in avg_dim.items() if skor == skor_tertinggi]
+        dimensi_seri   = [dim for dim, skor in avg_dim.items() if skor == skor_tertinggi]
         sudah_ditonton = [a.get("anime_id") for a, _ in self._cached_anime_rated]
 
         best_anime_id = None
-        alasan = ""
+        alasan        = ""
 
         if hasattr(self.data_manager, "get_rekomendasi_multidimensi"):
             best_anime_id = self.data_manager.get_rekomendasi_multidimensi(dimensi_seri, sudah_ditonton)
@@ -892,48 +937,49 @@ class UIHome(ft.Row):
 
         best_anime = None
         if best_anime_id:
-            best_anime = self.data_manager.get_detail_anime(best_anime_id)
+            best_anime  = self.data_manager.get_detail_anime(best_anime_id)
             nama_dimensi = " & ".join([d.capitalize() for d in dimensi_seri])
-            alasan = f"Highest rated in your favorite aspects: {nama_dimensi}"
+            alasan       = f"Highest rated in your favorite aspects: {nama_dimensi}"
         else:
             kandidat = [a for a in self._cached_semua_anime if a.get("anime_id") not in sudah_ditonton and a.get("global_score")]
             if kandidat:
                 kandidat.sort(key=lambda x: x.get("global_score", 0), reverse=True)
                 best_anime = kandidat[0]
-                alasan = "Highly rated by the community"
+                alasan     = "Highly rated by the community"
 
         if not best_anime:
-            self._rec_title.value = "You've conquered our catalog!"
+            self._rec_title.value  = "You've conquered our catalog!"
             self._rec_reason.value = "No more anime left to recommend."
-            self._rec_image.visible = False
+            self._hide_rec_empty_state()
             self.update(); return
 
-        self._rec_anime_id = best_anime.get("anime_id")
-        self._rec_title.value = best_anime.get("title", "—")
-        self._rec_reason.value = alasan
-
-        self._rec_synopsis.value = best_anime.get("synopsis", "No synopsis available.")
+        self._rec_anime_id         = best_anime.get("anime_id")
+        self._rec_title.value      = best_anime.get("title", "—")
+        self._rec_reason.value     = alasan
+        self._rec_synopsis.value   = best_anime.get("synopsis", "No synopsis available.")
 
         path_banner = best_anime.get("banner_path", "")
+        path_hd     = best_anime.get("cover_path_hd", "")
+        path_lokal  = best_anime.get("cover_path", "") or best_anime.get("thumbnail_path", "")
 
-        # Prioritas 2: Poster HD (Hasil download jikan kemarin)
-        path_hd = best_anime.get("cover_path_hd", "")
-
-        # Prioritas 3: Poster Lokal (Bawaan burik)
-        path_lokal = best_anime.get("cover_path", "") or best_anime.get("thumbnail_path", "")
-
-        # Pemilihan Kasta
         cover_terpilih = path_banner if path_banner else (path_hd if path_hd else path_lokal)
 
         if cover_terpilih:
             full_path = os.path.join(ROOT_DIR, cover_terpilih)
             if os.path.exists(full_path):
                 self._rec_image_container.src = full_path
-                self._rec_image_container.update()
+                self._show_rec_content()
+                try:
+                    if self._rec_image_container.page:
+                        self._rec_image_container.update()
+                except Exception:
+                    pass
 
-        self._rec_synopsis.update()
-
-        self._rec_synopsis.update()
+        try:
+            if self._rec_synopsis.page:
+                self._rec_synopsis.update()
+        except Exception:
+            pass
 
     def _muat_recent(self, user_id):
         self._recent_row.controls.clear()
@@ -942,7 +988,6 @@ class UIHome(ft.Row):
             return
         for anime, sp in self._cached_anime_rated[:10]:
             sg = anime.get("global_score", 0) or 0
-            # PASS THEME KESINI
             self._recent_row.controls.append(AnimeCardSmall(anime, sg, sp, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
 
         if not self._cached_anime_rated:
@@ -957,20 +1002,34 @@ class UIHome(ft.Row):
                             ft.Text("Oops, you haven't rated any anime yet!", color=self.theme["text_main"], size=13, weight=ft.FontWeight.BOLD),
                             ft.Text("Rate your favorite anime to get personalized recommendations.", color=self.theme["text_secondary"], size=11, text_align=ft.TextAlign.CENTER),
                             ft.Container(height=5),
-                            ft.ElevatedButton("Explore Catalog", icon=ft.Icons.EXPLORE, color=self.theme["card"], bgcolor=self.theme["primary"], style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10), padding=ft.padding.symmetric(horizontal=20, vertical=12), elevation=0), on_click=lambda _: self.screen_manager.tampilkan_katalog()),
+                            ft.ElevatedButton(
+                                "Explore Catalog",
+                                icon=ft.Icons.EXPLORE,
+                                on_click=lambda _: self.screen_manager.tampilkan_katalog(),
+                                style=ft.ButtonStyle(
+                                    shape=ft.RoundedRectangleBorder(radius=10),
+                                    padding=ft.padding.symmetric(horizontal=20, vertical=12),
+                                    elevation=0,
+                                    overlay_color=ft.Colors.TRANSPARENT,
+                                    color=self.theme["card"],
+                                    bgcolor={
+                                        ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, self.theme["primary"]),
+                                        ft.ControlState.DEFAULT: self.theme["primary"],
+                                    }
+                                )
+                            ),
                         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=4,
                     ), alignment=ft.Alignment(0, 0),
                 )
             )
 
     def _muat_trending(self, user_id):
-         self._trending_row.controls.clear()
-         semua_sorted = sorted(self._cached_semua_anime, key=lambda a: (a.get("rating_count", 0) or 0, a.get("global_score", 0) or 0), reverse=True)
-         for anime in semua_sorted[:7]:
+        self._trending_row.controls.clear()
+        semua_sorted = sorted(self._cached_semua_anime, key=lambda a: (a.get("rating_count", 0) or 0, a.get("global_score", 0) or 0), reverse=True)
+        for anime in semua_sorted[:7]:
             aid = anime.get("anime_id", "")
-            sg = anime.get("global_score", 0) or 0
-            sp = self._cached_skor_user.get(aid, None) if user_id else None
-            # PASS THEME KESINI
+            sg  = anime.get("global_score", 0) or 0
+            sp  = self._cached_skor_user.get(aid, None) if user_id else None
             self._trending_row.controls.append(AnimeCardSmall(anime, sg, sp, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
 
     def _muat_top_unrated(self, user_id):
@@ -978,7 +1037,6 @@ class UIHome(ft.Row):
         unrated_sorted = sorted(self._cached_anime_unrated, key=lambda a: a.get("global_score", 0) or 0, reverse=True)
         for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
-            # PASS THEME KESINI
             self._unrated_row.controls.append(AnimeCardSmall(anime, sg, None, self.theme, on_click_callback=self.screen_manager.tampilkan_detail))
         if not self._cached_anime_unrated:
             self._unrated_row.controls.append(ft.Text("You've rated all available anime!", color=self.theme["text_muted"], size=12))

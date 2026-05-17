@@ -47,7 +47,7 @@ def main(page: ft.Page):
     data_manager = DataManager()
     auth_manager = AuthManager(data_manager)
     screen_manager = ScreenManager(page, data_manager, auth_manager)
-    kb_manager = KeyboardManager(page, screen_manager)
+    kb_manager = KeyboardManager(page, screen_manager, auth_manager)
 
     screen_manager.tampilkan_login()
 

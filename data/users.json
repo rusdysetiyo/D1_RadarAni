@@ -1710,7 +1710,7 @@
         "username": "a",
         "password": "a",
         "created_at": "2026-05-16 11:29:33",
-        "last_login": "2026-05-16T18:06:43.748266",
+        "last_login": "2026-05-17T09:54:13.000305",
         "rating_count": 4,
         "average_score": 5.35,
         "average_dimensions": [
@@ -1719,6 +1719,22 @@
             5.25,
             3.25,
             3.25
+        ]
+    },
+    {
+        "user_id": "U081",
+        "username": "f",
+        "password": "f",
+        "created_at": "2026-05-16 19:07:47",
+        "last_login": "2026-05-17T09:05:20.725022",
+        "rating_count": 0,
+        "average_score": 0.0,
+        "average_dimensions": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
         ]
     }
 ]
