@@ -6,85 +6,111 @@ import matplotlib.pyplot as plt
 import io
 import base64
 
+
 class UIProfile(ft.Container):
-    def __init__(self, page: ft.Page, data_manager, auth_manager, screen_manager):
+    def __init__(self, page: ft.Page, data_manager, auth_manager, screen_manager, theme):
         super().__init__(expand=True)
-        self._page = page
+        self._page        = page
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.screen_manager = screen_manager
+        self.theme        = theme
+
+        # ── Warna dari theme ────────────────────────────────────────────────
+        self._PRIMARY     = theme["primary"]
+        self._PRIMARY_MID = ft.Colors.with_opacity(0.70, theme["primary"])
+        self._LIGHT       = theme.get("bg_secondary", theme["bg"])
+        self._BORDER      = theme["border_color"]
+        self._TEXT_DARK   = theme["text_main"]
+        self._TEXT_MUTED  = theme.get("text_secondary", theme.get("text_muted", "#999"))
+        self._BG          = theme["bg"]
+        self._CARD        = theme["card"]
+
+        # Genre colors: turunan dari primary (hue tetap, lightness bervariasi)
+        self._GENRE_COLORS = [
+            theme["primary"],
+            ft.Colors.with_opacity(0.75, theme["primary"]),
+            ft.Colors.with_opacity(0.55, theme["primary"]),
+            ft.Colors.with_opacity(0.38, theme["primary"]),
+            theme.get("text_secondary", "#999"),
+        ]
+
+        self._DIM_ICONS = {
+            "Plot":             ft.Icons.BAR_CHART_ROUNDED,
+            "Story / Plot":     ft.Icons.BAR_CHART_ROUNDED,
+            "Visual":           ft.Icons.REMOVE_RED_EYE_OUTLINED,
+            "Audio":            ft.Icons.MUSIC_NOTE_OUTLINED,
+            "Characterization": ft.Icons.PERSON_OUTLINE_ROUNDED,
+            "Direction":        ft.Icons.MOVIE_FILTER_OUTLINED,
+            "Overall Avg":      ft.Icons.STAR_BORDER_ROUNDED,
+            "Overall":          ft.Icons.STAR_BORDER_ROUNDED,
+        }
+
         self.content = self.bangun_ui()
-
-    # ── Warna tema ──────────────────────────────────────────────────────────
-    _PINK_DARK    = "#b5476e"
-    _PINK_MID     = "#e07aaa"
-    _PINK_LIGHT   = "#fce8f0"
-    _PINK_BORDER  = "#f3d8e8"
-    _TEXT_DARK    = "#3D2535"
-    _TEXT_MUTED   = "#b08090"
-    _BG           = "#fdf6f9"
-    _WHITE        = "#ffffff"
-    _GENRE_COLORS = ["#8c3057", "#c06080", "#e07aaa", "#f5b8d0", "#b08090"]
-
-    _DIM_ICONS = {
-        "Plot":             ft.Icons.BAR_CHART_ROUNDED,
-        "Story / Plot":     ft.Icons.BAR_CHART_ROUNDED,
-        "Visual":           ft.Icons.REMOVE_RED_EYE_OUTLINED,
-        "Audio":            ft.Icons.MUSIC_NOTE_OUTLINED,
-        "Characterization": ft.Icons.PERSON_OUTLINE_ROUNDED,
-        "Direction":        ft.Icons.MOVIE_FILTER_OUTLINED,
-        "Overall Avg":      ft.Icons.STAR_BORDER_ROUNDED,
-        "Overall":          ft.Icons.STAR_BORDER_ROUNDED,
-    }
 
     # ── Chart generators ────────────────────────────────────────────────────
     def gambar_bar_chart(self, rata_rata: dict) -> str:
         dimensi = list(rata_rata.keys())
         nilai   = list(rata_rata.values())
 
+        # Konversi hex primary ke RGB untuk matplotlib
+        hex_p = self._PRIMARY.lstrip("#")
+        r, g, b = tuple(int(hex_p[i:i+2], 16) / 255 for i in (0, 2, 4))
+        bar_color  = (r, g, b)
+        bg_color   = (r, g, b, 0.15)
+
         fig, ax = plt.subplots(figsize=(7.0, 3.2))
-        fig.patch.set_facecolor(self._WHITE)
-        ax.set_facecolor(self._WHITE)
+        fig.patch.set_facecolor("#ffffff")
+        ax.set_facecolor("#ffffff")
 
         for i, (dim, val) in enumerate(zip(dimensi, nilai)):
-            ax.barh(i, 10,  color="#f3d8e8", height=0.40, zorder=1, linewidth=0)
-            ax.barh(i, val, color="#d84b8a", height=0.40, zorder=2, linewidth=0)
+            ax.barh(i, 10,  color=bg_color, height=0.40, zorder=1, linewidth=0)
+            ax.barh(i, val, color=bar_color, height=0.40, zorder=2, linewidth=0)
             ax.text(val + 0.15, i, str(val), va="center", ha="left",
                     fontsize=10, fontweight="bold", color="#2d1a2e")
 
         ax.set_yticks(range(len(dimensi)))
-        ax.set_yticklabels(dimensi, fontsize=10, color="#6b4460", fontweight="600")
+        ax.set_yticklabels(dimensi, fontsize=10, fontweight="600")
         ax.set_xlim(0, 10.9)
         ax.set_ylim(-0.7, len(dimensi) - 0.3)
         ax.invert_yaxis()
         ax.xaxis.set_visible(True)
         ax.set_xticks([0, 2, 4, 6, 8, 10])
-        ax.xaxis.set_tick_params(labelsize=9, colors="#b08090")
+        ax.xaxis.set_tick_params(labelsize=9)
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_visible(False)
-        ax.spines["bottom"].set_color("#f3d8e8")
         ax.tick_params(left=False)
-        ax.grid(axis="x", color="#f3d8e8", linewidth=0.7, linestyle="--")
+        ax.grid(axis="x", linewidth=0.7, linestyle="--", alpha=0.3)
         plt.tight_layout(pad=0.8)
 
         buf = io.BytesIO()
-        plt.savefig(buf, format="png", dpi=150, facecolor=self._WHITE)
+        plt.savefig(buf, format="png", dpi=150, facecolor="#ffffff")
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode("utf-8")
 
     def gambar_pie_chart(self, proporsi_genre: dict) -> str:
         sizes  = list(proporsi_genre.values())
-        colors = self._GENRE_COLORS[:len(sizes)]
+        hex_p  = self._PRIMARY.lstrip("#")
+        r, g, b = tuple(int(hex_p[i:i+2], 16) / 255 for i in (0, 2, 4))
+        # 5 shade dari primary
+        colors = [
+            (r, g, b),
+            (r, g, b, 0.75),
+            (r, g, b, 0.55),
+            (r, g, b, 0.38),
+            (r, g, b, 0.22),
+        ][:len(sizes)]
+
         fig, ax = plt.subplots(figsize=(3.2, 3.2))
-        fig.patch.set_facecolor(self._WHITE)
-        ax.set_facecolor(self._WHITE)
+        fig.patch.set_facecolor("#ffffff")
+        ax.set_facecolor("#ffffff")
         ax.pie(sizes, colors=colors, startangle=90,
                wedgeprops={"linewidth": 2, "edgecolor": "white"}, radius=1.0)
         plt.tight_layout(pad=0.1)
         buf = io.BytesIO()
-        plt.savefig(buf, format="png", dpi=130, facecolor=self._WHITE)
+        plt.savefig(buf, format="png", dpi=130, facecolor="#ffffff")
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode("utf-8")
@@ -118,31 +144,28 @@ class UIProfile(ft.Container):
             ),
             actions=[
                 ft.OutlinedButton(
-                    "Batal",
-                    on_click=_batal,
+                    "Batal", on_click=_batal,
                     style=ft.ButtonStyle(
-                        side=ft.BorderSide(1.5, self._PINK_BORDER),
+                        side=ft.BorderSide(1.5, self._BORDER),
                         shape=ft.RoundedRectangleBorder(radius=8),
                         color=self._TEXT_MUTED,
                     ),
                 ),
                 ft.ElevatedButton(
-                    "Ya, Hapus Akun",
-                    on_click=_konfirmasi_hapus,
+                    "Ya, Hapus Akun", on_click=_konfirmasi_hapus,
                     style=ft.ButtonStyle(
-                        bgcolor="#d94040",
-                        color=self._WHITE,
+                        bgcolor="#d94040", color="#ffffff",
                         shape=ft.RoundedRectangleBorder(radius=8),
                     ),
                 ),
             ],
             actions_alignment=ft.MainAxisAlignment.END,
+            bgcolor=self._CARD,
         )
         self._page.overlay.append(dlg)
         dlg.open = True
         self._page.update()
 
-    # ── TAMBAHAN: Logout ────────────────────────────────────────────────────
     def aksi_tombol_logout(self, e):
         def _konfirmasi_logout(ev):
             dlg.open = False
@@ -157,9 +180,9 @@ class UIProfile(ft.Container):
         dlg = ft.AlertDialog(
             modal=True,
             title=ft.Row([
-                ft.Icon(ft.Icons.LOGOUT_ROUNDED, color=self._PINK_DARK, size=20),
+                ft.Icon(ft.Icons.LOGOUT_ROUNDED, color=self._PRIMARY, size=20),
                 ft.Text("Logout", weight=ft.FontWeight.W_800,
-                        color=self._PINK_DARK, size=14),
+                        color=self._PRIMARY, size=14),
             ], spacing=8),
             content=ft.Text(
                 "Kamu akan keluar dari akun ini.",
@@ -167,25 +190,23 @@ class UIProfile(ft.Container):
             ),
             actions=[
                 ft.OutlinedButton(
-                    "Batal",
-                    on_click=_batal,
+                    "Batal", on_click=_batal,
                     style=ft.ButtonStyle(
-                        side=ft.BorderSide(1.5, self._PINK_BORDER),
+                        side=ft.BorderSide(1.5, self._BORDER),
                         shape=ft.RoundedRectangleBorder(radius=8),
                         color=self._TEXT_MUTED,
                     ),
                 ),
                 ft.ElevatedButton(
-                    "Ya, Logout",
-                    on_click=_konfirmasi_logout,
+                    "Ya, Logout", on_click=_konfirmasi_logout,
                     style=ft.ButtonStyle(
-                        bgcolor=self._PINK_DARK,
-                        color=self._WHITE,
+                        bgcolor=self._PRIMARY, color=self._CARD,
                         shape=ft.RoundedRectangleBorder(radius=8),
                     ),
                 ),
             ],
             actions_alignment=ft.MainAxisAlignment.END,
+            bgcolor=self._CARD,
         )
         self._page.overlay.append(dlg)
         dlg.open = True
@@ -195,10 +216,7 @@ class UIProfile(ft.Container):
     def muat_data_profil(self) -> dict:
         _FB = {"user": {"username": "-", "user_id": "-",
                         "created_at": "-", "last_login": "-"},
-               "statistik": {},
-               "anime": [],
-               "genre": {}
-            }
+               "statistik": {}, "anime": [], "genre": {}}
         user_id = self.auth_manager.get_user_aktif()
         if user_id is None:
             self.screen_manager.tampilkan_login()
@@ -230,26 +248,26 @@ class UIProfile(ft.Container):
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             padding=ft.padding.symmetric(horizontal=14, vertical=8),
             border=ft.border.only(
-                bottom=ft.BorderSide(1, self._PINK_BORDER) if not is_last else None),
+                bottom=ft.BorderSide(1, self._BORDER) if not is_last else None),
         )
 
     def _anime_item(self, rank: int, judul: str,
                     genre_initial: str) -> ft.Container:
         return ft.Container(
             content=ft.Row([
-                ft.Text(f"#{rank}", size=11, color=self._PINK_MID,
+                ft.Text(f"#{rank}", size=11, color=self._PRIMARY,
                         weight=ft.FontWeight.W_800, width=24),
                 ft.Text(judul, size=11, color=self._TEXT_DARK,
                         weight=ft.FontWeight.BOLD, expand=True),
                 ft.Container(
-                    content=ft.Text(genre_initial, size=10, color=self._WHITE,
+                    content=ft.Text(genre_initial, size=10, color=self._CARD,
                                     weight=ft.FontWeight.W_800),
-                    bgcolor=self._PINK_MID, border_radius=6,
+                    bgcolor=self._PRIMARY, border_radius=6,
                     width=24, height=24, alignment=ft.Alignment(0, 0),
                 ),
             ], spacing=6, vertical_alignment=ft.CrossAxisAlignment.CENTER),
-            bgcolor=self._WHITE,
-            border=ft.border.all(1, self._PINK_BORDER),
+            bgcolor=self._CARD,
+            border=ft.border.all(1, self._BORDER),
             border_radius=8,
             padding=ft.padding.symmetric(horizontal=10, vertical=7),
         )
@@ -257,13 +275,13 @@ class UIProfile(ft.Container):
     def _empty_state(self, pesan: str) -> ft.Container:
         return ft.Container(
             content=ft.Column([
-                ft.Icon(ft.Icons.INBOX_OUTLINED, color=self._PINK_BORDER, size=24),
+                ft.Icon(ft.Icons.INBOX_OUTLINED, color=self._BORDER, size=24),
                 ft.Text(pesan, size=10, color=self._TEXT_MUTED,
                         text_align=ft.TextAlign.CENTER),
             ], horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                spacing=4, tight=True),
-            bgcolor="#fdf0f5",
-            border=ft.border.all(1, self._PINK_BORDER),
+            bgcolor=self._LIGHT,
+            border=ft.border.all(1, self._BORDER),
             border_radius=8,
             padding=ft.padding.symmetric(horizontal=10, vertical=12),
             alignment=ft.Alignment(0, 0),
@@ -279,8 +297,8 @@ class UIProfile(ft.Container):
               expand=None, height=None) -> ft.Container:
         return ft.Container(
             content=content,
-            bgcolor=self._WHITE,
-            border=ft.border.all(1, self._PINK_BORDER),
+            bgcolor=self._CARD,
+            border=ft.border.all(1, self._BORDER),
             border_radius=12,
             padding=padding,
             expand=expand,
@@ -291,7 +309,6 @@ class UIProfile(ft.Container):
     # ── BANGUN UI ────────────────────────────────────────────────────────────
     def bangun_ui(self) -> ft.Control:
 
-        # 1. Data
         data           = self.muat_data_profil()
         user           = data["user"]
         statistik      = data["statistik"]
@@ -300,43 +317,43 @@ class UIProfile(ft.Container):
 
         ada_statistik = bool(statistik)
         ada_genre     = bool(genre_proporsi)
-        # Hitung dari ratings.json langsung — ground truth, tidak bisa off by 1
+
         _all_ratings = self.data_manager._read_json(self.data_manager.ratings_file) or {}
-        total_rated   = len(_all_ratings.get(user.get("user_id", ""), {}))
-        avg_overall   = (round(sum(statistik.values()) / len(statistik), 1)
-                         if statistik else 0.0)
-        total_genres  = len(genre_proporsi)
+        total_rated  = len(_all_ratings.get(user.get("user_id", ""), {}))
+        avg_overall  = (round(sum(statistik.values()) / len(statistik), 1)
+                        if statistik else 0.0)
+        total_genres = len(genre_proporsi)
 
         # ── TOPBAR ──────────────────────────────────────────────────────────
         top_bar = ft.Container(
             content=ft.Row([
                 ft.OutlinedButton(
                     content=ft.Row([
-                        ft.Icon(ft.Icons.CHEVRON_LEFT, color=self._PINK_DARK, size=14),
-                        ft.Text("Back to Dashboard", color=self._PINK_DARK, size=11,
+                        ft.Icon(ft.Icons.CHEVRON_LEFT, color=self._PRIMARY, size=14),
+                        ft.Text("Back to Dashboard", color=self._PRIMARY, size=11,
                                 weight=ft.FontWeight.W_600),
                     ], alignment=ft.MainAxisAlignment.CENTER, spacing=2),
                     on_click=lambda e: self.aksi_tombol_kembali(e),
                     style=ft.ButtonStyle(
-                        side=ft.BorderSide(1.5, "#e8b4cb"),
+                        side=ft.BorderSide(1.5, self._BORDER),
                         shape=ft.RoundedRectangleBorder(radius=20),
                         padding=ft.padding.symmetric(horizontal=14, vertical=6),
                     ),
                 ),
                 ft.Text("RadarAni — プロフィール", size=13,
-                        weight=ft.FontWeight.BOLD, color=self._PINK_DARK),
+                        weight=ft.FontWeight.BOLD, color=self._PRIMARY),
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             padding=ft.padding.symmetric(horizontal=24, vertical=12),
-            border=ft.border.only(bottom=ft.BorderSide(1, self._PINK_BORDER)),
-            bgcolor=self._WHITE,
+            border=ft.border.only(bottom=ft.BorderSide(1, self._BORDER)),
+            bgcolor=self._CARD,
         )
 
-        # ── SIDEBAR (fixed 300px) ────────────────────────────────────────────
+        # ── SIDEBAR ──────────────────────────────────────────────────────────
         avatar = ft.Container(
-            content=ft.Icon(ft.Icons.PERSON_ROUNDED, size=46, color=self._PINK_MID),
+            content=ft.Icon(ft.Icons.PERSON_ROUNDED, size=46, color=self._PRIMARY),
             width=80, height=80, border_radius=40,
-            border=ft.border.all(2, self._PINK_MID),
-            bgcolor=self._PINK_LIGHT,
+            border=ft.border.all(2, self._PRIMARY),
+            bgcolor=self._LIGHT,
             alignment=ft.Alignment(0, 0),
         )
 
@@ -355,15 +372,15 @@ class UIProfile(ft.Container):
         stat_strip = ft.Container(
             content=ft.Row([
                 _stat_cell(total_rated, "Rated"),
-                ft.VerticalDivider(width=1, color=self._PINK_BORDER),
+                ft.VerticalDivider(width=1, color=self._BORDER),
                 _stat_cell(avg_overall, "Avg"),
-                ft.VerticalDivider(width=1, color=self._PINK_BORDER),
+                ft.VerticalDivider(width=1, color=self._BORDER),
                 _stat_cell(total_genres, "Genres"),
             ], spacing=0, vertical_alignment=ft.CrossAxisAlignment.CENTER),
-            border=ft.border.all(1, self._PINK_BORDER),
+            border=ft.border.all(1, self._BORDER),
             border_radius=8,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
-            bgcolor=self._PINK_LIGHT,
+            bgcolor=self._LIGHT,
         )
 
         info_rows = [
@@ -380,10 +397,10 @@ class UIProfile(ft.Container):
         ]
         account_info_card = ft.Container(
             content=ft.Column(info_rows, spacing=0, tight=True),
-            border=ft.border.all(1, self._PINK_BORDER),
+            border=ft.border.all(1, self._BORDER),
             border_radius=10,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
-            bgcolor=self._WHITE,
+            bgcolor=self._CARD,
         )
 
         anime_controls = [
@@ -395,19 +412,18 @@ class UIProfile(ft.Container):
             for i, a in enumerate(anime_list[:4])
         ] if anime_list else [self._empty_state("Belum ada anime favorit.")]
 
-        # ── TOMBOL LOGOUT (putih, outline pink) ─────────────────────────────
         tombol_logout = ft.OutlinedButton(
             content=ft.Row([
-                ft.Icon(ft.Icons.LOGOUT_ROUNDED, color=self._PINK_DARK, size=15),
-                ft.Text("Logout", color=self._PINK_DARK, size=12,
+                ft.Icon(ft.Icons.LOGOUT_ROUNDED, color=self._PRIMARY, size=15),
+                ft.Text("Logout", color=self._PRIMARY, size=12,
                         weight=ft.FontWeight.W_700),
             ], alignment=ft.MainAxisAlignment.CENTER, spacing=6),
             on_click=lambda e: self.aksi_tombol_logout(e),
             style=ft.ButtonStyle(
-                bgcolor=self._WHITE,
-                side=ft.BorderSide(1.5, self._PINK_BORDER),
+                bgcolor=self._CARD,
+                side=ft.BorderSide(1.5, self._BORDER),
                 shape=ft.RoundedRectangleBorder(radius=10),
-                overlay_color=ft.Colors.with_opacity(0.06, self._PINK_DARK),
+                overlay_color=ft.Colors.with_opacity(0.06, self._PRIMARY),
                 padding=ft.padding.symmetric(horizontal=0, vertical=10),
             ),
             width=float("inf"),
@@ -415,15 +431,15 @@ class UIProfile(ft.Container):
 
         tombol_hapus = ft.ElevatedButton(
             content=ft.Row([
-                ft.Icon(ft.Icons.DELETE_OUTLINE_ROUNDED, color=self._WHITE, size=15),
-                ft.Text("Hapus Akun", color=self._WHITE, size=12,
+                ft.Icon(ft.Icons.DELETE_OUTLINE_ROUNDED, color=self._CARD, size=15),
+                ft.Text("Hapus Akun", color=self._CARD, size=12,
                         weight=ft.FontWeight.W_800,
                         style=ft.TextStyle(letter_spacing=0.3)),
             ], alignment=ft.MainAxisAlignment.CENTER, spacing=6),
             on_click=lambda e: self.aksi_tombol_hapus_akun(e),
             style=ft.ButtonStyle(
-                bgcolor=self._PINK_DARK,
-                overlay_color=ft.Colors.with_opacity(0.12, self._WHITE),
+                bgcolor="#d94040",
+                overlay_color=ft.Colors.with_opacity(0.12, "#ffffff"),
                 shape=ft.RoundedRectangleBorder(radius=10),
                 padding=ft.padding.symmetric(horizontal=0, vertical=10),
             ),
@@ -454,7 +470,7 @@ class UIProfile(ft.Container):
                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                scroll=ft.ScrollMode.AUTO),
             padding=ft.padding.symmetric(horizontal=18, vertical=18),
-            border=ft.border.only(right=ft.BorderSide(1, self._PINK_BORDER)),
+            border=ft.border.only(right=ft.BorderSide(1, self._BORDER)),
             bgcolor=self._BG,
         )
 
@@ -462,7 +478,7 @@ class UIProfile(ft.Container):
         if not ada_statistik and not ada_genre:
             main_area = ft.Container(
                 content=ft.Column([
-                    ft.Icon(ft.Icons.STAR_BORDER_ROUNDED, color=self._PINK_BORDER, size=52),
+                    ft.Icon(ft.Icons.STAR_BORDER_ROUNDED, color=self._BORDER, size=52),
                     ft.Text("Belum Ada Rating", size=16, weight=ft.FontWeight.W_800,
                             color=self._TEXT_DARK, text_align=ft.TextAlign.CENTER),
                     ft.Text("Mulai beri rating anime dari katalog!",
@@ -477,28 +493,23 @@ class UIProfile(ft.Container):
             overall_val = (round(sum(v for _, v in all_dims) / len(all_dims), 1)
                            if all_dims else 0.0)
 
-            # ── Baris 1: Dim cards (height=110) ─────────────────────────────
             def _dim_card(label, val, highlight=False):
                 icon = self._DIM_ICONS.get(label, ft.Icons.ANALYTICS_OUTLINED)
                 return ft.Container(
                     content=ft.Column([
                         ft.Row([
-                            ft.Icon(icon, size=15,
-                                    color=self._PINK_DARK if highlight
-                                    else self._PINK_MID),
-                            ft.Text(label, size=11,
-                                    color=self._PINK_DARK if highlight
-                                    else self._TEXT_DARK,
+                            ft.Icon(icon, size=15, color=self._PRIMARY),
+                            ft.Text(label, size=11, color=self._TEXT_DARK,
                                     weight=ft.FontWeight.W_600),
                         ], spacing=5),
                         ft.Text(str(val), size=26, weight=ft.FontWeight.W_800,
-                                color=self._PINK_DARK),
+                                color=self._PRIMARY),
                         ft.Text("/ 10", size=10, color=self._TEXT_MUTED),
-                        ft.ProgressBar(value=val / 10, bgcolor=self._PINK_BORDER,
-                                       color=self._PINK_DARK, height=4),
+                        ft.ProgressBar(value=val / 10, bgcolor=self._BORDER,
+                                       color=self._PRIMARY, height=4),
                     ], spacing=3, tight=True),
-                    bgcolor=self._PINK_LIGHT,
-                    border=ft.border.all(1, self._PINK_BORDER),
+                    bgcolor=self._LIGHT,
+                    border=ft.border.all(1.5 if highlight else 1, self._BORDER),
                     border_radius=12,
                     padding=ft.padding.symmetric(horizontal=14, vertical=12),
                     expand=True,
@@ -512,18 +523,17 @@ class UIProfile(ft.Container):
                 spacing=12,
             )
 
-            # ── Baris 2: Bar (expand=3, h=340) + Pie (expand=2, h=340) ──────
             bar_b64  = self.gambar_bar_chart(statistik) if ada_statistik else None
             bar_card = ft.Container(
                 content=ft.Column([
                     ft.Container(
                         content=ft.Text("RATA-RATA DIMENSI", size=10,
                                         weight=ft.FontWeight.W_800,
-                                        color=self._PINK_DARK,
+                                        color=self._PRIMARY,
                                         style=ft.TextStyle(letter_spacing=1.1)),
-                        bgcolor=self._PINK_LIGHT,
+                        bgcolor=self._LIGHT,
                         padding=ft.padding.symmetric(horizontal=16, vertical=10),
-                        border=ft.border.only(bottom=ft.BorderSide(1, self._PINK_BORDER)),
+                        border=ft.border.only(bottom=ft.BorderSide(1, self._BORDER)),
                         width=float("inf"),
                     ),
                     ft.Container(
@@ -538,11 +548,10 @@ class UIProfile(ft.Container):
                         expand=True,
                     ),
                 ], spacing=0, expand=True),
-                bgcolor=self._WHITE,
-                border=ft.border.all(1, self._PINK_BORDER),
+                bgcolor=self._CARD,
+                border=ft.border.all(1, self._BORDER),
                 border_radius=12,
-                expand=3,
-                height=340,
+                expand=3, height=340,
                 clip_behavior=ft.ClipBehavior.HARD_EDGE,
             )
 
@@ -583,20 +592,19 @@ class UIProfile(ft.Container):
                     ft.Container(
                         content=ft.Text("PIE CHART — PROPORSI GENRE FAVORIT", size=10,
                                         weight=ft.FontWeight.W_800,
-                                        color=self._PINK_DARK,
+                                        color=self._PRIMARY,
                                         style=ft.TextStyle(letter_spacing=1.1)),
-                        bgcolor=self._PINK_LIGHT,
+                        bgcolor=self._LIGHT,
                         padding=ft.padding.symmetric(horizontal=16, vertical=10),
-                        border=ft.border.only(bottom=ft.BorderSide(1, self._PINK_BORDER)),
+                        border=ft.border.only(bottom=ft.BorderSide(1, self._BORDER)),
                         width=float("inf"),
                     ),
                     pie_body,
                 ], spacing=0, expand=True),
-                bgcolor=self._WHITE,
-                border=ft.border.all(1, self._PINK_BORDER),
+                bgcolor=self._CARD,
+                border=ft.border.all(1, self._BORDER),
                 border_radius=12,
-                expand=2,
-                height=340,
+                expand=2, height=340,
                 clip_behavior=ft.ClipBehavior.HARD_EDGE,
             )
 
@@ -606,7 +614,6 @@ class UIProfile(ft.Container):
                 vertical_alignment=ft.CrossAxisAlignment.START,
             )
 
-            # ── Baris 3: Bottom (height=90 masing-masing) ───────────────────
             bintang_penuh    = int(avg_overall)
             bintang_setengah = 1 if (avg_overall - bintang_penuh) >= 0.5 else 0
             bintang_kosong   = 10 - bintang_penuh - bintang_setengah
@@ -629,7 +636,7 @@ class UIProfile(ft.Container):
                         ], spacing=6),
                         ft.Row([
                             ft.Text(str(avg_overall), size=26,
-                                    weight=ft.FontWeight.W_800, color=self._PINK_DARK),
+                                    weight=ft.FontWeight.W_800, color=self._PRIMARY),
                             ft.Text("/ 10", size=11, color=self._TEXT_MUTED),
                             ft.Row(stars, spacing=1),
                         ], spacing=8, vertical_alignment=ft.CrossAxisAlignment.CENTER),
@@ -639,8 +646,7 @@ class UIProfile(ft.Container):
                 ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                    vertical_alignment=ft.CrossAxisAlignment.CENTER),
                 padding=ft.padding.symmetric(horizontal=20, vertical=14),
-                expand=True,
-                height=90,
+                expand=True, height=90,
             )
 
             top_label = list(genre_proporsi.keys())[0] if ada_genre else "-"
@@ -656,30 +662,26 @@ class UIProfile(ft.Container):
                                     weight=ft.FontWeight.W_700, color=self._TEXT_DARK),
                         ], spacing=6),
                         ft.Text(top_label, size=20, weight=ft.FontWeight.W_800,
-                                color=self._PINK_DARK),
+                                color=self._PRIMARY),
                         ft.Text(f"{top_pct}% dari total rating",
                                 size=10, color=self._TEXT_MUTED),
                     ], spacing=3, tight=True),
                     ft.Container(
                         content=ft.Text("Genre favoritmu", size=10,
-                                        color=self._PINK_DARK,
+                                        color=self._PRIMARY,
                                         weight=ft.FontWeight.W_600),
-                        bgcolor=self._PINK_LIGHT,
-                        border=ft.border.all(1, self._PINK_BORDER),
+                        bgcolor=self._LIGHT,
+                        border=ft.border.all(1, self._BORDER),
                         border_radius=20,
                         padding=ft.padding.symmetric(horizontal=12, vertical=5),
                     ),
                 ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                    vertical_alignment=ft.CrossAxisAlignment.CENTER),
                 padding=ft.padding.symmetric(horizontal=20, vertical=14),
-                expand=True,
-                height=90,
+                expand=True, height=90,
             )
 
-            bottom_row = ft.Row(
-                controls=[avg_card, top_card],
-                spacing=12,
-            )
+            bottom_row = ft.Row(controls=[avg_card, top_card], spacing=12)
 
             main_area = ft.Container(
                 content=ft.Column([
@@ -694,18 +696,16 @@ class UIProfile(ft.Container):
             )
 
         # ── LAYOUT UTAMA ─────────────────────────────────────────────────────
-        layout = ft.Container(
+        return ft.Container(
             content=ft.Column([
                 top_bar,
                 ft.Row([sidebar, main_area], spacing=0, expand=True,
                        vertical_alignment=ft.CrossAxisAlignment.START),
             ], spacing=0, expand=True),
-            bgcolor=self._WHITE,
+            bgcolor=self._CARD,
             border_radius=16,
             shadow=ft.BoxShadow(spread_radius=0, blur_radius=28,
-                                color=ft.Colors.with_opacity(0.10, "#dc6496")),
+                                color=ft.Colors.with_opacity(0.10, self._PRIMARY)),
             expand=True,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
         )
-
-        return layout
