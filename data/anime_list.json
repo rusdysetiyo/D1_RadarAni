@@ -385,7 +385,7 @@
         "mal_id": 9253,
         "title": "Steins;Gate",
         "en_title": null,
-        "global_score": 8.84,
+        "global_score": 8.72,
         "genre": [
             "Drama",
             "Sci-Fi",
@@ -399,13 +399,13 @@
         "episodes": "24",
         "cover_path": "assets/covers/CIMG014.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG014.jpg",
-        "rating_count": 66,
+        "rating_count": 67,
         "global_score_dimensions": [
-            8.73,
-            8.92,
-            8.55,
-            9.09,
-            8.91
+            8.61,
+            8.8,
+            8.44,
+            8.97,
+            8.79
         ],
         "banner_path": "assets/banners/A014_BANNER.jpg"
     },
@@ -1283,7 +1283,7 @@
         "mal_id": 30,
         "title": "Shinseiki Evangelion",
         "en_title": "Neon Genesis Evangelion",
-        "global_score": 8.14,
+        "global_score": 8.22,
         "genre": [
             "Avant Garde",
             "Award Winning",
@@ -1299,13 +1299,13 @@
         "episodes": "26",
         "cover_path": "assets/covers/CIMG045.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG045.jpg",
-        "rating_count": 66,
+        "rating_count": 65,
         "global_score_dimensions": [
-            8.12,
-            8.12,
-            8.03,
-            8.13,
-            8.26
+            8.18,
+            8.23,
+            8.11,
+            8.18,
+            8.37
         ],
         "banner_path": "assets/banners/A045_BANNER.jpg"
     },
@@ -6221,14 +6221,15 @@
             8.02,
             8.24,
             7.83
-        ]
+        ],
+        "banner_path": "assets/banners/A216_BANNER.jpg"
     },
     {
         "anime_id": "A217",
         "mal_id": 34566,
         "title": "Boruto: Naruto Next Generations",
         "en_title": null,
-        "global_score": 6.47,
+        "global_score": 6.5,
         "genre": [
             "Action",
             "Adventure",
@@ -6242,13 +6243,13 @@
         "episodes": "293",
         "cover_path": "assets/covers/CIMG217.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG217.jpg",
-        "rating_count": 3,
+        "rating_count": 2,
         "global_score_dimensions": [
-            5.67,
-            6.67,
-            7.0,
-            7.0,
-            6.0
+            6.0,
+            6.5,
+            8.0,
+            5.5,
+            6.5
         ],
         "banner_path": "assets/banners/A217_BANNER.jpg"
     },
@@ -10050,7 +10051,7 @@
         "mal_id": 28977,
         "title": "Gintama°",
         "en_title": "Gintama Season 4",
-        "global_score": 8.88,
+        "global_score": 8.69,
         "genre": [
             "Action",
             "Comedy",
@@ -10069,11 +10070,11 @@
         "thumbnail_path": "assets/thumbnails/TIMG349.jpg",
         "rating_count": 18,
         "global_score_dimensions": [
-            8.95,
-            8.89,
-            8.5,
-            8.78,
-            9.28
+            8.73,
+            8.67,
+            8.45,
+            8.56,
+            9.06
         ],
         "banner_path": "assets/banners/A349_BANNER.jpg"
     },
@@ -11095,7 +11096,7 @@
         "mal_id": 48569,
         "title": "86 Part 2",
         "en_title": "86 Eighty-Six Part 2",
-        "global_score": 8.61,
+        "global_score": 8.82,
         "genre": [
             "Drama",
             "Sci-Fi",
@@ -11108,13 +11109,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG385.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG385.jpg",
-        "rating_count": 21,
+        "rating_count": 20,
         "global_score_dimensions": [
-            8.24,
-            8.62,
-            8.71,
-            9.14,
-            8.33
+            8.45,
+            8.75,
+            8.9,
+            9.3,
+            8.7
         ],
         "banner_path": "assets/banners/A385_BANNER.jpg"
     },
@@ -12437,7 +12438,7 @@
         "mal_id": 40417,
         "title": "Fruits Basket 2nd Season",
         "en_title": null,
-        "global_score": 8.76,
+        "global_score": 8.75,
         "genre": [
             "Drama",
             "Romance",
@@ -12780,7 +12781,7 @@
         "mal_id": 42938,
         "title": "Fruits Basket: The Final",
         "en_title": "Fruits Basket: The Final Season",
-        "global_score": 9.05,
+        "global_score": 8.38,
         "genre": [
             "Drama",
             "Romance",
@@ -12793,13 +12794,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG443.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG443.jpg",
-        "rating_count": 11,
+        "rating_count": 12,
         "global_score_dimensions": [
-            9.18,
-            9.27,
-            8.64,
-            9.18,
-            9.0
+            8.5,
+            8.58,
+            8.0,
+            8.5,
+            8.33
         ],
         "banner_path": "assets/banners/A443_BANNER.jpg"
     },
@@ -14423,85 +14424,6 @@
     },
     {
         "anime_id": "A501",
-        "mal_id": 12149,
-        "title": "AKB0048",
-        "en_title": null,
-        "global_score": 7.46,
-        "genre": [
-            "Sci-Fi",
-            "Idols (Female)",
-            "Music"
-        ],
-        "synopsis": "After an interplanetary war at the beginning of the 21st century, planet Earth has been left in ruins, with much of its ecosystem completely destroyed. Because it was no longer possible to live a normal life on this planet, the inhabitants are forced to move on to other planets where life will, hopefully, be more comfortable.The Deep Galactic Trade Organization, a totalitarian government that affects many of the newly inhabited planets, has somehow come to the conclusion that music is a source of evil, and that it must be banned and destroyed for good. The talent group AKB0048 is soon formed, based on the original AKB48 members that once lived on Earth. Even though their music is now considered universally illegal, they make it their mission to bring their music back to life by travelling from one planet to another and holding as many concerts as they possibly can. They must undergo a whole new set of training methods in order to become the best that they can possibly be, while also avoiding the constant danger of being arrested because of their music. Join interplanetary popstars AKB0048 as they try to save the world－with music!",
-        "studio": "Satelight",
-        "type": "TV",
-        "episodes": "13",
-        "cover_path": "assets/covers/CIMG501.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG501.jpg",
-        "banner_path": "assets/banners/A501_BANNER.jpg",
-        "rating_count": 10,
-        "global_score_dimensions": [
-            7.2,
-            7.2,
-            8.7,
-            6.89,
-            7.3
-        ]
-    },
-    {
-        "anime_id": "A502",
-        "mal_id": 29850,
-        "title": "AKB48 Stage Fighter",
-        "en_title": null,
-        "global_score": 5.07,
-        "genre": [
-            "Action"
-        ],
-        "synopsis": "Commercial for AKB48 Stage Fighter mobile phone game.",
-        "studio": "None found,add some",
-        "type": "CM",
-        "episodes": "1",
-        "cover_path": "assets/covers/CIMG502.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG502.jpg",
-        "banner_path": "",
-        "rating_count": 10,
-        "global_score_dimensions": [
-            4.9,
-            5.0,
-            5.2,
-            5.01,
-            5.2
-        ]
-    },
-    {
-        "anime_id": "A503",
-        "mal_id": 40571,
-        "title": "Majo no Tabitabi",
-        "en_title": "Wandering Witch: The Journey of Elaina",
-        "global_score": 8.16,
-        "trailer_url": "https://www.youtube.com/watch?v=Bfe08q9jer8",
-        "genre": [
-            "Adventure",
-            "Fantasy"
-        ],
-        "synopsis": "Since childhood, Elaina has always been fascinated by the stories written within her favorite book, especially those about Nike, a renowned witch who had numerous great travels across the world. Wanting to experience the awe of adventure herself, Elaina strives to become a witch, and despite the numerous trials that come her way, she eventually succeeds.Now a full-fledged witch, Elaina finally embarks on her long-awaited journey, in which she meets many people along the way, learning their various stories. Through all of this, she explores the world at its fullest—experiencing both its bright and dark sides—starting her legendary tale.[Written by MAL Rewrite]",
-        "studio": "C2C",
-        "type": "TV",
-        "episodes": "12",
-        "cover_path": "assets/covers/CIMG503.jpg",
-        "thumbnail_path": "assets/thumbnails/TIMG503.jpg",
-        "banner_path": "assets/banners/A503_BANNER.jpg",
-        "rating_count": 10,
-        "global_score_dimensions": [
-            7.8,
-            8.5,
-            8.0,
-            7.6,
-            8.9
-        ]
-    },
-    {
-        "anime_id": "A501",
         "mal_id": 10863,
         "title": "Steins;Gate: Oukoubakko no Poriomania",
         "en_title": "Steins;Gate: Egoistic Poriomania",
@@ -14524,7 +14446,8 @@
             7.8,
             7.99,
             8.1
-        ]
+        ],
+        "banner_path": "assets/banners/A501_BANNER.jpg"
     },
     {
         "anime_id": "A502",
@@ -14548,7 +14471,8 @@
             7.3,
             6.8,
             7.2
-        ]
+        ],
+        "banner_path": "assets/banners/A502_BANNER.jpg"
     },
     {
         "anime_id": "A503",
@@ -14577,7 +14501,8 @@
             8.9,
             8.69,
             9.31
-        ]
+        ],
+        "banner_path": "assets/banners/A503_BANNER.jpg"
     },
     {
         "anime_id": "A504",
@@ -14605,7 +14530,8 @@
             7.6,
             6.8,
             6.99
-        ]
+        ],
+        "banner_path": "assets/banners/A504_BANNER.jpg"
     },
     {
         "anime_id": "A505",
@@ -14633,7 +14559,8 @@
             8.41,
             7.2,
             8.5
-        ]
+        ],
+        "banner_path": "assets/banners/A505_BANNER.jpg"
     },
     {
         "anime_id": "A506",
@@ -14661,6 +14588,7 @@
             6.9,
             7.9,
             8.69
-        ]
+        ],
+        "banner_path": "assets/banners/A506_BANNER.jpg"
     }
 ]

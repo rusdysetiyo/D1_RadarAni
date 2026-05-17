@@ -47,7 +47,7 @@ def main(page: ft.Page):
     data_manager = DataManager()
     auth_manager = AuthManager(data_manager)
     screen_manager = ScreenManager(page, data_manager, auth_manager)
-    kb_manager = KeyboardManager(page, screen_manager)
+    kb_manager = KeyboardManager(page, screen_manager, auth_manager)
 
     # Cek apakah ada user yang sudah login sebelumnya (sesi tersimpan)
     user_id_tersimpan = data_manager.baca_sesi()

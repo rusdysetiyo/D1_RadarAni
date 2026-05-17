@@ -1,10 +1,10 @@
 {
     "U001": {
         "A006": {
-            "plot": 4,
-            "visual": 6,
+            "plot": 5,
+            "visual": 8,
             "audio": 7,
-            "characterization": 6,
+            "characterization": 7,
             "direction": 6
         },
         "A011": {
@@ -70,26 +70,40 @@
             "characterization": 6,
             "direction": 6
         },
-        "A501": {
-            "plot": 9,
-            "visual": 6,
-            "audio": 10,
-            "characterization": 7,
-            "direction": 7
-        },
         "A502": {
-            "plot": 4,
-            "visual": 5,
-            "audio": 3,
-            "characterization": 5,
+            "plot": 5,
+            "visual": 6,
+            "audio": 8,
+            "characterization": 6,
             "direction": 6
         },
         "A503": {
-            "plot": 7,
+            "plot": 9,
+            "visual": 10,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A504": {
+            "plot": 5,
             "visual": 8,
-            "audio": 9,
+            "audio": 6,
             "characterization": 8,
+            "direction": 6
+        },
+        "A505": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 7,
             "direction": 9
+        },
+        "A506": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 8
         }
     },
     "U002": {
@@ -247,26 +261,40 @@
             "characterization": 7,
             "direction": 7
         },
-        "A501": {
+        "A502": {
             "plot": 7,
             "visual": 7,
-            "audio": 10,
-            "characterization": 5,
-            "direction": 8
-        },
-        "A502": {
-            "plot": 4,
-            "visual": 6,
-            "audio": 6,
+            "audio": 8,
             "characterization": 6,
-            "direction": 5
+            "direction": 7
         },
         "A503": {
-            "plot": 5,
-            "visual": 8,
+            "plot": 9,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 10,
+            "direction": 7
+        },
+        "A504": {
+            "plot": 8,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A505": {
+            "plot": 9,
+            "visual": 10,
             "audio": 8,
             "characterization": 6,
             "direction": 10
+        },
+        "A506": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 9
         }
     },
     "U003": {
@@ -382,25 +410,39 @@
             "characterization": 6,
             "direction": 7
         },
-        "A501": {
-            "plot": 6,
-            "visual": 5,
-            "audio": 8,
-            "characterization": 7,
-            "direction": 7
-        },
         "A502": {
-            "plot": 6,
-            "visual": 3,
-            "audio": 6,
+            "plot": 8,
+            "visual": 9,
+            "audio": 5,
             "characterization": 7,
-            "direction": 7
+            "direction": 6
         },
         "A503": {
-            "plot": 8,
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 10
+        },
+        "A504": {
+            "plot": 6,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 8
+        },
+        "A505": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 10
+        },
+        "A506": {
+            "plot": 7,
             "visual": 10,
             "audio": 7,
-            "characterization": 10,
+            "characterization": 9,
             "direction": 8
         }
     },
@@ -566,25 +608,39 @@
             "characterization": 9,
             "direction": 8
         },
-        "A501": {
-            "plot": 7,
-            "visual": 8,
-            "audio": 8,
-            "characterization": 7,
-            "direction": 7
-        },
         "A502": {
-            "plot": 6,
-            "visual": 3,
-            "audio": 4,
-            "characterization": 7,
-            "direction": 5
+            "plot": 8,
+            "visual": 6,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 8
         },
         "A503": {
-            "plot": 9,
+            "plot": 10,
+            "visual": 9,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 10
+        },
+        "A504": {
+            "plot": 7,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 8
+        },
+        "A505": {
+            "plot": 7,
             "visual": 9,
             "audio": 8,
-            "characterization": 7,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A506": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 6,
+            "characterization": 8,
             "direction": 10
         }
     },
@@ -750,26 +806,40 @@
             "characterization": 8,
             "direction": 8
         },
-        "A501": {
-            "plot": 4,
-            "visual": 9,
-            "audio": 10,
-            "characterization": 7,
-            "direction": 9
-        },
         "A502": {
-            "plot": 5,
-            "visual": 4,
-            "audio": 7,
-            "characterization": 2,
-            "direction": 3
+            "plot": 10,
+            "visual": 7,
+            "audio": 5,
+            "characterization": 6,
+            "direction": 8
         },
         "A503": {
-            "plot": 8,
-            "visual": 7,
-            "audio": 10,
-            "characterization": 8,
+            "plot": 9,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 10,
             "direction": 10
+        },
+        "A504": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
+            "characterization": 5,
+            "direction": 8
+        },
+        "A505": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 10,
+            "characterization": 6,
+            "direction": 9
+        },
+        "A506": {
+            "plot": 7,
+            "visual": 10,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 9
         }
     },
     "U006": {
@@ -1123,26 +1193,40 @@
             "characterization": 7,
             "direction": 8
         },
-        "A501": {
-            "plot": 8,
-            "visual": 9,
-            "audio": 8,
-            "characterization": 8,
+        "A502": {
+            "plot": 6,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 9,
             "direction": 6
         },
-        "A502": {
-            "plot": 4,
-            "visual": 5,
-            "audio": 4,
-            "characterization": 4,
-            "direction": 4
-        },
         "A503": {
+            "plot": 10,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 10,
+            "direction": 8
+        },
+        "A504": {
             "plot": 8,
-            "visual": 10,
+            "visual": 6,
+            "audio": 10,
+            "characterization": 7,
+            "direction": 7
+        },
+        "A505": {
+            "plot": 7,
+            "visual": 7,
             "audio": 7,
             "characterization": 6,
             "direction": 10
+        },
+        "A506": {
+            "plot": 6,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 9,
+            "direction": 8
         }
     },
     "U007": {
@@ -1391,25 +1475,39 @@
             "characterization": 9,
             "direction": 10
         },
-        "A501": {
-            "plot": 7,
-            "visual": 9,
-            "audio": 7,
-            "characterization": 6,
-            "direction": 9
-        },
         "A502": {
-            "plot": 6,
-            "visual": 6,
-            "audio": 6,
-            "characterization": 5,
-            "direction": 4
+            "plot": 7,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 7,
+            "direction": 8
         },
         "A503": {
             "plot": 10,
-            "visual": 10,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 9
+        },
+        "A504": {
+            "plot": 6,
+            "visual": 9,
             "audio": 8,
-            "characterization": 7,
+            "characterization": 8,
+            "direction": 7
+        },
+        "A505": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 10,
+            "characterization": 8,
+            "direction": 6
+        },
+        "A506": {
+            "plot": 8,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 8,
             "direction": 8
         }
     },
@@ -1708,25 +1806,39 @@
             "characterization": 8,
             "direction": 7
         },
-        "A501": {
-            "plot": 9,
-            "visual": 8,
-            "audio": 7,
-            "characterization": 8,
-            "direction": 7
-        },
         "A502": {
-            "plot": 5,
+            "plot": 6,
             "visual": 8,
-            "audio": 6,
-            "characterization": 4,
-            "direction": 4
+            "audio": 8,
+            "characterization": 5,
+            "direction": 8
         },
         "A503": {
-            "plot": 7,
-            "visual": 9,
-            "audio": 8,
+            "plot": 10,
+            "visual": 10,
+            "audio": 10,
             "characterization": 8,
+            "direction": 9
+        },
+        "A504": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 6
+        },
+        "A505": {
+            "plot": 9,
+            "visual": 10,
+            "audio": 8,
+            "characterization": 6,
+            "direction": 7
+        },
+        "A506": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 6,
+            "characterization": 10,
             "direction": 9
         }
     },
@@ -2053,49 +2165,77 @@
             "characterization": 1,
             "direction": 1
         },
-        "A501": {
-            "plot": 9,
-            "visual": 5,
-            "audio": 9,
-            "characterization": 6,
-            "direction": 6
-        },
         "A502": {
-            "plot": 5,
-            "visual": 5,
-            "audio": 5,
-            "characterization": 4,
+            "plot": 7,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 5,
             "direction": 7
         },
         "A503": {
-            "plot": 8,
+            "plot": 10,
+            "visual": 10,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 10
+        },
+        "A504": {
+            "plot": 5,
             "visual": 8,
-            "audio": 7,
+            "audio": 9,
+            "characterization": 5,
+            "direction": 5
+        },
+        "A505": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 8,
             "characterization": 8,
             "direction": 8
+        },
+        "A506": {
+            "plot": 6,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 9
         }
     },
     "U010": {
-        "A501": {
-            "plot": 6,
-            "visual": 6,
-            "audio": 10,
-            "characterization": 8,
-            "direction": 7
-        },
         "A502": {
-            "plot": 4,
-            "visual": 5,
-            "audio": 5,
-            "characterization": 6,
-            "direction": 7
+            "plot": 7,
+            "visual": 7,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 8
         },
         "A503": {
-            "plot": 8,
-            "visual": 6,
+            "plot": 10,
+            "visual": 9,
+            "audio": 9,
+            "characterization": 8,
+            "direction": 10
+        },
+        "A504": {
+            "plot": 7,
+            "visual": 8,
             "audio": 8,
             "characterization": 8,
-            "direction": 7
+            "direction": 8
+        },
+        "A505": {
+            "plot": 7,
+            "visual": 8,
+            "audio": 9,
+            "characterization": 9,
+            "direction": 8
+        },
+        "A506": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 8,
+            "characterization": 9,
+            "direction": 9
         }
     },
     "U011": {
@@ -109196,32 +109336,25 @@
         }
     },
     "U080": {
-        "A045": {
-            "plot": 4,
+        "A014": {
+            "plot": 1,
             "visual": 1,
-            "audio": 3,
-            "characterization": 5,
+            "audio": 1,
+            "characterization": 1,
+            "direction": 1
+        },
+        "A443": {
+            "plot": 1,
+            "visual": 1,
+            "audio": 1,
+            "characterization": 1,
             "direction": 1
         },
         "A349": {
-            "plot": 5,
-            "visual": 5,
-            "audio": 5,
-            "characterization": 5,
-            "direction": 5
-        },
-        "A217": {
-            "plot": 5,
-            "visual": 7,
-            "audio": 5,
-            "characterization": 10,
-            "direction": 5
-        },
-        "A385": {
-            "plot": 4,
-            "visual": 6,
-            "audio": 5,
-            "characterization": 6,
+            "plot": 1,
+            "visual": 1,
+            "audio": 4,
+            "characterization": 1,
             "direction": 1
         }
     }

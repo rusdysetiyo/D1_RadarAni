@@ -669,29 +669,75 @@ class RightPanel(ft.Container):
             ]
         )
 
-    
+    def _build_popup_dropdown(self, label: str, prefill_val: str = "1"):
+        # Simpan nilai terpilih
+        selected = ft.Text(prefill_val, size=13, color=self._theme["text_main"])
+        
+        def on_selected(e):
+            selected.value = e.control.data
+            selected.update()
+            # Simpan ke dropdown_controls via data attribute
+            self.dropdown_controls[label] = e.control.data
+
+        return ft.Column(
+            expand=True,
+            spacing=4,
+            controls=[
+                ft.Text(label, size=11, color=self._theme["text_main"],
+                        weight=ft.FontWeight.W_500),
+                ft.Container(
+                    expand=True,
+                    height=42,
+                    bgcolor=self._theme["bg_secondary"],
+                    border=ft.border.all(1, self._theme["border_color"]),
+                    border_radius=8,
+                    padding=ft.padding.symmetric(horizontal=10, vertical=4),
+                    alignment=ft.Alignment(0, 0),
+                    content=ft.PopupMenuButton(
+                        expand=True,
+                        content=ft.Row([
+                            selected,
+                            ft.Icon(ft.Icons.ARROW_DROP_DOWN,
+                                    color=self._theme["text_main"], size=18),
+                        ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER),
+                        items=[
+                            ft.PopupMenuItem(
+                                content=ft.Text(str(i), color=self._theme["text_main"], size=13),
+                                data=str(i),
+                                on_click=on_selected,
+                            ) for i in range(1, 11)
+                        ],
+                        bgcolor=self._theme["bg_secondary"],   # ← warna popup menu
+                    )
+                )
+            ]
+        )
 
     def _build_dropdowns(self):
         self.dropdown_controls = {}
         categories = ["Plot", "Visual", "Audio", "Characterization", "Direction"]
         dropdown_list = []
 
-        for cat in categories:
-            ui_component = score_dropdown(cat,  self._theme)
-            if isinstance(ui_component, ft.Column):
-                dropdown_obj = next(c for c in ui_component.controls if isinstance(c, ft.Dropdown))
-                self.dropdown_controls[cat] = dropdown_obj
-            else:
-                self.dropdown_controls[cat] = ui_component
-            dropdown_list.append(ui_component)
+        existing_scores = {}
+        user_id = self.data_manager.baca_sesi()
+        if user_id:
+            raw = self.data_manager.get_rating_user_as_list(user_id, self.anime_id)
+            if raw:
+                keys = ["plot", "visual", "audio", "characterization", "direction"]
+                existing_scores = {k: str(v) for k, v in zip(keys, raw)}
 
-        return ft.Row(wrap=True, spacing=8, run_spacing=8, controls=dropdown_list)
+        for cat in categories:
+            prefill_val = existing_scores.get(cat.lower(), "1")
+            self.dropdown_controls[cat] = prefill_val   # ← nilai awal
+            dropdown_list.append(self._build_popup_dropdown(cat, prefill_val))
+
+        return ft.Row(expand=True, spacing=8, controls=dropdown_list)
 
     def save_rating(self, e):
         try:
             user_scores = {}
-            for category, dd in self.dropdown_controls.items():
-                val = dd.value if dd.value is not None else 0
+            for category, val in self.dropdown_controls.items():
                 user_scores[category.lower()] = int(val)
 
             user_id = self.data_manager.baca_sesi()
@@ -938,5 +984,3 @@ class UIDetail(ft.Column):
 
     def delete_rating(self, e):
         self.Right_panel.delete_rating(e)
-
-

@@ -47,10 +47,11 @@ class ScreenManager:
         if hasattr(self, "guide_manager") and self.guide_manager:
             self.guide_manager.set_visible(False)
 
-        layar, petals, circle, dots = buat_bloom_screen(pesan, self.theme)
+        layar, petals, circle, dots, efek_bunga = buat_bloom_screen(pesan, self.theme, self.page)
         self.bersihkan_layar()
         self.page.add(layar)
-        await animasi_bloom(petals, circle, dots)
+        await animasi_bloom(petals, circle, dots, efek_bunga)
+        efek_bunga.stop()
         self.bersihkan_layar()
 
         self.current_view_instance = target_class(
@@ -65,7 +66,6 @@ class ScreenManager:
                 self.guide_manager.set_visible(True)
             else:
                 self.guide_manager.set_visible(False)
-            # -----------------------------------------
 
         self.page.update()
 
