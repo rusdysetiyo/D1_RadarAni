@@ -118,9 +118,6 @@ class AnimeCard(ft.Container):
             visible=False,
         )
 
-        sp_txt = f"you: {skor_personal:.1f}" if is_rated else "you: N/A"
-        sp_col = self.theme["primary"] if is_rated else self.theme["text_muted"]
-
         info = ft.Container(
             padding=ft.padding.only(left=7, right=7, top=4, bottom=5),
             content=ft.Column(
@@ -184,7 +181,6 @@ class AnimeCard(ft.Container):
         self._status_pill.update()
         self._fav_icon.update()
         self.update()
-
 
 # ── Section: Komponen AnimeListItem ──────────────────────────────────────────
 class AnimeListItem(ft.Container):
@@ -309,7 +305,6 @@ class AnimeListItem(ft.Container):
         )
         self.border = ft.border.all(1.5 if is_hovered else 1, self.theme["card_hover_border"] if is_hovered else self.theme["border_color"])
         self.update()
-
 
 # ── Section: Halaman Utama Katalog ───────────────────────────────────────────
 class UIKatalog(ft.Row):
