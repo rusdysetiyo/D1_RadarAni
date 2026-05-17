@@ -2,12 +2,12 @@ import flet as ft
 import sys
 import os
 
-
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from src.managers.data_manager import DataManager
 from src.managers.auth_manager import AuthManager
 from src.managers.screen_manager import ScreenManager
+from src.managers.keyboard_manager import KeyboardManager
 
 
 def main(page: ft.Page):
@@ -27,7 +27,6 @@ def main(page: ft.Page):
     }
 
     page.bgcolor = "transparent"
-
     page.decoration = ft.BoxDecoration(
         gradient=ft.LinearGradient(
             begin=ft.Alignment(-1.0, -1.0),
@@ -39,23 +38,18 @@ def main(page: ft.Page):
     page.theme = ft.Theme(font_family="IBMPlexSansJP")
 
     try:
-        page.window.width = 1100
-        page.window.height = 750
-        page.window.min_width = 900
-        page.window.min_height = 600
+        page.window.width, page.window.height = 1100, 750
+        page.window.min_width, page.window.min_height = 900, 600
     except AttributeError:
-        page.window_width = 1100
-        page.window_height = 750
-        page.window_min_width = 900
-        page.window_min_height = 600
+        page.window_width, page.window_height = 1100, 750
+        page.window_min_width, page.window_min_height = 900, 600
 
     data_manager = DataManager()
     auth_manager = AuthManager(data_manager)
     screen_manager = ScreenManager(page, data_manager, auth_manager)
+    kb_manager = KeyboardManager(page, screen_manager, auth_manager)
 
-    test_user_id = "U001"
-    auth_manager.set_user_aktif(test_user_id)
-    screen_manager.tampilkan_home()
+    screen_manager.tampilkan_login()
 
-if __name__ == '__main__':
-    ft.run(main)
+if __name__ == "__main__":
+    ft.run(main, assets_dir="assets")
