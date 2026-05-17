@@ -3,8 +3,6 @@ import asyncio
 from ui.components.sakura_anim import get_sakura_svg
 from src.ui.components.floating_narutomaki import FloatingNeuNaruto
 
-
-# 1. Tambahin 'page' di argumen buat dikirim ke FloatingNeuSakura
 def buat_bloom_screen(pesan: str, theme, page: ft.Page):
     sakura_img = ft.Image(
         src=get_sakura_svg(size=160),
@@ -33,7 +31,6 @@ def buat_bloom_screen(pesan: str, theme, page: ft.Page):
         animate_opacity=ft.Animation(duration=500, curve=ft.AnimationCurve.EASE_IN_OUT),
     )
 
-    # 2. Pisahin UI utama ke variabel sendiri
     main_ui = ft.Column(
         controls=[
             ft.Container(expand=True),
@@ -48,34 +45,28 @@ def buat_bloom_screen(pesan: str, theme, page: ft.Page):
         expand=True,
     )
 
-    # 3. Bikin Stack buat numpuk background (bunga) sama foreground (UI utama)
     main_stack = ft.Stack(expand=True)
 
-    # 4. Panggil Floating Sakura-nya (otomatis masuk ke layer paling belakang Stack)
     efek_scallops = FloatingNeuNaruto(
         stack=main_stack,
         page=page,
         theme=theme,
-        max_petals=8,  # Bikin agak rame biar lucu pas loading
+        max_petals=8,
         is_loading_screen=True
     )
 
-    # 5. Masukin UI Utama ke Stack (numpuk di atas bunganya)
     main_stack.controls.append(main_ui)
 
     container = ft.Container(
         expand=True,
         bgcolor=theme["bg"],
-        content=main_stack,  # <--- Contentnya sekarang diganti jadi Stack
+        content=main_stack,
     )
 
-    # Return efek_bunga juga biar animasinya bisa dijalankan/dimatikan
     return container, sakura_img, label, dots, efek_scallops
 
 
-# 6. Update animasi_bloom buat jalanin efek bunganya
 async def animasi_bloom(sakura_img, label, dots, efek_bunga):
-    # Nyalain animasi bunga ngambangnya (jalan di background)
     task_bunga = asyncio.create_task(efek_bunga.float())
 
     await asyncio.sleep(0.08)
