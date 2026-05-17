@@ -2,7 +2,7 @@ import flet as ft
 from collections import Counter
 from src.ui.charts import (
     VerticalBarChart, HorizontalBarChart, DonutChart,
-    GenreNetworkGraph, CategoricalBubbleChart, KDEChart
+    GenreNetworkGraph, CategoricalBubbleChart, KDEChart, AnalyticsRadarChart
 )
 from src.ui.charts.tooltip import Tooltip
 from src.config.theme import ThemeManager
@@ -30,11 +30,25 @@ def _network_card(chart, theme) -> ft.Container:
     return ft.Container(
         content=chart,
         expand=True,
-        height=480,
+        height=650,
         bgcolor=theme["card"],
         border_radius=12,
         border=ft.border.all(1, theme["border_color"]),
         padding=ft.padding.all(0),
+        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
+                            offset=ft.Offset(0, 2)),
+    )
+
+def _radar_card(chart, theme) -> ft.Container:
+    """Card untuk Radar Chart — cukup ruang untuk controls dan chart."""
+    return ft.Container(
+        content=chart,
+        expand=True,
+        height=520,
+        bgcolor=theme["card"],
+        border_radius=12,
+        border=ft.border.all(1, theme["border_color"]),
+        padding=ft.padding.all(16),
         shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
                             offset=ft.Offset(0, 2)),
     )
@@ -46,6 +60,21 @@ def _bubble_card(chart, theme) -> ft.Container:
         content=chart,
         expand=True,
         height=560,
+        bgcolor=theme["card"],
+        border_radius=12,
+        border=ft.border.all(1, theme["border_color"]),
+        padding=ft.padding.all(0),
+        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
+                            offset=ft.Offset(0, 2)),
+    )
+
+
+def _kde_card(chart, theme) -> ft.Container:
+    """Card untuk KDE Chart — lebih tinggi karena memuat panel statistik di bawah."""
+    return ft.Container(
+        content=chart,
+        expand=True,
+        height=520,
         bgcolor=theme["card"],
         border_radius=12,
         border=ft.border.all(1, theme["border_color"]),
@@ -174,6 +203,19 @@ class UIAnalytics(ft.Row):
 
         tt = self._global_tooltip   # alias singkat
 
+        # Chart 0 — Radar Charts (Berjejer 3)
+        chart0a = AnalyticsRadarChart(animes, category="Anime", theme=self.current_theme)
+        chart0b = AnalyticsRadarChart(animes, category="Genre", theme=self.current_theme)
+        chart0c = AnalyticsRadarChart(animes, category="Studio", theme=self.current_theme)
+        row0 = ft.Row(
+            controls=[
+                _radar_card(chart0a, self.current_theme),
+                _radar_card(chart0b, self.current_theme),
+                _radar_card(chart0c, self.current_theme),
+            ],
+            alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
+        )
+
         # Chart 1 — Genre
         genres_counter = Counter()
         for a in animes:
@@ -251,7 +293,7 @@ class UIAnalytics(ft.Row):
         # Chart 6 — KDE Plot
         chart6 = KDEChart(animes, theme=self.current_theme, tooltip=tt)
         row4 = ft.Row(
-            controls=[_chart_card(chart6, self.current_theme)],
+            controls=[_kde_card(chart6, self.current_theme)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
@@ -270,12 +312,13 @@ class UIAnalytics(ft.Row):
                 controls=[
                     ft.Icon(ft.Icons.TOUCH_APP, color=self.current_theme["text_muted"], size=14),
                     ft.Text(
-                        "Hover di atas bar / slice / node / gelembung untuk detail",
+                        "Klik node / gelembung / kurva KDE untuk detail  •  Bar chart dan pie chart menampilkan angka langsung",
                         size=11, color=self.current_theme["text_muted"], italic=True,
                     ),
                 ],
                 spacing=6,
             ),
+            row0,
             row1,
             row2,
             row3,

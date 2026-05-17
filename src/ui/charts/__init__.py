@@ -6,3 +6,4 @@ from .donut import DonutChart
 from .genre_network import GenreNetworkGraph
 from .categorical_bubble import CategoricalBubbleChart
 from .kde_plot import KDEChart
+from .analytics_radar import AnalyticsRadarChart
