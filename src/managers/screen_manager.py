@@ -10,6 +10,7 @@ class ScreenManager:
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.halaman_terakhir = "home"
+        self._detail_stack = []
         self.filter_terakhir = "all"
         self.tema_aktif = "1"
         self.theme = ThemeManager.get_theme(self.tema_aktif)
@@ -98,9 +99,19 @@ class ScreenManager:
         self.page.update()
 
     def tampilkan_detail(self, anime_id: str):
-        self.halaman_terakhir = "detail"
         from src.ui.ui_detail import UIDetail
-        self.page.run_task(self._jalankan_transisi, "Opening Anime Data...", UIDetail, anime_id)
+        
+        # Push anime_id yang sedang aktif ke stack sebelum pindah
+        if self.halaman_terakhir == "detail" and hasattr(self, '_current_anime_id'):
+            self._detail_stack.append(self._current_anime_id)
+        else:
+            # Masuk detail dari halaman lain → reset stack
+            self._detail_stack.clear()
+            self._halaman_sebelum_detail = self.halaman_terakhir
+        
+        self._current_anime_id = anime_id
+        self.halaman_terakhir = "detail"
+        self.page.run_task(self._jalankan_transisi, "Opening Anime Data...", UIDetail, anime_id=anime_id)
 
     def tampilkan_profil(self):
         self.halaman_terakhir = "profil"
@@ -118,9 +129,17 @@ class ScreenManager:
         self.page.run_task(self._jalankan_transisi, "Fetching Anime Data...", UIScraping)
 
     def kembali_ke_asal(self):
-        if self.halaman_terakhir == "katalog":
+        if self._detail_stack:
+            prev_anime_id = self._detail_stack.pop()
+            self._current_anime_id = prev_anime_id
+            from src.ui.ui_detail import UIDetail
+            self.page.run_task(self._jalankan_transisi, "Going Back...", UIDetail, anime_id=prev_anime_id)
+            return
+        
+        asal = getattr(self, '_halaman_sebelum_detail', None)
+        if asal == "katalog":
             self.tampilkan_katalog(filter_kategori=self.filter_terakhir)
-        elif self.halaman_terakhir == "analytics":
+        elif asal == "analytics":
             self.tampilkan_analytics()
         else:
             self.tampilkan_home()

@@ -89,6 +89,8 @@ class KeyboardManager:
             self.sm.update_theme(key_pressed)
             if halaman_sekarang == "home":
                 self.sm.tampilkan_home()
+            elif halaman_sekarang == "login":
+                if hasattr(self.sm, "tampilkan_login"): self.sm.tampilkan_login()
             elif halaman_sekarang == "katalog":
                 self.sm.tampilkan_katalog(filter_kategori=getattr(self.sm, "filter_terakhir", "all"))
             elif halaman_sekarang == "profil":
@@ -97,8 +99,8 @@ class KeyboardManager:
                 if hasattr(self.sm, "tampilkan_analytics"): self.sm.tampilkan_analytics()
             elif halaman_sekarang == "scraping":
                 if hasattr(self.sm, "tampilkan_scraping"): self.sm.tampilkan_scraping()
-            elif halaman_sekarang == "detail" and view:
-                if hasattr(view, "perbarui_tema"): view.perbarui_tema()
+            elif halaman_sekarang == "detail" and view :
+                if hasattr(self.sm, "tampilkan_detail"): self.sm.tampilkan_detail(anime_id=getattr(view, "anime_id", None))
             return
 
         # -----Ganti Tema Berurutan (Ctrl + T)-----
@@ -113,6 +115,8 @@ class KeyboardManager:
 
             if halaman_sekarang == "home":
                 self.sm.tampilkan_home()
+            elif halaman_sekarang == "login":
+                if hasattr(self.sm, "tampilkan_login"): self.sm.tampilkan_login()
             elif halaman_sekarang == "katalog":
                 self.sm.tampilkan_katalog(filter_kategori=getattr(self.sm, "filter_terakhir", "all"))
             elif halaman_sekarang == "profil":
@@ -121,8 +125,8 @@ class KeyboardManager:
                 if hasattr(self.sm, "tampilkan_analytics"): self.sm.tampilkan_analytics()
             elif halaman_sekarang == "scraping":
                 if hasattr(self.sm, "tampilkan_scraping"): self.sm.tampilkan_scraping()
-            elif halaman_sekarang == "detail" and view:
-                if hasattr(view, "perbarui_tema"): view.perbarui_tema()
+            elif halaman_sekarang == "detail" and view :
+                if hasattr(self.sm, "tampilkan_detail"): self.sm.tampilkan_detail(anime_id=getattr(view, "anime_id", None))
             return
 
         # -----Toggle Grid/List di Katalog (Ctrl + G)-----
@@ -178,10 +182,10 @@ class KeyboardManager:
         # -----Aksi Halaman Detail (S = Save, D = Delete, Enter) -----
         if not e.ctrl and not e.alt and not e.shift:
             if halaman_sekarang == "detail" and view:
-                if key_pressed == "S" and hasattr(view, "simpan_rating"):
-                    view.simpan_rating(None)
-                elif key_pressed == "D" and hasattr(view, "hapus_rating"):
-                    view.hapus_rating(None)
+                if key_pressed == "S" and hasattr(view, "save_rating"):
+                    view.save_rating(None)
+                elif key_pressed == "D" and hasattr(view, "delete_rating"):
+                    view.delete_rating(None)
 
             if key_pressed == "ENTER" and view and hasattr(view, "submit_field"):
                 view.submit_field(None)
