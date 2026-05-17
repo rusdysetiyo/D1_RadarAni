@@ -3,12 +3,13 @@ import time
 
 
 class UILogin(ft.Container):
-    def __init__(self, page, data_manager, auth_manager, screen_manager):
+    def __init__(self, page, data_manager, auth_manager, screen_manager, theme):
         super().__init__()
         self.my_page = page
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.screen_manager = screen_manager
+        self.theme = theme
 
         self.expand = True
         self.is_register_mode = False

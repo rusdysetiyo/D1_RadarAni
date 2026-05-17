@@ -1,560 +1,54 @@
-import math
 import flet as ft
-import flet.canvas as cv
 from collections import Counter
-
-# ── Palette ───────────────────────────────────────────────────────────────────
-C_SAKURA    = "#C07090"
-C_SAKURA_LT = "#F9F0F5"
-C_SAKURA_DK = "#A05070"
-C_TEXT      = "#3D2535"
-C_TEXT2     = "#8B6A7A"
-C_TEXT3     = "#B0909A"
-C_BORDER    = "#EDE0E8"
-C_WHITE     = "#FFFFFF"
-
-CHART_COLORS = [
-    "#C07090", "#D4A8C0", "#A0506A", "#E8D0DE", "#B08090",
-    "#906070", "#E0B0C8", "#F0E4EB", "#C890A8", "#F4D8E8",
-]
-C_HOVER = "#FF5080"
-
-
-def _rgba(hex_color: str, alpha: float) -> str:
-    r = int(hex_color[1:3], 16)
-    g = int(hex_color[3:5], 16)
-    b = int(hex_color[5:7], 16)
-    a = int(alpha * 255)
-    return f"#{a:02X}{r:02X}{g:02X}{b:02X}"
-
-
-def _arc_points(cx, cy, r, angle_start, angle_sweep, steps=32):
-    """
-    Kembalikan list titik (x,y) di sepanjang busur.
-    Digunakan untuk menggambar donut slice sebagai Polygon/LineTo chain
-    karena cv.Path.Arc tidak dilanjut dari titik terakhir Path.
-    """
-    pts = []
-    for k in range(steps + 1):
-        a = angle_start + angle_sweep * k / steps
-        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
-    return pts
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Tooltip popup
-# ─────────────────────────────────────────────────────────────────────────────
-class Tooltip(ft.Container):
-    def __init__(self):
-        super().__init__(
-            visible=False,
-            bgcolor=C_WHITE,
-            border=ft.border.all(1, "#E0C8D4"),
-            border_radius=8,
-            padding=ft.padding.symmetric(horizontal=12, vertical=8),
-            shadow=ft.BoxShadow(blur_radius=14, color="#25C07090",
-                                offset=ft.Offset(0, 3)),
-            left=0, top=0,
-            content=ft.Column(spacing=3, tight=True),
-        )
-
-    def show_at(self, x: float, y: float, title: str, rows: list):
-        self.content.controls = [
-            ft.Text(title, size=12, weight=ft.FontWeight.BOLD, color=C_SAKURA_DK),
-            *[ft.Row([
-                ft.Text(lbl, size=11, color=C_TEXT3, expand=True),
-                ft.Text(val, size=11, color=C_TEXT, weight=ft.FontWeight.W_600),
-            ], spacing=8) for lbl, val in rows],
-        ]
-        self.left = min(x + 12, 280)
-        self.top  = max(0, y - 8)
-        self.visible = True
-        self.update()
-
-    def hide(self):
-        if self.visible:
-            self.visible = False
-            self.update()
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# cv.Text helper — x,y selalu top-left corner di Flet canvas
-# Untuk right-align  : x = target_right - estimated_width
-# Untuk center-align : x = center - estimated_width/2
-# Estimasi lebar teks = jumlah karakter * font_size * 0.6
-# ─────────────────────────────────────────────────────────────────────────────
-def _text_w(text: str, size: float) -> float:
-    return len(text) * size * 0.60
-
-def _text_h(size: float) -> float:
-    return size * 1.25
-
-def _cv_text_center(x, y, text, size, color, bold=False):
-    """cv.Text dengan anchor tengah (x,y adalah center)."""
-    tw = _text_w(text, size)
-    th = _text_h(size)
-    return cv.Text(
-        x=x - tw / 2,
-        y=y - th / 2,
-        value=text,
-        style=ft.TextStyle(
-            size=size, color=color,
-            weight=ft.FontWeight.BOLD if bold else ft.FontWeight.NORMAL,
-        ),
-    )
-
-def _cv_text_right(x, y, text, size, color):
-    """cv.Text dengan anchor kanan-tengah (x = right edge, y = vertical center)."""
-    tw = _text_w(text, size)
-    th = _text_h(size)
-    return cv.Text(
-        x=x - tw,
-        y=y - th / 2,
-        value=text,
-        style=ft.TextStyle(size=size, color=color),
-    )
-
-def _cv_text_left(x, y, text, size, color, bold=False):
-    """cv.Text dengan anchor kiri-tengah (x = left edge, y = vertical center)."""
-    th = _text_h(size)
-    return cv.Text(
-        x=x,
-        y=y - th / 2,
-        value=text,
-        style=ft.TextStyle(
-            size=size, color=color,
-            weight=ft.FontWeight.BOLD if bold else ft.FontWeight.NORMAL,
-        ),
-    )
-
-def _cv_text_top_center(x, y, text, size, color, bold=False):
-    """cv.Text dengan anchor atas-tengah (x = center, y = top)."""
-    tw = _text_w(text, size)
-    return cv.Text(
-        x=x - tw / 2,
-        y=y,
-        value=text,
-        style=ft.TextStyle(
-            size=size, color=color,
-            weight=ft.FontWeight.BOLD if bold else ft.FontWeight.NORMAL,
-        ),
-    )
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# VerticalBarChart
-# ─────────────────────────────────────────────────────────────────────────────
-class VerticalBarChart(ft.Stack):
-    PAD_L = 46
-    PAD_R = 12
-    PAD_T = 28
-    PAD_B = 72   # extra ruang untuk label X diagonal
-
-    def __init__(self, bar_data: list, title: str, y_label: str = ""):
-        super().__init__(expand=True)
-        self._data    = bar_data
-        self._title   = title
-        self._hovered = -1
-        self._tooltip = Tooltip()
-        self._w = self._h = 0
-
-        self._canvas = cv.Canvas(shapes=[], expand=True,
-                                 on_resize=self._on_resize)
-        self._gd = ft.GestureDetector(
-            content=ft.Container(expand=True),
-            on_hover=self._on_hover,
-        )
-        self.controls = [self._canvas, self._gd, self._tooltip]
-
-    def _on_resize(self, e):
-        self._w, self._h = e.width, e.height
-        self._redraw(self._hovered)
-
-    def _bar_rect(self, i, w, h):
-        n       = len(self._data)
-        max_val = max((d["value"] for d in self._data), default=1) or 1
-        area_w  = w - self.PAD_L - self.PAD_R
-        area_h  = h - self.PAD_T - self.PAD_B
-        slot_w  = area_w / n
-        bar_w   = max(4.0, slot_w * 0.62)
-        bx      = self.PAD_L + i * slot_w + (slot_w - bar_w) / 2
-        val     = self._data[i]["value"]
-        bar_h   = area_h * (val / max_val)
-        by      = self.PAD_T + area_h - bar_h
-        return bx, by, bar_w, bar_h
-
-    def _redraw(self, hovered):
-        if self._w == 0:
-            return
-        w, h    = self._w, self._h
-        max_v   = max((d["value"] for d in self._data), default=1) or 1
-        area_h  = h - self.PAD_T - self.PAD_B
-        shapes  = []
-
-        grid_p = ft.Paint(style=ft.PaintingStyle.STROKE,
-                          stroke_width=0.7, color="#22000000")
-        for frac in [0.25, 0.5, 0.75, 1.0]:
-            gy    = self.PAD_T + area_h * (1 - frac)
-            label = str(int(max_v * frac))
-            shapes.append(cv.Path(
-                [cv.Path.MoveTo(self.PAD_L, gy),
-                 cv.Path.LineTo(w - self.PAD_R, gy)],
-                grid_p,
-            ))
-            shapes.append(_cv_text_right(
-                self.PAD_L - 4, gy, label, 9, C_TEXT3))
-
-        for i, d in enumerate(self._data):
-            bx, by, bw, bh = self._bar_rect(i, w, h)
-            is_hov = (i == hovered)
-            color  = C_HOVER if is_hov else CHART_COLORS[i % len(CHART_COLORS)]
-            alpha  = 1.0 if (is_hov or hovered == -1) else 0.45
-
-            shapes.append(cv.Rect(
-                x=bx, y=by, width=bw, height=max(bh, 1),
-                border_radius=4,
-                paint=ft.Paint(style=ft.PaintingStyle.FILL,
-                               color=_rgba(color, alpha)),
-            ))
-
-            # x-axis label — diagonal 45°, full text, tidak dipotong
-            lbl = d["label"]
-            shapes.append(cv.Text(
-                x=bx + bw / 2,
-                y=h - self.PAD_B + 6,
-                value=lbl,
-                rotate=0.785,   # 45 derajat dalam radian
-                style=ft.TextStyle(
-                    size=9,
-                    color=C_SAKURA_DK if is_hov else C_TEXT2,
-                ),
-            ))
-
-        axis_p = ft.Paint(style=ft.PaintingStyle.STROKE,
-                          stroke_width=1, color=C_BORDER)
-        shapes.append(cv.Path(
-            [cv.Path.MoveTo(self.PAD_L, self.PAD_T),
-             cv.Path.LineTo(self.PAD_L, h - self.PAD_B),
-             cv.Path.LineTo(w - self.PAD_R, h - self.PAD_B)],
-            axis_p,
-        ))
-
-        shapes.append(_cv_text_top_center(w / 2, 6, self._title, 12, C_TEXT, bold=True))
-
-        self._canvas.shapes = shapes
-        self._canvas.update()
-
-    def _on_hover(self, e):
-        mx, my = e.local_position.x, e.local_position.y
-        if self._w == 0:
-            return
-        hit = -1
-        for i in range(len(self._data)):
-            bx, by, bw, bh = self._bar_rect(i, self._w, self._h)
-            if bx <= mx <= bx + bw and by - 4 <= my <= by + bh + 4:
-                hit = i
-                break
-        if hit != self._hovered:
-            self._hovered = hit
-            self._redraw(hit)
-        if hit >= 0:
-            d = self._data[hit]
-            rows = [("Jumlah Anime", str(d["value"]))]
-            self._tooltip.show_at(mx, my, d["label"], rows)
-        else:
-            self._tooltip.hide()
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# HorizontalBarChart
-# ─────────────────────────────────────────────────────────────────────────────
-class HorizontalBarChart(ft.Stack):
-    PAD_L = 130
-    PAD_R = 16
-    PAD_T = 30
-    PAD_B = 28
-
-    def __init__(self, bar_data: list, title: str):
-        super().__init__(expand=True)
-        self._data    = bar_data
-        self._title   = title
-        self._hovered = -1
-        self._tooltip = Tooltip()
-        self._w = self._h = 0
-
-        self._canvas = cv.Canvas(shapes=[], expand=True,
-                                 on_resize=self._on_resize)
-        self._gd = ft.GestureDetector(
-            content=ft.Container(expand=True),
-            on_hover=self._on_hover,
-        )
-        self.controls = [self._canvas, self._gd, self._tooltip]
-
-    def _on_resize(self, e):
-        self._w, self._h = e.width, e.height
-        self._redraw(self._hovered)
-
-    def _bar_rect(self, i, w, h):
-        n       = len(self._data)
-        max_val = 10.0   # skala rating anime selalu 0–10
-        area_w  = w - self.PAD_L - self.PAD_R
-        area_h  = h - self.PAD_T - self.PAD_B
-        slot_h  = area_h / n
-        bar_h   = max(4.0, slot_h * 0.55)
-        by      = self.PAD_T + i * slot_h + (slot_h - bar_h) / 2
-        val     = self._data[i]["value"]
-        # Selalu mulai dari 0 agar skala konsisten
-        bar_w   = area_w * (val / max_val)
-        return self.PAD_L, by, max(bar_w, 2.0), bar_h
-
-    def _redraw(self, hovered):
-        if self._w == 0:
-            return
-        w, h    = self._w, self._h
-        shapes  = []
-        max_val = 10.0   # skala rating anime selalu 0–10
-        area_w  = w - self.PAD_L - self.PAD_R
-
-        for i, d in enumerate(self._data):
-            bx, by, bw, bh = self._bar_rect(i, w, h)
-            is_hov = (i == hovered)
-            color  = C_HOVER if is_hov else CHART_COLORS[i % len(CHART_COLORS)]
-            alpha  = 1.0 if (is_hov or hovered == -1) else 0.45
-
-            shapes.append(cv.Rect(
-                x=bx, y=by, width=bw, height=bh,
-                border_radius=4,
-                paint=ft.Paint(style=ft.PaintingStyle.FILL,
-                               color=_rgba(color, alpha)),
-            ))
-
-            shapes.append(_cv_text_left(
-                6, by + bh / 2,
-                d["label"], 9,
-                C_SAKURA_DK if is_hov else C_TEXT2,
-                bold=is_hov,
-            ))
-
-        # Grid vertikal + label sumbu X mulai dari 0
-        grid_p = ft.Paint(style=ft.PaintingStyle.STROKE,
-                          stroke_width=0.6, color="#20000000")
-        for frac in [0.0, 0.25, 0.5, 0.75, 1.0]:
-            gx   = self.PAD_L + area_w * frac
-            gval = max_val * frac
-            shapes.append(cv.Path(
-                [cv.Path.MoveTo(gx, self.PAD_T),
-                 cv.Path.LineTo(gx, h - self.PAD_B)],
-                grid_p,
-            ))
-            shapes.append(_cv_text_top_center(
-                gx, h - self.PAD_B + 4,
-                f"{gval:.1f}", 8, C_TEXT3,
-            ))
-
-        axis_p = ft.Paint(style=ft.PaintingStyle.STROKE,
-                          stroke_width=1, color=C_BORDER)
-        shapes.append(cv.Path(
-            [cv.Path.MoveTo(self.PAD_L, self.PAD_T),
-             cv.Path.LineTo(self.PAD_L, h - self.PAD_B),
-             cv.Path.LineTo(w - self.PAD_R, h - self.PAD_B)],
-            axis_p,
-        ))
-
-        shapes.append(_cv_text_top_center(w / 2, 6, self._title, 12, C_TEXT, bold=True))
-
-        self._canvas.shapes = shapes
-        self._canvas.update()
-
-    def _on_hover(self, e):
-        mx, my = e.local_position.x, e.local_position.y
-        if self._w == 0:
-            return
-        hit = -1
-        for i in range(len(self._data)):
-            bx, by, bw, bh = self._bar_rect(i, self._w, self._h)
-            if bx <= mx <= bx + bw + 20 and by - 4 <= my <= by + bh + 4:
-                hit = i
-                break
-        if hit != self._hovered:
-            self._hovered = hit
-            self._redraw(hit)
-        if hit >= 0:
-            d = self._data[hit]
-            rows = [("Score", f"{d['value']:.2f}")]
-            if d.get("extra"):
-                rows.append(("Jumlah Anime", d["extra"]))
-            self._tooltip.show_at(mx, my, d["label"], rows)
-        else:
-            self._tooltip.hide()
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# DonutChart
-# ─────────────────────────────────────────────────────────────────────────────
-class DonutChart(ft.Stack):
-    def __init__(self, data: list, title: str):
-        super().__init__(expand=True)
-        self._data    = data
-        self._title   = title
-        self._hovered = -1
-        self._tooltip = Tooltip()
-        self._w = self._h = 0
-
-        self._canvas = cv.Canvas(shapes=[], expand=True,
-                                 on_resize=self._on_resize)
-        self._gd = ft.GestureDetector(
-            content=ft.Container(expand=True),
-            on_hover=self._on_hover,
-        )
-        self.controls = [self._canvas, self._gd, self._tooltip]
-
-    def _on_resize(self, e):
-        self._w, self._h = e.width, e.height
-        self._redraw(self._hovered)
-
-    def _geometry(self):
-        # Pie di setengah kiri, legend di kanan
-        # cx tepat di tengah area kiri
-        pie_area_w = self._w * 0.52
-        cx         = pie_area_w / 2
-        cy         = self._h / 2 + 8
-        outer_r    = min(pie_area_w / 2 * 0.82, (self._h - 60) / 2)
-        inner_r    = outer_r * 0.50
-        return cx, cy, outer_r, inner_r
-
-    def _slice_angles(self):
-        total = sum(d["value"] for d in self._data) or 1
-        angles, cur = [], -math.pi / 2
-        for d in self._data:
-            sw = 2 * math.pi * d["value"] / total
-            angles.append((cur, sw))
-            cur += sw
-        return angles
-
-    def _redraw(self, hovered):
-        if self._w == 0:
-            return
-        cx, cy, outer_r, inner_r = self._geometry()
-        angles = self._slice_angles()
-        shapes = []
-
-        for i, (d, (sa, sw)) in enumerate(zip(self._data, angles)):
-            is_hov = (i == hovered)
-            color  = CHART_COLORS[i % len(CHART_COLORS)]
-            alpha  = 1.0 if (is_hov or hovered == -1) else 0.38
-            expand = 7 if is_hov else 0
-            mid_a  = sa + sw / 2
-            ocx    = cx + expand * math.cos(mid_a)
-            ocy    = cy + expand * math.sin(mid_a)
-
-
-            outer_pts = _arc_points(ocx, ocy, outer_r, sa, sw)
-
-            inner_pts = _arc_points(ocx, ocy, inner_r, sa, sw)
-            inner_pts_rev = list(reversed(inner_pts))
-
-            elements = [cv.Path.MoveTo(*outer_pts[0])]
-            for pt in outer_pts[1:]:
-                elements.append(cv.Path.LineTo(*pt))
-            elements.append(cv.Path.LineTo(*inner_pts_rev[0]))
-            for pt in inner_pts_rev[1:]:
-                elements.append(cv.Path.LineTo(*pt))
-            elements.append(cv.Path.Close())
-
-            shapes.append(cv.Path(
-                elements=elements,
-                paint=ft.Paint(style=ft.PaintingStyle.FILL,
-                               color=_rgba(color, alpha)),
-            ))
-
-            border_els = [cv.Path.MoveTo(*outer_pts[0])]
-            for pt in outer_pts[1:]:
-                border_els.append(cv.Path.LineTo(*pt))
-            shapes.append(cv.Path(
-                elements=border_els,
-                paint=ft.Paint(style=ft.PaintingStyle.STROKE,
-                               stroke_width=1.5, color=C_WHITE),
-            ))
-
-        # Legend — kanan chart
-        leg_x  = self._w * 0.52 + 8
-        row_h  = 20
-        n      = len(self._data)
-
-        total_leg_h = n * row_h
-        leg_start_y = (self._h - total_leg_h) / 2 + 10
-
-        for i, d in enumerate(self._data):
-            is_hov   = (i == hovered)
-            color    = CHART_COLORS[i % len(CHART_COLORS)]
-            leg_alph = 1.0 if (is_hov or hovered == -1) else 0.38
-            ly       = leg_start_y + i * row_h + row_h / 2
-
-            box = 9
-            shapes.append(cv.Rect(
-                x=leg_x, y=ly - box / 2,
-                width=box, height=box,
-                border_radius=2,
-                paint=ft.Paint(style=ft.PaintingStyle.FILL,
-                               color=_rgba(color, leg_alph)),
-            ))
-            txt = f"{d['label']}  {d['value']} ({d['pct']:.1f}%)"
-            shapes.append(_cv_text_left(
-                leg_x + box + 5, ly, txt, 10,
-                C_SAKURA_DK if is_hov else C_TEXT2,
-                bold=is_hov,
-            ))
-
-        # Title center atas
-        shapes.append(_cv_text_top_center(
-            self._w / 2, 6, self._title, 12, C_TEXT, bold=True))
-
-        self._canvas.shapes = shapes
-        self._canvas.update()
-
-    def _on_hover(self, e):
-        mx, my = e.local_position.x, e.local_position.y
-        if self._w == 0:
-            return
-        cx, cy, outer_r, inner_r = self._geometry()
-        dx, dy = mx - cx, my - cy
-        dist   = math.hypot(dx, dy)
-
-        hit = -1
-        if inner_r - 4 <= dist <= outer_r + 8:
-            angle  = math.atan2(dy, dx)
-            angles = self._slice_angles()
-            for i, (sa, sw) in enumerate(angles):
-                a_norm = (angle - sa) % (2 * math.pi)
-                if 0 <= a_norm < sw:
-                    hit = i
-                    break
-
-        if hit != self._hovered:
-            self._hovered = hit
-            self._redraw(hit)
-        if hit >= 0:
-            d = self._data[hit]
-            self._tooltip.show_at(
-                mx, my, d["label"],
-                [("Jumlah", str(d["value"])),
-                 ("Persen", f"{d['pct']:.1f}%")],
-            )
-        else:
-            self._tooltip.hide()
+from src.ui.charts import (
+    VerticalBarChart, HorizontalBarChart, DonutChart,
+    GenreNetworkGraph, CategoricalBubbleChart, KDEChart
+)
+from src.ui.charts.tooltip import Tooltip
+from src.config.theme import ThemeManager
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Chart card wrapper
 # ─────────────────────────────────────────────────────────────────────────────
-def _chart_card(chart) -> ft.Container:
+def _chart_card(chart, theme) -> ft.Container:
     return ft.Container(
         content=chart,
         expand=True,
         height=350,
-        bgcolor=C_WHITE,
+        bgcolor=theme["card"],
         border_radius=12,
-        border=ft.border.all(1, C_BORDER),
+        border=ft.border.all(1, theme["border_color"]),
+        padding=ft.padding.all(0),
+        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
+                            offset=ft.Offset(0, 2)),
+    )
+
+
+def _network_card(chart, theme) -> ft.Container:
+    """Card khusus untuk network graph — lebih tinggi agar node tidak berhimpit."""
+    return ft.Container(
+        content=chart,
+        expand=True,
+        height=480,
+        bgcolor=theme["card"],
+        border_radius=12,
+        border=ft.border.all(1, theme["border_color"]),
+        padding=ft.padding.all(0),
+        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
+                            offset=ft.Offset(0, 2)),
+    )
+
+
+def _bubble_card(chart, theme) -> ft.Container:
+    """Card untuk Categorical Bubble Chart — lebih tinggi agar sel tidak sempit."""
+    return ft.Container(
+        content=chart,
+        expand=True,
+        height=560,
+        bgcolor=theme["card"],
+        border_radius=12,
+        border=ft.border.all(1, theme["border_color"]),
         padding=ft.padding.all(0),
         shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
                             offset=ft.Offset(0, 2)),
@@ -565,7 +59,7 @@ def _chart_card(chart) -> ft.Container:
 # Main UI
 # ─────────────────────────────────────────────────────────────────────────────
 class UIAnalytics(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager):
+    def __init__(self, page, data_manager, auth_manager, screen_manager, theme=None):
         super().__init__()
         self.my_page        = page
         self.data_manager   = data_manager
@@ -575,29 +69,32 @@ class UIAnalytics(ft.Row):
         self.spacing = 0
         self._sidebar_open = False
 
+        # Terima theme dari screen_manager; fallback ke ThemeManager jika tidak ada
+        self.current_theme = theme if theme is not None else ThemeManager.get_theme(self.screen_manager.tema_aktif)
+
+        # ── Global tooltip — dipasang di page.overlay agar tidak ter-clip card ──
+        self._global_tooltip = Tooltip()
+
         from src.ui.ui_home import _sidebar
         self._sidebar_widget = _sidebar(
             screen_manager, auth_manager,
-            self._toggle_sidebar, halaman_aktif="analytics",
+            self._toggle_sidebar, self.current_theme, halaman_aktif="analytics",
         )
 
         topbar = ft.Container(
             padding=ft.padding.symmetric(horizontal=16),
             height=55,
             blur=ft.Blur(10, 10, ft.BlurTileMode.MIRROR),
-            gradient=ft.LinearGradient(
-                begin=ft.Alignment(0, -1), end=ft.Alignment(0, 1),
-                colors=["#E6FFFFFF", "#CCFCF8FA"],
-            ),
+            bgcolor=ft.Colors.with_opacity(0.8, self.current_theme["bg"]),
             shadow=ft.BoxShadow(blur_radius=15, color="#15000000",
                                 offset=ft.Offset(0, 4)),
             content=ft.Row(
                 controls=[
-                    ft.IconButton(ft.Icons.MENU, icon_color=C_SAKURA,
+                    ft.IconButton(ft.Icons.MENU, icon_color=self.current_theme["primary"],
                                   on_click=self._toggle_sidebar,
                                   tooltip="Menu"),
                     ft.Text("Analytics Dashboard", size=18,
-                            color=C_SAKURA, weight=ft.FontWeight.BOLD),
+                            color=self.current_theme["text_main"], weight=ft.FontWeight.BOLD),
                 ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
@@ -621,13 +118,29 @@ class UIAnalytics(ft.Row):
                 ],
                 spacing=0, expand=True,
             ),
-            gradient=ft.LinearGradient(
-                begin=ft.Alignment(0, -1), end=ft.Alignment(0, 1),
-                colors=["#FFFFFF", "#F0F2F5"], stops=[0.4, 1.0],
-            ),
+            bgcolor=self.current_theme["bg"],
             expand=True,
         )
         self.controls = [self._sidebar_widget, area_utama]
+
+    # ── Lifecycle ─────────────────────────────────────────────────────────
+    def did_mount(self):
+        """Pasang global tooltip ke page.overlay saat halaman ditampilkan."""
+        if self._global_tooltip not in self.my_page.overlay:
+            self.my_page.overlay.append(self._global_tooltip)
+        # Beri tahu tooltip ukuran halaman untuk flip logic
+        self._global_tooltip.set_page_size(
+            self.my_page.width  or 1280,
+            self.my_page.height or 800,
+        )
+        self.my_page.update()
+
+    def will_unmount(self):
+        """Lepas tooltip dari overlay saat navigasi pindah halaman."""
+        self._global_tooltip.visible = False
+        if self._global_tooltip in self.my_page.overlay:
+            self.my_page.overlay.remove(self._global_tooltip)
+        self.my_page.update()
 
     def _toggle_sidebar(self, e=None):
         self._sidebar_open = not self._sidebar_open
@@ -643,21 +156,23 @@ class UIAnalytics(ft.Row):
         total_ratings = sum(u.get("rating_count", 0) for u in users)
 
         stat_card = ft.Container(
-            bgcolor=C_SAKURA_LT,
-            border=ft.border.all(1, "#E8D0DE"),
+            bgcolor=self.current_theme["primary_light"],
+            border=ft.border.all(1, self.current_theme["border_color"]),
             border_radius=12,
             padding=ft.padding.symmetric(horizontal=24, vertical=16),
             content=ft.Row(
                 controls=[
                     self._build_stat("Total Anime",   total_anime,   ft.Icons.MOVIE),
-                    ft.VerticalDivider(width=1, color=C_BORDER),
+                    ft.VerticalDivider(width=1, color=self.current_theme["border_color"]),
                     self._build_stat("Total Users",   total_users,   ft.Icons.PEOPLE),
-                    ft.VerticalDivider(width=1, color=C_BORDER),
+                    ft.VerticalDivider(width=1, color=self.current_theme["border_color"]),
                     self._build_stat("Total Ratings", total_ratings, ft.Icons.STAR),
                 ],
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY,
             ),
         )
+
+        tt = self._global_tooltip   # alias singkat
 
         # Chart 1 — Genre
         genres_counter = Counter()
@@ -666,7 +181,8 @@ class UIAnalytics(ft.Row):
                 genres_counter[g] += 1
         genre_data = [{"label": g, "value": cnt, "extra": None}
                       for g, cnt in genres_counter.most_common(10)]
-        chart1 = VerticalBarChart(genre_data, "Most Common Genres", y_label="Jumlah Anime")
+        chart1 = VerticalBarChart(genre_data, "Most Common Genres", y_label="Jumlah Anime",
+                                  theme=self.current_theme, tooltip=tt)
 
         # Chart 2 — Episodes
         bin_labels = ["1–12", "13–24", "25–36", "37–48", "49–100", "100+"]
@@ -685,7 +201,7 @@ class UIAnalytics(ft.Row):
         ep_data = [{"label": lbl, "value": cnt, "extra": f"{cnt} anime"}
                    for lbl, cnt in zip(bin_labels, bin_counts)]
         chart2 = VerticalBarChart(ep_data, "Episode Count Distribution",
-                                  y_label="Jumlah Anime")
+                                  y_label="Jumlah Anime", theme=self.current_theme, tooltip=tt)
 
         # Chart 3 — Type donut
         types_counter = Counter(a.get("type", "Unknown") for a in animes)
@@ -693,7 +209,7 @@ class UIAnalytics(ft.Row):
         t_total  = sum(v for _, v in t_sorted)
         donut_data = [{"label": lbl, "value": cnt, "pct": cnt / t_total * 100}
                       for lbl, cnt in t_sorted]
-        chart3 = DonutChart(donut_data, "Show Types Proportion")
+        chart3 = DonutChart(donut_data, "Show Types Proportion", theme=self.current_theme, tooltip=tt)
 
         # Chart 4 — Studios
         studio_scores: dict = {}
@@ -711,14 +227,40 @@ class UIAnalytics(ft.Row):
              "extra": f"{len(kv[1])}"}
             for kv in top10
         ]
-        chart4 = HorizontalBarChart(studio_data, "Average Scores of the Top 10 Most Active Studios")
+        chart4 = HorizontalBarChart(studio_data, "Average Scores of the Top 10 Most Active Studios",
+                                    theme=self.current_theme, tooltip=tt)
 
         row1 = ft.Row(
-            controls=[_chart_card(chart1), _chart_card(chart2)],
+            controls=[_chart_card(chart1, self.current_theme), _chart_card(chart2, self.current_theme)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
         row2 = ft.Row(
-            controls=[_chart_card(chart3), _chart_card(chart4)],
+            controls=[_chart_card(chart3, self.current_theme), _chart_card(chart4, self.current_theme)],
+            alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
+        )
+
+        # Chart 5 — Genre Co-occurrence Network Graph
+        chart5 = GenreNetworkGraph(animes, "Genre Co-occurrence Network",
+                                   theme=self.current_theme, tooltip=tt)
+
+        row3 = ft.Row(
+            controls=[_network_card(chart5, self.current_theme)],
+            alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
+        )
+
+        # Chart 6 — KDE Plot
+        chart6 = KDEChart(animes, theme=self.current_theme, tooltip=tt)
+        row4 = ft.Row(
+            controls=[_chart_card(chart6, self.current_theme)],
+            alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
+        )
+
+        # Chart 7 — Studio × Genre Categorical Bubble Chart
+        chart7 = CategoricalBubbleChart(
+            animes, "Studio × Genre Bubble Chart", theme=self.current_theme, tooltip=tt
+        )
+        row5 = ft.Row(
+            controls=[_bubble_card(chart7, self.current_theme)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
@@ -726,24 +268,29 @@ class UIAnalytics(ft.Row):
             stat_card,
             ft.Row(
                 controls=[
-                    ft.Icon(ft.Icons.TOUCH_APP, color=C_TEXT3, size=14),
-                    ft.Text("Hover di atas bar / slice untuk detail",
-                            size=11, color=C_TEXT3, italic=True),
+                    ft.Icon(ft.Icons.TOUCH_APP, color=self.current_theme["text_muted"], size=14),
+                    ft.Text(
+                        "Hover di atas bar / slice / node / gelembung untuk detail",
+                        size=11, color=self.current_theme["text_muted"], italic=True,
+                    ),
                 ],
                 spacing=6,
             ),
             row1,
             row2,
+            row3,
+            row4,
+            row5,
             ft.Container(height=24),
         ])
 
     def _build_stat(self, label, value, icon):
         return ft.Column(
             controls=[
-                ft.Icon(icon, color=C_SAKURA, size=28),
-                ft.Text(str(value), size=22, color=C_TEXT,
+                ft.Icon(icon, color=self.current_theme["primary"], size=28),
+                ft.Text(str(value), size=22, color=self.current_theme["text_main"],
                         weight=ft.FontWeight.BOLD),
-                ft.Text(label, size=11, color=C_TEXT2),
+                ft.Text(label, size=11, color=self.current_theme["text_secondary"]),
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             spacing=4,

@@ -576,7 +576,7 @@ class DataManager:
 
         return rekomendasi_final
 
-    # ==========================================
+# ==========================================
     # STATISTIK USER (untuk UIProfile)
     # ==========================================
 
@@ -634,8 +634,10 @@ class DataManager:
         sorted_genre = sorted(genre_count.items(), key=lambda x: x[1], reverse=True)[:5]
         return {g: round(cnt / total * 100) for g, cnt in sorted_genre}
 
+
+
 # ===============
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
-   print("Pengujian")
+    print("Pengujian")
