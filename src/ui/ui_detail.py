@@ -412,6 +412,10 @@ class RightPanel(ft.Container):
             for category, val in self.dropdown_controls.items():
                 user_scores[category.lower()] = int(val)
 
+            if user_scores == {cat.lower(): 0 for cat in self.dropdown_controls}:
+                self._show_snackbar("Please select at least one rating before saving.", self._theme["error"])
+                return
+
             user_id = self.data_manager.baca_sesi()
             self.data_manager.simpan_rating(user_id, self.anime_id, user_scores)
 
@@ -424,14 +428,18 @@ class RightPanel(ft.Container):
             self.radar_container.content = self._build_radar(new_global_list_score, new_list_score, new_avg_global, new_avg_personal, self._theme)
 
             self.my_page.update()
-            self._show_snackbar("Rating Berhasil Diperbarui!", self._theme["success"])
+            self._show_snackbar("rating added successfully!", self._theme["success"])
 
         except Exception as ex:
             self._show_snackbar(f"Error saving rating: {str(ex)}", self._theme["error"])
             
     def delete_rating(self, e):
         user_id = self.data_manager.baca_sesi()
-        self.data_manager.hapus_rating(user_id, self.anime_id)
+        delete = self.data_manager.hapus_rating(user_id, self.anime_id)
+
+        if not delete:
+            self._show_snackbar("You haven't rated this anime yet!", self._theme["error"])
+            return
 
         new_avg_global = self.data_manager.hitung_skor_global(self.anime_id)
         new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
@@ -440,7 +448,7 @@ class RightPanel(ft.Container):
         self.radar_container.content = self._build_radar(new_global_list_score, [0, 0, 0, 0, 0], new_avg_global, new_avg_personal, self._theme)
 
         self.my_page.update()
-        self._show_snackbar("Rating Berhasil Diperbarui!", self._theme["success"])
+        self._show_snackbar("Rating deleted successfully!", self._theme["success"])
 
     def _build_action_buttons(self):
         return ft.Row(

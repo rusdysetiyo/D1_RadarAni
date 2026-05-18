@@ -1711,14 +1711,14 @@
         "password": "ddddd",
         "created_at": "2026-05-17 12:14:04",
         "last_login": "2026-05-18T15:41:39.953553",
-        "rating_count": 3,
-        "average_score": 1.33,
+        "rating_count": 4,
+        "average_score": 1.0,
         "average_dimensions": [
-            0.67,
-            0.67,
-            4.0,
-            0.67,
-            0.67
+            0.5,
+            0.5,
+            3.0,
+            0.5,
+            0.5
         ],
         "favorit": [
             "A014",
