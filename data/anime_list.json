@@ -385,7 +385,7 @@
         "mal_id": 9253,
         "title": "Steins;Gate",
         "en_title": null,
-        "global_score": 8.72,
+        "global_score": 8.73,
         "genre": [
             "Drama",
             "Sci-Fi",
@@ -401,11 +401,11 @@
         "thumbnail_path": "assets/thumbnails/TIMG014.jpg",
         "rating_count": 67,
         "global_score_dimensions": [
-            8.61,
-            8.8,
-            8.44,
-            8.97,
-            8.79
+            8.6,
+            8.79,
+            8.53,
+            8.95,
+            8.78
         ],
         "banner_path": "assets/banners/A014_BANNER.jpg"
     },
@@ -14590,5 +14590,34 @@
             8.69
         ],
         "banner_path": "assets/banners/A506_BANNER.jpg"
+    },
+    {
+        "anime_id": "A507",
+        "mal_id": 31374,
+        "title": "Shingeki! Kyojin Chuugakkou",
+        "en_title": "Attack on Titan: Junior High",
+        "global_score": 7.04,
+        "trailer_url": "https://www.youtube.com/watch?v=8APiYXvS6wI",
+        "genre": [
+            "Comedy",
+            "Parody",
+            "School",
+            "Shounen"
+        ],
+        "synopsis": "On his first day of junior high, Eren Yeager comes face-to-face with a titan—and has his lunch stolen! From that day on, he holds a grudge against titans for taking his favorite food from him, a cheeseburger, vowing to eliminate their kind once and for all. Along with his adoptive sister Mikasa Ackerman and their friend Armin Arlert, the trio traverse the halls of Titan Junior High, encountering familiar faces and participating in various extracurricular activities as part of the Wall Cleanup Club.A parody of the immensely popular parent series,Shingeki! Kyojin Chuugakkouplaces beloved characters as junior high school students, fighting to protect their lunches from gluttonous titans.[Written by MAL Rewrite]",
+        "studio": "Production I.G",
+        "type": "TV",
+        "episodes": "12",
+        "cover_path": "assets/covers/CIMG507.jpg",
+        "thumbnail_path": "assets/thumbnails/TIMG507.jpg",
+        "banner_path": "assets/banners/A507_BANNER.jpg",
+        "rating_count": 10,
+        "global_score_dimensions": [
+            7.6,
+            7.1,
+            6.4,
+            6.99,
+            7.1
+        ]
     }
 ]

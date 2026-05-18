@@ -104,6 +104,13 @@
             "audio": 7,
             "characterization": 6,
             "direction": 8
+        },
+        "A507": {
+            "plot": 8,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 7
         }
     },
     "U002": {
@@ -295,6 +302,13 @@
             "audio": 7,
             "characterization": 7,
             "direction": 9
+        },
+        "A507": {
+            "plot": 9,
+            "visual": 7,
+            "audio": 6,
+            "characterization": 6,
+            "direction": 8
         }
     },
     "U003": {
@@ -444,6 +458,13 @@
             "audio": 7,
             "characterization": 9,
             "direction": 8
+        },
+        "A507": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 6,
+            "characterization": 7,
+            "direction": 7
         }
     },
     "U004": {
@@ -642,6 +663,13 @@
             "audio": 6,
             "characterization": 8,
             "direction": 10
+        },
+        "A507": {
+            "plot": 5,
+            "visual": 8,
+            "audio": 5,
+            "characterization": 8,
+            "direction": 8
         }
     },
     "U005": {
@@ -840,6 +868,13 @@
             "audio": 6,
             "characterization": 7,
             "direction": 9
+        },
+        "A507": {
+            "plot": 8,
+            "visual": 6,
+            "audio": 5,
+            "characterization": 7,
+            "direction": 7
         }
     },
     "U006": {
@@ -1227,6 +1262,13 @@
             "audio": 6,
             "characterization": 9,
             "direction": 8
+        },
+        "A507": {
+            "plot": 5,
+            "visual": 9,
+            "audio": 7,
+            "characterization": 9,
+            "direction": 6
         }
     },
     "U007": {
@@ -1509,6 +1551,13 @@
             "audio": 9,
             "characterization": 8,
             "direction": 8
+        },
+        "A507": {
+            "plot": 7,
+            "visual": 5,
+            "audio": 7,
+            "characterization": 7,
+            "direction": 6
         }
     },
     "U008": {
@@ -1840,6 +1889,13 @@
             "audio": 6,
             "characterization": 10,
             "direction": 9
+        },
+        "A507": {
+            "plot": 9,
+            "visual": 8,
+            "audio": 7,
+            "characterization": 6,
+            "direction": 7
         }
     },
     "U009": {
@@ -2199,6 +2255,13 @@
             "audio": 7,
             "characterization": 6,
             "direction": 9
+        },
+        "A507": {
+            "plot": 10,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 5,
+            "direction": 8
         }
     },
     "U010": {
@@ -2236,6 +2299,13 @@
             "audio": 8,
             "characterization": 9,
             "direction": 9
+        },
+        "A507": {
+            "plot": 7,
+            "visual": 7,
+            "audio": 7,
+            "characterization": 8,
+            "direction": 7
         }
     },
     "U011": {
@@ -109336,13 +109406,6 @@
         }
     },
     "U080": {
-        "A014": {
-            "plot": 1,
-            "visual": 1,
-            "audio": 1,
-            "characterization": 1,
-            "direction": 1
-        },
         "A443": {
             "plot": 1,
             "visual": 1,
@@ -109356,6 +109419,13 @@
             "audio": 4,
             "characterization": 1,
             "direction": 1
+        },
+        "A014": {
+            "plot": 0,
+            "visual": 0,
+            "audio": 7,
+            "characterization": 0,
+            "direction": 0
         }
     }
 }
