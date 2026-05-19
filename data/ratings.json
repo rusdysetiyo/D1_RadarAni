@@ -109406,13 +109406,6 @@
         }
     },
     "U080": {
-        "A443": {
-            "plot": 1,
-            "visual": 1,
-            "audio": 1,
-            "characterization": 1,
-            "direction": 1
-        },
         "A349": {
             "plot": 1,
             "visual": 1,
@@ -109427,12 +109420,12 @@
             "characterization": 0,
             "direction": 0
         },
-        "A292": {
-            "plot": 0,
-            "visual": 0,
-            "audio": 0,
-            "characterization": 0,
-            "direction": 0
+        "A001": {
+            "plot": 6,
+            "visual": 5,
+            "audio": 5,
+            "characterization": 5,
+            "direction": 5
         }
     }
 }

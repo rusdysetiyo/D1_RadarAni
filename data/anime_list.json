@@ -8415,7 +8415,7 @@
         "mal_id": 47917,
         "title": "Bocchi the Rock!",
         "en_title": null,
-        "global_score": 8.0,
+        "global_score": 8.67,
         "genre": [
             "Comedy",
             "CGDCT",
@@ -8427,13 +8427,13 @@
         "episodes": "12",
         "cover_path": "assets/covers/CIMG292.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG292.jpg",
-        "rating_count": 13,
+        "rating_count": 12,
         "global_score_dimensions": [
-            7.69,
-            7.77,
-            8.84,
-            7.46,
-            8.23
+            8.33,
+            8.41,
+            9.57,
+            8.08,
+            8.91
         ],
         "banner_path": "assets/banners/A292_BANNER.jpg"
     },
@@ -12781,7 +12781,7 @@
         "mal_id": 42938,
         "title": "Fruits Basket: The Final",
         "en_title": "Fruits Basket: The Final Season",
-        "global_score": 8.38,
+        "global_score": 9.05,
         "genre": [
             "Drama",
             "Romance",
@@ -12794,13 +12794,13 @@
         "episodes": "13",
         "cover_path": "assets/covers/CIMG443.jpg",
         "thumbnail_path": "assets/thumbnails/TIMG443.jpg",
-        "rating_count": 12,
+        "rating_count": 11,
         "global_score_dimensions": [
-            8.5,
-            8.58,
-            8.0,
-            8.5,
-            8.33
+            9.18,
+            9.27,
+            8.64,
+            9.18,
+            9.0
         ],
         "banner_path": "assets/banners/A443_BANNER.jpg"
     },

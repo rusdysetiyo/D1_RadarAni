@@ -1711,18 +1711,19 @@
         "password": "ddddd",
         "created_at": "2026-05-17 12:14:04",
         "last_login": "2026-05-18T15:41:39.953553",
-        "rating_count": 4,
-        "average_score": 1.0,
+        "rating_count": 3,
+        "average_score": 2.73,
         "average_dimensions": [
-            0.5,
-            0.5,
-            3.0,
-            0.5,
-            0.5
+            2.34,
+            2.01,
+            5.33,
+            2.01,
+            2.01
         ],
         "favorit": [
             "A014",
-            "A292"
+            "A292",
+            "A503"
         ]
     }
 ]

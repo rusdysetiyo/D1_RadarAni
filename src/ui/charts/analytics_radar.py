@@ -1,6 +1,6 @@
 import flet as ft
 from collections import Counter
-from src.ui.ui_detail import build_radar_chart
+from src.ui.radar_chart import detail_radar_chart
 
 
 class AnalyticsRadarChart(ft.Container):
@@ -137,7 +137,7 @@ class AnalyticsRadarChart(ft.Container):
         s1 = self.data_dict.get(self.item1, [0] * 5) if self.item1 else [0] * 5
         s2 = self.data_dict.get(self.item2, [0] * 5) if (self.item2 and self.is_compare) else [0] * 5
 
-        self.chart_container.content = build_radar_chart(
+        self.chart_container.content = detail_radar_chart(
             global_scores=s1,
             personal_scores=s2,
             labels=self._labels,
