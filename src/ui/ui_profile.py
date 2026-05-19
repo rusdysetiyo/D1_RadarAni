@@ -26,7 +26,6 @@ class UIProfile(ft.Container):
         self._BG          = theme["bg"]
         self._CARD        = theme["card"]
 
-        # Genre colors: turunan dari primary (hue tetap, lightness bervariasi)
         self._GENRE_COLORS = [
             theme["primary"],
             ft.Colors.with_opacity(0.75, theme["primary"]),
@@ -53,7 +52,6 @@ class UIProfile(ft.Container):
         dimensi = list(rata_rata.keys())
         nilai   = list(rata_rata.values())
 
-        # Konversi hex primary ke RGB untuk matplotlib
         hex_p = self._PRIMARY.lstrip("#")
         r, g, b = tuple(int(hex_p[i:i+2], 16) / 255 for i in (0, 2, 4))
         bar_color  = (r, g, b)
@@ -94,7 +92,6 @@ class UIProfile(ft.Container):
         sizes  = list(proporsi_genre.values())
         hex_p  = self._PRIMARY.lstrip("#")
         r, g, b = tuple(int(hex_p[i:i+2], 16) / 255 for i in (0, 2, 4))
-        # 5 shade dari primary
         colors = [
             (r, g, b),
             (r, g, b, 0.75),

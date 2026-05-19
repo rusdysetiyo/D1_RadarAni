@@ -1,45 +1,48 @@
 import flet as ft
 import flet.canvas as cv
 from .palette import (
-    C_TEXT, C_TEXT2, C_TEXT3, C_SAKURA_DK, C_HOVER, C_BORDER, CHART_COLORS,
-    _rgba, _cv_text_right, _cv_text_top_center
+    C_TEXT, C_TEXT2, C_TEXT3, C_SAKURA_DK, C_BORDER, CHART_COLORS,
+    _rgba, _cv_text_right, _cv_text_left, _cv_text_top_center
 )
-from .tooltip import Tooltip
 
-class VerticalBarChart(ft.Stack):
+
+class VerticalBarChart(ft.Container):
+    """Vertical bar chart — judul dan hint sebagai ft.Text di atas canvas."""
+
     PAD_L = 46
     PAD_R = 12
-    PAD_T = 28
-    PAD_B = 72   # extra ruang untuk label X diagonal
+    PAD_T = 30
+    PAD_B = 72
 
     def __init__(self, bar_data: list, title: str, y_label: str = "",
                  theme: dict = None, tooltip=None):
         super().__init__(expand=True)
-        self._data    = bar_data
-        self._title   = title
-        self._hovered = -1
-        self._theme   = theme
+        self._data  = bar_data
+        self._title = title
+        self._theme = theme
         self._w = self._h = 0
 
-        # Gunakan tooltip eksternal (page.overlay) jika disediakan
-        self._owns_tooltip = tooltip is None
-        self._tooltip      = tooltip if tooltip is not None else Tooltip()
+        c_title = theme["text_main"] if theme else C_TEXT
 
-        self._canvas = cv.Canvas(shapes=[], expand=True,
-                                 on_resize=self._on_resize)
-        self._gd = ft.GestureDetector(
-            content=ft.Container(expand=True),
-            on_hover=self._on_hover,
+        self._canvas = cv.Canvas(shapes=[], expand=True, on_resize=self._on_resize)
+
+        title_bar = ft.Container(
+            content=ft.Text(
+                title, size=14, weight=ft.FontWeight.BOLD,
+                color=c_title, text_align=ft.TextAlign.CENTER,
+            ),
+            padding=ft.padding.only(top=8, bottom=0),
+            alignment=ft.alignment.Alignment.TOP_CENTER,
         )
-        # Hanya masukkan tooltip ke controls jika milik sendiri
-        if self._owns_tooltip:
-            self.controls = [self._canvas, self._gd, self._tooltip]
-        else:
-            self.controls = [self._canvas, self._gd]
+
+        self.content = ft.Column(
+            controls=[title_bar, ft.Stack(controls=[self._canvas], expand=True)],
+            spacing=0,
+        )
 
     def _on_resize(self, e):
         self._w, self._h = e.width, e.height
-        self._redraw(self._hovered)
+        self._redraw()
 
     def _bar_rect(self, i, w, h):
         n       = len(self._data)
@@ -54,7 +57,7 @@ class VerticalBarChart(ft.Stack):
         by      = self.PAD_T + area_h - bar_h
         return bx, by, bar_w, bar_h
 
-    def _redraw(self, hovered):
+    def _redraw(self):
         if self._w == 0:
             return
         w, h    = self._w, self._h
@@ -62,16 +65,14 @@ class VerticalBarChart(ft.Stack):
         area_h  = h - self.PAD_T - self.PAD_B
         shapes  = []
 
-        c_text       = self._theme["text_main"]        if self._theme else C_TEXT
         c_text2      = self._theme["text_secondary"]   if self._theme else C_TEXT2
-        c_text3      = self._theme["text_muted"]       if self._theme else C_TEXT3
+        c_text3      = self._theme["text_secondary"]   if self._theme else C_TEXT2
         c_border     = self._theme["border_color"]     if self._theme else C_BORDER
         c_primary    = self._theme["primary"]          if self._theme else C_SAKURA_DK
         chart_colors = self._theme.get("chart_colors", CHART_COLORS) if self._theme else CHART_COLORS
-        c_hover      = self._theme["primary"]          if self._theme else C_HOVER
 
         grid_p = ft.Paint(style=ft.PaintingStyle.STROKE,
-                          stroke_width=0.7, color="#22000000")
+                          stroke_width=0.7, color=self._theme["border_color"] if self._theme else "#22000000")
         for frac in [0.25, 0.5, 0.75, 1.0]:
             gy    = self.PAD_T + area_h * (1 - frac)
             label = str(int(max_v * frac))
@@ -80,33 +81,31 @@ class VerticalBarChart(ft.Stack):
                  cv.Path.LineTo(w - self.PAD_R, gy)],
                 grid_p,
             ))
-            shapes.append(_cv_text_right(
-                self.PAD_L - 4, gy, label, 9, c_text3))
+            shapes.append(_cv_text_right(self.PAD_L - 4, gy, label, 11, c_text3))
 
         for i, d in enumerate(self._data):
             bx, by, bw, bh = self._bar_rect(i, w, h)
-            is_hov = (i == hovered)
-            color  = c_hover if is_hov else chart_colors[i % len(chart_colors)]
-            alpha  = 1.0 if (is_hov or hovered == -1) else 0.45
+            color = chart_colors[i % len(chart_colors)]
 
             shapes.append(cv.Rect(
                 x=bx, y=by, width=bw, height=max(bh, 1),
                 border_radius=4,
-                paint=ft.Paint(style=ft.PaintingStyle.FILL,
-                               color=_rgba(color, alpha)),
+                paint=ft.Paint(style=ft.PaintingStyle.FILL, color=color),
             ))
 
-            # x-axis label — diagonal 45°, full text, tidak dipotong
-            lbl = d["label"]
+            # Label nilai statis di atas bar
+            shapes.append(_cv_text_top_center(
+                bx + bw / 2, by - 15,
+                str(d["value"]), 11, c_primary,
+            ))
+
+            # x-axis label — diagonal 45°
             shapes.append(cv.Text(
                 x=bx + bw / 2,
                 y=h - self.PAD_B + 6,
-                value=lbl,
-                rotate=0.785,   # 45 derajat dalam radian
-                style=ft.TextStyle(
-                    size=9,
-                    color=c_primary if is_hov else c_text2,
-                ),
+                value=d["label"],
+                rotate=0.785,
+                style=ft.TextStyle(size=11, color=c_text2),
             ))
 
         axis_p = ft.Paint(style=ft.PaintingStyle.STROKE,
@@ -118,32 +117,5 @@ class VerticalBarChart(ft.Stack):
             axis_p,
         ))
 
-        shapes.append(_cv_text_top_center(w / 2, 6, self._title, 12, c_text, bold=True))
-
         self._canvas.shapes = shapes
         self._canvas.update()
-
-    def _on_hover(self, e):
-        mx, my = e.local_position.x, e.local_position.y
-        if self._w == 0:
-            return
-        hit = -1
-        for i in range(len(self._data)):
-            bx, by, bw, bh = self._bar_rect(i, self._w, self._h)
-            if bx <= mx <= bx + bw and by - 4 <= my <= by + bh + 4:
-                hit = i
-                break
-        if hit != self._hovered:
-            self._hovered = hit
-            self._redraw(hit)
-            if hit >= 0:
-                d = self._data[hit]
-                rows = [("Jumlah Anime", str(d["value"]))]
-                # Gunakan global_position agar tooltip muncul dekat kursor
-                # dan tidak terpotong card boundary
-                self._tooltip.show_at(
-                    e.global_position.x, e.global_position.y,
-                    d["label"], rows,
-                )
-            else:
-                self._tooltip.hide()

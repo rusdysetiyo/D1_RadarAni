@@ -10,7 +10,7 @@ class ScreenManager:
         self.data_manager = data_manager
         self.auth_manager = auth_manager
         self.halaman_terakhir = "home"
-        self._detail_stack = []
+        self.halaman_sebelumnya = "home"
         self.filter_terakhir = "all"
         self.tema_aktif = "1"
         self.theme = ThemeManager.get_theme(self.tema_aktif)
@@ -20,7 +20,7 @@ class ScreenManager:
         def on_search_submit(query):
             self.tampilkan_katalog(filter_kategori="all", search_query=query)
         self.search_manager = SearchManager(self.page, self.theme, on_search_submit)
-        self.guide_manager = GuideManager(self.page, self.theme)
+
 
     def update_theme(self, pilihan_tema):
         self.tema_aktif = pilihan_tema
@@ -41,6 +41,12 @@ class ScreenManager:
         self.page.update()
 
     async def _jalankan_transisi(self, pesan, target_class, *args, **kwargs):
+        if self.current_view_instance and hasattr(self.current_view_instance, "will_unmount"):
+            try:
+                self.current_view_instance.will_unmount()
+            except:
+                pass
+
         if hasattr(self, "search_manager") and self.search_manager:
             self.search_manager.hide()
 
@@ -99,19 +105,10 @@ class ScreenManager:
         self.page.update()
 
     def tampilkan_detail(self, anime_id: str):
-        from src.ui.ui_detail import UIDetail
-        
-        # Push anime_id yang sedang aktif ke stack sebelum pindah
-        if self.halaman_terakhir == "detail" and hasattr(self, '_current_anime_id'):
-            self._detail_stack.append(self._current_anime_id)
-        else:
-            # Masuk detail dari halaman lain → reset stack
-            self._detail_stack.clear()
-            self._halaman_sebelum_detail = self.halaman_terakhir
-        
-        self._current_anime_id = anime_id
+        self.halaman_sebelumnya = self.halaman_terakhir
         self.halaman_terakhir = "detail"
-        self.page.run_task(self._jalankan_transisi, "Opening Anime Data...", UIDetail, anime_id=anime_id)
+        from src.ui.ui_detail import UIDetail
+        self.page.run_task(self._jalankan_transisi, "Opening Anime Data...", UIDetail, anime_id)
 
     def tampilkan_profil(self):
         self.halaman_terakhir = "profil"
@@ -129,18 +126,14 @@ class ScreenManager:
         self.page.run_task(self._jalankan_transisi, "Fetching Anime Data...", UIScraping)
 
     def kembali_ke_asal(self):
-        if self._detail_stack:
-            prev_anime_id = self._detail_stack.pop()
-            self._current_anime_id = prev_anime_id
-            from src.ui.ui_detail import UIDetail
-            self.page.run_task(self._jalankan_transisi, "Going Back...", UIDetail, anime_id=prev_anime_id)
-            return
-        
-        asal = getattr(self, '_halaman_sebelum_detail', None)
-        if asal == "katalog":
+        if self.halaman_sebelumnya == "katalog":
             self.tampilkan_katalog(filter_kategori=self.filter_terakhir)
-        elif asal == "analytics":
+        elif self.halaman_sebelumnya == "analytics":
             self.tampilkan_analytics()
+        elif self.halaman_sebelumnya == "profil":
+            self.tampilkan_profil()
+        elif self.halaman_sebelumnya == "scraping":
+            self.tampilkan_scraping()
         else:
             self.tampilkan_home()
 
@@ -150,3 +143,9 @@ class ScreenManager:
 
         if hasattr(self, "search_manager") and self.search_manager:
             self.search_manager.show()
+
+    def tutup_pencarian_global(self):
+        if hasattr(self, "search_manager") and self.search_manager:
+            self.search_manager.hide()
+            return True
+        return False

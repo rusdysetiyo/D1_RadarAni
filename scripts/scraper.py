@@ -204,6 +204,34 @@ class RadarAniScraper:
             return data["anime_list"], data.get("resume_page", 0), data.get("next_counter", 1)
         return [], 0, 1
 
+    def _fetch_banner_from_anilist(self, mal_id, anime_id) -> str:
+        if not mal_id:
+            return ""
+        query = '''
+        query ($idMal: Int) {
+          Media (idMal: $idMal, type: ANIME) {
+            bannerImage
+          }
+        }
+        '''
+        try:
+            response = requests.post(
+                'https://graphql.anilist.co',
+                json={'query': query, 'variables': {'idMal': mal_id}},
+                timeout=10
+            )
+            if response.status_code == 429:
+                logger.warning("Rate limit Anilist, tunggu 5 detik...")
+                time.sleep(5)
+                return ""
+            if response.status_code == 200:
+                media = response.json().get('data', {}).get('Media')
+                if media and media.get('bannerImage'):
+                    return self.download_image(media['bannerImage'], self.banner_dir, f"{anime_id}_BANNER.jpg")
+        except Exception as e:
+            logger.error(f"Gagal fetch banner Anilist untuk {anime_id}: {e}")
+        return ""
+
     def run(self) -> None:
         """Fungsi utama untuk mengeksekusi pipeline scraping."""
         logger.info(f"=== Memulai Mining RadarAni (Target: {self.target_pages} Halaman) ===")
@@ -255,6 +283,11 @@ class RadarAniScraper:
                 if anime_data:
                     path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{global_counter:03d}.jpg")
                     anime_data["thumbnail_path"] = path_thumb
+
+                    time.sleep(1)
+                    banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
+                    anime_data["banner_path"] = banner_path
+
                     anime_list.append(anime_data)
                     logger.info(
                         f"[{anime_data['anime_id']}] Berhasil: {anime_data['title'][:30]}... (Delay: {delay:.2f}s)")

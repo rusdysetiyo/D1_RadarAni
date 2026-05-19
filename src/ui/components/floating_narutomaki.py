@@ -31,12 +31,11 @@ def _narutomaki_svg(size: int = 100, color: str = "#F04878") -> str:
 
     spiral_d = "M " + " L ".join(spiral_pts)
 
-    n_scallop = 16  # jumlah gerigi
+    n_scallop = 16
     pts_outer = []
     pts_inner = []
     for i in range(n_scallop * 2 + 1):
         angle = math.radians(i * 360 / (n_scallop * 2))
-        # Selang-seling radius luar (puncak gerigi) dan dalam (lembah)
         rad = r if i % 2 == 0 else r * 0.86
         pts_outer.append((
             cx + rad * math.cos(angle),
@@ -165,12 +164,8 @@ class FloatingNeuNaruto:
         self._running = True
         self._items: list[dict] = []
 
-        # --- LOGIKA WARNA DINAMIS ---
-        # 1. Ambil list warna dari tema aktif
         theme_colors = self.theme.get("petal_colors", [self.theme["primary"]])
 
-        # 2. Selipin warna "Signature" Airy Dreamy (#C9C7F8 / Periwinkle)
-        # biar tetep ada aura kucu-keren-nya di semua tema
         self.petal_colors = theme_colors + ["#C9C7F8"]
 
         self.max_petals = max_petals
@@ -182,11 +177,9 @@ class FloatingNeuNaruto:
         ph = self.page.window.height or 600
 
         for _ in range(self.max_petals):
-            # --- SAFE ZONE (Tengah Bolong) ---
             while True:
                 rx = random.uniform(0.02, 0.98)
                 ry = random.uniform(0.02, 0.98)
-                # Area tengah 40% horizontal & 60% vertikal dijagain kosong
                 is_in_center = (0.3 < rx < 0.7) and (0.2 < ry < 0.8)
                 if not is_in_center:
                     break
@@ -196,7 +189,6 @@ class FloatingNeuNaruto:
             amp = random.uniform(8, 15)
             speed = random.uniform(0.8, 1.2) * self.base_speed
 
-            # AMBIL WARNA: Random dari list yang udah kita campur tadi
             base_col = random.choice(self.petal_colors)
 
             bx = rx * pw - sz / 2
@@ -207,7 +199,7 @@ class FloatingNeuNaruto:
 
             ctrl = ft.Container(
                 content=ft.Image(
-                    src=_narutomaki_svg(sz, base_col),   # Warna dinamis di sini!
+                    src=_narutomaki_svg(sz, base_col),
                     width=sz, height=sz,
                 ),
                 opacity=op,
@@ -233,7 +225,6 @@ class FloatingNeuNaruto:
                 it["rot"] += it["rsped"] * 0.012
                 c.rotate = ft.Rotate(angle=it["rot"])
 
-            # UPDATE-NYA SEKALI AJA DI LUAR LOOP BIAR GAK NGE-LAG BANGET
             self.stack.update()
 
             await asyncio.sleep(0.04)

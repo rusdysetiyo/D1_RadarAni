@@ -235,7 +235,7 @@ class GuideManager:
                         ft.Container(
                             content=ft.Image(src=get_sakura_svg(80), width=52, height=52),
                             width=52, height=52,
-                            border_radius=26,  # setengah dari width/height = lingkaran
+                            border_radius=26,
                             clip_behavior=ft.ClipBehavior.HARD_EDGE,
                         ),
                         ft.Column(
@@ -361,7 +361,6 @@ class GuideManager:
         # Action buttons
         self.btn_close.style  = ft.ButtonStyle(color=self.theme["text_secondary"])
 
-        # Rebuild all three views with new theme
         new_manual = self._build_manual()
         new_keys   = self._build_shortcuts()
         new_about  = self._build_about()
