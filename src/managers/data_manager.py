@@ -525,6 +525,86 @@ class DataManager:
 
         return rekomendasi_final
 
+    def get_rekomendasi_banner_home(self, user_id, sudah_ditonton, semua_anime_cache):
+        user_data = self.get_user_by_id(user_id) or {}
+        avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+        avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
+
+        if not avg_dim:
+            return {"status": "no_dimension_data"}
+
+        skor_tertinggi = max(avg_dim.values())
+        dimensi_seri = [dim for dim, skor in avg_dim.items() if skor == skor_tertinggi]
+
+        best_anime_id = self.get_rekomendasi_multidimensi(dimensi_seri, sudah_ditonton)
+
+        if best_anime_id:
+            best_anime = self.get_detail_anime(best_anime_id)
+            nama_dimensi = " & ".join([d.capitalize() for d in dimensi_seri])
+            alasan = f"Highest rated in your favorite aspects: {nama_dimensi}"
+            return {"status": "success", "anime": best_anime, "alasan": alasan}
+
+        kandidat = [
+            a for a in semua_anime_cache
+            if a.get("anime_id") not in sudah_ditonton and a.get("global_score")
+        ]
+        if kandidat:
+            kandidat.sort(key=lambda x: x.get("global_score", 0), reverse=True)
+            return {
+                "status": "success",
+                "anime": kandidat[0],
+                "alasan": "Highly rated by the community"
+            }
+
+        return {"status": "empty_catalog"}
+
+    def get_home_cache_data(self, user_id):
+        semua_anime = self.get_semua_anime()
+        semua_rating = self._read_json(self.ratings_file) or {}
+        rating_user_ini = semua_rating.get(user_id, {})
+
+        rated = []
+        unrated = []
+        skor_user = {}
+
+        for anime in semua_anime:
+            aid = anime.get("anime_id", "")
+            if aid in rating_user_ini:
+                skor_dict = rating_user_ini[aid]
+                sp = round(sum(skor_dict.values()) / len(skor_dict), 2) if skor_dict else 0
+                rated.append((anime, sp))
+                skor_user[aid] = sp
+            else:
+                unrated.append(anime)
+
+        return semua_anime, rated, unrated, skor_user
+
+    def get_user_stats_summary(self, user_id, rated_count, unrated_count, scores_list):
+        user_data = self.get_user_by_id(user_id) or {}
+        avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+        avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
+
+        top_dim = max(avg_dim, key=avg_dim.get).capitalize() if avg_dim else "—"
+        avg_val = f"{sum(scores_list) / len(scores_list):.1f}" if scores_list else "—"
+
+        return str(rated_count), str(unrated_count), avg_val, top_dim
+
+    def get_trending_anime(self, semua_anime, limit=7):
+        if not semua_anime:
+            return []
+        return sorted(semua_anime, key=lambda a: (a.get("rating_count", 0) or 0, a.get("global_score", 0) or 0),
+                      reverse=True)[:limit]
+
+    def get_top_unrated(self, list_unrated, limit=10):
+        if not list_unrated:
+            return []
+        return sorted(list_unrated, key=lambda a: a.get("global_score", 0) or 0, reverse=True)[:limit]
+
+    def get_semua_rating(self) -> dict:
+        return self._read_json(self.ratings_file) or {}
+
 # ==========================================
     # STATISTIK USER (untuk UIProfile)
     # ==========================================
