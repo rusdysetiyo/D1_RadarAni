@@ -412,8 +412,8 @@ class RightPanel(ft.Container):
             for category, val in self.dropdown_controls.items():
                 user_scores[category.lower()] = int(val)
 
-            if user_scores == {cat.lower(): 0 for cat in self.dropdown_controls}:
-                self._show_snackbar("Please select at least one rating before saving.", self._theme["error"])
+            if any(value == 0 for value in user_scores.values()):
+                self._show_snackbar("Please rating all categories before saving.", self._theme["error"])
                 return
 
             user_id = self.data_manager.baca_sesi()
@@ -437,10 +437,6 @@ class RightPanel(ft.Container):
         user_id = self.data_manager.baca_sesi()
         delete = self.data_manager.hapus_rating(user_id, self.anime_id)
 
-        if not delete:
-            self._show_snackbar("You haven't rated this anime yet!", self._theme["error"])
-            return
-
         new_avg_global = self.data_manager.hitung_skor_global(self.anime_id)
         new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
         new_avg_personal = self.data_manager.hitung_skor_personal(user_id, self.anime_id)
@@ -454,7 +450,7 @@ class RightPanel(ft.Container):
         return ft.Row(
             spacing=10,
             controls=[
-                ft.ElevatedButton(
+                    ft.ElevatedButton(
                     content=ft.Text("Save Rating", color=self._theme["card"]),
                     expand=True,
                     bgcolor=self._theme["primary"],
@@ -469,10 +465,13 @@ class RightPanel(ft.Container):
                     content=ft.Text("Delete Rating", color=self._theme["text_secondary"]),
                     expand=True,
                     height=46,
+                    on_hover=lambda e: e.control.update(),
+                    disabled=self.data_manager.get_rating_user_as_list(self.user_id, self.anime_id) == [0, 0, 0, 0, 0],
                     on_click=lambda _: self.delete_rating(None),
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=10),
-                        side=ft.BorderSide(1, self._theme["border_color"]),
+                        side={ft.ControlState.DEFAULT:ft.BorderSide(1, self._theme["border_color"]),
+                              ft.ControlState.HOVERED:ft.BorderSide(2, self._theme["primary_light"])},
                     )
                 ),
             ]
@@ -493,6 +492,8 @@ class RightPanel(ft.Container):
         self._cached_semua_anime = self.data_manager.get_semua_anime()
         semua_rating = self.data_manager._read_json(self.data_manager.ratings_file) or {}
         rating_user_ini = semua_rating.get(user_id, {})
+        user_data = self.data_manager.get_user_by_id(user_id) or {}
+        list_favorit = user_data.get("favorit", [])
 
         self._cached_anime_rated = []
         self._cached_anime_unrated = []
@@ -520,7 +521,7 @@ class RightPanel(ft.Container):
         for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
             self._unrated_row.controls.append(
-                AnimeCardSmall(anime, sg, None,self._theme,
+                AnimeCardSmall(anime, sg, None,self._theme,is_favorite=(anime.get("anime_id", "") in list_favorit),
                             on_click_callback=self.screen_manager.tampilkan_detail)
             )
 
