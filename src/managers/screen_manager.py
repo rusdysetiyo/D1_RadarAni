@@ -20,7 +20,7 @@ class ScreenManager:
         def on_search_submit(query):
             self.tampilkan_katalog(filter_kategori="all", search_query=query)
         self.search_manager = SearchManager(self.page, self.theme, on_search_submit)
-        self.guide_manager = GuideManager(self.page, self.theme)
+
 
     def update_theme(self, pilihan_tema):
         self.tema_aktif = pilihan_tema
@@ -41,6 +41,12 @@ class ScreenManager:
         self.page.update()
 
     async def _jalankan_transisi(self, pesan, target_class, *args, **kwargs):
+        if self.current_view_instance and hasattr(self.current_view_instance, "will_unmount"):
+            try:
+                self.current_view_instance.will_unmount()
+            except:
+                pass
+
         if hasattr(self, "search_manager") and self.search_manager:
             self.search_manager.hide()
 
@@ -137,3 +143,9 @@ class ScreenManager:
 
         if hasattr(self, "search_manager") and self.search_manager:
             self.search_manager.show()
+
+    def tutup_pencarian_global(self):
+        if hasattr(self, "search_manager") and self.search_manager:
+            self.search_manager.hide()
+            return True
+        return False
