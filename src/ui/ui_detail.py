@@ -2,7 +2,7 @@ import flet as ft
 import flet.canvas as cv
 import math
 from src.ui.icons import _sakura_icon_svg
-from src.ui.ui_home import AnimeCardSmall
+from src.ui.components.anime_cards import AnimeCardHome
 from src.ui.radar_chart import detail_radar_chart
 import random
 import os
@@ -521,7 +521,7 @@ class RightPanel(ft.Container):
         for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
             self._unrated_row.controls.append(
-                AnimeCardSmall(anime, sg, None,self._theme,is_favorite=(anime.get("anime_id", "") in list_favorit),
+                AnimeCardHome(anime, sg, None,self._theme,is_favorite=(anime.get("anime_id", "") in list_favorit),
                             on_click_callback=self.screen_manager.tampilkan_detail)
             )
 
