@@ -7,6 +7,7 @@ from src.ui.components.anime_cards import AnimeCardHome
 from src.ui.components.theme_picker import ThemePicker
 from src.ui.components.hero_banner import HeroBanner
 from src.ui.components.anime_section_row import AnimeSectionRow
+from src.ui.components.logo import RadarAniLogo
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
@@ -428,18 +429,7 @@ class UIHome(ft.Row):
                             }
                         )
                     ),
-                    ft.Column(
-                        [
-                            ft.Row(
-                                spacing=0,
-                                controls=[
-                                    ft.Text(huruf, font_family="Hitchcut", size=24, color=self.theme["logo_1" if i % 2 == 0 else "logo_2"])
-                                    for i, huruf in enumerate("RadarAni")
-                                ]
-                            ),
-                            ft.Text("レーダアニ", font_family="Mofuji04", size=10, color=self.theme["text_muted"]),
-                        ], spacing=0, tight=True,
-                    ),
+                    RadarAniLogo(theme=self.theme, font_size=24, subtitle_size=10),
                     ft.Container(expand=True),
 
                     self.theme_picker.get_button(),
