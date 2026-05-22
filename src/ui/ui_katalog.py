@@ -4,6 +4,7 @@ import os
 from src.ui.components.anime_cards import AnimeCardKatalog, AnimeListItem
 from src.ui.components.genre_dialog import GenreDialog
 from src.ui.components.action_bar import CatalogActionBar
+from src.ui.components.logo import RadarAniLogo
 from src.ui.components.pagination import PaginationBar
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -111,12 +112,7 @@ class UIKatalog(ft.Row):
                                              icon_color={ft.ControlState.HOVERED: f"{self.theme['primary']},0.8",
                                                          ft.ControlState.DEFAULT: self.theme["primary"]})
                     ),
-                    ft.Column([
-                        ft.Row(spacing=0, controls=[ft.Text(huruf, font_family="Hitchcut", size=24,
-                                                            color=self.theme["logo_1" if i % 2 == 0 else "logo_2"]) for
-                                                    i, huruf in enumerate("RadarAni")]),
-                        ft.Text("レーダアニ", font_family="Mofuji04", size=10, color=self.theme["text_muted"]),
-                    ], spacing=0, tight=True),
+                    RadarAniLogo(theme=self.theme, font_size=24, subtitle_size=10),
                     ft.Container(expand=True),
                     self._search,
                 ]
