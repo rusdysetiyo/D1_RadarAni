@@ -1,6 +1,6 @@
 import flet as ft
 import time
-
+from src.ui.components.logo import RadarAniLogo
 
 class UILogin(ft.Container):
     def __init__(self, page, data_manager, auth_manager, screen_manager, theme):
@@ -199,14 +199,8 @@ class UILogin(ft.Container):
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             spacing=25,
             controls=[
-                ft.Column(
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    spacing=2,
-                    controls=[
-                        ft.Text("RadarAni", size=24, weight=ft.FontWeight.BOLD, color=self._theme["text_main"]),
-                        ft.Text("レーダアニ", size=11, color=self._theme["text_main"])
-                    ]
-                ),
+                RadarAniLogo(theme=self._theme, font_size=32, subtitle_size=12, alignment=ft.CrossAxisAlignment.CENTER),
+
                 ft.Column(spacing=15, controls=inputs),
                 ft.Column(
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -219,7 +213,8 @@ class UILogin(ft.Container):
                                 ft.Text(toggle_text_1, size=12, color=self._theme["text_muted"]),
                                 ft.GestureDetector(
                                     on_tap=self._toggle_mode,
-                                    content=ft.Text(toggle_text_2, size=12, weight=ft.FontWeight.BOLD, color=self._theme["text_secondary"])
+                                    content=ft.Text(toggle_text_2, size=12, weight=ft.FontWeight.BOLD,
+                                                    color=self._theme["text_secondary"])
                                 )
                             ]
                         )
