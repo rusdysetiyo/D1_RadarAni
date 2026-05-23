@@ -3,6 +3,7 @@ import flet as ft
 class RadarAniLogo(ft.Column):
     def __init__(self, theme, font_size=24, subtitle_size=10, alignment=ft.CrossAxisAlignment.START):
         self.theme = theme
+        is_centered = alignment in [ft.CrossAxisAlignment.CENTER, "center"]
 
         logo_row = ft.Row(
             controls=[
@@ -23,7 +24,8 @@ class RadarAniLogo(ft.Column):
             "レーダアニ",
             font_family="Mofuji04",
             size=subtitle_size,
-            color=self.theme["text_muted"]
+            color=self.theme["text_muted"],
+            text_align = ft.TextAlign.CENTER if is_centered else ft.TextAlign.LEFT
         )
 
         super().__init__(
