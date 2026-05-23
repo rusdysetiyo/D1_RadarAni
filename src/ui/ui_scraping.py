@@ -1,7 +1,7 @@
 import flet as ft
 from scripts.scrapjudul import DynamicAnimeScraper
 from src.config.theme import ThemeManager
-
+from src.ui.components.logo import RadarAniLogo
 
 
 
@@ -70,19 +70,7 @@ class UIScraping(ft.Row):
                         on_click=self._toggle_sidebar,
                         tooltip="Menu",
                     ),
-                    ft.Column(
-                        [
-                            ft.Text(
-                                "RadarAni",
-                                size=13,
-                                color=self.current_theme["primary"],
-                                weight=ft.FontWeight.BOLD,
-                            ),
-                            ft.Text("レーダアニ", size=8, color=self.current_theme["text_muted"]),
-                        ],
-                        spacing=0,
-                        tight=True,
-                    ),
+                    RadarAniLogo(theme=self.current_theme, font_size=20, subtitle_size=9),
                     ft.Container(expand=True),
                 ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
