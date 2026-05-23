@@ -6,6 +6,7 @@ from src.ui.components.anime_cards import AnimeCardHome
 from src.ui.radar_chart import detail_radar_chart
 import random
 import os
+from src.ui.components.logo import RadarAniLogo
 from src.config.theme import ThemeManager
 
 
@@ -562,7 +563,7 @@ class UIDetail(ft.Column):
         # ── TOPBAR ──────────────────────────────────────────────────────────
         top_bar = ft.Container(
             content=ft.Row([
-                ft.Row([                          # ← grup tombol di kiri
+                ft.Row([
                     ft.OutlinedButton(
                         content=ft.Row([
                             ft.Icon(ft.Icons.HOME_OUTLINED, color=self._theme["primary"], size=14),
@@ -590,8 +591,12 @@ class UIDetail(ft.Column):
                         ),
                     ),
                 ], spacing=8),
-                ft.Text("RadarAni — アニメ詳細", size=13,
-                        weight=ft.FontWeight.BOLD, color=self._theme["primary"]),
+                RadarAniLogo(
+                    theme=self._theme,
+                    font_size=20,
+                    subtitle_size=9,
+                    alignment=ft.CrossAxisAlignment.END
+                ),
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             padding=ft.padding.symmetric(horizontal=24, vertical=12),
             border=ft.border.only(bottom=ft.BorderSide(1, self._theme["border_color"])),
