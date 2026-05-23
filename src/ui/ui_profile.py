@@ -5,6 +5,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import io
 import base64
+from src.ui.components.logo import RadarAniLogo
 
 
 class UIProfile(ft.Container):
@@ -337,8 +338,12 @@ class UIProfile(ft.Container):
                         padding=ft.padding.symmetric(horizontal=14, vertical=6),
                     ),
                 ),
-                ft.Text("RadarAni — プロフィール", size=13,
-                        weight=ft.FontWeight.BOLD, color=self._PRIMARY),
+                RadarAniLogo(
+                    theme=self.theme,
+                    font_size=20,
+                    subtitle_size=9,
+                    alignment=ft.CrossAxisAlignment.END
+                ),
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             padding=ft.padding.symmetric(horizontal=24, vertical=12),
             border=ft.border.only(bottom=ft.BorderSide(1, self._BORDER)),
