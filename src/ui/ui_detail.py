@@ -1,15 +1,8 @@
 import flet as ft
-import flet.canvas as cv
-import math
-from src.ui.icons import _sakura_icon_svg
 from src.ui.components.anime_cards import AnimeCardHome
-from src.ui.radar_chart import detail_radar_chart
-import random
+from ui.components.radar_chart import detail_radar_chart
 import os
 from src.ui.components.logo import RadarAniLogo
-from src.config.theme import ThemeManager
-
-
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
