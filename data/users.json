@@ -1714,7 +1714,7 @@
         "rating_count": 3,
         "average_score": 2.73,
         "average_dimensions": [
-            2.34,
+            2.33,
             2.01,
             5.33,
             2.01,
@@ -1722,7 +1722,6 @@
         ],
         "favorit": [
             "A014",
-            "A292",
             "A503"
         ]
     }

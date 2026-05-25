@@ -6,6 +6,7 @@ from src.ui.charts import (
 )
 from src.ui.charts.tooltip import Tooltip
 from src.config.theme import ThemeManager
+from src.ui.components.logo import RadarAniLogo
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -122,8 +123,10 @@ class UIAnalytics(ft.Row):
                     ft.IconButton(ft.Icons.MENU, icon_color=self.current_theme["primary"],
                                   on_click=self._toggle_sidebar,
                                   tooltip="Menu"),
-                    ft.Text("Analytics Dashboard", size=18,
-                            color=self.current_theme["text_main"], weight=ft.FontWeight.BOLD),
+                    RadarAniLogo(theme=self.current_theme, font_size=20, subtitle_size=9),
+                    ft.Container(expand=True),
+                    ft.Text("Analytics Dashboard", size=13,
+                            color=self.current_theme["text_muted"], weight=ft.FontWeight.BOLD),
                 ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),

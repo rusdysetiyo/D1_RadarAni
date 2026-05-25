@@ -1,14 +1,8 @@
 import flet as ft
-import flet.canvas as cv
-import math
-from src.ui.icons import _sakura_icon_svg
-from src.ui.ui_home import AnimeCardSmall
-from src.ui.radar_chart import detail_radar_chart
-import random
+from src.ui.components.anime_cards import AnimeCardHome
+from ui.components.radar_chart import detail_radar_chart
 import os
-from src.config.theme import ThemeManager
-
-
+from src.ui.components.logo import RadarAniLogo
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
@@ -521,7 +515,7 @@ class RightPanel(ft.Container):
         for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
             self._unrated_row.controls.append(
-                AnimeCardSmall(anime, sg, None,self._theme,is_favorite=(anime.get("anime_id", "") in list_favorit),
+                AnimeCardHome(anime, sg, None,self._theme,is_favorite=(anime.get("anime_id", "") in list_favorit),
                             on_click_callback=self.screen_manager.tampilkan_detail)
             )
 
@@ -562,7 +556,7 @@ class UIDetail(ft.Column):
         # ── TOPBAR ──────────────────────────────────────────────────────────
         top_bar = ft.Container(
             content=ft.Row([
-                ft.Row([                          # ← grup tombol di kiri
+                ft.Row([
                     ft.OutlinedButton(
                         content=ft.Row([
                             ft.Icon(ft.Icons.HOME_OUTLINED, color=self._theme["primary"], size=14),
@@ -590,8 +584,12 @@ class UIDetail(ft.Column):
                         ),
                     ),
                 ], spacing=8),
-                ft.Text("RadarAni — アニメ詳細", size=13,
-                        weight=ft.FontWeight.BOLD, color=self._theme["primary"]),
+                RadarAniLogo(
+                    theme=self._theme,
+                    font_size=20,
+                    subtitle_size=9,
+                    alignment=ft.CrossAxisAlignment.END
+                ),
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             padding=ft.padding.symmetric(horizontal=24, vertical=12),
             border=ft.border.only(bottom=ft.BorderSide(1, self._theme["border_color"])),

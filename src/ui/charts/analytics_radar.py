@@ -1,6 +1,6 @@
 import flet as ft
 from collections import Counter
-from src.ui.radar_chart import detail_radar_chart
+from ui.components.radar_chart import detail_radar_chart
 
 
 class AnalyticsRadarChart(ft.Container):
