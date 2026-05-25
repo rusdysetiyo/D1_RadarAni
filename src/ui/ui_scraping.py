@@ -325,6 +325,38 @@ class UIScraping(ft.Row):
             tight=True,
         )
 
+    def _set_ui_state_adding(self, is_adding: bool):
+        """Disable/enable search input and other add buttons while scraping."""
+        self._btn_search.disabled = is_adding
+        self._tf_query.disabled = is_adding
+        self._btn_search.update()
+        self._tf_query.update()
+
+        for row in self._results_container.controls:
+            if not isinstance(row, ft.Row) or len(row.controls) < 3:
+                continue
+            
+            btn = row.controls[2]
+            if isinstance(btn, ft.Container) and isinstance(btn.content, ft.Row):
+                try:
+                    btn_text = btn.content.controls[1].value
+                except (IndexError, AttributeError):
+                    continue
+
+                # Hanya modifikasi tombol yang masih berstatus 'Add Anime'
+                if btn_text == "Add Anime":
+                    if is_adding:
+                        btn.opacity = 0.5
+                        btn.on_click = None
+                        btn.bgcolor = self.current_theme["bg_secondary"]
+                        btn.content = self._make_btn_content(ft.Icons.ADD, "Add Anime", self.current_theme["text_muted"])
+                    else:
+                        btn.opacity = 1.0
+                        btn.on_click = self._on_add_click
+                        btn.bgcolor = self.current_theme["primary"]
+                        btn.content = self._make_btn_content(ft.Icons.ADD, "Add Anime", self.current_theme["card"])
+                    btn.update()
+
     def _on_add_click(self, e):
         judul, url, thumb = e.control.data
         btn: ft.Container = e.control
@@ -335,6 +367,8 @@ class UIScraping(ft.Row):
         # ✅ Ganti seluruh content sekaligus — bukan mutasi child
         btn.content = self._make_btn_content(ft.Icons.HOURGLASS_EMPTY, "Adding…", self.current_theme["text_muted"])
         btn.update()
+
+        self._set_ui_state_adding(is_adding=True)
 
         self._status_text.value = f"Menambahkan '{judul}'… Mohon tunggu."
         self._status_text.update()
@@ -361,6 +395,8 @@ class UIScraping(ft.Row):
             btn.content = self._make_btn_content(ft.Icons.ADD, "Add Anime", self.current_theme["card"])
             self._status_text.value = f"Gagal menambahkan '{judul}': {ex}"
             self._status_text.color = self.current_theme["error"]
+
+        self._set_ui_state_adding(is_adding=False)
 
         self._loading_indicator.visible = False
         btn.update()
