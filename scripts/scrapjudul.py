@@ -376,51 +376,90 @@ class DynamicAnimeScraper(RadarAniScraper):
         print("[*] Mengekstraksi data anime dari halaman detail...")
         next_id_number = self._generate_next_anime_id()
 
-        anime_data = self.parse_anime_details(url, next_id_number)
+        # Persiapan rollback: simpan path gambar yang terunduh dan backup file JSON
+        downloaded_files = []
+        anime_backup = self.data_manager._read_json(self.data_manager.anime_file)
+        users_backup = self.data_manager._read_json(self.data_manager.users_file)
+        ratings_backup = self.data_manager._read_json(self.data_manager.ratings_file)
 
-        if not anime_data:
-            raise RuntimeError(
-                "Gagal mengekstraksi data dari halaman MAL. Periksa koneksi anda. "
-                "Halaman mungkin tidak dapat diakses atau strukturnya berubah."
+        try:
+            anime_data = self.parse_anime_details(url, next_id_number)
+
+            if not anime_data:
+                raise RuntimeError(
+                    "Gagal mengekstraksi data dari halaman MAL. Periksa koneksi anda. "
+                    "Halaman mungkin tidak dapat diakses atau strukturnya berubah."
+                )
+
+            if anime_data.get("cover_path") and anime_data["cover_path"] != "N/A":
+                downloaded_files.append(os.path.join(self.root_dir, anime_data["cover_path"]))
+
+            # Penanganan thumbnail
+            if thumb_url:
+                path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{next_id_number:03d}.jpg")
+                anime_data["thumbnail_path"] = path_thumb
+                if path_thumb != "N/A":
+                    downloaded_files.append(os.path.join(self.root_dir, path_thumb))
+            elif anime_data.get("cover_path") and anime_data["cover_path"] != "N/A":
+                print("[*] Membuat thumbnail 100x140 dari gambar cover...")
+                path_thumb = self.buat_thumbnail_lokal(anime_data["cover_path"], next_id_number)
+                anime_data["thumbnail_path"] = path_thumb
+                if path_thumb != anime_data["cover_path"] and path_thumb != "N/A":
+                    downloaded_files.append(os.path.join(self.root_dir, path_thumb))
+            else:
+                anime_data["thumbnail_path"] = "N/A"
+                
+            print("[*] Mencari banner dari Anilist...")
+            time.sleep(1)
+            banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
+            anime_data["banner_path"] = banner_path
+            if banner_path and banner_path != "N/A":
+                downloaded_files.append(os.path.join(self.root_dir, banner_path))
+                print(f"[+] Banner didapat: {banner_path}")
+            else:
+                print("[-] Banner tidak tersedia di Anilist.")
+                
+            # Pastikan field cache rating ada sebelum disimpan
+            anime_data.setdefault("rating_count", 0)
+            anime_data.setdefault("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+
+            print("[*] Menyimpan ke database...")
+            semua_anime = self.data_manager._read_json(self.data_manager.anime_file) or []
+            semua_anime.append(anime_data)
+            self.data_manager._write_json(self.data_manager.anime_file, semua_anime)
+
+            print(f"[+] SUKSES! '{anime_data['title']}' berhasil ditambahkan dengan ID {anime_data['anime_id']}.")
+
+            # Injeksi rating dari 10 user pertama jika skor MAL valid
+            self._injeksi_rating_awal(
+                anime_id=anime_data["anime_id"],
+                global_score=anime_data.get("global_score", 0.0),
+                genres=anime_data.get("genre", [])
             )
 
-        # Penanganan thumbnail
-        if thumb_url:
-            path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{next_id_number:03d}.jpg")
-            anime_data["thumbnail_path"] = path_thumb
-        elif anime_data.get("cover_path") and anime_data["cover_path"] != "N/A":
-            print("[*] Membuat thumbnail 100x140 dari gambar cover...")
-            path_thumb = self.buat_thumbnail_lokal(anime_data["cover_path"], next_id_number)
-            anime_data["thumbnail_path"] = path_thumb
-        else:
-            anime_data["thumbnail_path"] = "N/A"
-        print("[*] Mencari banner dari Anilist...")
-        time.sleep(1)
-        banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
-        anime_data["banner_path"] = banner_path
-        if banner_path:
-            print(f"[+] Banner didapat: {banner_path}")
-        else:
-            print("[-] Banner tidak tersedia di Anilist.")
-        # Pastikan field cache rating ada sebelum disimpan
-        anime_data.setdefault("rating_count", 0)
-        anime_data.setdefault("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+            return anime_data
+        except Exception as e:
+            print(f"[!] Terjadi kesalahan selama proses scraping: {e}")
+            print("[*] Melakukan rollback untuk mencegah penyimpanan data tidak lengkap...")
+            
+            # Hapus file gambar yang sempat terunduh
+            for file_path in downloaded_files:
+                if os.path.exists(file_path):
+                    try:
+                        os.remove(file_path)
+                    except Exception as rm_ex:
+                        print(f"[-] Gagal menghapus file {file_path}: {rm_ex}")
+            
+            # Kembalikan data JSON ke state sebelumnya
+            if anime_backup is not None:
+                self.data_manager._write_json(self.data_manager.anime_file, anime_backup)
+            if users_backup is not None:
+                self.data_manager._write_json(self.data_manager.users_file, users_backup)
+            if ratings_backup is not None:
+                self.data_manager._write_json(self.data_manager.ratings_file, ratings_backup)
 
-        print("[*] Menyimpan ke database...")
-        semua_anime = self.data_manager._read_json(self.data_manager.anime_file) or []
-        semua_anime.append(anime_data)
-        self.data_manager._write_json(self.data_manager.anime_file, semua_anime)
-
-        print(f"[+] SUKSES! '{anime_data['title']}' berhasil ditambahkan dengan ID {anime_data['anime_id']}.")
-
-        # Injeksi rating dari 10 user pertama jika skor MAL valid
-        self._injeksi_rating_awal(
-            anime_id=anime_data["anime_id"],
-            global_score=anime_data.get("global_score", 0.0),
-            genres=anime_data.get("genre", [])
-        )
-
-        return anime_data
+            print("[+] Rollback selesai.")
+            raise
 
 
 def run_terminal_interface():
