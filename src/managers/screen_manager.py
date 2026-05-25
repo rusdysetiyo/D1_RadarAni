@@ -1,66 +1,168 @@
 import flet as ft
 from src.ui.ui_loading import buat_bloom_screen, animasi_bloom
+from src.config.theme import ThemeManager
+from src.ui.components.guide_setup import GuideManager
+from src.ui.components.search_setup import SearchManager
 
-# ── Section: Theme & Colors ──────────────────────────────────────────────────
-C_SAKURA = "#C07090"
-C_TEXT3 = "#4A4A4A"
-C_SAKURA_LT = "#D890A8"
-
-
-# ── Section: Main Screen Manager ─────────────────────────────────────────────
 class ScreenManager:
     def __init__(self, page: ft.Page, data_manager, auth_manager):
         self.page = page
         self.data_manager = data_manager
         self.auth_manager = auth_manager
+        self.halaman_terakhir = "home"
+        self.halaman_sebelumnya = "home"
+        self._detail_stack = []
+        self.filter_terakhir = "all"
+        self.tema_aktif = "1"
+        self.theme = ThemeManager.get_theme(self.tema_aktif)
+        self.current_view_instance = None
+        self.guide_manager = GuideManager(self.page, self.theme)
+
+        def on_search_submit(query):
+            self.tampilkan_katalog(filter_kategori="all", search_query=query)
+        self.search_manager = SearchManager(self.page, self.theme, on_search_submit)
+
+
+    def update_theme(self, pilihan_tema):
+        self.tema_aktif = pilihan_tema
+        self.theme = ThemeManager.get_theme(self.tema_aktif)
+        if self.guide_manager:
+            self.guide_manager.apply_theme(self.theme)
+        if hasattr(self, "search_manager") and self.search_manager:
+            self.search_manager.apply_theme(self.theme)
 
     def bersihkan_layar(self):
+        dlg = getattr(self.page, "dialog", None)
+        if dlg:
+            try:
+                dlg.open = False
+            except:
+                pass
         self.page.controls.clear()
         self.page.update()
 
     async def _jalankan_transisi(self, pesan, target_class, *args, **kwargs):
-        layar, petals, circle, dots = buat_bloom_screen(pesan)
+        if self.current_view_instance and hasattr(self.current_view_instance, "will_unmount"):
+            try:
+                self.current_view_instance.will_unmount()
+            except:
+                pass
+
+        if hasattr(self, "search_manager") and self.search_manager:
+            self.search_manager.hide()
+
+        if hasattr(self, "guide_manager") and self.guide_manager:
+            self.guide_manager.set_visible(False)
+
+        layar, petals, circle, dots, efek_bunga = buat_bloom_screen(pesan, self.theme, self.page)
         self.bersihkan_layar()
         self.page.add(layar)
-
-        # 1. Biarkan Bloom jalan tanpa beban, dijamin 100% mulus!
-        await animasi_bloom(petals, circle, dots)
-
+        await animasi_bloom(petals, circle, dots, efek_bunga)
+        efek_bunga.stop()
         self.bersihkan_layar()
 
-        # 2. BIKIN FRESH: Halaman selalu dibikin baru biar bukan Zombie
-        halaman_baru = target_class(self.page, self.data_manager, self.auth_manager, self, *args, **kwargs)
-        self.page.add(halaman_baru)
+        self.current_view_instance = target_class(
+            self.page, self.data_manager, self.auth_manager,
+            self, self.theme, *args, **kwargs
+        )
+        self.page.add(self.current_view_instance)
+
+        if self.guide_manager:
+            halaman_diizinkan = ["UIHome", "UIKatalog"]
+            if target_class.__name__ in halaman_diizinkan:
+                self.guide_manager.set_visible(True)
+            else:
+                self.guide_manager.set_visible(False)
+
         self.page.update()
 
-        # 3. SETELAH terpasang sempurna di layar, baru tarik datanya!
-        # Dijamin rating dari Detail langsung nongol tanpa error!
-        if hasattr(halaman_baru, '_muat_sections'):
-            self.page.run_task(halaman_baru._muat_sections)
+        if hasattr(self.current_view_instance, '_muat_sections'):
+            self.page.run_task(self.current_view_instance._muat_sections)
 
-    def tampilkan_home(self):
+    def tampilkan_home(self, pilihan_tema=None):
+        self.halaman_terakhir = "home"
+        if pilihan_tema: self.update_theme(pilihan_tema)
         from src.ui.ui_home import UIHome
-        self.page.run_task(self._jalankan_transisi, "Preparing Home...", UIHome)
+        self.page.run_task(self._jalankan_transisi, "Entering RadarAni...", UIHome)
 
-    def tampilkan_katalog(self, filter_kategori=None):
+    def tampilkan_katalog(self, filter_kategori="all", search_query=""):
+        self.halaman_terakhir = "katalog"
+        self.filter_terakhir = filter_kategori
         from src.ui.ui_katalog import UIKatalog
-        self.page.run_task(self._jalankan_transisi, "Loading Catalog...", UIKatalog, filter_kategori)
+        self.page.run_task(self._jalankan_transisi, "Browsing Anime...", UIKatalog,
+                           filter_kategori=filter_kategori, search_query=search_query)
 
     def tampilkan_login(self):
+        self.halaman_terakhir = "login"
+        if hasattr(self, "guide_manager") and self.guide_manager:
+            self.guide_manager.set_visible(False)
+        if hasattr(self, "search_manager") and self.search_manager:
+            self.search_manager.hide()
+
         from src.ui.ui_login import UILogin
         self.bersihkan_layar()
-        login_view = UILogin(self.page, self.data_manager, self.auth_manager, self)
+        login_view = UILogin(self.page, self.data_manager, self.auth_manager, self, self.theme)
         self.page.add(login_view)
         self.page.update()
 
     def tampilkan_detail(self, anime_id: str):
         from src.ui.ui_detail import UIDetail
-        self.page.run_task(self._jalankan_transisi, "Opening Details...", UIDetail, anime_id=anime_id)
+        
+        # Push anime_id yang sedang aktif ke stack sebelum pindah
+        if self.halaman_terakhir == "detail" and hasattr(self, '_current_anime_id'):
+            self._detail_stack.append(self._current_anime_id)
+        else:
+            # Masuk detail dari halaman lain → reset stack
+            self._detail_stack.clear()
+            self.halaman_sebelumnya = self.halaman_terakhir
+
+        self._current_anime_id = anime_id
+        self.halaman_terakhir = "detail"
+        self.page.run_task(self._jalankan_transisi, "Opening Anime Data...", UIDetail, anime_id=anime_id)
 
     def tampilkan_profil(self):
+        self.halaman_terakhir = "profil"
         from src.ui.ui_profile import UIProfile
-        self.page.run_task(self._jalankan_transisi, "Loading Profile...", UIProfile)
+        self.page.run_task(self._jalankan_transisi, "Loading Your Space...", UIProfile)
+
+    def tampilkan_analytics(self):
+        self.halaman_terakhir = "analytics"
+        from src.ui.ui_analytics import UIAnalytics
+        self.page.run_task(self._jalankan_transisi, "Analyzing Your Taste...", UIAnalytics)
 
     def tampilkan_scraping(self):
+        self.halaman_terakhir = "scraping"
         from src.ui.ui_scraping import UIScraping
-        self.page.run_task(self._jalankan_transisi, "Loading Scraper...", UIScraping)
+        self.page.run_task(self._jalankan_transisi, "Fetching Anime Data...", UIScraping)
+
+    def kembali_ke_asal(self):
+        if self._detail_stack:
+            prev_anime_id = self._detail_stack.pop()
+            self._current_anime_id = prev_anime_id
+            from src.ui.ui_detail import UIDetail
+            self.page.run_task(self._jalankan_transisi, "Going Back...", UIDetail, anime_id=prev_anime_id)
+            return
+        
+        if self.halaman_sebelumnya == "katalog":
+            self.tampilkan_katalog(filter_kategori=self.filter_terakhir)
+        elif self.halaman_sebelumnya == "analytics":
+            self.tampilkan_analytics()
+        elif self.halaman_sebelumnya == "profil":
+            self.tampilkan_profil()
+        elif self.halaman_sebelumnya == "scraping":
+            self.tampilkan_scraping()
+        else:
+            self.tampilkan_home()
+
+    def buka_pencarian_global(self):
+        if getattr(self, "halaman_terakhir", "") == "login":
+            return
+
+        if hasattr(self, "search_manager") and self.search_manager:
+            self.search_manager.show()
+
+    def tutup_pencarian_global(self):
+        if hasattr(self, "search_manager") and self.search_manager:
+            self.search_manager.hide()
+            return True
+        return False

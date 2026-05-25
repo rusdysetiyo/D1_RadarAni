@@ -5,7 +5,6 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Optional, Any
 import urllib.parse
-# Tambahkan ini di bagian atas jika belum ada
 import difflib
 
 import requests
@@ -37,6 +36,8 @@ class RadarAniScraper:
         self.assets_dir = self.root_dir / "assets"
         self.thumb_dir = self.assets_dir / "thumbnails"
         self.cover_dir = self.assets_dir / "covers"
+        self.banner_dir = self.assets_dir / "banners"
+        self.banner_dir.mkdir(parents=True, exist_ok=True)
         self.data_dir = self.root_dir / "data"
 
         self.checkpoint_file = self.data_dir / 'anime_list_checkpoint.json'
@@ -140,12 +141,37 @@ class RadarAniScraper:
 
         synopsis_tag = soup.find('p', itemprop='description')
 
+        # --- EKSTRAKSI TRAILER ---
+        trailer_url = "N/A"
+        video_promo = soup.find('div', class_='video-promotion')
+        if video_promo:
+            video_link = video_promo.find('a', class_='iframe')
+            if video_link and video_link.get('href'):
+                raw_url = video_link['href']
+                try:
+                    # Parse URL untuk membuang parameter yang tidak perlu
+                    parsed_url = urllib.parse.urlparse(raw_url)
+
+                    # Cek apakah ini URL embed YouTube
+                    if '/embed/' in parsed_url.path:
+                        # Ekstrak ID Video (contoh path: /embed/LHtdKWJdif4)
+                        video_id = parsed_url.path.split('/embed/')[-1]
+                        # Susun ulang menjadi tautan watch standar
+                        trailer_url = f"https://www.youtube.com/watch?v={video_id}"
+                    else:
+                        # Fallback jika bukan YouTube embed standar (hanya buang query-nya saja)
+                        trailer_url = raw_url.split('?')[0]
+                except Exception as e:
+                    logger.warning(f"Gagal mem-parsing URL trailer untuk ID {mal_id}: {e}")
+                    trailer_url = raw_url  # Simpan URL mentah jika gagal dibersihkan
+
         return {
             "anime_id": f"A{counter:03d}",
-            "mal_id": mal_id,  # --- DITAMBAHKAN DI SINI ---
+            "mal_id": mal_id,
             "title": main_title,
             "en_title": en_title,
             "global_score": global_score,
+            "trailer_url": trailer_url,
             "genre": [g.text for g in soup.find_all('span', itemprop='genre')],
             "synopsis": synopsis_tag.get_text(strip=True) if synopsis_tag else "No synopsis.",
             "studio": self.extract_sidebar_info(soup, "Studios:"),
@@ -177,6 +203,34 @@ class RadarAniScraper:
 
             return data["anime_list"], data.get("resume_page", 0), data.get("next_counter", 1)
         return [], 0, 1
+
+    def _fetch_banner_from_anilist(self, mal_id, anime_id) -> str:
+        if not mal_id:
+            return ""
+        query = '''
+        query ($idMal: Int) {
+          Media (idMal: $idMal, type: ANIME) {
+            bannerImage
+          }
+        }
+        '''
+        try:
+            response = requests.post(
+                'https://graphql.anilist.co',
+                json={'query': query, 'variables': {'idMal': mal_id}},
+                timeout=10
+            )
+            if response.status_code == 429:
+                logger.warning("Rate limit Anilist, tunggu 5 detik...")
+                time.sleep(5)
+                return ""
+            if response.status_code == 200:
+                media = response.json().get('data', {}).get('Media')
+                if media and media.get('bannerImage'):
+                    return self.download_image(media['bannerImage'], self.banner_dir, f"{anime_id}_BANNER.jpg")
+        except Exception as e:
+            logger.error(f"Gagal fetch banner Anilist untuk {anime_id}: {e}")
+        return ""
 
     def run(self) -> None:
         """Fungsi utama untuk mengeksekusi pipeline scraping."""
@@ -229,6 +283,11 @@ class RadarAniScraper:
                 if anime_data:
                     path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{global_counter:03d}.jpg")
                     anime_data["thumbnail_path"] = path_thumb
+
+                    time.sleep(1)
+                    banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
+                    anime_data["banner_path"] = banner_path
+
                     anime_list.append(anime_data)
                     logger.info(
                         f"[{anime_data['anime_id']}] Berhasil: {anime_data['title'][:30]}... (Delay: {delay:.2f}s)")
@@ -253,4 +312,3 @@ class RadarAniScraper:
             self.checkpoint_file.unlink()
 
         logger.info(f"=== Selesai! Total {len(anime_list)} anime berhasil disimpan ===")
-

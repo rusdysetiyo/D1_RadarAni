@@ -454,26 +454,20 @@ class DataManager:
 
     def get_rekomendasi_multidimensi(self, dimensi_favorit, id_anime_ditonton):
         """
-        [ALGORITMA REKOMENDASI FINAL - MENGATASI SEMUA EDGE CASES]
-        Versi Super Cepat (O(N)) - Menggunakan Denormalisasi Data anime_list.json
+        [ALGORITMA REKOMENDASI]
         """
-        # Langsung ambil data matang dari cache anime tanpa nyentuh ratings.json
         semua_anime = self.get_semua_anime()
         if not semua_anime:
             return None
 
         urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
 
-        # Cari index urutan dimensi favorit user (Misal: Plot = 0, Visual = 1)
         index_favorit = [urutan_dimensi.index(d) for d in dimensi_favorit if d in urutan_dimensi]
 
         rata_rata_kandidat = {}
         jumlah_reviewer = {}
         MINIMUM_REVIEW = 3
 
-        # =========================================================
-        # FASE 1 & 2: PENGUMPULAN DATA & FILTER AMBANG BATAS
-        # =========================================================
         for anime in semua_anime:
             id_anime = anime.get("anime_id")
             if id_anime in id_anime_ditonton:
@@ -485,44 +479,24 @@ class DataManager:
                 # Ambil list skor 5 dimensi
                 dimensi_global = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
 
-                # Ekstrak nilai HANYA pada index dimensi yang disukai user
+                # Ekstrak nilai pada index dimensi yang disukai user
                 skor_relevan = [dimensi_global[i] for i in index_favorit]
 
                 if skor_relevan:
                     rata_rata_kandidat[id_anime] = sum(skor_relevan) / len(skor_relevan)
                     jumlah_reviewer[id_anime] = count
 
-        # Jika tidak ada anime yang mencapai target review (Turunkan standar)
-        if not rata_rata_kandidat:
-            for anime in semua_anime:
-                id_anime = anime.get("anime_id")
-                if id_anime in id_anime_ditonton:
-                    continue
-
-                count = anime.get("rating_count", 0)
-                if count >= 1:  # Minimal 1 penilai deh
-                    dimensi_global = anime.get("global_score_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
-                    skor_relevan = [dimensi_global[i] for i in index_favorit]
-
-                    if skor_relevan:
-                        rata_rata_kandidat[id_anime] = sum(skor_relevan) / len(skor_relevan)
-                        jumlah_reviewer[id_anime] = count
-
         if not rata_rata_kandidat:
             return None
 
-        # =========================================================
-        # FASE 3: PENCARIAN SKOR TERTINGGI
-        # =========================================================
+        # mencari skor tertinggi
         skor_tertinggi = max(rata_rata_kandidat.values())
         kandidat_teratas = [id_anime for id_anime, skor in rata_rata_kandidat.items() if skor == skor_tertinggi]
 
         if len(kandidat_teratas) == 1:
             return kandidat_teratas[0]
 
-        # =========================================================
-        # FASE 4: TIE-BREAKER TAHAP 1 (ADU JUMLAH REVIEWER)
-        # =========================================================
+        # kalau nilai rata rata global skor sama, dilihat dari jumlah reviewer
         kandidat_tahap_dua = []
         reviewer_terbanyak = -1
 
@@ -538,14 +512,11 @@ class DataManager:
         if len(kandidat_tahap_dua) == 1:
             return kandidat_tahap_dua[0]
 
-        # =========================================================
-        # FASE 5: TIE-BREAKER TAHAP 2 (ADU SKOR GLOBAL)
-        # =========================================================
+        # worst case, baru dicompare sama global score
         rekomendasi_final = kandidat_tahap_dua[0]
         skor_global_maksimal = -1
 
         for id_anime in kandidat_tahap_dua:
-            # Fungsi temen lu yang ngebut banget kepake di sini
             skor_global_anime = self.hitung_skor_global(id_anime)
 
             if skor_global_anime > skor_global_maksimal:
@@ -554,125 +525,148 @@ class DataManager:
 
         return rekomendasi_final
 
-    def get_avg_dimensi_user(self, user_id: str) -> dict:
-        """
-        Ambil rata-rata tiap dimensi milik user dari users.json (O(1) — sudah dihitung
-        oleh _update_user_stats setiap kali user save/hapus rating).
- 
-        Return:
-            {
-                "Story / Plot":      8.4,
-                "Visual":            8.1,
-                "Audio":             7.9,
-                "Characterization":  8.6,
-                "Direction":         8.0,
+    def get_rekomendasi_banner_home(self, user_id, sudah_ditonton, semua_anime_cache):
+        user_data = self.get_user_by_id(user_id) or {}
+        avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+        avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
+
+        if not avg_dim:
+            return {"status": "no_dimension_data"}
+
+        skor_tertinggi = max(avg_dim.values())
+        dimensi_seri = [dim for dim, skor in avg_dim.items() if skor == skor_tertinggi]
+
+        best_anime_id = self.get_rekomendasi_multidimensi(dimensi_seri, sudah_ditonton)
+
+        if best_anime_id:
+            best_anime = self.get_detail_anime(best_anime_id)
+            nama_dimensi = " & ".join([d.capitalize() for d in dimensi_seri])
+            alasan = f"Highest rated in your favorite aspects: {nama_dimensi}"
+            return {"status": "success", "anime": best_anime, "alasan": alasan}
+
+        kandidat = [
+            a for a in semua_anime_cache
+            if a.get("anime_id") not in sudah_ditonton and a.get("global_score")
+        ]
+        if kandidat:
+            kandidat.sort(key=lambda x: x.get("global_score", 0), reverse=True)
+            return {
+                "status": "success",
+                "anime": kandidat[0],
+                "alasan": "Highly rated by the community"
             }
-            atau {} jika user belum pernah rating (rating_count == 0).
+
+        return {"status": "empty_catalog"}
+
+    def get_home_cache_data(self, user_id):
+        semua_anime = self.get_semua_anime()
+        semua_rating = self._read_json(self.ratings_file) or {}
+        rating_user_ini = semua_rating.get(user_id, {})
+
+        rated = []
+        unrated = []
+        skor_user = {}
+
+        for anime in semua_anime:
+            aid = anime.get("anime_id", "")
+            if aid in rating_user_ini:
+                skor_dict = rating_user_ini[aid]
+                sp = round(sum(skor_dict.values()) / len(skor_dict), 2) if skor_dict else 0
+                rated.append((anime, sp))
+                skor_user[aid] = sp
+            else:
+                unrated.append(anime)
+
+        return semua_anime, rated, unrated, skor_user
+
+    def get_user_stats_summary(self, user_id, rated_count, unrated_count, scores_list):
+        user_data = self.get_user_by_id(user_id) or {}
+        avg_list = user_data.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
+        avg_dim = {urutan_dimensi[i]: avg_list[i] for i in range(5) if avg_list[i] > 0}
+
+        top_dim = max(avg_dim, key=avg_dim.get).capitalize() if avg_dim else "—"
+        avg_val = f"{sum(scores_list) / len(scores_list):.1f}" if scores_list else "—"
+
+        return str(rated_count), str(unrated_count), avg_val, top_dim
+
+    def get_trending_anime(self, semua_anime, limit=7):
+        if not semua_anime:
+            return []
+        return sorted(semua_anime, key=lambda a: (a.get("rating_count", 0) or 0, a.get("global_score", 0) or 0),
+                      reverse=True)[:limit]
+
+    def get_top_unrated(self, list_unrated, limit=10):
+        if not list_unrated:
+            return []
+        return sorted(list_unrated, key=lambda a: a.get("global_score", 0) or 0, reverse=True)[:limit]
+
+    def get_semua_rating(self) -> dict:
+        return self._read_json(self.ratings_file) or {}
+
+# ==========================================
+    # STATISTIK USER (untuk UIProfile)
+    # ==========================================
+
+    def get_avg_dimensi_user(self, user_id) -> dict:
+        """Mengembalikan rata-rata skor per dimensi milik user sebagai dict."""
+        user = self.get_user_by_id(user_id)
+        if not user:
+            return {}
+
+        dims = user.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
+        labels = ["plot", "visual", "audio", "characterization", "direction"]
+        return {label: round(val, 2) for label, val in zip(labels, dims)}
+
+    def get_anime_favorit(self, user_id):
+        """
+        Mengambil detail lengkap dari semua anime yang difavoritkan user.
+        Digunakan untuk merender Halaman Profil.
         """
         user = self.get_user_by_id(user_id)
-        if not user or user.get("rating_count", 0) == 0:
-            return {}
- 
-        dim_list = user.get("average_dimensions", [0.0, 0.0, 0.0, 0.0, 0.0])
-        label_urutan = ["Story / Plot", "Visual", "Audio", "Characterization", "Direction"]
- 
-        return {label: round(val, 1) for label, val in zip(label_urutan, dim_list)}
- 
-    def get_anime_favorit(self, user_id: str) -> list:
-        """
-        Kembalikan top-4 anime favorit user berdasarkan:
-          1. List 'favorit' yang di-toggle user (prioritas utama)
-          2. Fallback: anime dengan skor personal tertinggi dari ratings.json
- 
-        Return:
-            [
-                {"rank": 1, "judul": "Demon Slayer", "genre": "Action"},
-                ...
-            ]
-            atau [] jika belum ada data.
-        """
-        # Prioritas 1: anime yang di-toggle favorit
-        favorit_details = self.get_anime_favorit_user(user_id)  # sudah ada di DataManager
-        if favorit_details:
-            hasil = []
-            for rank, anime in enumerate(favorit_details[:4], start=1):
-                genre_list = anime.get("genre", [])
-                hasil.append({
-                    "rank":  rank,
-                    "judul": anime.get("title", "-"),
-                    "genre": genre_list[0] if genre_list else "-",
-                })
-            return hasil
- 
-        # Fallback: ambil dari ratings, urutkan berdasarkan skor personal
-        ratings = self._read_json(self.ratings_file) or {}
-        user_ratings = ratings.get(user_id, {})
-        if not user_ratings:
+        if not user:
             return []
- 
-        urutan_dimensi = ["plot", "visual", "audio", "characterization", "direction"]
-        skor_per_anime = {}
-        for anime_id, skor_dict in user_ratings.items():
-            vals = [skor_dict.get(d, 0) for d in urutan_dimensi]
-            skor_per_anime[anime_id] = sum(vals) / len(vals) if vals else 0
- 
-        top4 = sorted(skor_per_anime.items(), key=lambda x: x[1], reverse=True)[:4]
- 
-        hasil = []
-        for rank, (anime_id, _) in enumerate(top4, start=1):
+
+        list_id_favorit = user.get("favorit", [])
+
+        # Ambil detail lengkap dari setiap ID di list favorit
+        anime_favorit_lengkap = []
+        for anime_id in list_id_favorit:
             detail = self.get_detail_anime(anime_id)
-            if not detail:
-                continue
-            genre_list = detail.get("genre", [])
-            hasil.append({
-                "rank":  rank,
-                "judul": detail.get("title", "-"),
-                "genre": genre_list[0] if genre_list else "-",
-            })
-        return hasil
- 
-    def get_top_genre_user(self, user_id: str) -> dict:
+            if detail:
+                anime_favorit_lengkap.append(detail)
+
+        return anime_favorit_lengkap
+
+    def get_top_genre_user(self, user_id) -> dict:
         """
-        Hitung proporsi genre dari semua anime yang pernah dirating user.
- 
-        Return:
-            {"Action": 32, "Fantasy": 25, "Thriller": 18, "Sci-Fi": 14, "Slice of Life": 11}
-            atau {} jika belum ada rating.
+        Menghitung proporsi genre dari anime yang telah dirating user.
+        Mengembalikan dict {genre: persentase} dari top 5 genre.
         """
         ratings = self._read_json(self.ratings_file) or {}
         user_ratings = ratings.get(user_id, {})
-        if not user_ratings:
-            return {}
- 
-        genre_count = {}
+
+        genre_count: dict = {}
+        total = 0
         for anime_id in user_ratings:
             detail = self.get_detail_anime(anime_id)
             if not detail:
                 continue
             for g in detail.get("genre", []):
                 genre_count[g] = genre_count.get(g, 0) + 1
- 
-        if not genre_count:
+                total += 1
+
+        if not genre_count or total == 0:
             return {}
- 
-        total = sum(genre_count.values())
-        top5  = sorted(genre_count.items(), key=lambda x: x[1], reverse=True)[:5]
- 
-        hasil = {}
-        sisa  = 100
-        for i, (genre, count) in enumerate(top5):
-            if i == len(top5) - 1:
-                pct = sisa
-            else:
-                pct = round(count / total * 100)
-            hasil[genre] = pct
-            sisa -= pct
- 
-        return hasil
+
+        sorted_genre = sorted(genre_count.items(), key=lambda x: x[1], reverse=True)[:5]
+        return {g: round(cnt / total * 100) for g, cnt in sorted_genre}
+
 
 
 # ===============
 # BLOK PENGUJIAN
 # ===============
 if __name__ == "__main__":
-   print("Pengujian")
+    print("Pengujian")
