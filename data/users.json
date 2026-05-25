@@ -1724,5 +1724,37 @@
             "A014",
             "A503"
         ]
+    },
+    {
+        "user_id": "U081",
+        "username": "dddddd",
+        "password": "ddddd",
+        "created_at": "2026-05-25 20:58:23",
+        "last_login": "2026-05-25T20:59:17.102442",
+        "rating_count": 0,
+        "average_score": 0.0,
+        "average_dimensions": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "user_id": "U082",
+        "username": "ddddddd",
+        "password": "ddddd",
+        "created_at": "2026-05-25 20:59:09",
+        "last_login": "",
+        "rating_count": 0,
+        "average_score": 0.0,
+        "average_dimensions": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
     }
 ]
