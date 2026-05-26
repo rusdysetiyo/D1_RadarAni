@@ -1,11 +1,15 @@
 import flet as ft
 from src.ui.components.anime_cards import AnimeCardHome
-from ui.components.radar_chart import detail_radar_chart
+from src.ui.components.radar_chart import detail_radar_chart
 import os
+import sys
 from src.ui.components.logo import RadarAniLogo
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+if getattr(sys, 'frozen', False):
+    ROOT_DIR = os.path.dirname(sys.executable)
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
 # ═══════════════════════════════════════════════════════════════
 #  HELPER FUNCTIONS
@@ -61,7 +65,8 @@ class LeftPanel(ft.Container):
         self._theme = theme
         self.anime_id = anime_id
         self.user_id = data_manager.baca_sesi()  # Ambil ID pengguna yang aktif
-        cover = detail_anime.get("cover_path", "")
+        # Gunakan cover_path_abs (path absolut yang di-inject data_manager) jika tersedia
+        cover = detail_anime.get("cover_path_abs") or os.path.join(ROOT_DIR, detail_anime.get("cover_path", ""))
         gendres = detail_anime.get("genre", [])
         studio = detail_anime.get("studio", "N/A")
         type = detail_anime.get("type", "N/A")
