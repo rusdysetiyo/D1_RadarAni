@@ -22,8 +22,10 @@ def main(page: ft.Page):
         "DotGothic16": "fonts/DotGothic16/DotGothic16-Regular.ttf",
         "Mofuji04": "fonts/Mofuji/mofuji04.ttf",
         "Hitchcut": "fonts/Hitchcut/Hitchcut-Regular.ttf",
-        "KiwiSoda": "fonts/KiwiSoda/KiwiSoda.ttf",
-        "Clayful": "fonts/Clayful.ttf",
+        "KiwiSoda": "fonts/Kiwisoda/KiwiSoda.ttf",
+        "Clayful": "fonts/Clayful/Clayful.otf",
+        "ShipporiMincho": "fonts/ShipporiMincho/ShipporiMincho-Regular.ttf",
+        "ZenMaruGothic": "fonts/Zen_Maru_Gothic/ZenMaruGothic-Regular.ttf",
     }
 
     page.bgcolor = "transparent"
@@ -35,7 +37,7 @@ def main(page: ft.Page):
         )
     )
 
-    page.theme = ft.Theme(font_family="IBMPlexSansJP")
+    page.theme = ft.Theme(font_family="ZenMaruGothic")
 
     try:
         page.window.width, page.window.height = 1100, 750
@@ -61,4 +63,11 @@ def main(page: ft.Page):
         screen_manager.tampilkan_login()
 
 if __name__ == '__main__':
-    ft.run(main)
+    if getattr(sys, 'frozen', False):
+        # Berjalan sebagai executable, assets ter-bundle di sys._MEIPASS
+        assets_path = os.path.join(sys._MEIPASS, "assets")
+    else:
+        # Berjalan sebagai skrip Python biasa
+        assets_path = "assets"
+
+    ft.run(main, assets_dir=assets_path)
