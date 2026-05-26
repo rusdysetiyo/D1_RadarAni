@@ -64,10 +64,8 @@ def main(page: ft.Page):
 
 if __name__ == '__main__':
     if getattr(sys, 'frozen', False):
-        # Berjalan sebagai executable, assets ter-bundle di sys._MEIPASS
-        assets_path = os.path.join(sys._MEIPASS, "assets")
+        assets_path = os.path.join(os.path.dirname(sys.executable), "assets")
     else:
-        # Berjalan sebagai skrip Python biasa
         assets_path = "assets"
 
     ft.run(main, assets_dir=assets_path)
