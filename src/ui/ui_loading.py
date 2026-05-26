@@ -1,6 +1,6 @@
 import flet as ft
 import asyncio
-from ui.components.sakura_anim import get_sakura_svg
+from src.ui.components.sakura_anim import get_sakura_svg
 from src.ui.components.floating_narutomaki import FloatingNeuNaruto
 
 def buat_bloom_screen(pesan: str, theme, page: ft.Page):

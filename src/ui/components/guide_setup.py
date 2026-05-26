@@ -1,5 +1,5 @@
 import flet as ft
-from ui.components.sakura_anim import get_sakura_svg
+from src.ui.components.sakura_anim import get_sakura_svg
 
 class GuideManager:
     def __init__(self, page: ft.Page, theme):

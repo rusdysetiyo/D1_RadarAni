@@ -1,7 +1,8 @@
 import flet as ft
 import asyncio
 import os
-from ui.components.icons import _sakura_icon_svg
+import sys
+from src.ui.components.icons import _sakura_icon_svg
 from src.ui.components.hujan_sakura import HujanSakura
 from src.ui.components.anime_cards import AnimeCardHome
 from src.ui.components.theme_picker import ThemePicker
@@ -9,8 +10,11 @@ from src.ui.components.hero_banner import HeroBanner
 from src.ui.components.anime_section_row import AnimeSectionRow
 from src.ui.components.logo import RadarAniLogo
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+if getattr(sys, 'frozen', False):
+    ROOT_DIR = os.path.dirname(sys.executable)
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
 def _stat_pill(kanji, label, warna) -> ft.Container:
     return ft.Container(

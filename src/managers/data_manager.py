@@ -1,13 +1,20 @@
 import json
 import os
+import sys
 from datetime import datetime
 
 
 class DataManager:
     def __init__(self):
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.root_dir = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+        # 1. Deteksi Lingkungan: Apakah berjalan sebagai .exe atau skrip .py?
+        if getattr(sys, 'frozen', False):
+            self.root_dir = os.path.dirname(sys.executable)
+        else:
+            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+            self.root_dir = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+
         self.data_dir = os.path.join(self.root_dir, "data")
+        self.assets_dir = os.path.join(self.root_dir, "assets")
 
         self.anime_file = os.path.join(self.data_dir, 'anime_list.json')
         self.users_file = os.path.join(self.data_dir, 'users.json')
@@ -15,6 +22,9 @@ class DataManager:
         self.session_file = os.path.join(self.data_dir, 'session.json')
 
         os.makedirs(self.data_dir, exist_ok=True)
+        os.makedirs(os.path.join(self.assets_dir, "thumbnails"), exist_ok=True)
+        os.makedirs(os.path.join(self.assets_dir, "covers"), exist_ok=True)
+
         self._inisialisasi_file_dasar()
 
     # ==========================================

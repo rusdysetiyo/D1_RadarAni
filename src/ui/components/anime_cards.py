@@ -1,10 +1,14 @@
 import flet as ft
 import os
+import sys
 import random
 from src.ui.components.icons import _sakura_icon_svg
 
-COMP_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.abspath(os.path.join(COMP_DIR, "..", "..", ".."))
+if getattr(sys, 'frozen', False):
+    ROOT_DIR = os.path.dirname(sys.executable)
+else:
+    COMP_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.abspath(os.path.join(COMP_DIR, "..", "..", ".."))
 
 class AnimeCardHome(ft.Container):
     def __init__(self, anime: dict, skor_global, skor_personal, theme, is_favorite=False, on_click_callback=None):
