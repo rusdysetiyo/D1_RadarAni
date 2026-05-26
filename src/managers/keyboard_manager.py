@@ -163,11 +163,11 @@ class KeyboardManager:
             if halaman_sekarang == "profil" and hasattr(view, "aksi_tombol_logout"):
                 view.aksi_tombol_logout(None)
             else:
-                theme = getattr(self.sm, "theme", {})
-                PRIMARY = theme.get("primary", "#6c5ce7")
-                CARD = theme.get("card", "#ffffff")
-                TEXT_MUTED = theme.get("text_muted", "#999999")
-                BORDER = theme.get("border_color", "#e0e0e0")
+                theme = self.sm.theme
+                PRIMARY = theme["primary"]
+                CARD = theme["card"]
+                TEXT_MUTED = theme["text_muted"]
+                BORDER = theme["border_color"]
 
                 def aksi_ya(ev):
                     dialog_logout.open = False
