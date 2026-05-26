@@ -66,7 +66,7 @@ def main(page: ft.Page):
 
 if __name__ == '__main__':
     if getattr(sys, 'frozen', False):
-        assets_path = os.path.join(sys._MEIPASS, "assets")
+        assets_path = os.path.join(os.path.dirname(sys.executable), "assets")
     else:
         assets_path = "assets"
 
