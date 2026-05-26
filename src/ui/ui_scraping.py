@@ -2,29 +2,24 @@ import flet as ft
 from scripts.scrapjudul import DynamicAnimeScraper
 from src.config.theme import ThemeManager
 from src.ui.components.logo import RadarAniLogo
-
+from src.config.app_context import AppContext
+from src.ui.components.sidebar import Sidebar
 
 
 class UIScraping(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager, theme=None):
+    def __init__(self, ctx: AppContext):
         super().__init__()
-        self.my_page = page
-        self.data_manager = data_manager
-        self.auth_manager = auth_manager
-        self.screen_manager = screen_manager
+        self.ctx = ctx
+        self.my_page = ctx.page
+        self.data_manager = ctx.data_manager
+        self.auth_manager = ctx.auth_manager
+        self.screen_manager = ctx.screen_manager
+        self.current_theme = ctx.theme
 
         self.expand = True
         self.spacing = 0
-        self._sidebar_open = False
 
-        # Terima theme dari screen_manager; fallback ke ThemeManager jika tidak ada
-        self.current_theme = theme if theme is not None else ThemeManager.get_theme(self.screen_manager.tema_aktif)
-
-        from src.ui.ui_home import _sidebar
-        self._sidebar_widget = _sidebar(
-            screen_manager, auth_manager,
-            self._toggle_sidebar, self.current_theme, halaman_aktif="scraping"
-        )
+        self._sidebar_widget = Sidebar(self.ctx, halaman_aktif="scraping")
 
         self.scraper = DynamicAnimeScraper()
         self.scraper.data_manager = self.data_manager
@@ -67,7 +62,7 @@ class UIScraping(ft.Row):
                     ft.IconButton(
                         ft.Icons.MENU,
                         icon_color=self.current_theme["primary"],
-                        on_click=self._toggle_sidebar,
+                        on_click=self._sidebar_widget.toggle,
                         tooltip="Menu",
                     ),
                     RadarAniLogo(theme=self.current_theme, font_size=20, subtitle_size=9),
@@ -122,11 +117,8 @@ class UIScraping(ft.Row):
             expand=True,
         )
 
-        self.controls = [self._sidebar_widget, ft.Container(content=self._main_col, bgcolor=self.current_theme["bg"], expand=True)]
-
-    # ------------------------------------------------------------------ #
-    #  Helpers                                                             #
-    # ------------------------------------------------------------------ #
+        self.controls = [self._sidebar_widget,
+                         ft.Container(content=self._main_col, bgcolor=self.current_theme["bg"], expand=True)]
 
     def _make_button(
             self,
@@ -138,7 +130,6 @@ class UIScraping(ft.Row):
             on_click=None,
             data=None,
     ) -> ft.Container:
-        """Custom button berbasis Container"""
         return ft.Container(
             data=data,
             bgcolor=bgcolor,
@@ -157,11 +148,6 @@ class UIScraping(ft.Row):
             animate_opacity=200,
         )
 
-    def _toggle_sidebar(self, e=None):
-        self._sidebar_open = not self._sidebar_open
-        self._sidebar_widget.width = 240 if self._sidebar_open else 0
-        self._sidebar_widget.update()
-
     def _set_searching(self, is_searching: bool):
         self._btn_search.disabled = is_searching
         self._btn_search.text = "Searching…" if is_searching else "Search"
@@ -169,13 +155,8 @@ class UIScraping(ft.Row):
             ft.Icons.HOURGLASS_EMPTY if is_searching else ft.Icons.SEARCH
         )
         self._loading_indicator.visible = is_searching
-        # ✅ Update masing-masing secara eksplisit
         self._btn_search.update()
         self._loading_indicator.update()
-
-    # ------------------------------------------------------------------ #
-    #  Search                                                              #
-    # ------------------------------------------------------------------ #
 
     def _on_search_click(self, e):
         query = self._tf_query.value.strip()
@@ -195,7 +176,6 @@ class UIScraping(ft.Row):
         self._status_text.update()
         self._results_container.update()
 
-        # ✅ Gunakan page.run_thread() — aman untuk Flet 0.84
         self.my_page.run_thread(self._do_search, query)
 
     def _show_input_error(self, message: str):
@@ -275,10 +255,6 @@ class UIScraping(ft.Row):
         self._status_text.update()
         self._results_container.update()
 
-    # ------------------------------------------------------------------ #
-    #  Result Row Builder                                                  #
-    # ------------------------------------------------------------------ #
-
     def _build_result_row(self, judul, url, thumb, label_text, is_duplicate, data):
         teks_judul = ft.Text(
             value=label_text,
@@ -287,7 +263,6 @@ class UIScraping(ft.Row):
             expand=True,
         )
 
-        # ✅ Pakai custom container, bukan ElevatedButton
         btn_add = self._make_button(
             text="Added" if is_duplicate else "Add Anime",
             icon=ft.Icons.CHECK if is_duplicate else ft.Icons.ADD,
@@ -310,12 +285,7 @@ class UIScraping(ft.Row):
             vertical_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
-    # ------------------------------------------------------------------ #
-    #  Add Anime                                                           #
-    # ------------------------------------------------------------------ #
-
     def _make_btn_content(self, icon, text, color):
-        """Helper: buat Row isi tombol — dipanggil setiap state change."""
         return ft.Row(
             controls=[
                 ft.Icon(icon, color=color, size=16),
@@ -326,7 +296,6 @@ class UIScraping(ft.Row):
         )
 
     def _set_ui_state_adding(self, is_adding: bool):
-        """Disable/enable search input and other add buttons while scraping."""
         self._btn_search.disabled = is_adding
         self._tf_query.disabled = is_adding
         self._btn_search.update()
@@ -335,7 +304,7 @@ class UIScraping(ft.Row):
         for row in self._results_container.controls:
             if not isinstance(row, ft.Row) or len(row.controls) < 3:
                 continue
-            
+
             btn = row.controls[2]
             if isinstance(btn, ft.Container) and isinstance(btn.content, ft.Row):
                 try:
@@ -343,13 +312,13 @@ class UIScraping(ft.Row):
                 except (IndexError, AttributeError):
                     continue
 
-                # Hanya modifikasi tombol yang masih berstatus 'Add Anime'
                 if btn_text == "Add Anime":
                     if is_adding:
                         btn.opacity = 0.5
                         btn.on_click = None
                         btn.bgcolor = self.current_theme["bg_secondary"]
-                        btn.content = self._make_btn_content(ft.Icons.ADD, "Add Anime", self.current_theme["text_muted"])
+                        btn.content = self._make_btn_content(ft.Icons.ADD, "Add Anime",
+                                                             self.current_theme["text_muted"])
                     else:
                         btn.opacity = 1.0
                         btn.on_click = self._on_add_click
@@ -364,7 +333,6 @@ class UIScraping(ft.Row):
         btn.on_click = None
         btn.opacity = 0.5
         btn.bgcolor = self.current_theme["bg_secondary"]
-        # ✅ Ganti seluruh content sekaligus — bukan mutasi child
         btn.content = self._make_btn_content(ft.Icons.HOURGLASS_EMPTY, "Adding…", self.current_theme["text_muted"])
         btn.update()
 
