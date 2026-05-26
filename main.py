@@ -8,6 +8,8 @@ from src.managers.data_manager import DataManager
 from src.managers.auth_manager import AuthManager
 from src.managers.screen_manager import ScreenManager
 from src.managers.keyboard_manager import KeyboardManager
+from src.config.app_context import AppContext
+from src.config.theme import ThemeManager
 
 
 def main(page: ft.Page):
@@ -25,7 +27,7 @@ def main(page: ft.Page):
         "KiwiSoda": "fonts/Kiwisoda/KiwiSoda.ttf",
         "Clayful": "fonts/Clayful/Clayful.otf",
         "ShipporiMincho": "fonts/ShipporiMincho/ShipporiMincho-Regular.ttf",
-        "ZenMaruGothic": "fonts/Zen_Maru_Gothic/ZenMaruGothic-Regular.ttf",
+        "Montserrat": "fonts/Montserrat/Montserrat-Regular.ttf",
     }
 
     page.bgcolor = "transparent"
@@ -37,7 +39,7 @@ def main(page: ft.Page):
         )
     )
 
-    page.theme = ft.Theme(font_family="ZenMaruGothic")
+    page.theme = ft.Theme(font_family="Montserrat")
 
     try:
         page.window.width, page.window.height = 1100, 750
@@ -50,24 +52,22 @@ def main(page: ft.Page):
     auth_manager = AuthManager(data_manager)
     screen_manager = ScreenManager(page, data_manager, auth_manager)
     kb_manager = KeyboardManager(page, screen_manager, auth_manager)
+    theme = ThemeManager.get_theme(screen_manager.tema_aktif)
+    ctx = AppContext(page, data_manager, auth_manager, screen_manager, theme)
 
-    # Cek apakah ada user yang sudah login sebelumnya (sesi tersimpan)
     user_id_tersimpan = data_manager.baca_sesi()
 
     if user_id_tersimpan:
-        # Jika ada sesi, set user aktif dan langsung ke Home
         auth_manager.set_user_aktif(user_id_tersimpan)
         screen_manager.tampilkan_home()
     else:
-        # Jika tidak ada sesi, tampilkan layar login
         screen_manager.tampilkan_login()
+
 
 if __name__ == '__main__':
     if getattr(sys, 'frozen', False):
-        # Berjalan sebagai executable, assets ter-bundle di sys._MEIPASS
         assets_path = os.path.join(sys._MEIPASS, "assets")
     else:
-        # Berjalan sebagai skrip Python biasa
         assets_path = "assets"
 
     ft.run(main, assets_dir=assets_path)
