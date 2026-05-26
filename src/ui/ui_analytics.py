@@ -7,11 +7,9 @@ from src.ui.charts import (
 from src.ui.charts.tooltip import Tooltip
 from src.config.theme import ThemeManager
 from src.ui.components.logo import RadarAniLogo
+from src.config.app_context import AppContext
+from src.ui.components.sidebar import Sidebar
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Chart card wrapper
-# ─────────────────────────────────────────────────────────────────────────────
 def _chart_card(chart, theme) -> ft.Container:
     return ft.Container(
         content=chart,
@@ -25,9 +23,7 @@ def _chart_card(chart, theme) -> ft.Container:
                             offset=ft.Offset(0, 2)),
     )
 
-
 def _network_card(chart, theme) -> ft.Container:
-    """Card khusus untuk network graph — lebih tinggi agar node tidak berhimpit."""
     return ft.Container(
         content=chart,
         expand=True,
@@ -41,7 +37,6 @@ def _network_card(chart, theme) -> ft.Container:
     )
 
 def _radar_card(chart, theme) -> ft.Container:
-    """Card untuk Radar Chart — cukup ruang untuk controls dan chart."""
     return ft.Container(
         content=chart,
         expand=True,
@@ -54,9 +49,7 @@ def _radar_card(chart, theme) -> ft.Container:
                             offset=ft.Offset(0, 2)),
     )
 
-
 def _bubble_card(chart, theme) -> ft.Container:
-    """Card untuk Categorical Bubble Chart — lebih tinggi agar sel tidak sempit."""
     return ft.Container(
         content=chart,
         expand=True,
@@ -69,9 +62,7 @@ def _bubble_card(chart, theme) -> ft.Container:
                             offset=ft.Offset(0, 2)),
     )
 
-
 def _kde_card(chart, theme) -> ft.Container:
-    """Card untuk KDE Chart — lebih tinggi karena memuat panel statistik di bawah."""
     return ft.Container(
         content=chart,
         expand=True,
@@ -84,32 +75,22 @@ def _kde_card(chart, theme) -> ft.Container:
                             offset=ft.Offset(0, 2)),
     )
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Main UI
-# ─────────────────────────────────────────────────────────────────────────────
 class UIAnalytics(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager, theme=None):
+    def __init__(self, ctx: AppContext):
         super().__init__()
-        self.my_page        = page
-        self.data_manager   = data_manager
-        self.auth_manager   = auth_manager
-        self.screen_manager = screen_manager
-        self.expand  = True
+        self.ctx = ctx
+        self.my_page = ctx.page
+        self.data_manager = ctx.data_manager
+        self.auth_manager = ctx.auth_manager
+        self.screen_manager = ctx.screen_manager
+        self.current_theme = ctx.theme
+
+        self.expand = True
         self.spacing = 0
-        self._sidebar_open = False
 
-        # Terima theme dari screen_manager; fallback ke ThemeManager jika tidak ada
-        self.current_theme = theme if theme is not None else ThemeManager.get_theme(self.screen_manager.tema_aktif)
-
-        # ── Global tooltip — dipasang di page.overlay agar tidak ter-clip card ──
         self._global_tooltip = Tooltip()
 
-        from src.ui.ui_home import _sidebar
-        self._sidebar_widget = _sidebar(
-            screen_manager, auth_manager,
-            self._toggle_sidebar, self.current_theme, halaman_aktif="analytics",
-        )
+        self._sidebar_widget = Sidebar(self.ctx, halaman_aktif="analytics")
 
         topbar = ft.Container(
             padding=ft.padding.symmetric(horizontal=16),
@@ -121,7 +102,7 @@ class UIAnalytics(ft.Row):
             content=ft.Row(
                 controls=[
                     ft.IconButton(ft.Icons.MENU, icon_color=self.current_theme["primary"],
-                                  on_click=self._toggle_sidebar,
+                                  on_click=self._sidebar_widget.toggle,
                                   tooltip="Menu"),
                     RadarAniLogo(theme=self.current_theme, font_size=20, subtitle_size=9),
                     ft.Container(expand=True),
@@ -155,12 +136,9 @@ class UIAnalytics(ft.Row):
         )
         self.controls = [self._sidebar_widget, area_utama]
 
-    # ── Lifecycle ─────────────────────────────────────────────────────────
     def did_mount(self):
-        """Pasang global tooltip ke page.overlay saat halaman ditampilkan."""
         if self._global_tooltip not in self.my_page.overlay:
             self.my_page.overlay.append(self._global_tooltip)
-        # Beri tahu tooltip ukuran halaman untuk flip logic
         self._global_tooltip.set_page_size(
             self.my_page.width  or 1280,
             self.my_page.height or 800,
@@ -168,16 +146,10 @@ class UIAnalytics(ft.Row):
         self.my_page.update()
 
     def will_unmount(self):
-        """Lepas tooltip dari overlay saat navigasi pindah halaman."""
         self._global_tooltip.visible = False
         if self._global_tooltip in self.my_page.overlay:
             self.my_page.overlay.remove(self._global_tooltip)
         self.my_page.update()
-
-    def _toggle_sidebar(self, e=None):
-        self._sidebar_open = not self._sidebar_open
-        self._sidebar_widget.width = 240 if self._sidebar_open else 0
-        self._sidebar_widget.update()
 
     def _load_analytics(self):
         animes = self.data_manager.get_semua_anime()
@@ -204,9 +176,8 @@ class UIAnalytics(ft.Row):
             ),
         )
 
-        tt = self._global_tooltip   # alias singkat
+        tt = self._global_tooltip
 
-        # Chart 0 — Radar Charts (Berjejer 3)
         chart0a = AnalyticsRadarChart(animes, category="Anime", theme=self.current_theme)
         chart0b = AnalyticsRadarChart(animes, category="Genre", theme=self.current_theme)
         chart0c = AnalyticsRadarChart(animes, category="Studio", theme=self.current_theme)
@@ -219,7 +190,6 @@ class UIAnalytics(ft.Row):
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
-        # Chart 1 — Genre
         genres_counter = Counter()
         for a in animes:
             for g in a.get("genre", []):
@@ -229,7 +199,6 @@ class UIAnalytics(ft.Row):
         chart1 = VerticalBarChart(genre_data, "Most Common Genres", y_label="Jumlah Anime",
                                   theme=self.current_theme, tooltip=tt)
 
-        # Chart 2 — Episodes
         bin_labels = ["1–12", "13–24", "25–36", "37–48", "49–100", "100+"]
         bin_counts = [0] * 6
         for a in animes:
@@ -248,7 +217,6 @@ class UIAnalytics(ft.Row):
         chart2 = VerticalBarChart(ep_data, "Episode Count Distribution",
                                   y_label="Jumlah Anime", theme=self.current_theme, tooltip=tt)
 
-        # Chart 3 — Type donut
         types_counter = Counter(a.get("type", "Unknown") for a in animes)
         t_sorted = types_counter.most_common()
         t_total  = sum(v for _, v in t_sorted)
@@ -256,7 +224,6 @@ class UIAnalytics(ft.Row):
                       for lbl, cnt in t_sorted]
         chart3 = DonutChart(donut_data, "Show Types Proportion", theme=self.current_theme, tooltip=tt)
 
-        # Chart 4 — Studios
         studio_scores: dict = {}
         for a in animes:
             studio = a.get("studio") or "Unknown"
@@ -284,7 +251,6 @@ class UIAnalytics(ft.Row):
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
-        # Chart 5 — Genre Co-occurrence Network Graph
         chart5 = GenreNetworkGraph(animes, "Genre Co-occurrence Network",
                                    theme=self.current_theme, tooltip=tt)
 
@@ -293,14 +259,12 @@ class UIAnalytics(ft.Row):
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
-        # Chart 6 — KDE Plot
         chart6 = KDEChart(animes, theme=self.current_theme, tooltip=tt)
         row4 = ft.Row(
             controls=[_kde_card(chart6, self.current_theme)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
-        # Chart 7 — Studio × Genre Categorical Bubble Chart
         chart7 = CategoricalBubbleChart(
             animes, "Studio × Genre Bubble Chart", theme=self.current_theme, tooltip=tt
         )

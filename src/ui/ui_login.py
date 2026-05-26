@@ -1,15 +1,18 @@
 import flet as ft
 import time
 from src.ui.components.logo import RadarAniLogo
+from src.config.app_context import AppContext
+
 
 class UILogin(ft.Container):
-    def __init__(self, page, data_manager, auth_manager, screen_manager, theme):
+    def __init__(self, ctx: AppContext):
         super().__init__()
-        self.my_page = page
-        self.data_manager = data_manager
-        self.auth_manager = auth_manager
-        self.screen_manager = screen_manager
-        self._theme = theme
+        self.ctx = ctx
+        self.my_page = ctx.page
+        self.data_manager = ctx.data_manager
+        self.auth_manager = ctx.auth_manager
+        self.screen_manager = ctx.screen_manager
+        self._theme = ctx.theme
 
         self.expand = True
         self.is_register_mode = False
@@ -18,13 +21,12 @@ class UILogin(ft.Container):
         self._err_password = ft.Text("", size=10, color="#EF4444")
         self._err_confirm = ft.Text("", size=10, color="#EF4444")
 
-        # ── Validator realtime ──
         def _validate_field(field: ft.TextField, err_text: ft.Text, e=None):
             val = field.value or ""
-            has_space  = " " in val
-            too_short  = 0 < len(val) < 5
-            too_long   = len(val) > 30
-            empty      = len(val) == 0
+            has_space = " " in val
+            too_short = 0 < len(val) < 5
+            too_long = len(val) > 30
+            empty = len(val) == 0
 
             if empty:
                 field.border_color = self._theme["border_color"]
@@ -53,7 +55,8 @@ class UILogin(ft.Container):
         self.txt_username = ft.TextField(
             hint_text="Enter your username (5-30 chars, no spaces)",
             hint_style=ft.TextStyle(color=self._theme["text_muted"]),
-            bgcolor=ft.Colors.with_opacity(0.4, self._theme["primary_light"]),            border_color=self._theme["border_color"],
+            bgcolor=ft.Colors.with_opacity(0.4, self._theme["primary_light"]),
+            border_color=self._theme["border_color"],
             focused_border_color=self._theme["primary"],
             border_radius=8,
             height=45,
@@ -99,14 +102,13 @@ class UILogin(ft.Container):
     def _is_valid_input(self, val: str) -> bool:
         return 5 <= len(val) <= 30 and " " not in val
 
-    # ── Helper Methods ──
     def _build_input_group(self, label, input_control, err_text: ft.Text):
         return ft.Column(
             spacing=3,
             controls=[
                 ft.Text(label, size=11, weight=ft.FontWeight.BOLD, color=self._theme["text_secondary"]),
                 input_control,
-                err_text,   # ← teks error di bawah field
+                err_text,
             ]
         )
 
@@ -125,11 +127,9 @@ class UILogin(ft.Container):
         e.control.update()
 
     def _handle_submit(self, e):
-        # Ambil value as-is (case sensitive)
         uname = self.txt_username.value or ""
         pwd = self.txt_password.value or ""
 
-        # Validasi format — tidak di-strip, tidak di-lower
         if not self._is_valid_input(uname) or not self._is_valid_input(pwd):
             self._validate_field(self.txt_username, self._err_username)
             self._validate_field(self.txt_password, self._err_password)
@@ -138,25 +138,25 @@ class UILogin(ft.Container):
 
         if self.is_register_mode:
             cpwd = self.txt_confirm_pass.value or ""
-            if pwd != cpwd:   # case sensitive
+            if pwd != cpwd:
                 self._show_snackbar("Passwords do not match!", ft.Colors.RED_400)
                 return
 
-            sukses = self.auth_manager.register(uname, pwd)  # kirim as-is
+            sukses = self.auth_manager.register(uname, pwd)
             if sukses:
                 self._show_snackbar("Registration successful! Please log in.", ft.Colors.GREEN_500)
-                import time; time.sleep(0.5)
+                import time;
+                time.sleep(0.5)
                 self._toggle_mode(None)
             else:
                 self._show_snackbar("Username already exists!", ft.Colors.RED_400)
         else:
-            sukses = self.auth_manager.login(uname, pwd)  # kirim as-is, case sensitive di backend
+            sukses = self.auth_manager.login(uname, pwd)
             if sukses:
                 self._show_snackbar("Login successful!", ft.Colors.GREEN_500)
                 self.screen_manager.tampilkan_home()
             else:
                 users = self.data_manager._read_json(self.data_manager.users_file) or []
-                # Cek username case sensitive
                 user_exists = any(u.get("username") == uname for u in users)
                 if user_exists:
                     self._show_snackbar("Invalid password! Please try again.", ft.Colors.RED_400)
@@ -169,12 +169,11 @@ class UILogin(ft.Container):
         snack.open = True
         self.my_page.update()
 
-    # ── UI Construction ──
     def _build_card_content(self):
         title = "Sign Up" if self.is_register_mode else "Log in"
         toggle_text_1 = "Already have an account? " if self.is_register_mode else "Don't have an account? "
         toggle_text_2 = "Login" if self.is_register_mode else "Sign Up"
-    
+
         inputs = [
             self._build_input_group("Username", self.txt_username, self._err_username),
             self._build_input_group("Password", self.txt_password, self._err_password),

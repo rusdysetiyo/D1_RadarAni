@@ -41,7 +41,7 @@ class AuthManager:
         """Mendaftarkan user baru. Mengembalikan pesan sukses atau error."""
         # Cek username sudah ada atau belum
         if self.data_manager.cek_username_ada(username):
-            return "Username sudah terpakai!"
+            return False
             
         # Jika belum, buat ID unik dan simpan datanya
         user_id_baru = self.data_manager.generate_user_id()
@@ -57,7 +57,7 @@ class AuthManager:
         
         # Simpan ke JSON lewat DataManager
         self.data_manager.simpan_user_baru(data_user_baru)
-        return "Registrasi berhasil! Silakan login."
+        return True
 
     def hapus_akun_aktif(self):
         """Menghapus akun yang sedang login beserta semua ratingnya."""

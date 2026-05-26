@@ -6,33 +6,34 @@ import matplotlib.pyplot as plt
 import io
 import base64
 from src.ui.components.logo import RadarAniLogo
-
+from src.config.app_context import AppContext
 
 class UIProfile(ft.Container):
-    def __init__(self, page: ft.Page, data_manager, auth_manager, screen_manager, theme):
+    def __init__(self, ctx: AppContext):
         super().__init__(expand=True)
-        self._page        = page
-        self.data_manager = data_manager
-        self.auth_manager = auth_manager
-        self.screen_manager = screen_manager
-        self.theme        = theme
+        self.ctx            = ctx
+        self._page          = ctx.page
+        self.data_manager   = ctx.data_manager
+        self.auth_manager   = ctx.auth_manager
+        self.screen_manager = ctx.screen_manager
+        self.theme          = ctx.theme
 
         # ── Warna dari theme ────────────────────────────────────────────────
-        self._PRIMARY     = theme["primary"]
-        self._PRIMARY_MID = ft.Colors.with_opacity(0.70, theme["primary"])
-        self._LIGHT       = theme.get("bg_secondary", theme["bg"])
-        self._BORDER      = theme["border_color"]
-        self._TEXT_DARK   = theme["text_main"]
-        self._TEXT_MUTED  = theme.get("text_secondary", theme.get("text_muted", "#999"))
-        self._BG          = theme["bg"]
-        self._CARD        = theme["card"]
+        self._PRIMARY     = self.theme["primary"]
+        self._PRIMARY_MID = ft.Colors.with_opacity(0.70, self.theme["primary"])
+        self._LIGHT       = self.theme.get("bg_secondary", self.theme["bg"])
+        self._BORDER      = self.theme["border_color"]
+        self._TEXT_DARK   = self.theme["text_main"]
+        self._TEXT_MUTED  = self.theme.get("text_secondary", self.theme.get("text_muted", "#999"))
+        self._BG          = self.theme["bg"]
+        self._CARD        = self.theme["card"]
 
         self._GENRE_COLORS = [
-            theme["primary"],
-            ft.Colors.with_opacity(0.75, theme["primary"]),
-            ft.Colors.with_opacity(0.55, theme["primary"]),
-            ft.Colors.with_opacity(0.38, theme["primary"]),
-            theme.get("text_secondary", "#999"),
+            self.theme["primary"],
+            ft.Colors.with_opacity(0.75, self.theme["primary"]),
+            ft.Colors.with_opacity(0.55, self.theme["primary"]),
+            ft.Colors.with_opacity(0.38, self.theme["primary"]),
+            self.theme.get("text_secondary", "#999"),
         ]
 
         self._DIM_ICONS = {

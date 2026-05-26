@@ -4,6 +4,7 @@ from src.ui.components.radar_chart import detail_radar_chart
 import os
 import sys
 from src.ui.components.logo import RadarAniLogo
+from src.config.app_context import AppContext
 
 if getattr(sys, 'frozen', False):
     ROOT_DIR = os.path.dirname(sys.executable)
@@ -11,9 +12,7 @@ else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
-# ═══════════════════════════════════════════════════════════════
-#  HELPER FUNCTIONS
-# ═══════════════════════════════════════════════════════════════
+
 def score_card(value, theme, global_score=False):
     return ft.Container(
         width=150,
@@ -53,10 +52,6 @@ def legend_dot(color):
     return ft.Container(width=12, height=12, bgcolor=color, border_radius=6)
 
 
-# ═══════════════════════════════════════════════════════════════
-#  LEFT PANEL — poster, judul, tag, synopsis
-# ═══════════════════════════════════════════════════════════════
-
 class LeftPanel(ft.Container):
     def __init__(self, detail_anime: dict, data_manager, screen_manager, theme, anime_id):
         self.detail_anime = detail_anime
@@ -64,21 +59,15 @@ class LeftPanel(ft.Container):
         self.screen_manager = screen_manager
         self._theme = theme
         self.anime_id = anime_id
-        self.user_id = data_manager.baca_sesi()  # Ambil ID pengguna yang aktif
-        # Gunakan cover_path_abs (path absolut yang di-inject data_manager) jika tersedia
+        self.user_id = data_manager.baca_sesi()
+
         cover = detail_anime.get("cover_path_abs") or os.path.join(ROOT_DIR, detail_anime.get("cover_path", ""))
         gendres = detail_anime.get("genre", [])
-        studio = detail_anime.get("studio", "N/A")
-        type = detail_anime.get("type", "N/A")
-        episode = detail_anime.get("episodes", "N/A")
-        metaTags = [studio, type, episode]
         self.is_fav = self.data_manager.cek_is_favorit(self.user_id, self.anime_id)
         self.fav_button = self._build_fav_button()
-        
-
 
         super().__init__(
-            alignment=ft.Alignment(0, 0),                          # ← tambahkan ini
+            alignment=ft.Alignment(0, 0),
             width=268,
             content=ft.Column(
                 spacing=16,
@@ -101,7 +90,6 @@ class LeftPanel(ft.Container):
             border=ft.border.all(2, theme["border_color"]),
             clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
             content=ft.Image(src=cover_path, fit="cover"),
-            
         )
 
     def _build_meta_tags(self, metaTags):
@@ -115,7 +103,7 @@ class LeftPanel(ft.Container):
             wrap=True, spacing=6, run_spacing=6,
             controls=[tag(genre, self._theme) for genre in gendres]
         )
-    
+
     def _build_fav_button(self):
         return ft.ElevatedButton(
             content=ft.Text("♥  Remove from Favorit" if self.is_fav else "♡  Add to Favorit"),
@@ -126,9 +114,9 @@ class LeftPanel(ft.Container):
                 shape=ft.RoundedRectangleBorder(radius=8),
                 padding=ft.padding.symmetric(horizontal=20, vertical=12),
             ),
-            width=268,  # Menyesuaikan lebar container (300 - padding 16*2)
+            width=268,
         )
-    
+
     def _toggle_favorit(self, e):
         self.is_fav = self.data_manager.toggle_favorit(self.user_id, self.anime_id)
         self.fav_button.content.value = "♥  Remove from Favorit" if self.is_fav else "♡  Add to Favorit"
@@ -175,16 +163,15 @@ class LeftPanel(ft.Container):
         font_size = 13
 
         genre_items = [
-            ft.Text(f"   {g}", size=font_size, color=value_color)
-            for g in genre_list
-        ] or [ft.Text("   -", size=font_size, color=value_color)]
+                          ft.Text(f"   {g}", size=font_size, color=value_color)
+                          for g in genre_list
+                      ] or [ft.Text("   -", size=font_size, color=value_color)]
 
         def _info_row(label, value):
             return ft.Text(
                 size=font_size,
                 spans=[
-                    ft.TextSpan(f"{label}: ", ft.TextStyle(color=label_color,
-                                                            weight=ft.FontWeight.BOLD)),
+                    ft.TextSpan(f"{label}: ", ft.TextStyle(color=label_color, weight=ft.FontWeight.BOLD)),
                     ft.TextSpan(str(value), ft.TextStyle(color=value_color)),
                 ]
             )
@@ -198,8 +185,7 @@ class LeftPanel(ft.Container):
                     ft.Column(
                         spacing=4,
                         controls=[
-                            ft.Text("Genre:", size=font_size,
-                                    weight=ft.FontWeight.BOLD, color=label_color),
+                            ft.Text("Genre:", size=font_size, weight=ft.FontWeight.BOLD, color=label_color),
                             *genre_items,
                         ]
                     ),
@@ -213,24 +199,19 @@ class LeftPanel(ft.Container):
         )
 
 
-# ═══════════════════════════════════════════════════════════════
-#  RIGHT PANEL — score, radar, dropdown, tombol
-# ═══════════════════════════════════════════════════════════════
-
 class RightPanel(ft.Container):
-    def __init__(self, page: ft.Page, data_manager,screen_manager, theme, anime_id):
+    def __init__(self, page: ft.Page, data_manager, screen_manager, theme, anime_id):
         self.my_page = page
         self.data_manager = data_manager
         self.screen_manager = screen_manager
         self._theme = theme
         self.anime_id = anime_id
-        self.user_id = data_manager.baca_sesi()  # Ambil ID pengguna yang aktif
-        # Pastikan jika None, diubah jadi list nol
+        self.user_id = data_manager.baca_sesi()
+
         user_list_score = data_manager.get_rating_user_as_list(self.user_id, anime_id)
         global_list_score = data_manager.get_skor_global_dimensi_as_list(anime_id)
         self.detail_anime = self.data_manager.get_detail_anime(anime_id)
         self._unrated_row = ft.Row(scroll=ft.ScrollMode.ALWAYS, spacing=14)
-
 
         if not user_list_score:
             user_list_score = [0, 0, 0, 0, 0]
@@ -238,21 +219,19 @@ class RightPanel(ft.Container):
         if not global_list_score:
             global_list_score = [0, 0, 0, 0, 0]
 
-
         global_avg_score = data_manager.hitung_skor_global(anime_id)
-        user_avg_score = data_manager.hitung_skor_personal(self.user_id, anime_id)  # Menggunakan ID pengguna yang aktif
-        # Mendapatkan list skor untuk radar chart
-        # Di __init__, ubah baris radar_container:
+        user_avg_score = data_manager.hitung_skor_personal(self.user_id, anime_id)
+
         self.radar_container = ft.Container(
             content=self._build_radar(global_list_score, user_list_score, global_avg_score, user_avg_score, self._theme)
-)       
-        
+        )
+
         self._global_btn_ref = ft.Ref[ft.ElevatedButton]()
         self._personal_btn_ref = ft.Ref[ft.ElevatedButton]()
 
         super().__init__(
             expand=True,
-            bgcolor=self._theme["card"],        # ← ganti jadi abu muda supaya card putih kontras
+            bgcolor=self._theme["card"],
             border_radius=20,
             padding=ft.padding.only(left=12, right=12, top=12, bottom=24),
             content=ft.Column(
@@ -261,7 +240,7 @@ class RightPanel(ft.Container):
                 expand=True,
                 controls=[
                     self._build_synopsis(),
-                    self.radar_container,          # sudah include legend
+                    self.radar_container,
                     self._muat_top_unrated(self.user_id),
                     ft.Container(height=24),
                 ]
@@ -275,7 +254,6 @@ class RightPanel(ft.Container):
             border_radius=12,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
             content=ft.Column([
-                # Header
                 ft.Container(
                     content=ft.Text(title, size=11, weight=ft.FontWeight.W_800,
                                     color=self._theme["text_main"],
@@ -285,7 +263,6 @@ class RightPanel(ft.Container):
                     border=ft.border.only(bottom=ft.BorderSide(1, self._theme["border_color"])),
                     width=float("inf"),
                 ),
-                # Body
                 ft.Container(
                     content=content,
                     padding=ft.padding.symmetric(horizontal=16, vertical=12),
@@ -303,24 +280,25 @@ class RightPanel(ft.Container):
         )
 
     def _build_radar(self, global_scores, personal_scores, global_avg_score, user_avg_score, theme):
-        self.score_cards_container = ft.Container(content=self._build_score_cards(global_avg_score, user_avg_score, theme))
+        self.score_cards_container = ft.Container(
+            content=self._build_score_cards(global_avg_score, user_avg_score, theme))
         labels = ["Plot", "Visual", "Audio", "Characterization", "Direction"]
         global_scores = global_scores if global_scores else [0, 0, 0, 0, 0]
         personal_scores = personal_scores if personal_scores else [0, 0, 0, 0, 0]
         return self._section_card(
             "RADAR CHART & RATING",
             ft.Column([
-                self.score_cards_container,         # ← score cards di sini
+                self.score_cards_container,
                 ft.Container(height=8),
                 ft.Row(
                     alignment=ft.MainAxisAlignment.CENTER,
                     controls=[detail_radar_chart(global_scores, personal_scores, labels, theme)]
                 ),
-                self._build_legend(),   # legend masuk ke dalam card yang sama
+                self._build_legend(),
                 ft.Container(height=8),
-                self._build_dropdowns(),            # ← dropdowns di sini
+                self._build_dropdowns(),
                 ft.Container(height=8),
-                self._build_action_buttons(),       # ← tombol aksi di sini
+                self._build_action_buttons(),
             ], spacing=8, tight=True)
         )
 
@@ -335,27 +313,24 @@ class RightPanel(ft.Container):
                 ]),
                 ft.Row(spacing=6, controls=[
                     legend_dot(self._theme["radar_p_border"]),
-                    ft.Text("Personal", size=12, color= self._theme["text_secondary"])
+                    ft.Text("Personal", size=12, color=self._theme["text_secondary"])
                 ]),
             ]
         )
 
     def _build_popup_dropdown(self, label: str, prefill_val: str = "1"):
-        # Simpan nilai terpilih
         selected = ft.Text(prefill_val, size=13, color=self._theme["text_main"])
-        
+
         def on_selected(e):
             selected.value = e.control.data
             selected.update()
-            # Simpan ke dropdown_controls via data attribute
             self.dropdown_controls[label] = e.control.data
 
         return ft.Column(
             expand=True,
             spacing=4,
             controls=[
-                ft.Text(label, size=11, color=self._theme["text_main"],
-                        weight=ft.FontWeight.W_500),
+                ft.Text(label, size=11, color=self._theme["text_main"], weight=ft.FontWeight.W_500),
                 ft.Container(
                     expand=True,
                     height=42,
@@ -368,10 +343,9 @@ class RightPanel(ft.Container):
                         expand=True,
                         content=ft.Row([
                             selected,
-                            ft.Icon(ft.Icons.ARROW_DROP_DOWN,
-                                    color=self._theme["text_main"], size=18),
+                            ft.Icon(ft.Icons.ARROW_DROP_DOWN, color=self._theme["text_main"], size=18),
                         ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-                        vertical_alignment=ft.CrossAxisAlignment.CENTER),
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER),
                         items=[
                             ft.PopupMenuItem(
                                 content=ft.Text(str(i), color=self._theme["text_main"], size=13),
@@ -379,7 +353,7 @@ class RightPanel(ft.Container):
                                 on_click=on_selected,
                             ) for i in range(1, 11)
                         ],
-                        bgcolor=self._theme["bg_secondary"],   # ← warna popup menu
+                        bgcolor=self._theme["bg_secondary"],
                     )
                 )
             ]
@@ -400,7 +374,7 @@ class RightPanel(ft.Container):
 
         for cat in categories:
             prefill_val = existing_scores.get(cat.lower(), "1")
-            self.dropdown_controls[cat] = prefill_val   # ← nilai awal
+            self.dropdown_controls[cat] = prefill_val
             dropdown_list.append(self._build_popup_dropdown(cat, prefill_val))
 
         return ft.Row(expand=True, spacing=8, controls=dropdown_list)
@@ -423,25 +397,24 @@ class RightPanel(ft.Container):
             new_list_score = list(user_scores.values())
             new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
 
-            # Rebuild score_cards_container dulu sebelum radar di-rebuild
-            self.radar_container.content = self._build_radar(new_global_list_score, new_list_score, new_avg_global, new_avg_personal, self._theme)
-
+            self.radar_container.content = self._build_radar(new_global_list_score, new_list_score, new_avg_global,
+                                                             new_avg_personal, self._theme)
             self.my_page.update()
             self._show_snackbar("rating added successfully!", self._theme["success"])
 
         except Exception as ex:
             self._show_snackbar(f"Error saving rating: {str(ex)}", self._theme["error"])
-            
+
     def delete_rating(self, e):
         user_id = self.data_manager.baca_sesi()
-        delete = self.data_manager.hapus_rating(user_id, self.anime_id)
+        self.data_manager.hapus_rating(user_id, self.anime_id)
 
         new_avg_global = self.data_manager.hitung_skor_global(self.anime_id)
         new_global_list_score = self.data_manager.get_skor_global_dimensi_as_list(self.anime_id)
         new_avg_personal = self.data_manager.hitung_skor_personal(user_id, self.anime_id)
 
-        self.radar_container.content = self._build_radar(new_global_list_score, [0, 0, 0, 0, 0], new_avg_global, new_avg_personal, self._theme)
-
+        self.radar_container.content = self._build_radar(new_global_list_score, [0, 0, 0, 0, 0], new_avg_global,
+                                                         new_avg_personal, self._theme)
         self.my_page.update()
         self._show_snackbar("Rating deleted successfully!", self._theme["success"])
 
@@ -449,7 +422,7 @@ class RightPanel(ft.Container):
         return ft.Row(
             spacing=10,
             controls=[
-                    ft.ElevatedButton(
+                ft.ElevatedButton(
                     content=ft.Text("Save Rating", color=self._theme["card"]),
                     expand=True,
                     bgcolor=self._theme["primary"],
@@ -469,12 +442,15 @@ class RightPanel(ft.Container):
                     on_click=lambda _: self.delete_rating(None),
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=10),
-                        side={ft.ControlState.DEFAULT:ft.BorderSide(1, self._theme["border_color"]),
-                              ft.ControlState.HOVERED:ft.BorderSide(2, self._theme["primary_light"])},
+                        side={
+                            ft.ControlState.DEFAULT: ft.BorderSide(1, self._theme["border_color"]),
+                            ft.ControlState.HOVERED: ft.BorderSide(2, self._theme["primary_light"])
+                        },
                     )
                 ),
             ]
         )
+
     def _build_synopsis(self):
         return self._section_card(
             "SYNOPSIS",
@@ -483,7 +459,7 @@ class RightPanel(ft.Container):
                 size=16, color=self._theme["text_secondary"],
             )
         )
-    
+
     def _muat_top_unrated(self, user_id):
         user_id = self.data_manager.baca_sesi()
         if not user_id: return ft.Container()
@@ -520,8 +496,8 @@ class RightPanel(ft.Container):
         for anime in unrated_sorted[:10]:
             sg = anime.get("global_score", 0) or 0
             self._unrated_row.controls.append(
-                AnimeCardHome(anime, sg, None,self._theme,is_favorite=(anime.get("anime_id", "") in list_favorit),
-                            on_click_callback=self.screen_manager.tampilkan_detail)
+                AnimeCardHome(anime, sg, None, self._theme, is_favorite=(anime.get("anime_id", "") in list_favorit),
+                              on_click_callback=self.screen_manager.tampilkan_detail)
             )
 
         if not self._cached_anime_unrated:
@@ -533,7 +509,7 @@ class RightPanel(ft.Container):
             "RECOMMENDED UNRATED",
             self._unrated_row,
         )
-    
+
     def _show_snackbar(self, pesan: str, warna: str):
         snack = ft.SnackBar(content=ft.Text(pesan), bgcolor=warna)
         self.my_page.overlay.append(snack)
@@ -541,36 +517,31 @@ class RightPanel(ft.Container):
         self.my_page.update()
 
 
-# ═══════════════════════════════════════════════════════════════
-#  UI DETAIL — ft.Row utama yang menyatukan LeftPanel + RightPanel
-# ═══════════════════════════════════════════════════════════════
-
 class UIDetail(ft.Column):
-    def __init__(self, page, data_manager, auth_manager, screen_manager, theme, anime_id):
-        self.my_page = page
-        self.data_manager = data_manager
-        self.auth_manager = auth_manager
-        self.screen_manager = screen_manager
-        self._theme = theme
+    def __init__(self, ctx: AppContext, anime_id: str):
+        self.ctx = ctx
+        self.my_page = ctx.page
+        self.data_manager = ctx.data_manager
+        self.auth_manager = ctx.auth_manager
+        self.screen_manager = ctx.screen_manager
+        self._theme = ctx.theme
         self.anime_id = anime_id
-        self.user_id = data_manager.baca_sesi()
+        self.user_id = self.data_manager.baca_sesi()
         self.detail_anime = self.data_manager.get_detail_anime(anime_id)
 
         self.Right_panel = RightPanel(self.my_page, self.data_manager, self.screen_manager, self._theme, self.anime_id)
 
-        # ── TOPBAR ──────────────────────────────────────────────────────────
         top_bar = ft.Container(
             content=ft.Row([
                 ft.Row([
                     ft.OutlinedButton(
                         content=ft.Row([
                             ft.Icon(ft.Icons.HOME_OUTLINED, color=self._theme["primary"], size=14),
-                            ft.Text("Home", color=self._theme["primary"], size=11,
-                                    weight=ft.FontWeight.W_600),
+                            ft.Text("Home", color=self._theme["primary"], size=11, weight=ft.FontWeight.W_600),
                         ], alignment=ft.MainAxisAlignment.CENTER, spacing=2),
                         on_click=lambda e: self.screen_manager.tampilkan_home(),
                         style=ft.ButtonStyle(
-                            side=ft.BorderSide(1.5,self._theme["primary_light"]),
+                            side=ft.BorderSide(1.5, self._theme["primary_light"]),
                             shape=ft.RoundedRectangleBorder(radius=20),
                             padding=ft.padding.symmetric(horizontal=14, vertical=6),
                         ),
@@ -578,8 +549,7 @@ class UIDetail(ft.Column):
                     ft.OutlinedButton(
                         content=ft.Row([
                             ft.Icon(ft.Icons.CHEVRON_LEFT, self._theme["primary"], size=14),
-                            ft.Text("Back", color=self._theme["primary"], size=11,
-                                    weight=ft.FontWeight.W_600),
+                            ft.Text("Back", color=self._theme["primary"], size=11, weight=ft.FontWeight.W_600),
                         ], alignment=ft.MainAxisAlignment.CENTER, spacing=2),
                         on_click=lambda e: self.screen_manager.kembali_ke_asal(),
                         style=ft.ButtonStyle(
@@ -601,7 +571,6 @@ class UIDetail(ft.Column):
             bgcolor=self._theme["card"],
         )
 
-        # ── SIDEBAR (LeftPanel) ──────────────────────────────────────────────
         sidebar = ft.Container(
             width=300,
             expand=False,
@@ -613,15 +582,13 @@ class UIDetail(ft.Column):
                 scroll=ft.ScrollMode.AUTO,
                 spacing=0,
                 tight=True,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,     # ← dan ini
-
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             ),
             padding=ft.padding.only(left=12, right=12, top=12, bottom=24),
             border=ft.border.only(right=ft.BorderSide(1, self._theme["border_color"])),
             bgcolor=self._theme["bg"],
         )
 
-        # ── MAIN AREA (RightPanel) ───────────────────────────────────────────
         main_area = ft.Container(
             expand=True,
             content=ft.Column(
@@ -636,15 +603,13 @@ class UIDetail(ft.Column):
             bgcolor=self._theme["bg"],
         )
 
-        # ── LAYOUT UTAMA ─────────────────────────────────────────────────────
         layout = ft.Container(
             content=ft.Column([
                 top_bar,
                 ft.Row([
                     sidebar,
                     main_area,
-                ], spacing=0, expand=True,
-                   vertical_alignment=ft.CrossAxisAlignment.START),
+                ], spacing=0, expand=True, vertical_alignment=ft.CrossAxisAlignment.START),
             ], spacing=0, expand=True),
             bgcolor=self._theme["card"],
             border_radius=16,
@@ -656,13 +621,11 @@ class UIDetail(ft.Column):
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
         )
 
-
-
         super().__init__(
             expand=True,
             controls=[layout],
         )
-    
+
     def save_rating(self, e):
         self.Right_panel.save_rating(e)
 

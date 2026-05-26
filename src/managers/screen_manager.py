@@ -3,6 +3,7 @@ from src.ui.ui_loading import buat_bloom_screen, animasi_bloom
 from src.config.theme import ThemeManager
 from src.ui.components.guide_setup import GuideManager
 from src.ui.components.search_setup import SearchManager
+from src.config.app_context import AppContext
 
 class ScreenManager:
     def __init__(self, page: ft.Page, data_manager, auth_manager):
@@ -22,6 +23,8 @@ class ScreenManager:
             self.tampilkan_katalog(filter_kategori="all", search_query=query)
         self.search_manager = SearchManager(self.page, self.theme, on_search_submit)
 
+    def _get_ctx(self) -> AppContext:
+        return AppContext(self.page, self.data_manager, self.auth_manager, self, self.theme)
 
     def update_theme(self, pilihan_tema):
         self.tema_aktif = pilihan_tema
@@ -62,8 +65,7 @@ class ScreenManager:
         self.bersihkan_layar()
 
         self.current_view_instance = target_class(
-            self.page, self.data_manager, self.auth_manager,
-            self, self.theme, *args, **kwargs
+            self._get_ctx(), *args, **kwargs
         )
         self.page.add(self.current_view_instance)
 
@@ -101,7 +103,7 @@ class ScreenManager:
 
         from src.ui.ui_login import UILogin
         self.bersihkan_layar()
-        login_view = UILogin(self.page, self.data_manager, self.auth_manager, self, self.theme)
+        login_view = UILogin(self._get_ctx())
         self.page.add(login_view)
         self.page.update()
 
