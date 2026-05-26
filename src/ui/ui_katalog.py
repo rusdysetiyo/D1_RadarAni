@@ -6,19 +6,22 @@ from src.ui.components.genre_dialog import GenreDialog
 from src.ui.components.action_bar import CatalogActionBar
 from src.ui.components.logo import RadarAniLogo
 from src.ui.components.pagination import PaginationBar
+from src.config.app_context import AppContext
+from src.ui.components.sidebar import Sidebar
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CARDS_PER_PAGE = 24
 
 
 class UIKatalog(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager, theme, filter_kategori=None, search_query=""):
+    def __init__(self, ctx: AppContext, filter_kategori=None, search_query=""):
         super().__init__()
-        self.my_page = page
-        self.data_manager = data_manager
-        self.auth_manager = auth_manager
-        self.screen_manager = screen_manager
-        self.theme = theme
+        self.ctx = ctx
+        self.my_page = ctx.page
+        self.data_manager = ctx.data_manager
+        self.auth_manager = ctx.auth_manager
+        self.screen_manager = ctx.screen_manager
+        self.theme = ctx.theme
 
         self._filter = filter_kategori if filter_kategori else "all"
         self._sort = "global" if filter_kategori == "trending" else "title"
@@ -27,18 +30,13 @@ class UIKatalog(ft.Row):
         self._selected_genre = "All Genres"
         self._total_pg = 1
         self._view_mode = "grid"
-        self._sidebar_open = False
         self.is_sub_page_awal = filter_kategori in ["rated", "unrated", "trending"]
 
         self.expand = True
         self.spacing = 0
 
-        # ── Sidebar ──
-        from src.ui.ui_home import _sidebar
-        self._sidebar_widget = _sidebar(screen_manager, auth_manager, self._toggle_sidebar, theme=self.theme,
-                                        halaman_aktif="katalog")
+        self._sidebar_widget = Sidebar(self.ctx, halaman_aktif="katalog")
 
-        # ── Topbar Search ──
         self.search_input = ft.TextField(
             value=self._keyword, hint_text="Search anime...",
             hint_style=ft.TextStyle(color=self.theme["text_muted"], size=12),
@@ -54,15 +52,12 @@ class UIKatalog(ft.Row):
         )
         topbar = self._build_topbar(self.is_sub_page_awal)
 
-        # ── Modular Components Injection ──
         semua_anime_awal = self.data_manager.get_semua_anime()
         list_genre_unik = sorted(list({g for a in semua_anime_awal for g in a.get("genre", [])}))
 
-        # 1. Dialog Genre
         self.genre_dialog = GenreDialog(self.my_page, self.theme, list_genre_unik,
                                         on_genre_selected=self._on_genre_pilih)
 
-        # 2. Action Bar
         judul_section = "Your Recent Ratings" if filter_kategori == "rated" else "Top Unrated" if filter_kategori == "unrated" else "Global Trending" if filter_kategori == "trending" else "Anime List"
         self.action_bar = CatalogActionBar(
             theme=self.theme, title=judul_section, is_sub_page=self.is_sub_page_awal, initial_filter=self._filter,
@@ -71,10 +66,8 @@ class UIKatalog(ft.Row):
             on_sort_click=self._on_sort_ubah, on_view_click=self._on_view_ubah
         )
 
-        # 3. Pagination Bar
         self.pagination_bar = PaginationBar(theme=self.theme, on_page_change=self._ganti_halaman)
 
-        # ── Setup Layout Layout ──
         self._content_area = ft.Column(scroll=ft.ScrollMode.AUTO, expand=True, spacing=0)
         self.main_scroll = self._content_area
         self._main_col = ft.Container(
@@ -91,12 +84,6 @@ class UIKatalog(ft.Row):
 
         self.muat_tabel_anime()
 
-    def _safe_update(self, control):
-        try:
-            if control and control.page: control.update()
-        except:
-            pass
-
     def _build_topbar(self, is_sub_page):
         return ft.Container(
             padding=ft.padding.symmetric(horizontal=16), height=55,
@@ -106,8 +93,7 @@ class UIKatalog(ft.Row):
                 controls=[
                     ft.IconButton(
                         icon=ft.Icons.ARROW_BACK if is_sub_page else ft.Icons.MENU,
-                        on_click=lambda
-                            e: self.screen_manager.tampilkan_home() if is_sub_page else self._toggle_sidebar(e),
+                        on_click=lambda e: self.screen_manager.tampilkan_home() if is_sub_page else self._sidebar_widget.toggle(e),
                         style=ft.ButtonStyle(overlay_color=ft.Colors.TRANSPARENT,
                                              icon_color={ft.ControlState.HOVERED: f"{self.theme['primary']},0.8",
                                                          ft.ControlState.DEFAULT: self.theme["primary"]})
@@ -123,9 +109,13 @@ class UIKatalog(ft.Row):
         self._content_area.controls.clear()
         self._content_area.controls.append(self.action_bar)
 
-        # ── Load Data ──
-        semua_anime = self.data_manager.cari_anime(
-            self._keyword) if self._keyword else self.data_manager.get_semua_anime()
+        data_dengan_skor = self._load_and_filter_data()
+        self._render_paginated_data(data_dengan_skor)
+
+        self.my_page.update()
+
+    def _load_and_filter_data(self):
+        semua_anime = self.data_manager.cari_anime(self._keyword) if self._keyword else self.data_manager.get_semua_anime()
         user_id = self.auth_manager.get_user_aktif()
 
         rating_user_ini = {}
@@ -136,12 +126,12 @@ class UIKatalog(ft.Row):
         for anime in semua_anime:
             if self._selected_genre != "All Genres" and self._selected_genre not in anime.get("genre", []):
                 continue
-            aid = anime.get("anime_id", "")
-            sp = None
-            if aid in rating_user_ini:
-                skor_dict = rating_user_ini[aid]
-                sp = round(sum(skor_dict.values()) / len(skor_dict), 2) if skor_dict else 0
-            data_dengan_skor.append((anime, sp))
+            anime_id = anime.get("anime_id", "")
+            personal_score = None
+            if anime_id in rating_user_ini:
+                skor_dict = rating_user_ini[anime_id]
+                personal_score = round(sum(skor_dict.values()) / len(skor_dict), 2) if skor_dict else 0
+            data_dengan_skor.append((anime, personal_score))
 
         if self._filter == "rated":
             data_dengan_skor = [i for i in data_dengan_skor if i[1] is not None]
@@ -155,13 +145,16 @@ class UIKatalog(ft.Row):
         elif self._sort == "personal":
             data_dengan_skor.sort(key=lambda i: i[1] or -1, reverse=True)
 
+        return data_dengan_skor
+
+    def _render_paginated_data(self, data_dengan_skor):
         self._total_pg = max(1, math.ceil(len(data_dengan_skor) / CARDS_PER_PAGE))
         self._halaman = min(self._halaman, self._total_pg)
 
         start = (self._halaman - 1) * CARDS_PER_PAGE
-        halaman_data = data_dengan_skor[start: start + CARDS_PER_PAGE]
+        paginated_data = data_dengan_skor[start: start + CARDS_PER_PAGE]
 
-        if not halaman_data:
+        if not paginated_data:
             self._content_area.controls.append(
                 ft.Container(
                     content=ft.Column([ft.Icon(ft.Icons.SEARCH_OFF, size=40, color=self.theme["text_muted"]),
@@ -173,20 +166,19 @@ class UIKatalog(ft.Row):
             )
         else:
             if self._view_mode == "grid":
-                self._render_grid(halaman_data)
+                self._render_grid(paginated_data)
             else:
-                self._render_list(halaman_data)
+                self._render_list(paginated_data)
 
         self.pagination_bar.render_pages(self._halaman, self._total_pg)
         self._content_area.controls.append(self.pagination_bar)
-        self._safe_update(self.my_page)
 
     def _render_grid(self, data):
         grid = ft.Row(wrap=True, spacing=16, run_spacing=16, alignment=ft.MainAxisAlignment.START)
-        for item in data:
-            anime = item[0]
+        for anime_with_score in data:
+            anime = anime_with_score[0]
             grid.controls.append(
-                AnimeCardKatalog(anime=anime, skor_global=anime.get("global_score", 0), skor_personal=item[1],
+                AnimeCardKatalog(anime=anime, skor_global=anime.get("global_score", 0), skor_personal=anime_with_score[1],
                                  theme=self.theme, is_favorite=(anime.get("anime_id", "") in self._list_favorit_user),
                                  on_click_callback=self.screen_manager.tampilkan_detail))
         self._content_area.controls.append(
@@ -194,10 +186,10 @@ class UIKatalog(ft.Row):
 
     def _render_list(self, data):
         list_col = ft.Column(spacing=8)
-        for item in data:
-            anime = item[0]
+        for anime_with_score in data:
+            anime = anime_with_score[0]
             list_col.controls.append(
-                AnimeListItem(anime=anime, skor_global=anime.get("global_score", 0), skor_personal=item[1],
+                AnimeListItem(anime=anime, skor_global=anime.get("global_score", 0), skor_personal=anime_with_score[1],
                               theme=self.theme, is_favorite=(anime.get("anime_id", "") in self._list_favorit_user),
                               on_click_callback=self.screen_manager.tampilkan_detail))
         self._content_area.controls.append(
@@ -237,8 +229,3 @@ class UIKatalog(ft.Row):
         self.action_bar.update_genre_button_state(genre)
         self._halaman = 1
         self.muat_tabel_anime()
-
-    def _toggle_sidebar(self, e=None):
-        self._sidebar_open = not self._sidebar_open
-        self._sidebar_widget.width = 240 if self._sidebar_open else 0
-        self._safe_update(self._sidebar_widget)
