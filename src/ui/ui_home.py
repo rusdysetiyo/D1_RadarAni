@@ -9,6 +9,8 @@ from src.ui.components.theme_picker import ThemePicker
 from src.ui.components.hero_banner import HeroBanner
 from src.ui.components.anime_section_row import AnimeSectionRow
 from src.ui.components.logo import RadarAniLogo
+from src.config.app_context import AppContext
+from src.ui.components.sidebar import Sidebar
 
 if getattr(sys, 'frozen', False):
     ROOT_DIR = os.path.dirname(sys.executable)
@@ -16,136 +18,67 @@ else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
 
-def _stat_pill(kanji, label, warna) -> ft.Container:
-    return ft.Container(
-        content=ft.Row([
+
+class StatPill(ft.Container):
+    def __init__(self, kanji, label, warna):
+        super().__init__()
+        self._value_text = ft.Text("—", size=10, font_family="Hitchcut", color=warna, weight=ft.FontWeight.BOLD)
+
+        self.content = ft.Row([
             ft.Text(kanji, size=14, font_family="Mofuji04", color=warna),
             ft.Text(label, size=8, font_family="Hitchcut", color=warna, weight=ft.FontWeight.BOLD),
-            ft.Text("—", size=10, font_family="Hitchcut", color=warna, weight=ft.FontWeight.BOLD),
-        ], spacing=8, alignment=ft.MainAxisAlignment.CENTER),
-        gradient=ft.LinearGradient(
+            self._value_text,
+        ], spacing=8, alignment=ft.MainAxisAlignment.CENTER)
+
+        self.gradient = ft.LinearGradient(
             begin=ft.Alignment.TOP_LEFT,
             end=ft.Alignment.BOTTOM_RIGHT,
             colors=[ft.Colors.with_opacity(0.2, warna), ft.Colors.with_opacity(0.05, warna)],
-        ),
-        border=ft.Border.all(1, ft.Colors.with_opacity(0.4, warna)),
-        border_radius=ft.border_radius.only(top_left=12, bottom_right=12, top_right=3, bottom_left=3),
-        padding=ft.padding.symmetric(horizontal=12, vertical=5),
-    )
+        )
+        self.border = ft.Border.all(1, ft.Colors.with_opacity(0.4, warna))
+        self.border_radius = ft.border_radius.only(top_left=12, bottom_right=12, top_right=3, bottom_left=3)
+        self.padding = ft.padding.symmetric(horizontal=12, vertical=5)
 
-def _nav_item(kanji, label, style, on_click):
-    return ft.TextButton(
-        content=ft.Row(
-            controls=[
-                ft.Text(kanji, font_family="DotGothic16", size=16, weight=ft.FontWeight.BOLD, width=28, text_align=ft.TextAlign.CENTER),
-                ft.Text(label, size=13, weight=ft.FontWeight.W_500),
-            ], spacing=10, vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        ), style=style, width=216, on_click=on_click,
-    )
+    def update_value(self, value):
+        self._value_text.value = value
+        try:
+            if self.page:
+                self._value_text.update()
+        except Exception:
+            pass
 
-def _sidebar(screen_manager, auth_manager, toggle_fn, theme, halaman_aktif="home"):
-    nav_s = ft.ButtonStyle(
-        color={ft.ControlState.DEFAULT: theme["text_main"]},
-        bgcolor={ft.ControlState.HOVERED: theme["bg_secondary"], ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT},
-        shape=ft.RoundedRectangleBorder(radius=10), padding=ft.padding.symmetric(horizontal=16, vertical=10), alignment=ft.Alignment(-1, 0),
-    )
-    active_nav_s = ft.ButtonStyle(
-        color={ft.ControlState.DEFAULT: theme["primary"]},
-        bgcolor={ft.ControlState.DEFAULT: theme["primary_light"]},
-        shape=ft.RoundedRectangleBorder(radius=10), padding=ft.padding.symmetric(horizontal=16, vertical=10), alignment=ft.Alignment(-1, 0),
-    )
-    danger_s = ft.ButtonStyle(
-        color={ft.ControlState.DEFAULT: theme["text_secondary"]},
-        bgcolor={ft.ControlState.HOVERED: theme["bg_secondary"], ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT},
-        shape=ft.RoundedRectangleBorder(radius=8), padding=ft.padding.symmetric(horizontal=14, vertical=8), alignment=ft.Alignment(-1, 0),
-    )
-
-    return ft.Container(
-        width=0, bgcolor=None,
-        content=ft.Container(
-            width=240, expand=True,
-            gradient=ft.LinearGradient(
-                begin=ft.Alignment(0, -1), end=ft.Alignment(0, 1),
-                colors=[theme["bg_secondary"], theme["bg"]],
-            ),
-            border=ft.Border(right=ft.BorderSide(1, theme["border_color"])),
-            padding=ft.padding.only(left=12, right=12, top=24, bottom=24),
-            content=ft.Column(
-                controls=[
-                    ft.Row(
-                        [
-                            ft.IconButton(
-                                icon=ft.Icons.CHEVRON_LEFT,
-                                icon_size=20,
-                                on_click=toggle_fn,
-                                style=ft.ButtonStyle(
-                                    overlay_color=ft.Colors.TRANSPARENT,
-                                    icon_color={
-                                        ft.ControlState.HOVERED: ft.Colors.with_opacity(0.8, theme["primary"]),
-                                        ft.ControlState.DEFAULT: theme["primary"],
-                                    }
-                                )
-                            )
-                        ],
-                        alignment=ft.MainAxisAlignment.END,
-                    ),
-                    ft.Container(height=8),
-                    _nav_item("ホ", "Home", active_nav_s if halaman_aktif == "home" else nav_s, lambda _: screen_manager.tampilkan_home()),
-                    _nav_item("覧", "Anime List", active_nav_s if halaman_aktif == "katalog" else nav_s, lambda _: screen_manager.tampilkan_katalog()),
-                    _nav_item("追", "Add Anime", active_nav_s if halaman_aktif == "scraping" else nav_s, lambda _: screen_manager.tampilkan_scraping()),
-                    _nav_item("析", "Analytics", active_nav_s if halaman_aktif == "analytics" else nav_s, lambda _: screen_manager.tampilkan_analytics()),
-                    _nav_item("人", "Profile", active_nav_s if halaman_aktif == "profil" else nav_s, lambda _: screen_manager.tampilkan_profil()),
-                    ft.Container(expand=True),
-                    ft.Divider(color=theme["border_color"], height=1, thickness=1),
-                    ft.Container(height=4),
-                    ft.TextButton(
-                        content=ft.Row(
-                            controls=[
-                                ft.Text("出", font_family="DotGothic16", size=16, weight=ft.FontWeight.BOLD, width=28, text_align=ft.TextAlign.CENTER),
-                                ft.Text("Log Out", size=13),
-                            ], spacing=10, vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                        ), style=danger_s, width=216,
-                        on_click=lambda _: (auth_manager.logout(), screen_manager.tampilkan_login()),
-                    ),
-                ], spacing=2, expand=True,
-            ),
-        ),
-        animate_size=ft.Animation(duration=280, curve=ft.AnimationCurve.EASE_OUT),
-        clip_behavior=ft.ClipBehavior.HARD_EDGE,
-    )
 
 class UIHome(ft.Row):
-    def __init__(self, page, data_manager, auth_manager, screen_manager, theme):
+    def __init__(self, ctx: AppContext):
         super().__init__()
-        self.my_page = page
-        self.data_manager = data_manager
-        self.auth_manager = auth_manager
-        self.screen_manager = screen_manager
-        self.theme = theme
-        self._sidebar_open = False
+        self.ctx = ctx
+        self.my_page = ctx.page
+        self.data_manager = ctx.data_manager
+        self.auth_manager = ctx.auth_manager
+        self.screen_manager = ctx.screen_manager
+        self.theme = ctx.theme
 
-        self.theme_picker = ThemePicker(page, self.screen_manager, self.theme)
+        self.theme_picker = ThemePicker(self.my_page, self.screen_manager, self.theme)
 
         self.expand = True
         self.spacing = 0
 
-        self._sidebar_widget = _sidebar(
-            screen_manager, auth_manager,
-            self._toggle_sidebar, self.theme, halaman_aktif="home"
-        )
+        self._sidebar_widget = Sidebar(self.ctx, halaman_aktif="home")
 
         topbar = self._build_topbar()
 
         user_id = self.auth_manager.get_user_aktif()
         user_data = self.data_manager.get_user_by_id(user_id)
+        self._list_favorit_user = []
+        if user_id:
+            self._list_favorit_user = user_data.get("favorit", []) if user_data else []
         username = user_data.get("username", "User") if user_data else "User"
 
-        self._stat_rated   = _stat_pill("評", "RATED",   self.theme["pill_rated"])
-        self._stat_unrated = _stat_pill("未", "UNRATED", self.theme["pill_unrated"])
-        self._stat_avg     = _stat_pill("均", "AVG",     self.theme["pill_avg"])
-        self._stat_dim     = _stat_pill("極", "TOP",     self.theme["pill_top"])
+        self._stat_rated = StatPill("評", "RATED", self.theme["pill_rated"])
+        self._stat_unrated = StatPill("未", "UNRATED", self.theme["pill_unrated"])
+        self._stat_avg = StatPill("均", "AVG", self.theme["pill_avg"])
+        self._stat_dim = StatPill("極", "TOP", self.theme["pill_top"])
 
-        # ── Injeksi Komponen Hero Banner Baru ──
         self.hero_banner = HeroBanner(self.theme, self._klik_rekomendasi)
 
         header = ft.Container(
@@ -155,8 +88,10 @@ class UIHome(ft.Row):
                     ft.Row(
                         controls=[
                             ft.Image(src=_sakura_icon_svg(), width=24, height=24, fit="contain"),
-                            ft.Text(f"Konnichiwa, {username}!", size=18, color=self.theme["text_main"], weight=ft.FontWeight.BOLD),
-                        ], alignment=ft.MainAxisAlignment.START, vertical_alignment=ft.CrossAxisAlignment.CENTER, spacing=8
+                            ft.Text(f"Konnichiwa, {username}!", size=18, color=self.theme["text_main"],
+                                    weight=ft.FontWeight.BOLD),
+                        ], alignment=ft.MainAxisAlignment.START, vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=8
                     ),
                     ft.Row(controls=[self._stat_rated, self._stat_unrated, self._stat_avg, self._stat_dim], spacing=6),
                     self.hero_banner,
@@ -164,11 +99,13 @@ class UIHome(ft.Row):
             ),
         )
 
-        # ── Injeksi Komponen Horizontal Sections Baru ──
         self.daftar_baris_animasi = []
-        self.trending_section = AnimeSectionRow("What Everyone's Watching", "trending", self.theme, self.screen_manager, self._animasikan_baris)
-        self.recent_section = AnimeSectionRow("Your Latest Picks", "rated", self.theme, self.screen_manager, self._animasikan_baris)
-        self.unrated_section = AnimeSectionRow("Ready for Your Review", "unrated", self.theme, self.screen_manager, self._animasikan_baris)
+        self.trending_section = AnimeSectionRow("What Everyone's Watching", "trending", self.theme, self.screen_manager,
+                                                self._animasikan_baris)
+        self.recent_section = AnimeSectionRow("Your Latest Picks", "rated", self.theme, self.screen_manager,
+                                              self._animasikan_baris)
+        self.unrated_section = AnimeSectionRow("Ready for Your Review", "unrated", self.theme, self.screen_manager,
+                                               self._animasikan_baris)
         self.unrated_section.margin = ft.margin.only(bottom=30)
 
         self.daftar_baris_animasi.extend([self.trending_section, self.recent_section, self.unrated_section])
@@ -225,16 +162,17 @@ class UIHome(ft.Row):
     def _isi_katalog_row(self, target_row, list_anime, skor_user_dict, pakai_skor_personal=False):
         target_row.controls.clear()
         for anime in list_anime:
-            aid = anime.get("anime_id", "")
-            sg = anime.get("global_score", 0) or 0
-            sp = skor_user_dict.get(aid, None) if pakai_skor_personal else None
+            anime_id = anime.get("anime_id", "")
+            global_score = anime.get("global_score", 0) or 0
+            personal_score = skor_user_dict.get(anime_id, None) if pakai_skor_personal else None
 
             target_row.controls.append(
                 AnimeCardHome(
                     anime=anime,
-                    skor_global=sg,
-                    skor_personal=sp,
+                    skor_global=global_score,
+                    skor_personal=personal_score,
                     theme=self.theme,
+                    is_favorite=(anime_id in self._list_favorit_user),
                     on_click_callback=self.screen_manager.tampilkan_detail
                 )
             )
@@ -270,14 +208,16 @@ class UIHome(ft.Row):
         if not user_id: return
         rated_count = len(self._cached_anime_rated)
         unrated_count = len(self._cached_anime_unrated)
-        scores = [sp for _, sp in self._cached_anime_rated]
 
-        r, u, a, d = self.data_manager.get_user_stats_summary(user_id, rated_count, unrated_count, scores)
+        scores = [personal_score for _, personal_score in self._cached_anime_rated]
 
-        self._stat_rated.content.controls[2].value = r
-        self._stat_unrated.content.controls[2].value = u
-        self._stat_avg.content.controls[2].value = a
-        self._stat_dim.content.controls[2].value = d
+        rated_val, unrated_val, avg_val, top_val = self.data_manager.get_user_stats_summary(user_id, rated_count,
+                                                                                            unrated_count, scores)
+
+        self._stat_rated.update_value(rated_val)
+        self._stat_unrated.update_value(unrated_val)
+        self._stat_avg.update_value(avg_val)
+        self._stat_dim.update_value(top_val)
         self._safe_update(self)
 
     def _muat_rekomendasi(self, user_id):
@@ -302,7 +242,7 @@ class UIHome(ft.Row):
             self._safe_update(self)
             return
 
-        sudah_ditonton = [a.get("anime_id") for a, _ in self._cached_anime_rated]
+        sudah_ditonton = [anime_data.get("anime_id") for anime_data, _ in self._cached_anime_rated]
         hasil_rec = self.data_manager.get_rekomendasi_banner_home(
             user_id=user_id,
             sudah_ditonton=sudah_ditonton,
@@ -385,8 +325,9 @@ class UIHome(ft.Row):
             )
             return
 
-        recent_animes = [a for a, _ in self._cached_anime_rated[:10]]
-        self._isi_katalog_row(self.recent_section.inner_row, recent_animes, self._cached_skor_user, pakai_skor_personal=True)
+        recent_animes = [anime_data for anime_data, _ in self._cached_anime_rated[:10]]
+        self._isi_katalog_row(self.recent_section.inner_row, recent_animes, self._cached_skor_user,
+                              pakai_skor_personal=True)
 
     def _muat_trending(self, user_id):
         trending_sorted = self.data_manager.get_trending_anime(self._cached_semua_anime, limit=7)
@@ -400,11 +341,6 @@ class UIHome(ft.Row):
         if not self._cached_anime_unrated:
             self.unrated_section.inner_row.controls.append(
                 ft.Text("You've rated all available anime!", color=self.theme["text_muted"], size=12))
-
-    def _toggle_sidebar(self, e=None):
-        self._sidebar_open = not self._sidebar_open
-        self._sidebar_widget.width = 240 if self._sidebar_open else 0
-        self._safe_update(self._sidebar_widget)
 
     def _safe_update(self, control):
         try:
@@ -424,7 +360,7 @@ class UIHome(ft.Row):
                     ft.IconButton(
                         icon=ft.Icons.MENU,
                         tooltip="Menu",
-                        on_click=self._toggle_sidebar,
+                        on_click=self._sidebar_widget.toggle,
                         style=ft.ButtonStyle(
                             overlay_color=ft.Colors.TRANSPARENT,
                             icon_color={
