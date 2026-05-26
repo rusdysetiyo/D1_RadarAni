@@ -2,6 +2,7 @@ import json
 import time
 import random
 import logging
+import sys
 from pathlib import Path
 from typing import List, Dict, Optional, Any
 import urllib.parse
@@ -30,9 +31,13 @@ class RadarAniScraper:
             'Accept-Language': 'en-US,en;q=0.9',
         }
 
-        # Setup Paths menggunakan pathlib
-        self.base_dir = Path(__file__).resolve().parent
-        self.root_dir = self.base_dir.parent
+# Setup Paths menggunakan pathlib
+        if getattr(sys, 'frozen', False):
+            self.root_dir = Path(sys.executable).parent
+        else:
+            self.base_dir = Path(__file__).resolve().parent
+            self.root_dir = self.base_dir.parent
+            
         self.assets_dir = self.root_dir / "assets"
         self.thumb_dir = self.assets_dir / "thumbnails"
         self.cover_dir = self.assets_dir / "covers"
