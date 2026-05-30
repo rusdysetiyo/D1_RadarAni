@@ -2,7 +2,7 @@ import math
 import flet as ft
 import flet.canvas as cv
 from .palette import (
-    C_TEXT, C_TEXT3, C_BORDER, C_SAKURA, C_SAKURA_DK,
+    C_TEXT, C_TEXT2,C_TEXT3, C_BORDER, C_SAKURA, C_SAKURA_DK,
     _rgba, _cv_text_right, _cv_text_top_center
 )
 
