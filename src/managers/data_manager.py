@@ -671,7 +671,8 @@ class DataManager:
             return {}
 
         sorted_genre = sorted(genre_count.items(), key=lambda x: x[1], reverse=True)[:5]
-        return {g: round(cnt / total * 100) for g, cnt in sorted_genre}
+        top5_total = sum(cnt for _, cnt in sorted_genre)
+        return {g: round(cnt / top5_total * 100) for g, cnt in sorted_genre}
 
 
 
