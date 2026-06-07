@@ -89,6 +89,9 @@ class DynamicAnimeScraper(RadarAniScraper):
         Memvalidasi input pengguna sebelum pencarian dilakukan.
         Raise ValueError dengan pesan informatif jika input tidak valid.
         """
+        if len(query) > 100:
+            raise ValueError("Input maksimal 100 karakter")
+
         # Tolak HTML mentah
         if "<" in query and ">" in query:
             raise ValueError(
@@ -101,8 +104,8 @@ class DynamicAnimeScraper(RadarAniScraper):
         # Tolak URL yang bukan dari domain MAL
         if is_url and _MAL_ANIME_DOMAIN not in query:
             raise ValueError(
-                "URL tidak valid. Harap masukkan URL detail anime dari MyAnimeList, "
-                "contoh: https://myanimelist.net/anime/20"
+                "URL tidak valid. Harap masukkan URL detail anime dari MyAnimeList,"
+                " contoh: https://myanimelist.net/anime/1735/Naruto__Shippuuden"
             )
 
         # Tolak teks terlalu pendek (hanya berlaku untuk pencarian judul, bukan URL)
@@ -166,7 +169,7 @@ class DynamicAnimeScraper(RadarAniScraper):
         if not soup:
             raise ConnectionError(
                 "Gagal terhubung ke MyAnimeList. "
-                "Periksa koneksi internet Anda atau coba lagi nanti."
+                "Periksa koneksi internet Anda atau coba lagi beberapa saat kemudian"
             )
 
         hasil_tr = soup.find_all('tr')

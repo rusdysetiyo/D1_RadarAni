@@ -26,7 +26,7 @@ class UIScraping(ft.Row):
 
         self._tf_query = ft.TextField(
             label="Anime Title or MAL URL",
-            hint_text="e.g. 'Naruto' or 'https://myanimelist.net/anime/20'",
+            hint_text="e.g. 'Naruto' or 'https://myanimelist.net/anime/1735/Naruto__Shippuuden'",
             expand=True,
             border_color=self.current_theme["border_color"],
             focused_border_color=self.current_theme["primary"],
@@ -193,7 +193,7 @@ class UIScraping(ft.Row):
             if self.scraper.is_mal_anime_url(query):
                 judul, thumb_url, is_duplicate, normalized_url = self.scraper.cari_dari_url(query)
 
-                label_text = f"{judul} (Already in database)" if is_duplicate else judul
+                label_text = f"{judul} (Sudah ada di Database)" if is_duplicate else judul
                 new_rows.append(
                     self._build_result_row(
                         judul=judul,
