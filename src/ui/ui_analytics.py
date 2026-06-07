@@ -116,6 +116,7 @@ class UIAnalytics(ft.Row):
         self._main_content = ft.Column(
             scroll=ft.ScrollMode.AUTO, expand=True, spacing=16,
         )
+        self.main_scroll = self._main_content
         self._load_analytics()
 
         area_utama = ft.Container(

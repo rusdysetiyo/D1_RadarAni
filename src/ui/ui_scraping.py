@@ -51,6 +51,7 @@ class UIScraping(ft.Row):
         self._results_container = ft.Column(
             spacing=10, scroll=ft.ScrollMode.AUTO, expand=True
         )
+        self.main_scroll = self._results_container
 
         topbar = ft.Container(
             padding=ft.padding.symmetric(horizontal=16),
