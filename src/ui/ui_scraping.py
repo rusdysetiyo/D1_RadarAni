@@ -31,14 +31,19 @@ class UIScraping(ft.Row):
             border_color=self.current_theme["border_color"],
             focused_border_color=self.current_theme["primary"],
             color=self.current_theme["text_main"],
+            on_submit=self._on_search_click,
         )
 
+        self._search_icon = ft.Icon(ft.Icons.SEARCH, size=18)
+        self._search_text = ft.Text("Search", weight=ft.FontWeight.W_500)
         self._btn_search = ft.ElevatedButton(
-            "Search",
-            icon=ft.Icons.SEARCH,
+            content=ft.Row([self._search_icon, self._search_text], spacing=6, tight=True),
             bgcolor=self.current_theme["primary"],
             color=self.current_theme["card"],
             on_click=self._on_search_click,
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=8),
+            )
         )
 
         self._loading_indicator = ft.ProgressRing(visible=False, color=self.current_theme["primary"])
@@ -46,6 +51,7 @@ class UIScraping(ft.Row):
         self._results_container = ft.Column(
             spacing=10, scroll=ft.ScrollMode.AUTO, expand=True
         )
+        self.main_scroll = self._results_container
 
         topbar = ft.Container(
             padding=ft.padding.symmetric(horizontal=16),
@@ -150,8 +156,8 @@ class UIScraping(ft.Row):
 
     def _set_searching(self, is_searching: bool):
         self._btn_search.disabled = is_searching
-        self._btn_search.text = "Searching…" if is_searching else "Search"
-        self._btn_search.icon = (
+        self._search_text.value = "Searching…" if is_searching else "Search"
+        self._search_icon.name = (
             ft.Icons.HOURGLASS_EMPTY if is_searching else ft.Icons.SEARCH
         )
         self._loading_indicator.visible = is_searching
@@ -370,3 +376,6 @@ class UIScraping(ft.Row):
         btn.update()
         self._status_text.update()
         self._loading_indicator.update()
+
+    def submit_field(self, e):
+        self._on_search_click(e)

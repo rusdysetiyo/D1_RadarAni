@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 import flet as ft
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import io
-import base64
 from src.ui.components.logo import RadarAniLogo
+from src.ui.charts import HorizontalBarChart, DonutChart
 from src.config.app_context import AppContext
 
 class UIProfile(ft.Container):
@@ -49,70 +45,31 @@ class UIProfile(ft.Container):
 
         self.content = self.bangun_ui()
 
-    # ── Chart generators ────────────────────────────────────────────────────
-    def gambar_bar_chart(self, rata_rata: dict) -> str:
-        dimensi = list(rata_rata.keys())
-        nilai   = list(rata_rata.values())
+    # ── Chart builders (flet canvas) ──────────────────────────────────────────
+    def _buat_bar_chart(self, rata_rata: dict) -> ft.Control:
+        """Buat HorizontalBarChart dari data rata-rata dimensi."""
+        bar_data = [
+            {"label": dim, "value": round(val, 2)}
+            for dim, val in rata_rata.items()
+        ]
+        return HorizontalBarChart(
+            bar_data=bar_data,
+            title="",
+            theme=self.theme,
+        )
 
-        hex_p = self._PRIMARY.lstrip("#")
-        r, g, b = tuple(int(hex_p[i:i+2], 16) / 255 for i in (0, 2, 4))
-        bar_color  = (r, g, b)
-        bg_color   = (r, g, b, 0.15)
-
-        fig, ax = plt.subplots(figsize=(7.0, 3.2))
-        fig.patch.set_facecolor("#ffffff")
-        ax.set_facecolor("#ffffff")
-
-        for i, (dim, val) in enumerate(zip(dimensi, nilai)):
-            ax.barh(i, 10,  color=bg_color, height=0.40, zorder=1, linewidth=0)
-            ax.barh(i, val, color=bar_color, height=0.40, zorder=2, linewidth=0)
-            ax.text(val + 0.15, i, str(val), va="center", ha="left",
-                    fontsize=10, fontweight="bold", color="#2d1a2e")
-
-        ax.set_yticks(range(len(dimensi)))
-        ax.set_yticklabels(dimensi, fontsize=10, fontweight="600")
-        ax.set_xlim(0, 10.9)
-        ax.set_ylim(-0.7, len(dimensi) - 0.3)
-        ax.invert_yaxis()
-        ax.xaxis.set_visible(True)
-        ax.set_xticks([0, 2, 4, 6, 8, 10])
-        ax.xaxis.set_tick_params(labelsize=9)
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        ax.spines["left"].set_visible(False)
-        ax.tick_params(left=False)
-        ax.grid(axis="x", linewidth=0.7, linestyle="--", alpha=0.3)
-        plt.tight_layout(pad=0.8)
-
-        buf = io.BytesIO()
-        plt.savefig(buf, format="png", dpi=150, facecolor="#ffffff")
-        plt.close(fig)
-        buf.seek(0)
-        return base64.b64encode(buf.read()).decode("utf-8")
-
-    def gambar_pie_chart(self, proporsi_genre: dict) -> str:
-        sizes  = list(proporsi_genre.values())
-        hex_p  = self._PRIMARY.lstrip("#")
-        r, g, b = tuple(int(hex_p[i:i+2], 16) / 255 for i in (0, 2, 4))
-        colors = [
-            (r, g, b),
-            (r, g, b, 0.75),
-            (r, g, b, 0.55),
-            (r, g, b, 0.38),
-            (r, g, b, 0.22),
-        ][:len(sizes)]
-
-        fig, ax = plt.subplots(figsize=(3.2, 3.2))
-        fig.patch.set_facecolor("#ffffff")
-        ax.set_facecolor("#ffffff")
-        ax.pie(sizes, colors=colors, startangle=90,
-               wedgeprops={"linewidth": 2, "edgecolor": "white"}, radius=1.0)
-        plt.tight_layout(pad=0.1)
-        buf = io.BytesIO()
-        plt.savefig(buf, format="png", dpi=130, facecolor="#ffffff")
-        plt.close(fig)
-        buf.seek(0)
-        return base64.b64encode(buf.read()).decode("utf-8")
+    def _buat_donut_chart(self, proporsi_genre: dict) -> ft.Control:
+        """Buat DonutChart dari data proporsi genre."""
+        total = sum(proporsi_genre.values()) or 1
+        donut_data = [
+            {"label": label, "value": pct, "pct": pct}
+            for label, pct in proporsi_genre.items()
+        ]
+        return DonutChart(
+            data=donut_data,
+            title="",
+            theme=self.theme,
+        )
 
     # ── Aksi ────────────────────────────────────────────────────────────────
     def aksi_tombol_kembali(self, e):
@@ -526,7 +483,7 @@ class UIProfile(ft.Container):
                 spacing=12,
             )
 
-            bar_b64  = self.gambar_bar_chart(statistik) if ada_statistik else None
+            bar_chart_widget = self._buat_bar_chart(statistik) if ada_statistik else None
             bar_card = ft.Container(
                 content=ft.Column([
                     ft.Container(
@@ -543,9 +500,8 @@ class UIProfile(ft.Container):
                         content=ft.Column([
                             ft.Text("(dari semua ratingmu)", size=10,
                                     color=self._TEXT_MUTED),
-                            ft.Image(src=f"data:image/png;base64,{bar_b64}",
-                                     fit="contain", expand=True)
-                            if bar_b64 else self._empty_state("Belum ada data."),
+                            bar_chart_widget
+                            if bar_chart_widget else self._empty_state("Belum ada data."),
                         ], spacing=4, expand=True),
                         padding=ft.padding.symmetric(horizontal=16, vertical=12),
                         expand=True,
@@ -559,27 +515,9 @@ class UIProfile(ft.Container):
             )
 
             if ada_genre:
-                pie_b64      = self.gambar_pie_chart(genre_proporsi)
-                legend_items = [
-                    ft.Row([
-                        ft.Container(width=10, height=10,
-                                     bgcolor=self._GENRE_COLORS[i % 5],
-                                     border_radius=5),
-                        ft.Text(label, size=11, color=self._TEXT_DARK,
-                                weight=ft.FontWeight.W_600, expand=True),
-                        ft.Text(f"{pct}%", size=11, color=self._TEXT_MUTED,
-                                weight=ft.FontWeight.BOLD),
-                    ], spacing=8)
-                    for i, (label, pct) in enumerate(genre_proporsi.items())
-                ]
+                donut_widget = self._buat_donut_chart(genre_proporsi)
                 pie_body = ft.Container(
-                    content=ft.Row([
-                        ft.Image(src=f"data:image/png;base64,{pie_b64}",
-                                 width=200, height=200, fit="contain"),
-                        ft.Column(legend_items, spacing=8, tight=True, expand=True),
-                    ], spacing=12,
-                       vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                       expand=True),
+                    content=donut_widget,
                     padding=ft.padding.symmetric(horizontal=16, vertical=12),
                     expand=True,
                 )
@@ -593,7 +531,7 @@ class UIProfile(ft.Container):
             pie_card = ft.Container(
                 content=ft.Column([
                     ft.Container(
-                        content=ft.Text("PIE CHART — PROPORSI GENRE FAVORIT", size=10,
+                        content=ft.Text("PROPORSI 5 GENRE TERATAS", size=10,
                                         weight=ft.FontWeight.W_800,
                                         color=self._PRIMARY,
                                         style=ft.TextStyle(letter_spacing=1.1)),

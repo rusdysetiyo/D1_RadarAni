@@ -319,12 +319,15 @@ class GenreNetworkGraph(ft.Container):
             return
 
         hit_node = -1
+        hit_edge = -1
+
+        # Cek node secara ketat (hanya di dalam radius lingkaran sebenarnya)
         for ni, node in enumerate(self._nodes):
-            if math.hypot(mx - node["x"], my - node["y"]) <= node["r"] + 4:
+            if math.hypot(mx - node["x"], my - node["y"]) <= node["r"]:
                 hit_node = ni
                 break
 
-        hit_edge = -1
+        # Jika tidak mengenai area dalam node, prioritaskan pengecekan edge
         if hit_node == -1:
             best_dist = 12.0
             
@@ -332,9 +335,9 @@ class GenreNetworkGraph(ft.Container):
             if self._clicked_node >= 0:
                 for ei, edge in enumerate(self._edges):
                     if self._clicked_node in (edge["i"], edge["j"]):
-                        ni = self._nodes[edge["i"]]
-                        nj = self._nodes[edge["j"]]
-                        dist = self._pt_to_seg(mx, my, ni["x"], ni["y"], nj["x"], nj["y"])
+                        ni_node = self._nodes[edge["i"]]
+                        nj_node = self._nodes[edge["j"]]
+                        dist = self._pt_to_seg(mx, my, ni_node["x"], ni_node["y"], nj_node["x"], nj_node["y"])
                         if dist < best_dist:
                             best_dist = dist
                             hit_edge = ei
@@ -342,12 +345,19 @@ class GenreNetworkGraph(ft.Container):
             # Pass 2: Jika tidak ada edge prioritas yang ditekan, periksa seluruh edge
             if hit_edge == -1:
                 for ei, edge in enumerate(self._edges):
-                    ni = self._nodes[edge["i"]]
-                    nj = self._nodes[edge["j"]]
-                    dist = self._pt_to_seg(mx, my, ni["x"], ni["y"], nj["x"], nj["y"])
+                    ni_node = self._nodes[edge["i"]]
+                    nj_node = self._nodes[edge["j"]]
+                    dist = self._pt_to_seg(mx, my, ni_node["x"], ni_node["y"], nj_node["x"], nj_node["y"])
                     if dist < best_dist:
                         best_dist = dist
                         hit_edge = ei
+
+        # Jika tetap tidak mengenai edge, berikan area toleransi (halo) lebih besar untuk node
+        if hit_node == -1 and hit_edge == -1:
+            for ni, node in enumerate(self._nodes):
+                if math.hypot(mx - node["x"], my - node["y"]) <= node["r"] + 8:
+                    hit_node = ni
+                    break
 
         if hit_node == -1 and hit_edge == -1:
             self._clicked_node = -1
