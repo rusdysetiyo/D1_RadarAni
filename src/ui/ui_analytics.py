@@ -40,7 +40,7 @@ def _radar_card(chart, theme) -> ft.Container:
     return ft.Container(
         content=chart,
         expand=True,
-        height=520,
+        height=550,
         bgcolor=theme["card"],
         border_radius=12,
         border=ft.border.all(1, theme["border_color"]),

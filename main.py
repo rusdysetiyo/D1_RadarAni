@@ -15,6 +15,7 @@ from src.config.theme import ThemeManager
 def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     page.title = "RadarAni"
+    page.window.icon = "TempIcon.ico"
     page.padding = 0
     page.spacing = 0
 
