@@ -206,7 +206,7 @@ class KDEChart(ft.Container):
             controls=[
                 _tile("Rata-rata",  f"{stats['mean']:.2f}"),
                 _tile("Median",     f"{stats['median']:.2f}"),
-                _tile("Puncak KDE", f"{stats['peak']:.2f}", highlight=True),
+                _tile("Skor Puncak", f"{stats['peak']:.2f}", highlight=True),
                 _tile("Terendah",   f"{stats['min']:.1f}"),
                 _tile("Tertinggi",  f"{stats['max']:.1f}"),
             ],
@@ -216,23 +216,31 @@ class KDEChart(ft.Container):
         # ── Baris variasi (std dev dalam bahasa natural) ──────────────────
         lo       = max(0.0, stats["mean"] - stats["std_dev"])
         hi       = min(10.0, stats["mean"] + stats["std_dev"])
-        std_sent = (
-            f"Standar deviasi ±{stats['std_dev']:.2f}  →  "
-            f"~68% anime memiliki rating antara  {lo:.1f} – {hi:.1f}"
-        )
         std_row = ft.Container(
             content=ft.Row(
                 controls=[
-                    ft.Icon(ft.Icons.SHOW_CHART, color=c_primary, size=13),
-                    ft.Text(std_sent, size=11, color=c_text2, expand=True),
+                    ft.Icon(ft.Icons.SHOW_CHART, color=c_primary, size=15),
+                    ft.Text(
+                        spans=[
+                            ft.TextSpan(
+                                f"Standar deviasi ±{stats['std_dev']:.2f}",
+                                style=ft.TextStyle(weight=ft.FontWeight.BOLD, color=c_primary)
+                            ),
+                            ft.TextSpan(
+                                f"  →  ~68% anime memiliki rating antara {lo:.1f} – {hi:.1f}",
+                                style=ft.TextStyle(color=c_text, weight=ft.FontWeight.W_500)
+                            )
+                        ],
+                        size=12, expand=True
+                    ),
                 ],
-                spacing=6,
+                spacing=8,
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            bgcolor=c_accent,
-            border=ft.border.all(1, c_border),
-            border_radius=7,
-            padding=ft.padding.symmetric(horizontal=10, vertical=6),
+            bgcolor=c_bg,
+            border=ft.border.all(1, c_primary),
+            border_radius=8,
+            padding=ft.padding.symmetric(horizontal=12, vertical=8),
         )
 
         # ── Helper: chip persentil ────────────────────────────────────────
