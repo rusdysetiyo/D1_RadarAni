@@ -533,7 +533,7 @@ class GenreNetworkGraph(ft.Container):
             ))
             ctrls.append(ft.Divider(height=10, color="transparent"))
             
-            ctrls.append(build_dimension_ui("Synergy Index", syn_stats, is_synergy=True))
+            ctrls.append(build_dimension_ui("Synergy Average", syn_stats, is_synergy=True))
             ctrls.append(ft.Divider(height=4, color="transparent"))
             ctrls.append(build_dimension_ui(f"Avg: {g1}", g1_stats))
             ctrls.append(ft.Divider(height=4, color="transparent"))
