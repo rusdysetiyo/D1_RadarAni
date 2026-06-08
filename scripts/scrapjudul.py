@@ -89,8 +89,6 @@ class DynamicAnimeScraper(RadarAniScraper):
         Memvalidasi input pengguna sebelum pencarian dilakukan.
         Raise ValueError dengan pesan informatif jika input tidak valid.
         """
-        if len(query) > 100:
-            raise ValueError("Input maksimal 100 karakter")
 
         # Tolak HTML mentah
         if "<" in query and ">" in query:
@@ -114,6 +112,8 @@ class DynamicAnimeScraper(RadarAniScraper):
                 "Input minimal 3 karakter. "
                 "Jika judul memang sangat pendek, harap gunakan URL MyAnimeList."
             )
+        if not is_url and len(query) > 100:
+            raise ValueError("Input maksimal 100 karakter")
 
     @staticmethod
     def is_mal_anime_url(query: str) -> bool:
