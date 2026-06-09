@@ -7,7 +7,7 @@
 
   ![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat-square&logo=python)
   ![Flet](https://img.shields.io/badge/UI-Flet-pink?style=flat-square)
-  ![Matplotlib](https://img.shields.io/badge/Viz-Matplotlib-orange?style=flat-square&logo=matplotlib)
+  ![Flet Canvas](https://img.shields.io/badge/Viz-Flet%20Canvas-pink?style=flat-square)
   
 
 </div>
@@ -74,7 +74,7 @@ RadarAni memecah penilaian anime ke dalam lima aspek yang berlandaskan teori ana
 
 - **Bahasa Utama:** Python 3.9+
 - **UI Framework:** [Flet](https://flet.dev/) — berbasis Flutter
-- **Visualisasi:** Matplotlib, Flet Canvas (Radar Chart, Bar Chart, Network Graph, Bubble Chart, KDE Plot)
+- **Visualisasi:** Flet Canvas (Radar Chart, Bar Chart, Network Graph, Bubble Chart, KDE Plot)
 - **Data Scraping:** BeautifulSoup4, Requests
 - **Penyimpanan:** JSON (local file storage)
 - **Sumber Data:** MyAnimeList dan AniList
