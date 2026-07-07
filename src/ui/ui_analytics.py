@@ -1,7 +1,7 @@
 import flet as ft
 from collections import Counter
 from src.ui.charts import (
-    VerticalBarChart, HorizontalBarChart, DonutChart,
+    VerticalBarChart, StackedBarChart, HorizontalBarChart, DonutChart,
     GenreNetworkGraph, CategoricalBubbleChart, KDEChart, AnalyticsRadarChart
 )
 from src.ui.charts.tooltip import Tooltip
@@ -10,67 +10,15 @@ from src.ui.components.logo import RadarAniLogo
 from src.config.app_context import AppContext
 from src.ui.components.sidebar import Sidebar
 
-def _chart_card(chart, theme) -> ft.Container:
+def _chart_card(chart, theme, height=350, padding=0) -> ft.Container:
     return ft.Container(
         content=chart,
         expand=True,
-        height=350,
+        height=height,
         bgcolor=theme["card"],
         border_radius=12,
         border=ft.border.all(1, theme["border_color"]),
-        padding=ft.padding.all(0),
-        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
-                            offset=ft.Offset(0, 2)),
-    )
-
-def _network_card(chart, theme) -> ft.Container:
-    return ft.Container(
-        content=chart,
-        expand=True,
-        height=650,
-        bgcolor=theme["card"],
-        border_radius=12,
-        border=ft.border.all(1, theme["border_color"]),
-        padding=ft.padding.all(0),
-        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
-                            offset=ft.Offset(0, 2)),
-    )
-
-def _radar_card(chart, theme) -> ft.Container:
-    return ft.Container(
-        content=chart,
-        expand=True,
-        height=550,
-        bgcolor=theme["card"],
-        border_radius=12,
-        border=ft.border.all(1, theme["border_color"]),
-        padding=ft.padding.all(16),
-        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
-                            offset=ft.Offset(0, 2)),
-    )
-
-def _bubble_card(chart, theme) -> ft.Container:
-    return ft.Container(
-        content=chart,
-        expand=True,
-        height=560,
-        bgcolor=theme["card"],
-        border_radius=12,
-        border=ft.border.all(1, theme["border_color"]),
-        padding=ft.padding.all(0),
-        shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
-                            offset=ft.Offset(0, 2)),
-    )
-
-def _kde_card(chart, theme) -> ft.Container:
-    return ft.Container(
-        content=chart,
-        expand=True,
-        height=520,
-        bgcolor=theme["card"],
-        border_radius=12,
-        border=ft.border.all(1, theme["border_color"]),
-        padding=ft.padding.all(0),
+        padding=ft.padding.all(padding),
         shadow=ft.BoxShadow(blur_radius=8, color="#0A000000",
                             offset=ft.Offset(0, 2)),
     )
@@ -184,9 +132,9 @@ class UIAnalytics(ft.Row):
         chart0c = AnalyticsRadarChart(animes, category="Studio", theme=self.current_theme)
         row0 = ft.Row(
             controls=[
-                _radar_card(chart0a, self.current_theme),
-                _radar_card(chart0b, self.current_theme),
-                _radar_card(chart0c, self.current_theme),
+                _chart_card(chart0a, self.current_theme, height=550, padding=16),
+                _chart_card(chart0b, self.current_theme, height=550, padding=16),
+                _chart_card(chart0c, self.current_theme, height=550, padding=16),
             ],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
@@ -200,23 +148,55 @@ class UIAnalytics(ft.Row):
         chart1 = VerticalBarChart(genre_data, "Most Common Genres", y_label="Jumlah Anime",
                                   theme=self.current_theme, tooltip=tt)
 
-        bin_labels = ["1–12", "13–24", "25–36", "37–48", "49–100", "100+"]
-        bin_counts = [0] * 6
+        # ── Episode distribution (stacked by type) ──────────────────────
+        bin_spec = [
+            ("1",      1,   1),
+            ("2–6",    2,   6),
+            ("7–15",   7,  15),
+            ("16–26", 16,  26),
+            ("27–39", 27,  39),
+            ("40–52", 40,  52),
+            ("53–100",53, 100),
+            ("100+", 101, None),
+        ]
+
+        # Collect all show types for consistent ordering
+        all_types: set[str] = set()
+        for a in animes:
+            all_types.add(a.get("type", "Unknown") or "Unknown")
+
+        # Initialise per-bin, per-type counters
+        bin_segments: list[dict[str, int]] = [{t: 0 for t in all_types} for _ in bin_spec]
+
         for a in animes:
             try:
                 ep = int(a.get("episodes") or 0)
             except (TypeError, ValueError):
                 continue
-            if   ep <= 12:  bin_counts[0] += 1
-            elif ep <= 24:  bin_counts[1] += 1
-            elif ep <= 36:  bin_counts[2] += 1
-            elif ep <= 48:  bin_counts[3] += 1
-            elif ep <= 100: bin_counts[4] += 1
-            else:           bin_counts[5] += 1
-        ep_data = [{"label": lbl, "value": cnt, "extra": f"{cnt} anime"}
-                   for lbl, cnt in zip(bin_labels, bin_counts)]
-        chart2 = VerticalBarChart(ep_data, "Episode Count Distribution",
-                                  y_label="Jumlah Anime", theme=self.current_theme, tooltip=tt)
+            if ep <= 0:
+                continue
+            show_type = a.get("type", "Unknown") or "Unknown"
+            for idx, (_, lo, hi) in enumerate(bin_spec):
+                if hi is None:
+                    if ep >= lo:
+                        bin_segments[idx][show_type] += 1
+                        break
+                elif lo <= ep <= hi:
+                    bin_segments[idx][show_type] += 1
+                    break
+
+        ep_stacked = [
+            {
+                "label": label,
+                "segments": seg,
+                "total": sum(seg.values()),
+            }
+            for (label, _, _), seg in zip(bin_spec, bin_segments)
+        ]
+        chart2 = StackedBarChart(
+            ep_stacked, "Episode Count Distribution",
+            y_label="Jumlah Anime", theme=self.current_theme, tooltip=tt,
+        )
 
         types_counter = Counter(a.get("type", "Unknown") for a in animes)
         t_sorted = types_counter.most_common()
@@ -256,13 +236,13 @@ class UIAnalytics(ft.Row):
                                    theme=self.current_theme, tooltip=tt)
 
         row3 = ft.Row(
-            controls=[_network_card(chart5, self.current_theme)],
+            controls=[_chart_card(chart5, self.current_theme, height=650)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
         chart6 = KDEChart(animes, theme=self.current_theme, tooltip=tt)
         row4 = ft.Row(
-            controls=[_kde_card(chart6, self.current_theme)],
+            controls=[_chart_card(chart6, self.current_theme, height=520)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
@@ -270,7 +250,7 @@ class UIAnalytics(ft.Row):
             animes, "Studio × Genre Bubble Chart", theme=self.current_theme, tooltip=tt
         )
         row5 = ft.Row(
-            controls=[_bubble_card(chart7, self.current_theme)],
+            controls=[_chart_card(chart7, self.current_theme, height=560)],
             alignment=ft.MainAxisAlignment.CENTER, spacing=16, expand=True,
         )
 
