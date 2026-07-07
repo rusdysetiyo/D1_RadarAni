@@ -52,6 +52,31 @@ def legend_dot(color):
     return ft.Container(width=12, height=12, bgcolor=color, border_radius=6)
 
 
+def _section_card(theme: dict, title: str, content: ft.Control) -> ft.Container:
+    """Card dengan header bertitle dan konten — dipakai bersama oleh LeftPanel & RightPanel."""
+    return ft.Container(
+        bgcolor=theme["card"],
+        border=ft.border.all(1.5, theme["border_color"]),
+        border_radius=12,
+        clip_behavior=ft.ClipBehavior.HARD_EDGE,
+        content=ft.Column([
+            ft.Container(
+                content=ft.Text(title, size=11, weight=ft.FontWeight.W_800,
+                                color=theme["text_main"],
+                                style=ft.TextStyle(letter_spacing=1.1)),
+                bgcolor=theme["bg_secondary"],
+                padding=ft.padding.symmetric(horizontal=16, vertical=10),
+                border=ft.border.only(bottom=ft.BorderSide(1, theme["border_color"])),
+                width=float("inf"),
+            ),
+            ft.Container(
+                content=content,
+                padding=ft.padding.symmetric(horizontal=16, vertical=12),
+            ),
+        ], spacing=0, tight=True),
+    )
+
+
 class LeftPanel(ft.Container):
     def __init__(self, detail_anime: dict, data_manager, screen_manager, theme, anime_id):
         self.detail_anime = detail_anime
@@ -129,28 +154,7 @@ class LeftPanel(ft.Container):
         self.fav_button.update()
 
     def _section_card(self, title: str, content: ft.Control) -> ft.Container:
-        return ft.Container(
-            bgcolor=self._theme["card"],
-            border=ft.border.all(1.5, self._theme["border_color"]),
-            border_radius=12,
-            clip_behavior=ft.ClipBehavior.HARD_EDGE,
-            content=ft.Column([
-                ft.Container(
-                    content=ft.Text(title, size=11, weight=ft.FontWeight.W_800,
-                                    color=self._theme["text_main"],
-                                    style=ft.TextStyle(letter_spacing=1.1)),
-                    bgcolor=self._theme["bg_secondary"],
-                    padding=ft.padding.symmetric(horizontal=16, vertical=10),
-                    border=ft.border.only(bottom=ft.BorderSide(1, self._theme["border_color"])),
-                    width=float("inf"),
-                ),
-                ft.Container(
-                    content=content,
-                    padding=ft.padding.symmetric(horizontal=16, vertical=12),
-                ),
-            ], spacing=0, tight=True),
-        )
-
+        return _section_card(self._theme, title, content)
     def _build_detail_info(self):
         en_title = self.detail_anime.get("en_title", "-")
         genre_list = self.detail_anime.get("genre", []) or ["-"]
@@ -248,27 +252,7 @@ class RightPanel(ft.Container):
         )
 
     def _section_card(self, title: str, content: ft.Control) -> ft.Container:
-        return ft.Container(
-            bgcolor=self._theme["card"],
-            border=ft.border.all(1.5, self._theme["border_color"]),
-            border_radius=12,
-            clip_behavior=ft.ClipBehavior.HARD_EDGE,
-            content=ft.Column([
-                ft.Container(
-                    content=ft.Text(title, size=11, weight=ft.FontWeight.W_800,
-                                    color=self._theme["text_main"],
-                                    style=ft.TextStyle(letter_spacing=1.1)),
-                    bgcolor=self._theme["bg_secondary"],
-                    padding=ft.padding.symmetric(horizontal=16, vertical=10),
-                    border=ft.border.only(bottom=ft.BorderSide(1, self._theme["border_color"])),
-                    width=float("inf"),
-                ),
-                ft.Container(
-                    content=content,
-                    padding=ft.padding.symmetric(horizontal=16, vertical=12),
-                ),
-            ], spacing=0, tight=True),
-        )
+        return _section_card(self._theme, title, content)
 
     def _build_score_cards(self, global_score, user_score, theme):
         return ft.Row(
