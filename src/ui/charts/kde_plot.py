@@ -8,24 +8,21 @@ from .palette import (
 )
 
 
-class KDEChart(ft.Container):
+class BaseKDEChart(ft.Container):
     PAD_L = 64
     PAD_R = 16
     PAD_T = 16
     PAD_B = 44
 
-    def __init__(self, animes: list, theme: dict = None, tooltip=None):
+    def __init__(self, title: str, dim_labels: list, default_dim: str, theme: dict = None, tooltip=None):
         super().__init__(expand=True)
-        self._animes = animes
-        self._theme  = theme
+        self._theme = theme
         self._w = self._h = 0
-
-        # tooltip parameter diterima tapi tidak dipakai (dihapus fitur tooltip)
-        self._dim_labels   = ["Global Score", "Plot", "Visual", "Audio", "Characterization", "Direction"]
-        self._selected_dim = "Global Score"
+        self._dim_labels = dim_labels
+        self._selected_dim = default_dim
 
         _border_color = theme["border_color"] if theme else C_BORDER
-        _title_color  = theme["text_main"]    if theme else C_TEXT
+        self._title_color  = theme["text_main"]    if theme else C_TEXT
 
         self._dropdown = ft.Dropdown(
             options=[ft.dropdown.Option(l) for l in self._dim_labels],
@@ -47,35 +44,29 @@ class KDEChart(ft.Container):
 
         self._canvas = cv.Canvas(shapes=[], expand=True, on_resize=self._on_resize)
 
-        # Label sumbu Y — dirotasi -90° dan diletakkan di samping sumbu Y
         _text3_color = theme["text_secondary"] if theme else C_TEXT3
         self._y_axis_label = ft.Container(
-            content=ft.Text(
-                "Density", size=11,
-                weight=ft.FontWeight.BOLD,
-                color=_text3_color,
-                no_wrap=True,
-            ),
+            content=ft.Text("Density", size=11, weight=ft.FontWeight.BOLD, color=_text3_color, no_wrap=True),
             rotate=ft.Rotate(-math.pi / 2, alignment=ft.Alignment(0, 0)),
-            left=2,
-            top=0,
-            bottom=0,
-            alignment=ft.Alignment(0, 0),
+            left=2, top=0, bottom=0, alignment=ft.Alignment(0, 0),
         )
 
-        # Placeholder untuk panel statistik — diisi oleh _refresh_stats()
         self._stats_panel = ft.Container(expand=True)
+        
+        # Subtitle label (e.g. for raters count)
+        self._subtitle_text = ft.Text("", size=11, color=theme["text_secondary"] if theme else C_TEXT2)
 
         self.content = ft.Column(
             controls=[
                 ft.Container(
                     content=ft.Row(
                         controls=[
-                            ft.Text("Rating Distribution (KDE Plot)", size=14,
-                                    weight=ft.FontWeight.BOLD, color=_title_color),
+                            ft.Text(title, size=14, weight=ft.FontWeight.BOLD, color=self._title_color),
+                            self._subtitle_text,
+                            ft.Container(expand=True),
                             self._dropdown,
                         ],
-                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     ),
                     padding=ft.padding.only(left=16, right=16, top=12, bottom=0),
                 ),
@@ -85,8 +76,11 @@ class KDEChart(ft.Container):
             spacing=0,
         )
 
-        self._update_kde_cache()
-        self._refresh_stats()
+    def _get_data(self) -> list:
+        raise NotImplementedError("Subclasses must implement _get_data()")
+
+    def _get_item_noun(self) -> str:
+        return "item" # "anime" for global, "penilai" for detail
 
     # ── Dim change ────────────────────────────────────────────────────────────
     def _on_dim_change(self, e):
@@ -104,20 +98,8 @@ class KDEChart(ft.Container):
         data = self._get_data()
         self._cached_xs, self._cached_ys = self._kde(data, grid_points=80)
 
-    def _get_data(self) -> list:
-        data    = []
-        dim_idx = self._dim_labels.index(self._selected_dim) - 1
-        for a in self._animes:
-            if self._selected_dim == "Global Score":
-                score = a.get("global_score")
-            else:
-                dims  = a.get("global_score_dimensions", [0, 0, 0, 0, 0])
-                score = dims[dim_idx] if dim_idx < len(dims) else 0
-            if isinstance(score, (int, float)) and score > 0:
-                data.append(float(score))
-        return data
-
-    def _kde(self, data: list, grid_points: int = 80):
+    @staticmethod
+    def _kde(data: list, grid_points: int = 80):
         n = len(data)
         if n == 0:
             return [], []
@@ -127,8 +109,11 @@ class KDEChart(ft.Container):
         h        = 1.06 * std_dev * (n ** -0.2) or 1e-6
         xs       = [i * 10.0 / (grid_points - 1) for i in range(grid_points)]
         constant = 1.0 / (math.sqrt(2 * math.pi) * h * n)
+        
+        # Optimasi matematis: hitung konstanta pembagi eksponen di luar iterasi
+        inv_h2 = -0.5 / (h ** 2)
         ys = [
-            sum(math.exp(-0.5 * ((x - xi) / h) ** 2) for xi in data) * constant
+            sum(math.exp(inv_h2 * ((x - xi) ** 2)) for xi in data) * constant
             for x in xs
         ]
         return xs, ys
@@ -145,7 +130,6 @@ class KDEChart(ft.Container):
         variance = sum((x - mean) ** 2 for x in data) / n
         std_dev  = math.sqrt(variance) if variance > 0 else 0.0
 
-        # Puncak KDE — x di mana kepadatan tertinggi
         if self._cached_ys:
             peak_idx = self._cached_ys.index(max(self._cached_ys))
             peak     = self._cached_xs[peak_idx]
@@ -167,10 +151,10 @@ class KDEChart(ft.Container):
             "min":     data[0],
             "max":     data[-1],
             "peak":    peak,
-            "p25":     percentile(25),   # batas bawah 25%
-            "p75":     percentile(75),   # batas atas 25% teratas
-            "p90":     percentile(90),   # batas atas 10% teratas
-            "p99":     percentile(99),   # batas atas 1% teratas
+            "p25":     percentile(25),
+            "p75":     percentile(75),
+            "p90":     percentile(90),
+            "p99":     percentile(99),
         }
 
     # ── Panel statistik ───────────────────────────────────────────────────────
@@ -185,38 +169,34 @@ class KDEChart(ft.Container):
         c_bg      = theme["card"]                            if theme else "#FFFFFF"
         c_border  = theme["border_color"]                    if theme else "#E0D0D8"
         c_accent  = theme.get("primary_light", "#FDF0F5")   if theme else "#FDF0F5"
+        
+        noun = self._get_item_noun()
 
         if stats is None:
+            self._subtitle_text.value = ""
             self._stats_panel.content = ft.Text(
                 "Tidak ada data rating.", size=11, color=c_text3,
                 text_align=ft.TextAlign.CENTER,
             )
+            self._try_update(self._subtitle_text)
             self._try_update(self._stats_panel)
             return
+            
+        self._subtitle_text.value = f"({stats['n']} {noun})"
+        self._try_update(self._subtitle_text)
 
-        # ── Helper: tile angka kunci ──────────────────────────────────────
         def _tile(label: str, value: str, highlight: bool = False) -> ft.Container:
             return ft.Container(
                 content=ft.Column(
                     controls=[
-                        ft.Text(
-                            value, size=14, weight=ft.FontWeight.BOLD,
-                            color=c_primary if highlight else c_text,
-                            text_align=ft.TextAlign.CENTER,
-                        ),
-                        ft.Text(
-                            label, size=11, color=c_text3,
-                            text_align=ft.TextAlign.CENTER,
-                        ),
+                        ft.Text(value, size=14, weight=ft.FontWeight.BOLD, color=c_primary if highlight else c_text, text_align=ft.TextAlign.CENTER),
+                        ft.Text(label, size=11, color=c_text3, text_align=ft.TextAlign.CENTER),
                     ],
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     spacing=2, tight=True,
                 ),
-                bgcolor=c_bg,
-                border=ft.border.all(1, c_border),
-                border_radius=8,
-                padding=ft.padding.symmetric(horizontal=8, vertical=7),
-                expand=True,
+                bgcolor=c_bg, border=ft.border.all(1, c_border), border_radius=8,
+                padding=ft.padding.symmetric(horizontal=8, vertical=7), expand=True,
             )
 
         tiles_row = ft.Row(
@@ -230,98 +210,74 @@ class KDEChart(ft.Container):
             spacing=5, expand=True,
         )
 
-        # ── Baris variasi (std dev dalam bahasa natural) ──────────────────
         lo       = max(0.0, stats["mean"] - stats["std_dev"])
         hi       = min(10.0, stats["mean"] + stats["std_dev"])
+        
+        verb = "memiliki rating" if noun == "anime" else "memberi rating"
         std_row = ft.Container(
             content=ft.Row(
                 controls=[
                     ft.Icon(ft.Icons.SHOW_CHART, color=c_primary, size=15),
                     ft.Text(
                         spans=[
-                            ft.TextSpan(
-                                f"Standar deviasi ±{stats['std_dev']:.2f}",
-                                style=ft.TextStyle(weight=ft.FontWeight.BOLD, color=c_primary)
-                            ),
-                            ft.TextSpan(
-                                f"  →  ~68% anime memiliki rating antara {lo:.1f} – {hi:.1f}",
-                                style=ft.TextStyle(color=c_text, weight=ft.FontWeight.W_500)
-                            )
+                            ft.TextSpan(f"Standar deviasi ±{stats['std_dev']:.2f}", style=ft.TextStyle(weight=ft.FontWeight.BOLD, color=c_primary)),
+                            ft.TextSpan(f"  →  ~68% {noun} {verb} antara {lo:.1f} – {hi:.1f}", style=ft.TextStyle(color=c_text, weight=ft.FontWeight.W_500))
                         ],
                         size=12, expand=True
                     ),
                 ],
-                spacing=8,
-                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=8, vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            bgcolor=c_bg,
-            border=ft.border.all(1, c_primary),
-            border_radius=8,
+            bgcolor=c_bg, border=ft.border.all(1, c_primary), border_radius=8,
             padding=ft.padding.symmetric(horizontal=12, vertical=8),
         )
-
-        # ── Helper: chip persentil ────────────────────────────────────────
-        def _pct_chip(label: str, value: float, ge: bool = True) -> ft.Container:
-            val_str = f"≥ {value:.2f}" if ge else f"≤ {value:.2f}"
-            return ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(label, size=11, color=c_text3,
-                                text_align=ft.TextAlign.CENTER),
-                        ft.Text(val_str, size=11, weight=ft.FontWeight.BOLD,
-                                color=c_primary if ge else c_text2,
-                                text_align=ft.TextAlign.CENTER),
-                    ],
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    spacing=1, tight=True,
-                ),
-                bgcolor=c_bg,
-                border=ft.border.all(1, c_border),
-                border_radius=6,
-                padding=ft.padding.symmetric(horizontal=8, vertical=5),
-                expand=True,
-            )
-
-        pct_row = ft.Row(
-            controls=[
-                ft.Text("Persentil:", size=11, color=c_text3,
-                        weight=ft.FontWeight.W_600),
-                _pct_chip("Top 1%",      stats["p99"], ge=True),
-                _pct_chip("Top 10%",     stats["p90"], ge=True),
-                _pct_chip("Top 25%",     stats["p75"], ge=True),
-                _pct_chip("Bottom 25%",  stats["p25"], ge=False),
-            ],
-            spacing=5,
-            vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        )
-
-        # ── Header ringkasan ──────────────────────────────────────────────
-        hdr = ft.Row(
-            controls=[
-                ft.Icon(ft.Icons.ANALYTICS_OUTLINED, color=c_primary, size=13),
-                ft.Text(
-                    f"Ringkasan Distribusi  •  {self._selected_dim}  •  {stats['n']} anime",
-                    size=11, weight=ft.FontWeight.W_600, color=c_text2,
-                ),
-            ],
-            spacing=5,
-            vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        )
-
-        # ── Rakit panel ───────────────────────────────────────────────────
-        panel = ft.Container(
-            content=ft.Column(
-                controls=[hdr, tiles_row, std_row, pct_row],
-                spacing=6, tight=True,
+        
+        controls = [
+            ft.Row(
+                controls=[
+                    ft.Icon(ft.Icons.ANALYTICS_OUTLINED, color=c_primary, size=13),
+                    ft.Text(f"Ringkasan Distribusi  •  {self._selected_dim}  •  {stats['n']} {noun}", size=11, weight=ft.FontWeight.W_600, color=c_text2),
+                ],
+                spacing=5, vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            bgcolor=c_accent,
-            border=ft.border.all(1, c_border),
-            border_radius=10,
+            tiles_row,
+            std_row
+        ]
+        
+        # Only KDEChart (anime noun) typically shows percentiles, but we can show it for both if we want.
+        # Following original behavior, only the global analytics showed percentiles section.
+        if noun == "anime":
+            def _pct_chip(label: str, value: float, ge: bool = True) -> ft.Container:
+                val_str = f"≥ {value:.2f}" if ge else f"≤ {value:.2f}"
+                return ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.Text(label, size=11, color=c_text3, text_align=ft.TextAlign.CENTER),
+                            ft.Text(val_str, size=11, weight=ft.FontWeight.BOLD, color=c_primary if ge else c_text2, text_align=ft.TextAlign.CENTER),
+                        ],
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=1, tight=True,
+                    ),
+                    bgcolor=c_bg, border=ft.border.all(1, c_border), border_radius=6,
+                    padding=ft.padding.symmetric(horizontal=8, vertical=5), expand=True,
+                )
+            controls.append(ft.Row(
+                controls=[
+                    ft.Text("Persentil:", size=11, color=c_text3, weight=ft.FontWeight.W_600),
+                    _pct_chip("Top 1%",      stats["p99"], ge=True),
+                    _pct_chip("Top 10%",     stats["p90"], ge=True),
+                    _pct_chip("Top 25%",     stats["p75"], ge=True),
+                    _pct_chip("Bottom 25%",  stats["p25"], ge=False),
+                ],
+                spacing=5, vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            ))
+
+        self._stats_panel.content = ft.Container(
+            content=ft.Column(controls=controls, spacing=6, tight=True),
+            bgcolor=c_accent, border=ft.border.all(1, c_border), border_radius=10,
             padding=ft.padding.symmetric(horizontal=12, vertical=10),
             margin=ft.margin.only(left=8, right=8, bottom=10, top=4),
         )
-
-        self._stats_panel.content = panel
         self._try_update(self._stats_panel)
 
     @staticmethod
@@ -329,7 +285,7 @@ class KDEChart(ft.Container):
         try:
             ctrl.update()
         except Exception:
-            pass  # Belum di-mount — update akan terjadi otomatis saat mount
+            pass
 
     # ── Render canvas ─────────────────────────────────────────────────────────
     def _redraw(self):
@@ -376,13 +332,11 @@ class KDEChart(ft.Container):
             ))
             shapes.append(_cv_text_top_center(gx, h - self.PAD_B + 6, str(i), 11, c_text3))
 
-        # ── Label sumbu X (nama dimensi yang dipilih) ────────────────────
-        x_label = self._selected_dim
+        # ── Label sumbu X ────────────────────────────────────────────────
         x_label_x = self.PAD_L + area_w / 2
-        x_label_y = h - 4          # dekat tepi bawah canvas
-        shapes.append(_cv_text_top_center(x_label_x, x_label_y - _text_h(11), x_label, 11, c_text3, bold=True))
-
-
+        x_label_y = h - 4
+        shapes.append(_cv_text_top_center(
+            x_label_x, x_label_y - _text_h(11), self._selected_dim, 11, c_text3, bold=True))
 
         if not xs:
             self._canvas.shapes = shapes
@@ -413,7 +367,6 @@ class KDEChart(ft.Container):
             paint=ft.Paint(style=ft.PaintingStyle.STROKE, stroke_width=2, color=c_primary_dk),
         ))
 
-        # Garis vertikal puncak KDE
         if self._cached_ys:
             peak_idx = self._cached_ys.index(max(self._cached_ys))
             peak_px  = self.PAD_L + area_w * (self._cached_xs[peak_idx] / 10.0)
@@ -426,3 +379,46 @@ class KDEChart(ft.Container):
 
         self._canvas.shapes = shapes
         self._canvas.update()
+
+
+class KDEChart(BaseKDEChart):
+    def __init__(self, animes: list, theme: dict = None, tooltip=None):
+        self._animes = animes
+        dim_labels = ["Global Score", "Plot", "Visual", "Audio", "Characterization", "Direction"]
+        super().__init__("Rating Distribution (KDE Plot)", dim_labels, "Global Score", theme, tooltip)
+        self._update_kde_cache()
+        self._refresh_stats()
+
+    def _get_data(self) -> list:
+        data    = []
+        dim_idx = self._dim_labels.index(self._selected_dim) - 1
+        for a in self._animes:
+            if self._selected_dim == "Global Score":
+                score = a.get("global_score")
+            else:
+                dims  = a.get("global_score_dimensions", [0, 0, 0, 0, 0])
+                score = dims[dim_idx] if dim_idx < len(dims) else 0
+            if isinstance(score, (int, float)) and score > 0:
+                data.append(float(score))
+        return data
+
+    def _get_item_noun(self) -> str:
+        return "anime"
+
+
+class DetailKDEChart(BaseKDEChart):
+    def __init__(self, scores_by_dim: dict, theme: dict = None):
+        self._scores_by_dim = scores_by_dim
+        dim_labels = list(scores_by_dim.keys())
+        default_dim = dim_labels[0] if dim_labels else "Average"
+        super().__init__("User Rating Distribution", dim_labels, default_dim, theme)
+        self._update_kde_cache()
+        self._refresh_stats()
+
+    def _get_data(self) -> list:
+        return [float(v) for v in self._scores_by_dim.get(self._selected_dim, [])
+                if isinstance(v, (int, float)) and v > 0]
+
+    def _get_item_noun(self) -> str:
+        return "penilai"
+
