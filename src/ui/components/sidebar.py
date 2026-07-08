@@ -54,9 +54,9 @@ class Sidebar(ft.Container):
 
         sm = self.ctx.screen_manager
         nav_items = [
-            _nav_item("ホ", "Home",       _s("home"),      lambda _: sm.tampilkan_home()),
+            _nav_item("扉", "Home",       _s("home"),      lambda _: sm.tampilkan_home()),
             _nav_item("覧", "Anime List", _s("katalog"),   lambda _: sm.tampilkan_katalog()),
-            _nav_item("追", "Add Anime",  _s("scraping"),  lambda _: sm.tampilkan_scraping()),
+            _nav_item("採", "Add Anime",  _s("scraping"),  lambda _: sm.tampilkan_scraping()),
             _nav_item("析", "Analytics",  _s("analytics"), lambda _: sm.tampilkan_analytics()),
             _nav_item("人", "Profile",    _s("profil"),    lambda _: sm.tampilkan_profil()),
         ]
