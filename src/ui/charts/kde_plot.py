@@ -3,15 +3,16 @@ import flet as ft
 import flet.canvas as cv
 from .palette import (
     C_TEXT, C_TEXT2,C_TEXT3, C_BORDER, C_SAKURA, C_SAKURA_DK,
-    _rgba, _cv_text_right, _cv_text_top_center
+    _rgba, _cv_text_right, _cv_text_top_center, _cv_text_center,
+    _text_w, _text_h
 )
 
 
 class KDEChart(ft.Container):
-    PAD_L = 36
+    PAD_L = 64
     PAD_R = 16
     PAD_T = 16
-    PAD_B = 28
+    PAD_B = 44
 
     def __init__(self, animes: list, theme: dict = None, tooltip=None):
         super().__init__(expand=True)
@@ -46,6 +47,22 @@ class KDEChart(ft.Container):
 
         self._canvas = cv.Canvas(shapes=[], expand=True, on_resize=self._on_resize)
 
+        # Label sumbu Y — dirotasi -90° dan diletakkan di samping sumbu Y
+        _text3_color = theme["text_secondary"] if theme else C_TEXT3
+        self._y_axis_label = ft.Container(
+            content=ft.Text(
+                "Density", size=11,
+                weight=ft.FontWeight.BOLD,
+                color=_text3_color,
+                no_wrap=True,
+            ),
+            rotate=ft.Rotate(-math.pi / 2, alignment=ft.Alignment(0, 0)),
+            left=2,
+            top=0,
+            bottom=0,
+            alignment=ft.Alignment(0, 0),
+        )
+
         # Placeholder untuk panel statistik — diisi oleh _refresh_stats()
         self._stats_panel = ft.Container(expand=True)
 
@@ -62,7 +79,7 @@ class KDEChart(ft.Container):
                     ),
                     padding=ft.padding.only(left=16, right=16, top=12, bottom=0),
                 ),
-                ft.Stack(controls=[self._canvas], expand=True),
+                ft.Stack(controls=[self._canvas, self._y_axis_label], expand=True),
                 self._stats_panel,
             ],
             spacing=0,
@@ -358,6 +375,14 @@ class KDEChart(ft.Container):
                 axis_p,
             ))
             shapes.append(_cv_text_top_center(gx, h - self.PAD_B + 6, str(i), 11, c_text3))
+
+        # ── Label sumbu X (nama dimensi yang dipilih) ────────────────────
+        x_label = self._selected_dim
+        x_label_x = self.PAD_L + area_w / 2
+        x_label_y = h - 4          # dekat tepi bawah canvas
+        shapes.append(_cv_text_top_center(x_label_x, x_label_y - _text_h(11), x_label, 11, c_text3, bold=True))
+
+
 
         if not xs:
             self._canvas.shapes = shapes
