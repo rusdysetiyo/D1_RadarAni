@@ -13,7 +13,7 @@ DATA_DIR = os.path.join(BASE_DIR, "..", "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 RATINGS_FILE = os.path.join(DATA_DIR, "ratings.json")
 ANIME_LIST_FILE = os.path.join(DATA_DIR, "anime_list.json")
-# Anggap list dari Kaggle disimpan di sini
+
 KAGGLE_USERS_FILE = os.path.join(DATA_DIR, "veteran_users_data.json")
 CHECKPOINT_FILE = os.path.join(DATA_DIR, "checkpoint_scraper.json")
 
@@ -202,16 +202,26 @@ def run_scraper_injector():
     ratings_db = load_json(RATINGS_FILE, {})
     kaggle_users = load_json(KAGGLE_USERS_FILE, [])
 
-    checkpoint_data = load_json(CHECKPOINT_FILE, {"last_index": 0})
-    start_index = checkpoint_data["last_index"]
+    # Himpun username yang sudah berhasil di-scrape agar tidak duplikat
+    existing_usernames = {user["username"] for user in users_db if "username" in user}
 
-    print(f"Total target: {len(kaggle_users)} user. Melanjutkan dari index: {start_index}")
+    # Gunakan checkpoint untuk melacak user yang gagal/private
+    checkpoint_data = load_json(CHECKPOINT_FILE, {})
+    skipped_users = set(checkpoint_data.get("skipped_users", []))
+
+    print(f"Total target: {len(kaggle_users)} user.")
+    print(f"Sudah ada di DB: {len(existing_usernames)} user, Di-skip (Private/Error): {len(skipped_users)} user.")
+
+    processed_in_session = 0
 
     # 3. Looping Utama
-    for i in range(start_index, len(kaggle_users)):
+    for i in range(len(kaggle_users)):
         k_user = kaggle_users[i]
         username = k_user["username"]
         user_completed_count = k_user["user_completed"]
+
+        if username in existing_usernames or username in skipped_users:
+            continue
 
         print(f"[{i + 1}/{len(kaggle_users)}] Memproses: {username}...")
 
@@ -225,7 +235,8 @@ def run_scraper_injector():
         # Jika profile private / gagal, lewati ke user berikutnya
         if not raw_animelist:
             print(f"  [-] Lewati {username} (Data kosong/Private)")
-            checkpoint_data["last_index"] = i + 1
+            skipped_users.add(username)
+            checkpoint_data["skipped_users"] = list(skipped_users)
             save_json(CHECKPOINT_FILE, checkpoint_data)
             continue
 
@@ -266,19 +277,21 @@ def run_scraper_injector():
 
         print(f"  [+] Sukses injeksi {match_count} anime. Favorit: {len(fav_anime_ids)}")
 
-        # 4. SIMPAN BERKALA (Checkpoint tiap 5 user)
-        if (i + 1) % 5 == 0:
+        processed_in_session += 1
+        
+        # 4. SIMPAN BERKALA (Checkpoint tiap 5 user yang berhasil)
+        if processed_in_session % 5 == 0:
             print("  [✓] Auto-saving ke JSON...")
             save_json(USERS_FILE, users_db)
             save_json(RATINGS_FILE, ratings_db)
-            checkpoint_data["last_index"] = i + 1
+            checkpoint_data["skipped_users"] = list(skipped_users)
             save_json(CHECKPOINT_FILE, checkpoint_data)
 
     # Simpanan Akhir (Jika loop selesai 100%)
     print("\n--- Proses Selesai ---")
     save_json(USERS_FILE, users_db)
     save_json(RATINGS_FILE, ratings_db)
-    checkpoint_data["last_index"] = len(kaggle_users)
+    checkpoint_data["skipped_users"] = list(skipped_users)
     save_json(CHECKPOINT_FILE, checkpoint_data)
 
 
