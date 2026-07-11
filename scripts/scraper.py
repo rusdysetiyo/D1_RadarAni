@@ -22,9 +22,23 @@ logger = logging.getLogger(__name__)
 
 
 class RadarAniScraper:
-    def __init__(self, target_pages: int = 10):
-        self.base_url = "https://myanimelist.net/topanime.php?type=bypopularity"
+    def __init__(self, filename: str, target_pages: int = 10, top_type: str = 'popular', is_continue: bool = False):
+        TOP_URLS = {
+            'rated': 'https://myanimelist.net/topanime.php',
+            'airing': 'https://myanimelist.net/topanime.php?type=airing',
+            'tv': 'https://myanimelist.net/topanime.php?type=tv',
+            'movie': 'https://myanimelist.net/topanime.php?type=movie',
+            'ova': 'https://myanimelist.net/topanime.php?type=ova',
+            'ona': 'https://myanimelist.net/topanime.php?type=ona',
+            'special': 'https://myanimelist.net/topanime.php?type=special',
+            'popular': 'https://myanimelist.net/topanime.php?type=bypopularity',
+            'favorite': 'https://myanimelist.net/topanime.php?type=favorite'
+        }
+
         self.target_pages = target_pages
+        self.base_url = TOP_URLS.get(top_type, TOP_URLS['popular'])
+        self.is_continue = is_continue
+
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept-Language': 'en-US,en;q=0.9',
@@ -44,8 +58,12 @@ class RadarAniScraper:
         self.banner_dir.mkdir(parents=True, exist_ok=True)
         self.data_dir = self.root_dir / "data"
 
-        self.checkpoint_file = self.data_dir / 'anime_list_checkpoint.json'
-        self.final_json_path = self.data_dir / 'anime_list.json'
+        base_name = filename.replace('.json', '')
+        self.checkpoint_file = self.data_dir / f'{base_name}_checkpoint.json'
+        self.final_json_path = self.data_dir / f'{base_name}.json'
+
+        if not self.is_continue and self.checkpoint_file.exists():
+            self.checkpoint_file.unlink()
 
         self.session = self._create_robust_session()
         self._setup_folders()
@@ -162,6 +180,8 @@ class RadarAniScraper:
     def _simpan_checkpoint(self, data_list: List[Dict], resume_page: int, current_counter: int) -> None:
         """Menyimpan status progres sementara ke JSON."""
         checkpoint_data = {
+            "target_pages": self.target_pages,
+            "base_url": self.base_url,
             "resume_page": resume_page,
             "next_counter": current_counter,
             "anime_list": data_list
@@ -176,11 +196,21 @@ class RadarAniScraper:
             logger.info("Menemukan file checkpoint! Memulihkan data...")
             data = json.loads(self.checkpoint_file.read_text(encoding='utf-8'))
 
+            if self.is_continue:
+                if "target_pages" in data:
+                    self.target_pages = data["target_pages"]
+                if "base_url" in data:
+                    self.base_url = data["base_url"]
+
             # Dukungan backward compatibility jika masih pakai file checkpoint lama
             if "last_page_completed" in data:
                 return data["anime_list"], data["last_page_completed"] + 1, data["next_counter"]
 
             return data["anime_list"], data.get("resume_page", 0), data.get("next_counter", 1)
+        elif self.is_continue:
+            logger.error(f"File checkpoint {self.checkpoint_file.name} tidak ditemukan! Tidak bisa melanjutkan.")
+            sys.exit(1)
+            
         return [], 0, 1
 
     def _fetch_banner_from_anilist(self, mal_id, anime_id) -> str:
@@ -219,75 +249,137 @@ class RadarAniScraper:
         if start_page > 0 or global_counter > 1:
             logger.info(f"Melanjutkan dari Halaman {start_page + 1}, ID Mulai: A{global_counter:03d}")
 
-        for page in range(start_page, self.target_pages):
-            offset = page * 50
-            current_url = f"{self.base_url}&limit={offset}" if offset > 0 else self.base_url
+        current_page = start_page
 
-            logger.info(f">>> Memproses Halaman {page + 1} (Offset: {offset})")
-            main_soup = self.get_soup(current_url)
-
-            if not main_soup:
-                # REVISI: Hentikan paksa jika halaman utama gagal
-                logger.error(
-                    f"FATAL: Gagal memuat halaman utama {page + 1}. Menyimpan checkpoint dan menghentikan skrip.")
-                self._simpan_checkpoint(anime_list, page, global_counter)
-                return
-
-            anime_rows = main_soup.find_all('tr', class_="ranking-list")
-
-            # REVISI: Kalkulasi baris yang harus dilewati jika kita melanjutkan di tengah halaman
-            items_done_in_page = (global_counter - 1) % 50
-            if items_done_in_page > 0:
-                logger.info(f"Memulihkan progres: Melewati {items_done_in_page} anime pertama di halaman ini.")
-                anime_rows = anime_rows[items_done_in_page:]
-
-            for row in anime_rows:
-                img_tag = row.find('img')
-                thumb_url = ""
-                if img_tag:
-                    thumb_url = img_tag.get('data-srcset') or img_tag.get('srcset') or img_tag.get(
-                        'data-src') or img_tag.get('src')
-                    if thumb_url and '2x' in thumb_url:
-                        thumb_url = thumb_url.split(',')[-1].replace('2x', '').strip()
-
-                link_tag = row.find('h3', class_="fl-l fs14 fw-b anime_ranking_h3").find('a')
-                if not link_tag:
-                    continue
-
-                delay = random.uniform(2.0, 4.5)
-                time.sleep(delay)
-
-                anime_data = self.parse_anime_details(link_tag['href'], global_counter)
-
-                if anime_data:
-                    path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{global_counter:03d}.jpg")
-                    anime_data["thumbnail_path"] = path_thumb
-
-                    time.sleep(1)
-                    banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
-                    anime_data["banner_path"] = banner_path
-
-                    anime_list.append(anime_data)
-                    logger.info(
-                        f"[{anime_data['anime_id']}] Berhasil: {anime_data['title'][:30]}... (Delay: {delay:.2f}s)")
-                    global_counter += 1
+        try:
+            for page in range(start_page, self.target_pages):
+                current_page = page
+                offset = page * 50
+                if offset > 0:
+                    separator = "&" if "?" in self.base_url else "?"
+                    current_url = f"{self.base_url}{separator}limit={offset}"
                 else:
-                    # REVISI: Hentikan paksa jika halaman detail gagal
+                    current_url = self.base_url
+
+                logger.info(f">>> Memproses Halaman {page + 1} (Offset: {offset})")
+                main_soup = self.get_soup(current_url)
+
+                if not main_soup:
+                    # REVISI: Hentikan paksa jika halaman utama gagal
                     logger.error(
-                        f"FATAL: Gagal mengekstrak detail anime ID A{global_counter:03d}. Menyimpan checkpoint dan menghentikan skrip.")
+                        f"FATAL: Gagal memuat halaman utama {page + 1}. Menyimpan checkpoint dan menghentikan skrip.")
                     self._simpan_checkpoint(anime_list, page, global_counter)
                     return
 
-            # Simpan checkpoint normal saat satu halaman (50 anime) penuh selesai dieksekusi
-            self._simpan_checkpoint(anime_list, page + 1, global_counter)
+                anime_rows = main_soup.find_all('tr', class_="ranking-list")
 
-            page_delay = random.uniform(6.0, 10.0)
-            logger.info(f"--- Halaman {page + 1} Selesai. Jeda {page_delay:.2f} detik... ---")
-            time.sleep(page_delay)
+                # REVISI: Kalkulasi baris yang harus dilewati jika kita melanjutkan di tengah halaman
+                items_done_in_page = (global_counter - 1) % 50
+                if items_done_in_page > 0:
+                    logger.info(f"Memulihkan progres: Melewati {items_done_in_page} anime pertama di halaman ini.")
+                    anime_rows = anime_rows[items_done_in_page:]
 
-        self.final_json_path.write_text(json.dumps(anime_list, indent=4, ensure_ascii=False), encoding='utf-8')
+                for row in anime_rows:
+                    img_tag = row.find('img')
+                    thumb_url = ""
+                    if img_tag:
+                        thumb_url = img_tag.get('data-srcset') or img_tag.get('srcset') or img_tag.get(
+                            'data-src') or img_tag.get('src')
+                        if thumb_url and '2x' in thumb_url:
+                            thumb_url = thumb_url.split(',')[-1].replace('2x', '').strip()
 
-        if self.checkpoint_file.exists():
-            self.checkpoint_file.unlink()
+                    link_tag = row.find('h3', class_="fl-l fs14 fw-b anime_ranking_h3").find('a')
+                    if not link_tag:
+                        continue
 
-        logger.info(f"=== Selesai! Total {len(anime_list)} anime berhasil disimpan ===")
+                    delay = random.uniform(2.0, 4.5)
+                    time.sleep(delay)
+
+                    anime_data = self.parse_anime_details(link_tag['href'], global_counter)
+
+                    if anime_data:
+                        path_thumb = self.download_image(thumb_url, self.thumb_dir, f"TIMG{global_counter:03d}.jpg")
+                        anime_data["thumbnail_path"] = path_thumb
+
+                        time.sleep(1)
+                        banner_path = self._fetch_banner_from_anilist(anime_data.get("mal_id"), anime_data["anime_id"])
+                        anime_data["banner_path"] = banner_path
+
+                        anime_list.append(anime_data)
+                        logger.info(
+                            f"[{anime_data['anime_id']}] Berhasil: {anime_data['title'][:30]}... (Delay: {delay:.2f}s)")
+                        global_counter += 1
+                    else:
+                        # REVISI: Hentikan paksa jika halaman detail gagal
+                        logger.error(
+                            f"FATAL: Gagal mengekstrak detail anime ID A{global_counter:03d}. Menyimpan checkpoint dan menghentikan skrip.")
+                        self._simpan_checkpoint(anime_list, page, global_counter)
+                        return
+
+                # Simpan checkpoint normal saat satu halaman (50 anime) penuh selesai dieksekusi
+                self._simpan_checkpoint(anime_list, page + 1, global_counter)
+
+                page_delay = random.uniform(6.0, 10.0)
+                logger.info(f"--- Halaman {page + 1} Selesai. Jeda {page_delay:.2f} detik... ---")
+                time.sleep(page_delay)
+
+            self.final_json_path.write_text(json.dumps(anime_list, indent=4, ensure_ascii=False), encoding='utf-8')
+
+            if self.checkpoint_file.exists():
+                self.checkpoint_file.unlink()
+
+            logger.info(f"=== Selesai! Total {len(anime_list)} anime berhasil disimpan ===")
+            
+        except KeyboardInterrupt:
+            logger.warning("\nProses dibatalkan oleh pengguna. Menyimpan checkpoint sebelum keluar...")
+            self._simpan_checkpoint(anime_list, current_page, global_counter)
+            sys.exit(0)
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="RadarAni Mass Scraper untuk MyAnimeList")
+
+    parser.add_argument(
+        '--pages',
+        type=int,
+        help="Jumlah halaman paginasi yang ingin ditarik"
+    )
+    parser.add_argument(
+        '--top',
+        type=str,
+        choices=['rated', 'airing', 'tv', 'movie', 'ova', 'ona', 'special', 'popular', 'favorite'],
+        help="Kategori top anime"
+    )
+    parser.add_argument(
+        '--file',
+        type=str,
+        help="Nama file untuk menyimpan hasil scraping"
+    )
+    parser.add_argument(
+        '--continue',
+        dest='continue_session',
+        type=str,
+        help="Nama file sesi yang belum selesai untuk dilanjutkan secara otomatis"
+    )
+
+    args = parser.parse_args()
+
+    if args.continue_session:
+        scraper = RadarAniScraper(
+            filename=args.continue_session,
+            is_continue=True
+        )
+    else:
+        if not args.pages or not args.top or not args.file:
+            parser.error("--pages, --top, dan --file wajib diisi jika tidak menggunakan --continue")
+            
+        scraper = RadarAniScraper(
+            filename=args.file,
+            target_pages=args.pages,
+            top_type=args.top,
+            is_continue=False
+        )
+
+    scraper.run()
