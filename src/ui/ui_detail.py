@@ -1,10 +1,13 @@
 import flet as ft
 from src.ui.components.anime_cards import AnimeCardHome
 from src.ui.components.radar_chart import detail_radar_chart
+from src.ui.charts.kde_plot import DetailKDEChart
 import os
 import sys
 from src.ui.components.logo import RadarAniLogo
 from src.config.app_context import AppContext
+
+MIN_RATERS_FOR_KDE = 10
 
 if getattr(sys, 'frozen', False):
     ROOT_DIR = os.path.dirname(sys.executable)
@@ -230,6 +233,10 @@ class RightPanel(ft.Container):
             content=self._build_radar(global_list_score, user_list_score, global_avg_score, user_avg_score, self._theme)
         )
 
+        # KDE distribusi rating per dimensi (hanya tampil jika >= MIN_RATERS_FOR_KDE penilai)
+        self._kde_container = ft.Container()
+        self._build_kde_section()
+
         self._global_btn_ref = ft.Ref[ft.ElevatedButton]()
         self._personal_btn_ref = ft.Ref[ft.ElevatedButton]()
 
@@ -245,6 +252,7 @@ class RightPanel(ft.Container):
                 controls=[
                     self._build_synopsis(),
                     self.radar_container,
+                    self._kde_container,
                     self._muat_top_unrated(self.user_id),
                     ft.Container(height=24),
                 ]
@@ -383,6 +391,7 @@ class RightPanel(ft.Container):
 
             self.radar_container.content = self._build_radar(new_global_list_score, new_list_score, new_avg_global,
                                                              new_avg_personal, self._theme)
+            self._build_kde_section()
             self.my_page.update()
             self._show_snackbar("rating added successfully!", self._theme["success"])
 
@@ -399,6 +408,7 @@ class RightPanel(ft.Container):
 
         self.radar_container.content = self._build_radar(new_global_list_score, [0, 0, 0, 0, 0], new_avg_global,
                                                          new_avg_personal, self._theme)
+        self._build_kde_section()
         self.my_page.update()
         self._show_snackbar("Rating deleted successfully!", self._theme["success"])
 
@@ -434,6 +444,93 @@ class RightPanel(ft.Container):
                 ),
             ]
         )
+
+    # ── KDE section builder ────────────────────────────────────────────────
+    def _build_kde_section(self):
+        """Bangun / perbarui KDE chart distribusi rating anime ini."""
+        scores_by_dim = self._collect_scores_for_anime()
+        # Cek jumlah penilai dari dimensi pertama (Average)
+        n_raters = len(scores_by_dim.get("Average", []))
+
+        if n_raters < MIN_RATERS_FOR_KDE:
+            remaining = MIN_RATERS_FOR_KDE - n_raters
+            progress  = n_raters / MIN_RATERS_FOR_KDE
+
+            placeholder = ft.Column(
+                controls=[
+                    ft.Row(
+                        controls=[
+                            ft.Icon(ft.Icons.BAR_CHART_OUTLINED,
+                                    color=self._theme["text_muted"], size=28),
+                            ft.Column(
+                                controls=[
+                                    ft.Text(
+                                        "Distribusi rating belum tersedia",
+                                        size=13, weight=ft.FontWeight.W_600,
+                                        color=self._theme["text_main"],
+                                    ),
+                                    ft.Text(
+                                        f"Butuh minimal {MIN_RATERS_FOR_KDE} penilai. "
+                                        f"Saat ini baru {n_raters} — kurang {remaining} lagi.",
+                                        size=11,
+                                        color=self._theme["text_secondary"],
+                                    ),
+                                ],
+                                spacing=2, tight=True,
+                            ),
+                        ],
+                        spacing=12,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    ),
+                    ft.ProgressBar(
+                        value=progress,
+                        color=self._theme["primary"],
+                        bgcolor=self._theme["border_color"],
+                        bar_height=4,
+                        border_radius=2,
+                    ),
+                ],
+                spacing=10,
+            )
+
+            self._kde_container.content = _section_card(
+                self._theme, "DISTRIBUSI RATING", placeholder,
+            )
+            self._kde_container.visible = True
+        else:
+            kde_chart = DetailKDEChart(scores_by_dim, theme=self._theme)
+            self._kde_container.content = _section_card(
+                self._theme,
+                "DISTRIBUSI RATING",
+                ft.Container(content=kde_chart, height=420),
+            )
+            self._kde_container.visible = True
+
+    def _collect_scores_for_anime(self) -> dict:
+        """Kumpulkan skor mentah seluruh user untuk anime ini, per dimensi."""
+        all_ratings = self.data_manager.get_semua_rating()  # {user_id: {anime_id: {dim: val}}}
+        dims_order = ["plot", "visual", "audio", "characterization", "direction"]
+        dim_labels = ["Plot", "Visual", "Audio", "Characterization", "Direction"]
+
+        # Kumpulkan skor per dimensi + rata-rata
+        scores: dict[str, list] = {"Average": []}
+        for label in dim_labels:
+            scores[label] = []
+
+        for uid, user_ratings in all_ratings.items():
+            anime_rating = user_ratings.get(self.anime_id)
+            if not anime_rating:
+                continue
+            vals = [anime_rating.get(d, 0) for d in dims_order]
+            if any(v > 0 for v in vals):
+                avg = sum(vals) / len(vals)
+                scores["Average"].append(round(avg, 2))
+                for label, dim_key in zip(dim_labels, dims_order):
+                    v = anime_rating.get(dim_key, 0)
+                    if v > 0:
+                        scores[label].append(float(v))
+
+        return scores
 
     def _build_synopsis(self):
         return self._section_card(
