@@ -244,8 +244,6 @@ class BaseKDEChart(ft.Container):
             std_row
         ]
         
-        # Only KDEChart (anime noun) typically shows percentiles, but we can show it for both if we want.
-        # Following original behavior, only the global analytics showed percentiles section.
         if noun == "anime":
             def _pct_chip(label: str, value: float, ge: bool = True) -> ft.Container:
                 val_str = f"≥ {value:.2f}" if ge else f"≤ {value:.2f}"
@@ -336,7 +334,7 @@ class BaseKDEChart(ft.Container):
         x_label_x = self.PAD_L + area_w / 2
         x_label_y = h - 4
         shapes.append(_cv_text_top_center(
-            x_label_x, x_label_y - _text_h(11), self._selected_dim, 11, c_text3, bold=True))
+            x_label_x, x_label_y - _text_h(11), "Score", 11, c_text3, bold=True))
 
         if not xs:
             self._canvas.shapes = shapes
@@ -410,7 +408,7 @@ class DetailKDEChart(BaseKDEChart):
     def __init__(self, scores_by_dim: dict, theme: dict = None):
         self._scores_by_dim = scores_by_dim
         dim_labels = list(scores_by_dim.keys())
-        default_dim = dim_labels[0] if dim_labels else "Average"
+        default_dim = dim_labels[0] if dim_labels else "Global Score"
         super().__init__("User Rating Distribution", dim_labels, default_dim, theme)
         self._update_kde_cache()
         self._refresh_stats()

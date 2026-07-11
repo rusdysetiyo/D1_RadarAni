@@ -26,8 +26,8 @@ class ThemeManager:
         "success": "#6B9B73",
         "error": "#D94040",
         "chart_colors": [
-            "#C0446A", "#E8527A", "#F08AAB", "#F9B8CA", "#FFD6E8",
-            "#E8527A", "#7A4F5E", "#D47793", "#F0C4D0", "#FFF0F4",
+            "#C0446A", "#E8527A", "#F08AAB", "#F9B8CA", "#7AAF84",
+            "#D47793", "#A8C8A0", "#E8527A", "#5C8F68", "#F0C4D0",
         ],
         "radar_grid": "#F0C4D0",
         "radar_labels": "#7A4F5E",
@@ -65,8 +65,8 @@ class ThemeManager:
         "success": "#4CAF50",
         "error": "#E57373",
         "chart_colors": [
-            "#4A7337", "#6A9955", "#8FB97B", "#B5D6A4", "#DBECC7",
-            "#5C805C", "#7D8C78", "#96AB84", "#B5C7A3", "#CDE0CD"
+            "#4A7337", "#6A9955", "#8FB97B", "#B5D6A4", "#DE7C88",
+            "#5C805C", "#C8909A", "#96AB84", "#E8A4B0", "#CDE0CD"
         ],
         "radar_grid": "#B5C7A3",
         "radar_labels": "#7D8C78",

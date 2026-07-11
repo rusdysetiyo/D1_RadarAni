@@ -91,6 +91,63 @@ Aplikasi ini dilengkapi dengan data awal yang dikumpulkan melalui web scraping:
 
 ---
 
+## 🚀 Panduan Instalasi & Penggunaan Scraper
+
+### 1. Prasyarat
+- Python 3.9 atau versi yang lebih baru terinstal di sistem Anda.
+- Git (opsional, jika memilih opsi clone).
+
+### 2. Dapatkan Projek
+Anda bisa mengunduh projek ini dengan *clone* repositori atau mengunduh file ZIP:
+**Opsi A: Clone via Git**
+```bash
+git clone <https://github.com/rusdysetiyo/D1_RadarAni.git>
+cd RadarAni
+```
+**Opsi B: Unduh ZIP**
+Unduh repositori sebagai file `.zip`, ekstrak, dan buka terminal/Command Prompt tepat di dalam direktori folder yang telah diekstrak.
+
+### 3. Setup Virtual Environment (VENV)
+Buat dan aktifkan *virtual environment* untuk menghindari konflik versi antar library:
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+**Mac/Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 4. Install Dependensi
+Jalankan perintah berikut untuk mengunduh semua *requirements*:
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Menjalankan Scraper
+Pastikan path terminal Anda berada di *root* direktori projek (bukan masuk ke dalam folder `scripts`).
+
+#### A. Memulai Sesi Scraping Baru
+Saat memulai sesi baru, 3 parameter berikut **wajib** disematkan:
+```bash
+python scripts/scraper.py --pages 10 --top tv --file data_anime_tv
+```
+**Daftar Parameter:**
+- `--pages`: Jumlah halaman yang ingin discrape (1 halaman = 50 anime).
+- `--top`: Tipe top anime yang ingin ditarik. Pilihan valid: `rated`, `airing`, `tv`, `movie`, `ova`, `ona`, `special`, `popular`, `favorite`.
+- `--file`: Nama file JSON sebagai tempat penyimpanan akhir dan checkpoint.
+
+#### B. Melanjutkan Sesi (Continue)
+Jika proses terhenti di tengah jalan (misal dihentikan manual dengan `Ctrl+C` atau jaringan terputus), progres akan otomatis tersimpan. Untuk melanjutkannya, cukup gunakan perintah `--continue` diikuti dengan nama file sesi sebelumnya:
+```bash
+python scripts/scraper.py --continue data_anime_tv
+```
+*(Catatan: Semua sisa halaman, URL kategori, dan progres akan dilanjutkan secara otomatis tanpa perlu mengisi kembali `--pages`, `--top`, dan `--file`.)*
+
+---
+
 ## 👥 Tim Pengembang
 
 - **M. Ramadhan Kurniawan - 251524111**
