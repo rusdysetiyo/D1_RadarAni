@@ -72,7 +72,7 @@ RadarAni memecah penilaian anime ke dalam lima aspek yang berlandaskan teori ana
 
 ## 🛠️ Teknologi
 
-- **Bahasa Utama:** Python 3.9+
+- **Bahasa Utama:** Python 3.10+
 - **UI Framework:** [Flet](https://flet.dev/) — berbasis Flutter
 - **Visualisasi:** Flet Canvas (Radar Chart, Bar Chart, Network Graph, Bubble Chart, KDE Plot)
 - **Data Scraping:** BeautifulSoup4, Requests
@@ -94,7 +94,7 @@ Aplikasi ini dilengkapi dengan data awal yang dikumpulkan melalui web scraping:
 ## 🚀 Panduan Instalasi & Penggunaan Scraper
 
 ### 1. Prasyarat
-- Python 3.9 atau versi yang lebih baru terinstal di sistem Anda.
+- Python 3.10 atau versi yang lebih baru terinstal di sistem Anda.
 - Git (opsional, jika memilih opsi clone).
 
 ### 2. Dapatkan Projek
